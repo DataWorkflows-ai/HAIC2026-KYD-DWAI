@@ -87,7 +87,7 @@ SOURCES = (
         start_url="https://tax.hawaii.gov/stats/a5_1annual/",
         publisher="Hawaii Department of Taxation",
         output_subdir="tax.hawaii.gov/annual-reports",
-        crawl_prefixes=("https://tax.hawaii.gov/stats/a5_1annual/",),
+        crawl_prefixes=("https://tax.hawaii.gov/stats/a5_1annual/a5_1tax_annuals/",),
         max_depth=2,
     ),
     SourceConfig(
