@@ -79,6 +79,7 @@ class SourceConfig:
     output_subdir: str
     crawl_prefixes: tuple[str, ...]
     max_depth: int
+    priority_only: bool = False
 
 
 SOURCES = (
@@ -113,6 +114,7 @@ SOURCES = (
         output_subdir="dbedt.hawaii.gov/economic",
         crawl_prefixes=("https://dbedt.hawaii.gov/economic/",),
         max_depth=2,
+        priority_only=True,
     ),
     SourceConfig(
         name="census_hawaii_acs",
@@ -402,6 +404,16 @@ def download_file(
     downloaded_at: str,
     total_downloaded: list[int],
 ) -> None:
+    if source.priority_only and not should_prioritize(file_url, title):
+        failures.append(
+            {
+                "url": file_url,
+                "source_page": page_url,
+                "reason": "Skipped by priority policy after a full DBEDT crawl exceeded the 2 GB guidance",
+            }
+        )
+        return
+
     if not should_prioritize(file_url, title) and total_downloaded[0] >= TOTAL_DOWNLOAD_BUDGET_BYTES:
         failures.append(
             {
