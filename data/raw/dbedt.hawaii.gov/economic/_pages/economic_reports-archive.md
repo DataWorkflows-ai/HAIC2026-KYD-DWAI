@@ -1,0 +1,837 @@
+# Reports Archive – Research & Economic Analysis
+
+Source: https://dbedt.hawaii.gov/economic/reports-archive/
+
+- [Skip to Content](https://dbedt.hawaii.gov/economic/reports-archive/#main)
+- [Skip to Navigation](https://dbedt.hawaii.gov/economic/reports-archive/#navigation)
+- [Skip to Footer](https://dbedt.hawaii.gov/economic/reports-archive/#footer)
+- English
+- [English](https://dbedt.hawaii.gov/economic/reports-archive/#language_text_english)
+- 廣東話
+- [廣東話](https://dbedt.hawaii.gov/economic/reports-archive/#language_text_cantonese)
+- Chuukese
+- [Chuukese](https://dbedt.hawaii.gov/economic/reports-archive/#language_text_chuukese)
+- ʻŌlelo Hawaiʻi
+- [ʻŌlelo Hawaiʻi](https://dbedt.hawaii.gov/economic/reports-archive/#language_text_hawaiian)
+- Ilokano
+- [Ilokano](https://dbedt.hawaii.gov/economic/reports-archive/#language_text_ilokano)
+- 日本語
+- [日本語](https://dbedt.hawaii.gov/economic/reports-archive/#language_text_japanese)
+- 한국어
+- [한국어](https://dbedt.hawaii.gov/economic/reports-archive/#language_text_korean)
+- 国语
+- [国语](https://dbedt.hawaii.gov/economic/reports-archive/#language_text_mandarin)
+- Marshallese
+- [Marshallese](https://dbedt.hawaii.gov/economic/reports-archive/#language_text_marshallese)
+- Samoan
+- [Samoan](https://dbedt.hawaii.gov/economic/reports-archive/#language_text_samoan)
+- Español
+- [Español](https://dbedt.hawaii.gov/economic/reports-archive/#language_text_spanish)
+- Tagalog
+- [Tagalog](https://dbedt.hawaii.gov/economic/reports-archive/#language_text_tagalog)
+- ภาษาไทย
+- [ภาษาไทย](https://dbedt.hawaii.gov/economic/reports-archive/#language_text_thai)
+- Tiếng Việt
+- [Tiếng Việt](https://dbedt.hawaii.gov/economic/reports-archive/#language_text_vietnamese)
+- Visayan
+- [Visayan](https://dbedt.hawaii.gov/economic/reports-archive/#language_text_visayancebuano)
+- [Hawaii.gov](https://portal.ehawaii.gov/)
+- [Government Directory](https://portal.ehawaii.gov/government/departments-and-agencies/)
+
+# Research & Economic Analysis
+
+- [Research & Economic Analysis](https://dbedt.hawaii.gov/economic)
+- Home
+- [Home](https://dbedt.hawaii.gov/economic/)
+- Data Statistics & Data Hawaii Data Book Economic Data Warehouse Tourism Data Warehouse State of Hawaii Facts & Figures Monthly Economic Indicators Monthly Energy Statistics Quarterly Economic Statistics County Social, Business and Economic Trends in Hawaii Other Web Sites with Statistics
+- [Data](https://dbedt.hawaii.gov/economic/statistics-data/)
+- Statistics & Data
+- [Statistics & Data](https://dbedt.hawaii.gov/economic/statistics-data/)
+- Hawaii Data Book
+- [Hawaii Data Book](https://dbedt.hawaii.gov/economic/databook/)
+- Economic Data Warehouse
+- [Economic Data Warehouse](https://dbedt.hawaii.gov/economic/datawarehouse)
+- Tourism Data Warehouse
+- [Tourism Data Warehouse](https://dbedt.hawaii.gov/economic/tourism-datawarehouse/)
+- State of Hawaii Facts & Figures
+- [State of Hawaii Facts & Figures](https://dbedt.hawaii.gov/economic/facts/)
+- Monthly Economic Indicators
+- [Monthly Economic Indicators](https://dbedt.hawaii.gov/economic/mei/)
+- Monthly Energy Statistics
+- [Monthly Energy Statistics](https://dbedt.hawaii.gov/economic/energy-trends-2/)
+- Quarterly Economic Statistics
+- [Quarterly Economic Statistics](https://dbedt.hawaii.gov/economic/qser/)
+- County Social, Business and Economic Trends in Hawaii
+- [County Social, Business and Economic Trends in Hawaii](https://dbedt.hawaii.gov/economic/county_report-2/)
+- Other Web Sites with Statistics
+- [Other Web Sites with Statistics](https://dbedt.hawaii.gov/economic/other-stats/)
+- Forecasts DBEDT Quarterly Forecast Quarterly Tourism Forecast Long Range Projections
+- [Forecasts](https://dbedt.hawaii.gov/economic/economic-forecast/)
+- DBEDT Quarterly Forecast
+- [DBEDT Quarterly Forecast](https://dbedt.hawaii.gov/economic/qser/outlook-economy/)
+- Quarterly Tourism Forecast
+- [Quarterly Tourism Forecast](https://dbedt.hawaii.gov/economic/tourism-forecast/)
+- Long Range Projections
+- [Long Range Projections](https://dbedt.hawaii.gov/economic/economic-forecast/long-range-projections/)
+- Reports
+- [Reports](https://dbedt.hawaii.gov/economic/reports_studies/)
+- Dashboards Dashboards main County Data Portal Maui Update Economy Dashboard Tourism Dashboard Daily Pax Dashboard Labor Market Dashboard Housing Market Dashboard Population Dashboard Population by Race Migration Dashboard Language-Use Dashboard Agriculture Dashboard Hawaii Rankings and Comparisons Area Profile (Interactive Maps) Hawaii’s Generational Economy Genuine Progress Indicator
+- [Dashboards](https://dbedt.hawaii.gov/economic/ranks/)
+- Dashboards main
+- [Dashboards main](https://dbedt.hawaii.gov/economic/dashboards-main/)
+- County Data Portal
+- [County Data Portal](https://dbedt.hawaii.gov/economic/county-data-portal/)
+- Maui Update
+- [Maui Update](https://dbedt.hawaii.gov/economic/maui-data-update/)
+- Economy Dashboard
+- [Economy Dashboard](https://dbedt.hawaii.gov/economic/economy-dashboard/)
+- Tourism Dashboard
+- [Tourism Dashboard](https://dbedt.hawaii.gov/economic/tourism-dashboard/)
+- Daily Pax Dashboard
+- [Daily Pax Dashboard](https://dbedt.hawaii.gov/economic/daily-passenger-counts)
+- Labor Market Dashboard
+- [Labor Market Dashboard](https://dbedt.hawaii.gov/economic/labormarket-dashboard/)
+- Housing Market Dashboard
+- [Housing Market Dashboard](https://dbedt.hawaii.gov/economic/housing-market-dashboard/)
+- Population Dashboard
+- [Population Dashboard](https://dbedt.hawaii.gov/economic/population-dashboard/)
+- Population by Race
+- [Population by Race](https://dbedt.hawaii.gov/economic/race-dashboard/)
+- Migration Dashboard
+- [Migration Dashboard](https://dbedt.hawaii.gov/economic/migration-dashboard/)
+- Language-Use Dashboard
+- [Language-Use Dashboard](https://dbedt.hawaii.gov/economic/language-use-dashboard/)
+- Agriculture Dashboard
+- [Agriculture Dashboard](https://dbedt.hawaii.gov/economic/agriculture-dashboard/)
+- Hawaii Rankings and Comparisons
+- [Hawaii Rankings and Comparisons](https://dbedt.hawaii.gov/economic/ranks/)
+- Area Profile (Interactive Maps)
+- [Area Profile (Interactive Maps)](https://experience.arcgis.com/experience/4aa8bc844ade4757a8008c28e26f2c22/)
+- Hawaii’s Generational Economy
+- [Hawaii’s Generational Economy](https://dbedt.hawaii.gov/economic/dashboards-main/hawaii-generational-economy-dashboard/)
+- Genuine Progress Indicator
+- [Genuine Progress Indicator](https://dbedt.hawaii.gov/economic/hawaii-genuine-progress-indicator-hi-gpi/)
+- Tourism Tourism Home Tourism Data Warehouse Daily Passenger Counts Tourism Dashboard DBEDT Tourism Forecast Tourism Studies Tourism Price Index Monthly Visitor Statistics Annual Visitor Reports Infrastructure Reports Evaluation & Performance Other Tourism Research
+- [Tourism](https://dbedt.hawaii.gov/economic/tourism)
+- Tourism Home
+- [Tourism Home](https://dbedt.hawaii.gov/economic/tourism/)
+- Daily Passenger Counts
+- [Daily Passenger Counts](https://dbedt.hawaii.gov/economic/daily-passenger-counts/)
+- DBEDT Tourism Forecast
+- [DBEDT Tourism Forecast](https://dbedt.hawaii.gov/economic/tourism-forecast)
+- Tourism Studies
+- [Tourism Studies](https://dbedt.hawaii.gov/economic/reports_studies/)
+- Tourism Price Index
+- [Tourism Price Index](https://dbedt.hawaii.gov/economic/tourism-price-index/)
+- Monthly Visitor Statistics
+- [Monthly Visitor Statistics](https://dbedt.hawaii.gov/economic/tourism/monthly-statistics/)
+- Annual Visitor Reports
+- [Annual Visitor Reports](https://dbedt.hawaii.gov/economic/tourism/annual-reports/)
+- Infrastructure Reports
+- [Infrastructure Reports](https://dbedt.hawaii.gov/economic/tourism/infrastructure-reports/)
+- Evaluation & Performance
+- [Evaluation & Performance](https://dbedt.hawaii.gov/economic/tourism/evaluation-and-performance/)
+- Other Tourism Research
+- [Other Tourism Research](https://dbedt.hawaii.gov/economic/tourism/other-research/)
+- Labor Labor Home Unemployment Statistics Job Count by industry Employers by Size Employment and Wages (by Industry) Employment and Wages (by Occupation) Hours and Earnings Occupational Injuries Census of Fatal Occupational Injuries Weekly Unemployment Updates Labor Market Dashboard
+- [Labor](https://dbedt.hawaii.gov/economic/unemployment-2021-ui_state_2022/)
+- Labor Home
+- [Labor Home](https://dbedt.hawaii.gov/economic/labor/)
+- Unemployment Statistics
+- [Unemployment Statistics](https://dbedt.hawaii.gov/economic/labor/unemployment-statistics/)
+- Job Count by industry
+- [Job Count by industry](https://dbedt.hawaii.gov/economic/labor/job-count-by-industry/)
+- Employers by Size
+- [Employers by Size](https://dbedt.hawaii.gov/economic/labor/employers-by-size/)
+- Employment and Wages (by Industry)
+- [Employment and Wages (by Industry)](https://dbedt.hawaii.gov/economic/labor/employment-and-wages-by-industry/)
+- Employment and Wages (by Occupation)
+- [Employment and Wages (by Occupation)](https://dbedt.hawaii.gov/economic/labor/employment-and-wages-by-occupation/)
+- Hours and Earnings
+- [Hours and Earnings](https://dbedt.hawaii.gov/economic/labor/hours-and-earnings/)
+- Occupational Injuries
+- [Occupational Injuries](https://dbedt.hawaii.gov/economic/labor/occupational-injuries-and-illnesses/)
+- Census of Fatal Occupational Injuries
+- [Census of Fatal Occupational Injuries](https://dbedt.hawaii.gov/economic/labor/fatal-occupational-injuries/)
+- Weekly Unemployment Updates
+- [Weekly Unemployment Updates](https://dbedt.hawaii.gov/economic/unemployment-2021-ui_state_2022/)
+- Population State Data Center Latest Population Estimates American Community Survey Hawaii Census 2020 Dashboard: Population in Hawaii Dashboard: Migration Dashboard: Language Use in Hawaii Population by Race Dashboard
+- [Population](https://census.hawaii.gov)
+- State Data Center
+- [State Data Center](https://census.hawaii.gov)
+- Latest Population Estimates
+- [Latest Population Estimates](https://census.hawaii.gov/home/population-estimate)
+- American Community Survey
+- [American Community Survey](https://census.hawaii.gov/acs/)
+- Hawaii Census 2020
+- [Hawaii Census 2020](https://census.hawaii.gov/census_2020/data/)
+- Dashboard: Population in Hawaii
+- [Dashboard: Population in Hawaii](https://dbedt.hawaii.gov/economic/population-dashboard/)
+- Dashboard: Migration
+- [Dashboard: Migration](https://dbedt.hawaii.gov/economic/migration-dashboard/)
+- Dashboard: Language Use in Hawaii
+- [Dashboard: Language Use in Hawaii](https://dbedt.hawaii.gov/economic/language-use-dashboard/)
+- Population by Race Dashboard
+- [Population by Race Dashboard](https://dbedt.hawaii.gov/economic/race-dashboard/)
+- Misc. Business Revitalization Task Force
+- [Misc.](https://dbedt.hawaii.gov/economic/misc/)
+- Business Revitalization Task Force
+- [Business Revitalization Task Force](https://dbedt.hawaii.gov/economic/business-revitalization-task-force/)
+- DBEDT Home
+- [DBEDT Home](https://dbedt.hawaii.gov)
+
+## Reports Archive
+
+The reports on this page are provided for historical reference only . They are no longer current and may not meet current accessibility standards. If you experience difficulty accessing information in these archived files, please contact our office at [email protected] or call at 808-586-2466 .
+- [[email protected]](https://dbedt.hawaii.gov/cdn-cgi/l/email-protection#5e3a3c3b3a2a702c3b2d3b3f2c3d361e363f293f373770393128)
+ARCHIVED REPORTS BY SUBJECT
+- Hawaii Housing Demand: 2025-2035 – March 2024 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/hawaii_housing_demand_2024_final.pdf)
+- Hawaii Housing Demand: 2020-2030 – December 2019 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/housing-demand-2019.pdf)
+- Measuring Housing Demand in Hawaii, 2015-2025 – April 2015 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/2015-05-housing-demand.pdf)
+- Overcrowding in Hawaii Housing – June 2024 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Overcrowding_in_Hawaii_Housing.pdf)
+- Housing Affordability – February 2024 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Housing-Affordability-February-2024.pdf)
+- Residential Home Sales in Hawaii : Trends and Characteristics – May 2016 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Residential_Home_Sales_in_Hawaii_May2016.pdf)
+- Residential Home Sales in Hawaii to the U.S. Mainland Buyers by Property Type, 2008-2015 – July 2016 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Home%20Sales%20in%20Hawaii%20to%20Mainland%20Buyers%20by%20Property%20Type.pdf)
+- Residential Home Sales in Hawaii to Foreign Buyers by Property Type, 2008-2015 – July 2016 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Home%20Sales%20in%20Hawaii%20to%20Foreign%20Buyers%20by%20Property%20Type.pdf)
+- Home Sales in the Honolulu Area, 2008-2015 – July 2016 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Home%20Sales%20in%20Honolulu.pdf)
+- Kakaako, Urban Core Living – June 2014 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/2014-06-kakaako-study.pdf)
+- What are the Economic Drivers for Hawaii in 2014 and Beyond – May 2014 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/2014-economic-drivers.pdf)
+- Construction and Hawaii’s Economy: an analysis of the past and forecast of the future – February 2014 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/construction_industry.pdf)
+- Construction and Hawaii’s Economy – May 2000 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/he0500.pdf)
+- The Economic Impact of International Students in Hawaii – Calendar Year 2023 – December 2024 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/2024-11-foreign-student.pdf)
+- The Economic Impact of Domestic Out-of-State Students in Hawaii – Calendar Year 2022 – March 2024 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/2024-3-domestic-student.pdf)
+- The Economic Impact of International Students in Hawaii – Calendar Year 2022 – December 2023 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/2023-12-foreign-student.pdf)
+- The Economic Impact of Domestic Out-of-State Students in Hawaii – Calendar Year 2021 – March 2023 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/2023-3-domestic-student.pdf)
+- The Economic Impact of International Students in Hawaii – Calendar Year 2021 – December 2022 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/2022-12-foreign-student.pdf)
+- The Economic Impact of International Students in Hawaii – Calendar Year 2020 – December 2021 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/2021-12-foreign-student.pdf)
+- The Economic Impact of International Students in Hawaii – Calendar Year 2019 – October 2020 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/2020-10-foreign-student.pdf)
+- The Economic Impact of International Students in Hawaii, 2018 Update – November 2018 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/2018-11-foreign-student.pdf)
+- The Economic Impact of International Students in Hawaii, 2017 Update – July 2017 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/2017-07-foreign-student.pdf)
+- The Economic Impact of International Students in Hawaii, 2016 Update – June 2016 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/2016-07-foreign-student.pdf)
+- The Economic Impact of International Students in Hawaii – April 2015 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/2015-04-foreign-student.pdf)
+- Educational Attainment in Hawaii – January 2016 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Educational Attainment_Jan_2016.pdf)
+- Education and the Economy – November 1998 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/he11-98.pdf)
+- The Minimum Wage in Hawaii: Labor Market Impacts – January 2020 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Minimum_Wage_Report.pdf)
+- Workforce Exit Study – September 2022 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Workforce_Exit_Survey_10_2022.pdf)
+- Remote Work in Hawaii: Effects of the COVID-19 Pandemic on Hawaii’s Remote Work Marketplace – February 2022 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/DBEDT_REMOTE%20WORK_FULL%20REPORT_FINAL_REV220311.pdf)
+- Hawaii’s Labor Market Impact During COVID-19 – April 2021 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/COVID-19%20Labor%20Market%20Impact.pdf)
+- Hawaii’s Working Population: An Analysis by Industry 2015-2019 – March 2021 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Hawaii_Workforce_Report_2021.pdf)
+- Brain Drain: Characteristics of Hawaii-Born Adults on the U.S. Mainland – January 2021 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Brain_Drain_Hawaii_Born_Population.pdf)
+- COVID-19 and the Economically Vulnerable Populations in Hawaii – June 2020 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/COVID-19-Report-Economically-Vulnerable.pdf)
+- Top 20 Occupations in Hawaii – September 2018 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Top20_Occupations_Hawaii_2018.pdf)
+- Hawaii’s Working Population: An Analysis by Industry 2012-2016 – April 2018 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Hawaii_Workforce_Report_2018.pdf)
+- Wage and Employment Structure: Hawaii vs. the U.S. – November 2011 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/wage-employment-11-2011.pdf)
+- Geographic Area (PUMA) Statistics: Income, Employment, Education, and Housing Characteristics, 2005 to 2008 – Feb 2011 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/data-report-geographic-area-statistics-02-2011.pdf)
+- Hawaii’s Workforce – A Look at Characteristics by Industry – December 2010 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/2010-workforce-by-industry.pdf)
+- Geographic Area (PUMA) Statistics: Income, Employment, Education, and Housing Characteristics, 2005 to 2007 – March 2009 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/small_area_economy_2007_final.pdf)
+- Workers’ Compensation System in Hawaii – March 2008 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Hawaii_Workers_Compensation_Study_Final.pdf)
+- An Economic Analysis of the Hawaii Unemployment Insurance Program – March 2007 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Hawaii_Unemployment_Insurance_Report.pdf)
+- Wage and Employment Structure: Hawaii vs. the U.S. – December 2005 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/wages-employment-2005.pdf)
+- State of Hawaii Energy Data and Trends – April 2023 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Energy_Data_Report_2023.pdf)
+- State of Hawaii Energy Data and Trends – April 2022 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Energy Data Report 2022 Final.pdf)
+- State of Hawaii Energy Data and Trends – April 2019 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/energy-data-trend-2019.pdf)
+- State of Hawaii Energy Data and Trends – February 2018 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/energy-data-trend-2018.pdf)
+- State of Hawaii Energy Data and Trends – February 2017 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/energy-data-trend-2017.pdf)
+- State of Hawaii Energy Data and Trends – November 2015 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/energy-data-trend-2015b.pdf)
+- State of Hawaii Energy Data and Trends – April 2015 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/energy-data-trend-2015.pdf)
+- State of Hawaii Energy Data and Trends – January 2014 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/energy-data-trend-2014.pdf)
+- State of Hawaii Energy Data and Trends – November 2012 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/energy-data-trend-2012.pdf)
+- State of Hawaii Energy Data and Trends – March 2011 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/energy-data-trend-2011.pdf)
+- Solar PV Battery Installations in Honolulu: 2024 Update – March 2025 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Solar_PV_Battery_Installation_2024 update_1.pdf)
+- Solar PV Battery Installations in Honolulu: 2023 Update – May 2024 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Solar_PV_Battery_Installation_2023 update.pdf)
+- Solar PV Battery Installations in Honolulu: 2022 Update – May 2023 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Solar_PV_Battery_Installation_2023May.pdf)
+- Solar PV Battery Installations in Honolulu: 2021 Update – May 2022 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Solar_PV_Battery_Installation_2022May.pdf)
+- Solar PV Battery Installations in Honolulu: 2020 Update – April 2021 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Solar_PV_Battery_Installation_2020.pdf)
+- Solar PV Battery Installations in Honolulu: 2019 Update – June 2020 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Solar_PV_Battery_Report_2020_Update_Final.pdf)
+- Solar PV Battery Installations in Honolulu: 2018 Update – August 2019 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Solar_PV_Battery_Installation_2019Aug.pdf)
+- Solar PV Battery Installations in Honolulu: 2017 – January 2018 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Solar_PV_Battery_Installation_1-30-18.pdf)
+- Solar PV Installations in Honolulu – September 2017 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Solar_PV_Installation_In_Honolulu_Sep2017.pdf)
+- Solar PV Installations in Honolulu – January 2015 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Analysis_of_Solar_PV_Activities_in_Honolulu.pdf)
+- Hawaii’s Electricity Industry: 2021-2022 Analysis and Recent Trends – May 2023 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/ElectricityTrendsReport2023.pdf)
+- Hawaii’s Electricity Industry: 2020-2021 Analysis and Recent Trends – August 2022 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/ElectricityTrendsReport2022.pdf)
+- Hawaii’s Electricity Industry: 2019-2020 Analysis and Recent Trends – July 2021 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/ElectricityTrendsReport2021.pdf)
+- Hawaii’s Electricity Industry: 2018 Analysis and Recent Trends – August 2019 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/ElectricityTrendsReport2019.pdf)
+- Hawaii’s Electricity Industry: 2016 Analysis and Recent Trends – December 2017 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/ElectricityTrendsReport2017.pdf)
+- Hawaii’s Electricity Industry: 2015 Analysis and Recent Trends – October 2016 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/ElectricityTrendsReport2016.pdf)
+- Hawaii’s Electricity Industry: 2014 Analysis and Recent Trends – September 2015 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/ElectricityTrendsReport2015.pdf)
+- State of Hawaii Electricity Generation and Consumption in 2013 and Recent Trends – October 2014 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/ElectricityTrendsReport2014.pdf)
+- State of Hawaii Electric Power Industry Current Status and Trends – November 2013 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/ElectricityReport2013.pdf)
+- Hawai‘i’s Petroleum Consumption and Expenditures by Product and by Sector – March 2023 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/oil_report_2023-3_final.pdf)
+- Hawaii’s Petroleum Consumption and Expenditures by Product and by Sector – April 2021 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/OilPaper2021-4-Final.pdf)
+- Hawaii’s Petroleum Consumption and Expenditures by Product and by Sector – December 2018 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/OilPaper2018-12-Final.pdf)
+- Status of Renewable Primary Energy and Renewable Electricity in Hawaii – November 2022 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Renewable_Energy_2022_Final.pdf)
+- Status of Renewable Primary Energy and Renewable Electricity – November 2021 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Energy_Renewable_Report_2021_Final.pdf)
+- Status of Renewable Primary Energy and Renewable Electricity – July 2018 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Status_of_Renewable_Primary_Energy_and_Renewable_Electricity.pdf)
+- Electricity Burdens on Hawaii Households – July 2021 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Electricity_Burdens_on_Hawaii_Households_2021.pdf)
+- Renewable Energy in Hawaii – June 2011 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/2011-renewable-energy.pdf)
+- Income and Price Elasticity of Hawaii Energy Demand – May 2011 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Elasticity_Section_5-10-11_Final.pdf)
+- The Size of Hawaii’s Energy Sector – May 2011 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Size_of_Energy_Sector_in_Hawaii_5-26-11.pdf)
+- Consolidated Federal Funds Report FY2010 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/cffr-10.pdf)
+- Consolidated Federal Funds Report FY2009 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/cffr-09.pdf)
+- Consolidated Federal Funds Report FY2008 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/cffr-08.pdf)
+- Consolidated Federal Funds Report FY2007 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/cffr-07.pdf)
+- Consolidated Federal Funds Report FY2006 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/cffr-06.pdf)
+- Consolidated Federal Funds Report FY2005 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/cffr-05.pdf)
+- Consolidated Federal Funds Report FY2004 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/cffr-04.pdf)
+- Consolidated Federal Funds Report FY2003 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/cffr-03.pdf)
+- Technical Documentation |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/generictech.pdf)
+- Object Codes and Program Identification Codes |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/CFFR05_Obj_Prog_ID_Codes.pdf)
+- Federal Aid to States FY2010 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/fas-10.pdf)
+- Federal Aid to States FY2009 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/fas-09.pdf)
+- Federal Aid to States FY2008 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/fas-08.pdf)
+- Federal Aid to States FY2007 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/fas-07.pdf)
+- Federal Aid to States FY2006 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/fas-06.pdf)
+- Federal Aid to States FY2005 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/fas-05.pdf)
+- Federal Aid to States FY2004 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/fas-04.pdf)
+- Federal Aid to States FY2003 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/fas-03.pdf)
+- Profile of Hawaii-Based Armed Forces – December 2008 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/profile-read-2008.pdf)
+- Profile of Hawaii-Based Armed Forces – January 2007 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/DBEDT_Armed_Forces_2007-01.pdf)
+- Federal Economic Activities in Hawaii – March 2009 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/fed-report-2009.pdf)
+- Federal Economic Activities in Hawaii – June 2007 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/fed-report-2007-rev2b.pdf)
+- Advantages of Hawaii-Based Military – January 2008 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Advantages_2008-01.pdf)
+- Advantages of Hawaii-Based Military – January 2007 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Advantages_2007-01.pdf)
+- Advantages of Hawaii-Based Military – January 2006 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Military_Jan2006_Chamber_DBEDT.pdf)
+- Advantages of Hawaii-Based Military – January 2005 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/mac2005r.pdf)
+- Federal Activity and Hawaii’s New Economy – July 2001 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/fr07-01r.pdf)
+- The Economic Impacts of Federal Government Contracts Awarded in Hawaii Fiscal Year 2018 – 2022 – August 2023 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Econ_Impact_Fed_Contracts_FY1822_Aug_2023_Final.pdf)
+- Economic Impacts of Granting a GET Exemption for Sales to the Federal Government – December 2016 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Economic Impacts of Granting a GET Exemption for Sales to the Federal Government.pdf)
+- Measuring Economic Diversification in Hawaii, Update report – November 2025 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Diversification2024.pdf)
+- Measuring Economic Diversification in Hawaii, Update report – September 2020 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Diversification2020.pdf)
+- Measuring Economic Diversification in Hawaii, Update report – December 2011 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/2011-12-diversification.pdf)
+- Measuring Economic Diversification in Hawaii, Full report – February 2008 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Economic_Diversification_Report_Final%203-7-08.pdf)
+- Hawaii Economic Structure Analysis Using the Industry Level Gross Domestic Product Data: Update report – April 2022 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/GDP_Report_Final_April_2022.pdf)
+- Hawaii Economic Structure Analysis Using the Industry Level Gross Domestic Product Data: Update report – April 2020 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/GDP_Report_Final_April2020.pdf)
+- Hawaii Economic Structure Analysis Using the Industry Level Gross Domestic Product Data – July 2019 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/GDP_Report_Final.pdf)
+- Online Sports Wagering Working Group Final Report – March 2025 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/online_sports_wagering_report_2025.pdf)
+- Oahu’s North Shore: A Profile of Its Residents and Businesses – September 2024 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/North_Shore_Profile_Report_final_September_2024.pdf)
+- The Impacts of COVID-19 on Hawaii’s Real GDP and Job Growth and Industrial Structures – July 2022 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/COVID_Impact_GDP_and_Jobs_July_2022.pdf)
+- Updating the Genuine Progress Indicator for the State of Hawaii – February 2022 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/gpi_report_july_2022.pdf)
+- Hawaii Business Dynamics: An Analysis of Business Births, Deaths, and Survival Rates – May 2020 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Business_dynamics_May2020_2.pdf)
+- Hawaii County Industry Analysis 2001-2018 – December 2019 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/HCountyReport.pdf)
+- Hawaii New Business Formation – November 2014 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/new_bus.pdf)
+- Current Hawaii Economic Conditions – September 2013 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/2013-09-17-economic-conditions.pdf)
+- Economic Situation Update – December 2001 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/econ12-01.pdf)
+- A New Leading Economic Indicator for Hawaii – April 1999 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/he499.pdf)
+- Hawaii’s Economic Future – March 1998 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/he3-98.pdf)
+- Hawaii Consumer Debt Report: 2003-2023 – April 2024 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/HawaiiConsumerDebtReport_2024.pdf)
+- Hawaii Consumer Debt Report: 2001-2021 – October 2022 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/HawaiiConsumerDebtReport_2022.pdf)
+- Hawaii Consumer Debt Report: 2019 Update – October 2019 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Consumer_Debt_Quarterly_2019_Update.pdf)
+- Hawaii Consumer Debt Report: 2017 Update – February 2018 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Consumer_Debt_Quarterly.pdf)
+- An Analysis of Consumer Debt: How Does Hawaii Compare with the Nation – May 2017 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/consumer_debt_final.pdf)
+- Consumer Spending Analysis and the Cost of Living in Honolulu: 1986-2022 – April 2024 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Honolulu_Consumer_Spending_1986-2022.pdf)
+- Summary of Consumer Spending by County: 2014 – February 2017 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/CE_Comparison_Final.pdf)
+- Hawaii County Consumer Spending: 2014 – June 2016 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/CE_Big_Island_Survey_Final.pdf)
+- Kauai County Consumer Spending: 2014 – June 2016 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/CE_Kauai_Survey_Final.pdf)
+- Maui County Consumer Spending: 2014 – June 2016 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/CE_Maui_Survey_Final.pdf)
+- Honolulu Consumer Spending: 2013-2014 – April 2016 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/CE_Oahu_Survey_Final.pdf)
+- Pattern of Honolulu Consumer Spending: 1986-2005 – March 2007 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/honolulu_consumer_report_final.pdf)
+- Honolulu Consumer Spending Tables – March 2007 |Archived Excel
+- [|Archived Excel](https://files.hawaii.gov/dbedt/economic/archive/reports/honolulu_consumer_report_tables.xls)
+- Find the Self-Sufficient Income reports under the “Societal Well-being” section below
+- Analyzing the Income Distribution in Hawaii – August 2021 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Income_Distribution_in_Hawaii.pdf)
+- Hawaii’s Targeted and Emerging Industries – 2024 Update Report – November 2024 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Hawaii_Targeted_Emerging_Industries_2024_Update_Report.pdf)
+- Hawaii’s Targeted and Emerging Industries – 2023 Update Report – November 2023 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Hawaii_Targeted_Emerging_Industries_2023_Update_Report.pdf)
+- Hawaii’s Targeted and Emerging Industries – 2022 Update Report – December 2022 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Hawaii_Targeted_Emerging_Industries_2022_Update_Report.pdf)
+- Hawaii’s Targeted and Emerging Industries – 2021 Update Report – December 2021 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Hawaii_Targeted_Emerging_Industries_2021_Update_Report.pdf)
+- Hawaii’s Targeted and Emerging Industries – 2020 Update Report – December 2020 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Hawaii_Targeted_Emerging_Industries_2020_Update_Report.pdf)
+- Hawaii’s Targeted and Emerging Industries – 2019 Update Report – December 2019 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Hawaii_Targeted_Emerging_Industries_2019_Update_Report.pdf)
+- Hawaii’s Targeted and Emerging Industries – 2018 Update Report – December 2018 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Hawaii_Targeted_Emerging_Industries_2018_Update_Report.pdf)
+- Hawaii’s Targeted and Emerging Industries – 2017 Update Report – December 2017 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Hawaii_Targeted_Emerging_Industries_2017_Update_Report.pdf)
+- Hawaii’s Targeted and Emerging Industries – 2016 Update Report – December 2016 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Hawaii_Targeted_Emerging_Industries_2016_Update_Report.pdf)
+- Hawaii’s Targeted and Emerging Industries – 2015 Update Report – December 2015 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Hawaii_Targeted_Emerging_Industries_2015_Update_Report.pdf)
+- Hawaii’s Targeted and Emerging Industries – 2014 Update Report – November 2014 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Hawaii_Targeted_Emerging_Industries_2014_Update_Report.pdf)
+- Hawaii’s Targeted and Emerging Industries – 2013 Update Report – December 2013 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Hawaii_Targeted_Emerging_Industries_2013_Update_Report.pdf)
+- Hawaii’s Targeted and Emerging Industries – 2012 Update Report – December 2012 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Hawaii_Targeted_Emerging_Industries_2012_Update_Report.pdf)
+- Hawaii’s Targeted and Emerging Industries – 2011 Update Report – December 2011 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Hawaii_Targeted_Emerging_Industries_2011_Update_Report.pdf)
+- Hawaii’s Targeted and Emerging Industries – 2010 Update Report – December 2010 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Hawaii_Targeted_Emerging_Industries_2010_Update_Report.pdf)
+- Benchmarking Hawaii’s Emerging Industries 2009 – Full Report – December 2009 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/EmergIndyBchmrkFull.pdf)
+- Benchmarking Hawaii’s Emerging Industries 2009 – Summary Report – December 2009 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/EmergIndyBchmrkSummary.pdf)
+- Hawaii’s Creative Industries, Update Report, 2024 – December 2024 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/HI_Creative_Ind_2024.pdf)
+- Hawaii’s Creative Industries, Update Report, 2023 – March 2024 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/HI_Creative_Ind_2023.pdf)
+- Hawaii’s Creative Industries, Update Report, 2023 – May 2023 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/HI_Creative_Ind_2022.pdf)
+- Hawaii’s Creative Industries, Update Report, 2020 – May 2020 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/HI_Creative_Ind_2019.pdf)
+- Hawaii’s Creative Industries, Update Report, 2018 – March 2019 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/HI_Creative_Ind_2018.pdf)
+- Hawaii’s Creative Industries, Update Report, 2017 – December 2017 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/HI_Creative_Ind_December_2017.pdf)
+- Hawaii’s Creative Industries, Update Report, 2016 – June 2016 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/HI_Creative_Ind_June_2016.pdf)
+- Hawaii’s Creative Industries, Update Report, 2015 – March 2015 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/HI_Creative_Ind_March_2015.pdf)
+- Hawaii’s Creative Industries, Update Report, 2014 – August 2014 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/HI_Creative_Ind_August_2014.pdf)
+- Hawaii’s Creative Industries, Update Report, 2012 – July 2012 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/HI_Creative_Ind_August_2012_final.pdf)
+- Hawaii’s Creative Industries, Update Report, 2010 – June 2010 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/HI_Creative_Ind_June_2010.pdf)
+- Marine Cargo and Waterborne Commerce in Hawaii’s Economy: 2024 Update – March 2024 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Marine_Cargo_Report_3_24.pdf)
+- Marine Cargo and Waterborne Commerce in Hawaii’s Economy – May 2019 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Marine_Cargo_Study_Final.pdf)
+- Air Cargo in Hawaii’s Economy: 2020 Update – December 2020 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Air_Cargo_Study_2020_Update.pdf)
+- Air Cargo in Hawaii’s Economy – November 2017 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Air_Cargo_Study_Final.pdf)
+- Hawaii Innovation Indicators: Update 2010 – January 2010 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/innovation-indicators-2010.pdf)
+- Hawaii Innovation Indicators – December 2008 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/innovation-indicators-2008.pdf)
+- The Impacts of the Film Industry on 2022 Tourism in Hawaii – February 2024 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/film_impacts_on_tourism_feb_2024.pdf)
+- The Health Care Industry In Hawaii – April 2023 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/DBEDT_Health_Care_Research_April2023.pdf)
+- Performance of the Manufacturing Industries in Hawaii and the U.S. – November 2016 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Manufacture _Report_11_21_16.pdf)
+- Hawaii’s Cluster Economic Performance – June 2016 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Cluster_June_2016.pdf)
+- Health Care and Social Assistance Sector in Hawaii – February 2016 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/EC_Health_Care_Feb_2016.pdf)
+- Real Estate and Rental and Leasing Sector in Hawaii – April 2015 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/EC_Real_Estate_Apr_2015.pdf)
+- Hawaii’s Technology Workforce – Occupations and Projections – July 2012 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/HI-Tech-7-2012.pdf)
+- Survey of Ocean Science and Technology Activity in Hawaii, 2007 – July 2009 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/OceanScTechReport2007.pdf)
+- Hawaii’s Technology Sector in 2001 – November 2002 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/tech11-02.pdf)
+- Hawaii’s Expanding Tech Sector – May 2001 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/hets-r.pdf)
+- Retailing and Hawaii’s Economy – August 1998 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/he8-98.pdf)
+- 2017 Hawaii State Input-Output Study |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/IO/2017_state_io_study.pdf)
+- 2017 Hawaii State Input-Output Tables – Condensed |Archived Excel
+- [|Archived Excel](https://files.hawaii.gov/dbedt/economic/archive/reports/IO/2017-State-IO-Condensed.xlsx)
+- 2017 Hawaii State Input-Output Tables – Detailed |Archived Excel
+- [|Archived Excel](https://files.hawaii.gov/dbedt/economic/archive/reports/IO/2017-State-IO-Detailed.xlsx)
+- 2017 Hawaii Inter-County Input-Output Study |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/IO/2017-County-I-O.pdf)
+- 2017 Hawaii Inter-County Input-Output Tables – Condensed |Archived Excel
+- [|Archived Excel](https://files.hawaii.gov/dbedt/economic/archive/reports/IO/2017-County-I-O Condensed.xlsx)
+- 2017 Hawaii Inter-County Input-Output Tables – Detailed |Archived Excel
+- [|Archived Excel](https://files.hawaii.gov/dbedt/economic/archive/reports/IO/2017-County-I-O-detailed.xlsx)
+- 2012 State Input-Output Study |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/IO/2012_state_io_study.pdf)
+- 2012 Hawaii State Input-Output Tables – Condensed |Archived Excel
+- [|Archived Excel](https://files.hawaii.gov/dbedt/economic/archive/reports/IO/2012-State-IO-Condensed.xlsx)
+- 2012 Hawaii State Input-Output Tables – Detailed |Archived Excel
+- [|Archived Excel](https://files.hawaii.gov/dbedt/economic/archive/reports/IO/2012-State-IO-Detailed.xlsx)
+- 2012 Hawaii Inter-County Input-Output Study |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/IO/2012-County-IO.pdf)
+- 2012 Hawaii Inter-County Input-Output Tables – Condensed |Archived Excel
+- [|Archived Excel](https://files.hawaii.gov/dbedt/economic/archive/reports/IO/2012-County-I-O-Condensed.xlsx)
+- 2012 Hawaii Inter-County Input-Output Tables – Detailed |Archived Excel
+- [|Archived Excel](https://files.hawaii.gov/dbedt/economic/archive/reports/IO/2012-County-I-O-Detailed.xlsx)
+- 2007 State Input-Output Study |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/IO/2007_state_io_study.pdf)
+- 2007 Hawaii State Input-Output Tables – Condensed |Archived Excel
+- [|Archived Excel](https://files.hawaii.gov/dbedt/economic/archive/reports/IO/2007_state_io_condensed.xlsx)
+- 2007 Hawaii State Input-Output Tables – Detailed |Archived Excel
+- [|Archived Excel](https://files.hawaii.gov/dbedt/economic/archive/reports/IO/2007_state_io_detailed.xlsx)
+- 2007 Hawaii Inter-County Input-Output Study |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/IO/2007_county_io_study.pdf)
+- 2007 Hawaii Inter-County Input-Output Tables – Condensed |Archived Excel
+- [|Archived Excel](https://files.hawaii.gov/dbedt/economic/archive/reports/IO/2007_county_io_condensed.xls)
+- 2007 Hawaii Inter-County Input-Output Tables – Detailed |Archived Excel
+- [|Archived Excel](https://files.hawaii.gov/dbedt/economic/archive/reports/IO/2007_county_io_detailed.xlsx)
+- 2005 State Input-Output Study |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/IO/2005_state_io_study.pdf)
+- 2005 Hawaii State Input-Output Tables – Condensed |Archived Excel
+- [|Archived Excel](https://files.hawaii.gov/dbedt/economic/archive/reports/IO/2005_state_io_condensed.xls)
+- 2005 Hawaii State Input-Output Tables – Detailed |Archived Excel
+- [|Archived Excel](https://files.hawaii.gov/dbedt/economic/archive/reports/IO/2005_state_io_detailed.xls)
+- 2005 Hawaii Inter-County Input-Output Study |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/IO/2005_county_io_study.pdf)
+- 2005 Hawaii Inter-County Input-Output Tables – Condensed |Archived Excel
+- [|Archived Excel](https://files.hawaii.gov/dbedt/economic/archive/reports/IO/2005_county_io_condensed.xls)
+- 2005 Hawaii Inter-County Input-Output Tables – Detailed |Archived Excel
+- [|Archived Excel](https://files.hawaii.gov/dbedt/economic/archive/reports/IO/2005_county_io_detailed.xls)
+- 2002 State Input-Output Study |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/IO/2002_state_io_study.pdf)
+- 2002 Hawaii State Input-Output Tables – Condensed |Archived Excel
+- [|Archived Excel](https://files.hawaii.gov/dbedt/economic/archive/reports/IO/2002_state_io_condensed.xls)
+- 2002 Hawaii State Input-Output Tables – Detailed |Archived Excel
+- [|Archived Excel](https://files.hawaii.gov/dbedt/economic/archive/reports/IO/2002_state_io_detailed.xls)
+- 2002 Hawaii Inter-County Input-Output Study |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/IO/2002_county_io_study.pdf)
+- 2002 Hawaii Inter-County Input-Output Tables – Condensed |Archived Excel
+- [|Archived Excel](https://files.hawaii.gov/dbedt/economic/archive/reports/IO/2002_county_io_condensed.xls)
+- 2002 Hawaii Inter-County Input-Output Tables – Detailed |Archived Excel
+- [|Archived Excel](https://files.hawaii.gov/dbedt/economic/archive/reports/IO/2002_county_io_detailed.xls)
+- A brief on Taiwanese in Hawaii |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/A%20brief%20on%20Taiwanese%20in%20Hawaii_Feb2025.pdf)
+- Demographic, Social, and Economic Characteristics of Hawaii’s Race Groups: 2017-2021 – May 2024 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Detailed-race-characteristics_ACS2021.pdf)
+- Demographic, Social, and Economic Characteristics of Hawaii’s Race Groups: 2017-2021 (Supplemental Tables) – May 2024 |Archived Excel
+- [|Archived Excel](https://files.hawaii.gov/dbedt/economic/archive/reports/Detailed-race-characteristics_supplemental-tables.xlsx)
+- Demographic, Social, Economic, and Housing Characteristics for Selected Race Groups in Hawaii – March 2018 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/SelectedRacesCharacteristics_HawaiiReport.pdf)
+- Native Hawaiians in Hawaii’s Tourism Sector: 2023 Update – July 2023 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Native_Hawaiians_in_Tourism_2023.pdf)
+- Native Hawaiians in Hawaii’s Tourism Sector: 2021 Update – January 2021 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Native_Hawaiians_in_Tourism_2021.pdf)
+- Hawaii’s Native Hawaiian Entrepreneurs – January 2021 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Hawaii_Native_Hawaiian_Entrepreneurs.pdf)
+- Native Hawaiians in Hawaii’s Tourism Sector – April 2017 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Native_Hawaiians_in_Tourism_Final_4-13-17.pdf)
+- Native Hawaiian-Owned Firms in Hawaii’s Tourism Sector – March 2017 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Native_Hawaiian_Owned_Business_in_Tourism.pdf)
+- Hawaii Migration Flows:2013-2017 – December 2019 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Hawaii_Migration_Flows_2013-2017_Dec2019.pdf)
+- Hawaii’s Migrant Population: 2006 – June 2008 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/2006_ACS_migrants_final.pdf)
+- Hawaii’s Inmigrant Population: 2005 – December 2006 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/ACS_2005_%20inmigrants_final.pdf)
+- Non-English Speaking Population in Hawaii – April 2016 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Non_English_Speaking_Population_in_Hawaii_April_2016.pdf)
+- Non-English Speaking Population in Hawaii – February 2011 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Data-Report-Non-English-Speaking-Profile-Hawaii.pdf)
+- Detailed Languages Spoken at Home in the State of Hawaii – March 2016 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Detailed_Language_March2016.pdf)
+- Aging and Hawaii’s Generational Economy – December 2024 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Hawaii_Generational_Economy_Dec2024.pdf)
+- Hawaii’s Generational Economy: Impacts of Population Aging – October 2020 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Hawaii_Generational_Economy_Oct2020.pdf)
+- Commuter adjusted population in Hawaii – May 2024 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Commuter adjusted population in Hawaii_May2024.pdf)
+- Commuter Adjusted Daytime Population on Oahu – December 2014 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Daytime_Population_Dec19_2014.pdf)
+- Commuter Adjusted Daytime Population in Hawaii County – February 2015 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Daytime_Population_Hawaii_County_Feb_2015.pdf)
+- Commuter Adjusted Daytime Population in Maui County – February 2015 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Daytime_Population_Maui_County_Feb_2015.pdf)
+- Commuter Adjusted Daytime Population in Kauai County – February 2015 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Daytime_Population_Kauai_County_Feb_2015.pdf)
+- Urban and Rural Areas in the State of Hawaii: 2020 – April 2024 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/HI_Urban-Rural_2020.pdf)
+- The Elderly Population in Hawaii: Current Living Circumstances and Housing Options – December 2021 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Elderly_Population_in_Hawaii-Housing_Dec2021.pdf)
+- COFA Migrants in Hawaii – February 2020 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/COFA_Migrants_in_Hawaii_Final.pdf)
+- Commuting Patterns in Hawaii – April 2015 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Commuting_Patterns_Apr2015.pdf)
+- Quality of Life Indicators 2024 Update – March 2024 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Quality-of-Life-2024-Update.pdf)
+- Quality of Life Indicators 2022 Update – November 2022 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Quality-of-Life-2022-Update.pdf)
+- Quality of Life Indicators 2019 Update – May 2020 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Quality-of-Life-2019-Update.pdf)
+- Quality of Life in Hawaii (Full Report), 2009 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/QOL2009_FullReport.pdf)
+- Quality of Life in Hawaii (Summary), 2009 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/QoL2009Summary.pdf)
+- Self-Sufficiency Income Standard: Estimates for Hawaii 2022 – December 2023 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/self-sufficiency_2022.pdf)
+- Self-Sufficiency Income Standard: Estimates for Hawaii 2020 – December 2021 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/self-sufficiency_2020.pdf)
+- Self-Sufficiency Income Standard: Estimates for Hawaii 2018 – December 2019 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/self-sufficiency_2018.pdf)
+- Self-Sufficiency Income Standard: Estimates for Hawaii 2016 – December 2017 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/self-sufficiency_2016.pdf)
+- Self-Sufficiency Income Standard: Estimates for Hawaii 2014 – December 2015 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/self-sufficiency_2014.pdf)
+- Self-Sufficiency Income Standard: Estimates for Hawaii 2013 – December 2014 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/self-sufficiency_2013.pdf)
+- Self-Sufficiency Income Standard: Estimates for Hawaii 2011 – December 2012 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/self-sufficiency_2011.pdf)
+- Self-Sufficiency Income Standard: Estimates for Hawaii 2009 – December 2011 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/self-sufficiency_2009.pdf)
+- Self-Sufficiency Income Standard: Estimates for Hawaii 2007 – January 2009 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/self-sufficiency_2007.pdf)
+- Report on Hawaii Tax Credit for Research Activities for Tax Year 2023 – August 2024 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/HawaiiResearchTaxCredit_TaxYear2023.pdf)
+- Report on Hawaii Tax Credit for Research Activities for Tax Year 2022 – August 2023 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/HawaiiResearchTaxCredit_TaxYear2022.pdf)
+- Report on Hawaii Tax Credit for Research Activities for Tax Year 2021 – August 2022 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/HawaiiResearchTaxCredit_TaxYear2021.pdf)
+- Report on Hawaii Tax Credit for Research Activities for Tax Year 2020 – August 2021 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/HawaiiResearchTaxCredit_TaxYear2020.pdf)
+- Report on Hawaii Tax Credit for Research Activities for Tax Year 2019 – August 2020 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/HawaiiResearchTaxCredit_TaxYear2019.pdf)
+- Report on Hawaii Tax Credit for Research Activities for Tax Year 2018 – August 2019 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/HawaiiResearchTaxCredit_TaxYear2018.pdf)
+- Report on Hawaii Tax Credit for Research Activities for Tax Year 2017 – August 2018 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/HawaiiResearchTaxCredit_TaxYear2017.pdf)
+- Report on Hawaii Tax Credit for Research Activities for Tax Year 2016 – August 2017 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/HawaiiResearchTaxCredit_TaxYear2016.pdf)
+- Report on Hawaii Tax Credit for Research Activities for Tax Year 2015 – August 2016 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/HawaiiResearchTaxCredit_TaxYear2015.pdf)
+- Report on Hawaii Tax Credit for Research Activities for Tax Year 2014 – August 2015 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/HawaiiResearchTaxCredit_TaxYear2014.pdf)
+- Report on Hawaii Tax Credit for Research Activities for Tax Year 2013 – August 2014 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/HawaiiResearchTaxCredit_TaxYear2013.pdf)
+- Cost-Benefit and Fiscal Impact Analysis of Hawaii’s Film Tax Credit in 2023 – November 2024 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Film_Tax_Credit_Report_2023.pdf)
+- Cost-Benefit and Fiscal Impact Analysis of Hawaii’s Film Tax Credit in 2022 – February 2024 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Film_Tax_Credit_Report_2022.pdf)
+- Cost-Benefit and Fiscal Impact Analysis of Hawaii’s Film Tax Credit in 2021 – May 2023 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Film_Tax_Credit_Report_2021.pdf)
+- Cost-Benefit and Fiscal Impact Analysis of Hawaii’s Film Tax Credit in 2020 – July 2022 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Film_Tax_Credit_Report_2020.pdf)
+- Cost-Benefit and Fiscal Impact Analysis of Hawaii’s Film Tax Credit in 2019 – March 2021 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Film Tax Credit Report_2019.pdf)
+- An Analysis of Real Property Tax in Hawaii – October 2017 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/property_tax_report_2017.pdf)
+- Real Estate Investment Trusts in Hawaii: Analysis and Survey Results – September 2016 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/REIT_Final_9.19.16.pdf)
+- Implication of Replacing Hawaii’s Income Tax with an Increase in General Excise Tax – September 2009 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Implication_of_Replacing_Income_Tax_with_Increase_in_GET.pdf)
+- Sustainable Tourism Project Summary Report |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/STS_STPsummary.pdf)
+- Economic and Environmental Modeling Study, Volume I: Executive Summary |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/STS_Modeling-Report-Summary.pdf)
+- Economic and Environmental Modeling Study, Volume II: Results and Recommendations |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/STS_Modeling-Report.pdf)
+- Economic and Environmental Modeling Study, Volume III: Technical Report |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/STS_Modeling-Technical-Report.pdf)
+- Socio-Cultural and Public Input Study, Volume I: Summary Report |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/STS_Socio-Cult-Summary-Report.pdf)
+- Socio-Cultural and Public Input Study, Volume II: Socio-Cultural Impact, General Population |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/STS_General-Pop-Socio-Cultural-Report.pdf)
+- Socio-Cultural and Public Input Study, Volume III: Socio-Cultural Impact, Native Hawaiian |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/STS_Native-Hawaiian-Impact-Report.pdf)
+- Socio-Cultural and Public Input Study, Volume IV: Resident Survey Report |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/STS_Resident-Survey-Report.pdf)
+- Socio-Cultural and Public Input Study, Volume V: Study Group Findings and Recommendations |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Sustainable-Tourism-Study-Group-Report.pdf)
+- Socio-Cultural and Public Input Study, Volume VI: Framework for a Hawaii’s Sustainable Tourism System |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Sustainable-Tourism-System-Framework.pdf)
+- Infrastructure and Environmental Overview Study: Recommendations |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/STS_InfrastrRecommendations.pdf)
+- Infrastructure and Environmental Overview Study: Hawaii State Summary |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/STS_State-of-Hawaii.pdf)
+- Infrastructure and Environmental Overview Study: City and County of Honolulu |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/STS_final-honolulu-county.pdf)
+- Infrastructure and Environmental Overview Study: Hawaii County |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/STS_Hawaii.pdf)
+- Infrastructure and Environmental Overview Study: Maui County |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/STS_final-maui-county.pdf)
+- Infrastructure and Environmental Overview Study: Kauai County |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/STS_final-kauai-county.pdf)
+- Infrastructure and Environmental Overview Study, Appendix for Hawaii State |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/STS_State-of-Hawaii-Appendix.pdf)
+- Infrastructure and Environmental Overview Study, Appendix for City and County of Honolulu |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/STS_Honolulu-Appendices.pdf)
+- Infrastructure and Environmental Overview Study, Appendix for Hawaii County |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/STS_Hawaii-Appendix.pdf)
+- Infrastructure and Environmental Overview Study, Appendix for Maui County |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/STS_final-maui-county-appx.pdf)
+- Infrastructure and Environmental Overview Study, Appendix for Kauai County |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/STS_final-kauai-county-appx.pdf)
+- Tourism and Hawaii Economy – December 2024 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Tourism and Hawaii Economy_Dec2024.pdf)
+- Visitors to the North Shore – September 2024 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/north_shore_visitors_report_final_sept_2024.pdf)
+- The Impacts of the Film Industry on 2022 Tourism in Hawai‘i – February 2024 |Archived PDF
+- How Well Does Daily Passenger Data Correlate With Monthly Visitor Arrivals Data? – November 2023 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Daily_Pax_and_Monthly_Visitor_Arr_2013-2023_final Nov_2023.pdf)
+- State of Hawaii: In-Flight Form Digitization Feasibility Study July 2023 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/In-Flight Form Digitization Feasibility Study_July2023.pdf)
+- Tourism’s Contribution to the State and County Economies in Hawai‘i: A Benchmark Estimate for 2017 – September 2023 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Economic_Impact_of_Tourism_by_County_Sept_2023_final.pdf)
+- Tourism Contribution to Hawaii Agriculture Industry – July 2022 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Tourism Contribution to Hawaii Agriculture July 2022.pdf)
+- 2002 and 2003 Hawaii Cruise Industry Impact Study |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/cruise-impact.pdf)
+- The Economic Contribution of Waikiki – May 2003 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/econ_waikiki.pdf)
+- The Effect on Hawaii’s Economy of the September 11 Terror Attacks – November 2001 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/uhero1.pdf)
+- New Measures of Tourism – February 2001 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/he2-01r.pdf)
+- Tourism Looks to the Future – July 1999 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/he7-99.pdf)
+- WTTC Hawaii Tourism Report 1999 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/WTTC99.pdf)
+ARCHIVED LEGISLATIVE REPORTS
+- DBEDT Annual Report on Workforce Development Programs – November 2024 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/workforce_development_2024.pdf)
+- The Elderly Population in Hawaii: Current Living Circumstances and Housing Options (with an appendix on Kau district) – December 2021 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/Elderly_Population_in_Hawaii-Housing_with_Appendix_on_Kau_district_Dec2021.pdf)
+- The Estimated Economic Impact of Hawaii Place-Based Marketing by Firms Without Material Ties to the State of Hawaii |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/2020-read-act-258-19.pdf)
+- Interim Report on the Estimated Economic Impact of Hawaii Place-Based Marketing by Firms Without Material Ties to the State of Hawaii – December 2019 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/place_based_marketing_interim.pdf)
+- Impact of Act 039 Relating to Movie Theaters – December 2017 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/impact_act39_movie_theaters.pdf)
+- Real Estate Investment Trusts in Hawaii: Preliminary Data and Analysis Interim Report – December 2015 |Archived PDF
+- [|Archived PDF](https://files.hawaii.gov/dbedt/economic/archive/reports/REIT_Interim_Dec2015.pdf)
+
+## About Us
+
+- Contact
+- [Contact](https://dbedt.hawaii.gov/contact)
+
+## Policies
+
+- Terms of Use
+- [Terms of Use](https://portal.ehawaii.gov/terms-of-use.html)
+- Accessibility
+- [Accessibility](https://portal.ehawaii.gov/accessibility.html)
+- Privacy Policy
+- [Privacy Policy](https://portal.ehawaii.gov/privacy-policy.html)
+- 808 586-2466
+- Contact the Webmaster
+- [Contact the Webmaster](https://dbedt.hawaii.gov/cdn-cgi/l/email-protection#baded8dfdece94cddfd8d7dbc9cedfc8fad2dbcddbd3d394ddd5cc)
