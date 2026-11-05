@@ -1,6 +1,5 @@
 """
-Starter script to download and process ACS 2020-2024 5-year
-House and Senate legislative district data for Hawaii.
+Process ACS 2020-2024 5-year House and Senate legislative district data for Hawaii.
 
 Run from the repo root:
     python3 scripts/process_acs.py
@@ -8,6 +7,7 @@ Run from the repo root:
 Outputs clean CSVs to data/processed/
 """
 
+import math
 import re
 from typing import Optional
 
@@ -15,31 +15,22 @@ import requests
 import pandas as pd
 from pathlib import Path
 
-# Paths
 ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT / "data"
 RAW_DIR = DATA_DIR / "raw"
 PROCESSED_DIR = DATA_DIR / "processed"
 
-# Create directories
 RAW_DIR.mkdir(parents=True, exist_ok=True)
 PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
 
-# Source URLs (from Hawaii State Data Center)
 HOUSE_URL = "https://files.hawaii.gov/dbedt/census/acs/acs2024/5yr/acs2024_5yr_house_hi.xlsx"
 SENATE_URL = "https://files.hawaii.gov/dbedt/census/acs/acs2024/5yr/acs2024_5yr_senate_hi.xlsx"
 
-# Key labels from DP02 (social characteristics)
 DP02_LABELS = {
-    # First "65 years and over" under Householder living alone = overall 65+ living alone
-    "65 years and over": "householders_65plus_living_alone",
-    # First "With a disability" under DISABILITY STATUS = overall disability
     "With a disability": "with_disability",
-    # First "Speak English less than very well" = overall limited English
     'Speak English less than "very well"': "limited_english",
 }
 
-# Key labels from DP03 (economic characteristics)
 DP03_LABELS = {
     "Population 16 years and over": "pop_16_plus",
     "In labor force": "in_labor_force",
@@ -56,7 +47,6 @@ DP03_LABELS = {
     "With Food Stamp/SNAP benefits in the past 12 months": "snap_benefits",
 }
 
-# Key labels from DP04 (housing characteristics)
 DP04_LABELS = {
     "30.0 to 34.9 percent": "rent_30_to_34_9",
     "35.0 percent or more": "rent_35_plus",
@@ -64,7 +54,6 @@ DP04_LABELS = {
 }
 
 def download_file(url: str, dest: Path) -> None:
-    """Download a file if it does not already exist."""
     if dest.exists():
         print(f"Already exists: {dest}")
         return
@@ -75,22 +64,82 @@ def download_file(url: str, dest: Path) -> None:
     print(f"Saved to {dest}")
 
 def extract_district_number(name: str) -> Optional[int]:
-    """Extract the numeric district ID from a name like 'State House District 22 (2024); Hawaii'."""
     if not isinstance(name, str):
         return None
     match = re.search(r"District\s+(\d+)", name, re.IGNORECASE)
     return int(match.group(1)) if match else None
 
+def _num(val):
+    """Parse a number from ACS cell (handles commas, ±, (X))."""
+    if val is None or (isinstance(val, float) and math.isnan(val)):
+        return None
+    s = str(val).replace(",", "").replace("±", "").replace("%", "").strip()
+    if s in ("(X)", "", "nan", "None"):
+        return None
+    try:
+        return float(s)
+    except ValueError:
+        return None
+
+def compute_65plus_alone(df, start_col):
+    """
+    Sum male + female householders 65+ living alone.
+    Male: under "Male householder, no spouse/partner present" > "Householder living alone" > "65 years and over"
+    Female: same under "Female householder…"
+    Returns (estimate, moe, percent, percent_moe).
+    """
+    # Find the two "65 years and over" rows that sit under "Householder living alone"
+    # Row 11 is male (under Male householder section), Row 15 is female
+    male_row = None
+    female_row = None
+    total_hh_row = None
+
+    for i in range(len(df)):
+        label = str(df.iloc[i, 0])
+        if label == "Total households" and total_hh_row is None:
+            total_hh_row = i
+        if label == "Male householder, no spouse/partner present":
+            # next "Householder living alone" then "65 years and over"
+            for j in range(i + 1, min(i + 6, len(df))):
+                if str(df.iloc[j, 0]) == "65 years and over":
+                    male_row = j
+                    break
+        if label == "Female householder, no spouse/partner present":
+            for j in range(i + 1, min(i + 6, len(df))):
+                if str(df.iloc[j, 0]) == "65 years and over":
+                    female_row = j
+                    break
+
+    if male_row is None or female_row is None or total_hh_row is None:
+        return None, None, None, None
+
+    male_est = _num(df.iloc[male_row, start_col]) or 0
+    male_moe = _num(df.iloc[male_row, start_col + 1]) or 0
+    female_est = _num(df.iloc[female_row, start_col]) or 0
+    female_moe = _num(df.iloc[female_row, start_col + 1]) or 0
+    total_hh = _num(df.iloc[total_hh_row, start_col]) or 0
+    total_hh_moe = _num(df.iloc[total_hh_row, start_col + 1]) or 0
+
+    est = male_est + female_est
+    moe = math.sqrt(male_moe ** 2 + female_moe ** 2)
+
+    if total_hh == 0:
+        return est, moe, None, None
+
+    pct = est / total_hh
+    # percent MOE = sqrt(MOE_x² − p²·MOE_total²) / total  (if negative under root, use sum MOE / total)
+    under = moe ** 2 - (pct ** 2) * (total_hh_moe ** 2)
+    if under < 0:
+        pct_moe = moe / total_hh
+    else:
+        pct_moe = math.sqrt(under) / total_hh
+
+    return est, moe, f"{pct * 100:.1f}%", f"±{pct_moe * 100:.1f}"
+
 def extract_metrics(excel_path: Path, sheet_name: str, labels: dict, chamber: str, prefer_first: bool = False) -> pd.DataFrame:
-    """
-    Generic extractor for wide-format ACS sheets (DP02, DP03, or DP04).
-    Each district occupies 4 columns: estimate, MOE, percent, percent MOE.
-    prefer_first=True takes the first match (useful for overall rates).
-    """
     print(f"Reading {excel_path} sheet {sheet_name} ...")
     df = pd.read_excel(excel_path, sheet_name=sheet_name, header=None)
 
-    # Row 0 contains district names in columns 1, 5, 9, 13, ...
     district_cols = []
     for col in range(1, df.shape[1], 4):
         district_name = df.iloc[0, col]
@@ -108,6 +157,14 @@ def extract_metrics(excel_path: Path, sheet_name: str, labels: dict, chamber: st
             "district_name": district_name,
         }
 
+        # Special handling for 65+ living alone on DP02
+        if sheet_name == "DP02":
+            est, moe, pct, pct_moe = compute_65plus_alone(df, start_col)
+            record["householders_65plus_living_alone_estimate"] = est
+            record["householders_65plus_living_alone_moe"] = f"±{moe:.0f}" if moe else None
+            record["householders_65plus_living_alone_percent"] = pct
+            record["householders_65plus_living_alone_percent_moe"] = pct_moe
+
         for label, field in labels.items():
             mask = df[0].astype(str).str.contains(re.escape(label), case=False, na=False)
             matching_rows = df[mask]
@@ -118,14 +175,11 @@ def extract_metrics(excel_path: Path, sheet_name: str, labels: dict, chamber: st
                 record[f"{field}_percent_moe"] = None
                 continue
 
-            # Special cases: under-5 poverty takes LAST match (people-level row)
             if field == "pct_children_under5_poverty":
                 row_idx = matching_rows.index[-1]
-            # These take first match for the overall (not age/tenure subgroup) figure
             elif prefer_first or field in (
                 "pct_no_health_insurance",
                 "employed",
-                "householders_65plus_living_alone",
                 "with_disability",
                 "limited_english",
                 "snap_benefits",
@@ -153,19 +207,15 @@ def main():
     download_file(HOUSE_URL, house_raw)
     download_file(SENATE_URL, senate_raw)
 
-    # Extract DP02 (social: 65+ alone, disability, limited English)
     house_dp02 = extract_metrics(house_raw, "DP02", DP02_LABELS, "house", prefer_first=True)
     senate_dp02 = extract_metrics(senate_raw, "DP02", DP02_LABELS, "senate", prefer_first=True)
 
-    # Extract DP03 (economic + health insurance + poverty + SNAP)
     house_dp03 = extract_metrics(house_raw, "DP03", DP03_LABELS, "house", prefer_first=True)
     senate_dp03 = extract_metrics(senate_raw, "DP03", DP03_LABELS, "senate", prefer_first=True)
 
-    # Extract DP04 (housing / rent burden / no vehicle)
     house_dp04 = extract_metrics(house_raw, "DP04", DP04_LABELS, "house", prefer_first=True)
     senate_dp04 = extract_metrics(senate_raw, "DP04", DP04_LABELS, "senate", prefer_first=True)
 
-    # Merge all on chamber + district
     house_merged = pd.merge(house_dp02, house_dp03, on=["chamber", "district", "district_name"], how="outer")
     house_merged = pd.merge(house_merged, house_dp04, on=["chamber", "district", "district_name"], how="outer")
 
@@ -180,17 +230,13 @@ def main():
 
     print(f"\nWrote {house_out}")
     print(f"Wrote {senate_out}")
-    print("\nSample of house data (persona columns):")
-    cols = [
-        "district",
-        "householders_65plus_living_alone_percent",
-        "with_disability_percent",
-        "limited_english_percent",
-        "snap_benefits_percent",
-        "no_vehicle_percent",
-    ]
-    print(house_merged[cols].head(5).to_string())
-    print("\nDone. Persona metrics (65+ alone, disability, limited English, SNAP, no vehicle) are included.")
+    print("\n65+ living alone check (should match expected):")
+    for d in [22, 5, 30, 45]:
+        row = house_merged[house_merged.district == d]
+        if not row.empty:
+            r = row.iloc[0]
+            print(f"  HD{d}: {r['householders_65plus_living_alone_percent']} {r['householders_65plus_living_alone_percent_moe']} ({r['householders_65plus_living_alone_estimate']})")
+    print("\nDone.")
 
 if __name__ == "__main__":
     main()
