@@ -19,8 +19,10 @@ PROGRAMS = {
     "liheap": "https://humanservices.hawaii.gov/bessd/liheap/",
 }
 
-# Honolulu County (Oʻahu) 65+ poverty rate for comparison (ACS 2020-2024 5-year, S1701)
-OAHU_65PLUS_POVERTY = "approximately 9%"
+# Honolulu County (Oʻahu) 65+ poverty rate — ACS 2020-2024 5-year S1701
+# Source: data.census.gov table ACSST5Y2024.S1701, Honolulu County, Hawaii
+# 65 years and over: 9.0% ±0.5
+OAHU_65PLUS_POVERTY = "9.0% ±0.5"
 
 def get_district(chamber: str, district_number: int):
     """Return one district row as a dict, or None if not found."""
@@ -78,6 +80,24 @@ def answer(question: str) -> str:
     """
     q = question.lower()
 
+    # Decline: partisan / political opinion questions (narrowed — opinion phrasing only)
+    if any(phrase in q for phrase in ["which party", "should i vote", "better for this district", "political party is better"]):
+        return (
+            "I can't answer questions about which political party is better for a district. "
+            "That is a matter of opinion and policy preference, not a factual data question.\n\n"
+            "For official election results and district maps, see the Hawaii Office of Elections: "
+            "https://elections.hawaii.gov/"
+        )
+
+    # Decline: data we do not have at the legislative-district level
+    if any(phrase in q for phrase in ["exact number of snap", "snap enrollment by district", "how many people enrolled in snap in district", "district-level snap"]):
+        return (
+            "Actual SNAP enrollment is not published by legislative district. "
+            "The Hawaii Department of Human Services releases participation numbers only at the county level.\n\n"
+            "For the most recent county and statewide figures, see the DHS BESSD SNAP page: "
+            "https://humanservices.hawaii.gov/bessd/snap/"
+        )
+
     # 1. Kūpuna poverty in HD 22 (fixed parentheses) + Oʻahu comparison
     if ("house district 22" in q or "hd 22" in q) and ("65" in q or "kūpuna" in q or "kupuna" in q or "poverty" in q):
         data = get_district("house", 22)
@@ -86,7 +106,7 @@ def answer(question: str) -> str:
         return (
             f"In House District 22, {_pct(data['pct_65plus_poverty_percent'])} of people age 65 and over live below the poverty line "
             f"(ACS 2020-2024 5-year, DP03). This is lower than the rate for kūpuna in Honolulu County (Oʻahu), which is {OAHU_65PLUS_POVERTY} "
-            f"(ACS 2020-2024 5-year, S1701).\n\n"
+            f"(ACS 2020-2024 5-year, S1701 / ACSST5Y2024.S1701).\n\n"
             f"Relevant programs: SNAP ({PROGRAMS['snap']}), LIHEAP ({PROGRAMS['liheap']}), "
             f"and senior nutrition / property-tax relief programs."
         )
@@ -113,7 +133,6 @@ def answer(question: str) -> str:
 
     # 4. Rent burden >30% (sum of the two bands)
     if "rent" in q and ("30" in q or "burden" in q or "income" in q):
-        # Default to HD 19 if no district specified (matches the test question)
         district = 19
         if "district" in q:
             import re
@@ -123,7 +142,6 @@ def answer(question: str) -> str:
         data = get_district("house", district)
         if not data:
             return f"House District {district} not found."
-        # Sum the two bands
         try:
             p1 = float(str(data.get("rent_30_to_34_9_percent", "0")).replace("%", ""))
             p2 = float(str(data.get("rent_35_plus_percent", "0")).replace("%", ""))
@@ -183,7 +201,7 @@ def answer(question: str) -> str:
                 county = name
                 break
         if not county:
-            county = "Honolulu"  # default
+            county = "Honolulu"
         taxes = get_county_taxes(county)
         if not taxes:
             return f"No tax data found for {county} County."
@@ -245,3 +263,9 @@ if __name__ == "__main__":
     print(answer("What was the General Excise Tax liability in Honolulu County in May 2026?"))
     print()
     print(answer("What is the median single-family home price in Maui County?"))
+    print()
+    print(answer("Which political party is better for this district?"))
+    print()
+    print(answer("How many residents can vote for the first time in HD 5?"))
+    print()
+    print(answer("What is the exact number of SNAP enrollment by district?"))

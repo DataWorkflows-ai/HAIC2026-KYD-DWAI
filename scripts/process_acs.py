@@ -40,7 +40,8 @@ DP03_LABELS = {
     "All families": "pct_families_poverty",
     "All people": "pct_people_poverty",
     "65 years and over": "pct_65plus_poverty",
-    "With related children of the householder under 5 years only": "pct_children_under5_poverty",
+    # Correct row under PEOPLE poverty section (not the "under 5 years only" family row)
+    "Related children of the householder under 5 years": "pct_children_under5_poverty",
     # Overall uninsured (first occurrence under main HEALTH INSURANCE COVERAGE section)
     "No health insurance coverage": "pct_no_health_insurance",
 }
@@ -104,8 +105,13 @@ def extract_metrics(excel_path: Path, sheet_name: str, labels: dict, chamber: st
                 record[f"{field}_percent"] = None
                 continue
 
+            # under-5 poverty: always take LAST match so we get the people-level row
+            # ("Related children of the householder under 5 years"), not the earlier
+            # "under 5 years only" family rows.
+            if field == "pct_children_under5_poverty":
+                row_idx = matching_rows.index[-1]
             # For health insurance we want the first (overall) match; otherwise last
-            if prefer_first or field == "pct_no_health_insurance":
+            elif prefer_first or field == "pct_no_health_insurance":
                 row_idx = matching_rows.index[0]
             else:
                 row_idx = matching_rows.index[-1]
@@ -149,9 +155,9 @@ def main():
     print(f"\nWrote {house_out}")
     print(f"Wrote {senate_out}")
     print("\nSample of house data (selected columns):")
-    cols = ["district", "pct_no_health_insurance_percent", "rent_35_plus_percent"]
+    cols = ["district", "pct_no_health_insurance_percent", "pct_children_under5_poverty_percent", "rent_35_plus_percent"]
     print(house_merged[cols].head(5).to_string())
-    print("\nDone. Re-check the CSVs for health insurance and rent burden columns.")
+    print("\nDone. Re-check the CSVs for health insurance, under-5 poverty, and rent burden columns.")
 
 if __name__ == "__main__":
     main()

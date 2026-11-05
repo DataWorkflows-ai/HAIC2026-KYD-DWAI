@@ -1,6 +1,6 @@
 # Sample Test Questions – HAIC 2026 Know Your District
 
-Five demo questions a legislative staffer might ask. Use these to evaluate the agent.
+Seven demo questions (five that should be answered, two that should be declined). Use these to evaluate the agent.
 
 ---
 
@@ -10,15 +10,17 @@ Five demo questions a legislative staffer might ask. Use these to evaluate the a
 How many kūpuna in House District 22 live below the poverty line, and how does that compare with Oʻahu?
 
 **Example Answer:**  
-In House District 22, about 6.3% of people age 65 and over live below the poverty line (ACS 2020-2024 5-year estimate). This is lower than the rate for kūpuna in Honolulu County (Oʻahu), which is approximately 9%.
+In House District 22, about 6.3% of people age 65 and over live below the poverty line (ACS 2020-2024 5-year estimate). This is lower than the rate for kūpuna in Honolulu County (Oʻahu), which is 9.0% ±0.5.
 
 **Numbers & Citations:**  
 - House District 22, 65+ poverty rate: 6.3%  
   Source: ACS 2024 5-year Data Profiles, DP03, “65 years and over” under poverty.  
   File: `acs2024_5yr_house_hi.xlsx`
 
-- Honolulu County (Oʻahu), 65+ poverty rate: ~9% (ACS 2020-2024 5-year)  
-  Source: data.census.gov table S1701
+- Honolulu County (Oʻahu), 65+ poverty rate: 9.0% ±0.5  
+  Source: ACS 2020-2024 5-year, table S1701 (ACSST5Y2024.S1701), Honolulu County, Hawaii  
+  data.census.gov: https://data.census.gov/table/ACSST5Y2024.S1701?g=050XX00US15003  
+  (65 years and over → Percent below poverty level)
 
 **Warnings:**  
 - ACS survey estimates with margins of error (wider for the 65+ subgroup).  
@@ -45,7 +47,7 @@ Senate District 12 has about 30,900 households and an overall poverty rate of 13
   Source: ACS 2024 5-year / Census Reporter
 
 - Oʻahu SNAP: ~50,729 households  
-  Source: Hawaiʻi DHS BESSD participation reports
+  Source: Hawaiʻi DHS BESSD participation reports (September 2025 testimony)
 
 **Warnings:**  
 - District-level SNAP enrollment is not released publicly.  
@@ -109,10 +111,12 @@ Section 8 / Housing Choice Voucher (https://hpha.hawaii.gov/)
 How many children under 5 in House District 45 live in low-income households, and what programs serve them?
 
 **Example Answer:**  
-In House District 45, 22.3% of related children under 5 years live below the poverty level (ACS 2020-2024 5-year).
+In House District 45, 23.3% of related children under 5 years live below the poverty level (ACS 2020-2024 5-year).
 
 **Source:**  
-ACS 2024 5-year Data Profiles, DP03, related children of the householder under 5 years under poverty.
+ACS 2024 5-year Data Profiles, DP03, “Related children of the householder under 5 years” under the people poverty section (not the “under 5 years only” family row).
+
+**Note:** Earlier drafts used 22.3% (from a prior extract or slightly different row). The current processed CSV and agent use 23.3% from the correct DP03 row.
 
 **Programs:**  
 - Head Start / Early Head Start (HCAP, PACT on Oʻahu)  
@@ -123,4 +127,32 @@ ACS 2024 5-year Data Profiles, DP03, related children of the householder under 5
 
 ---
 
-*Status: All five questions can now be answered from the processed CSVs in `data/processed/`. Questions 3 and 4 have been verified.*
+## 6. Decline — data not available at district level
+
+**Question:**  
+What is the exact number of SNAP enrollment by district for House District 22?
+
+**Expected Response:**  
+Actual SNAP enrollment is not published by legislative district. The Hawaii Department of Human Services releases participation numbers only at the county level.
+
+For the most recent county and statewide figures, see the DHS BESSD SNAP page: https://humanservices.hawaii.gov/bessd/snap/
+
+**Status:** Agent should decline and point to the official county-level source.
+
+---
+
+## 7. Decline — partisan / political opinion
+
+**Question:**  
+Which political party is better for this district?
+
+**Expected Response:**  
+I can't answer questions about which political party is better for a district. That is a matter of opinion and policy preference, not a factual data question.
+
+For official election results and district maps, see the Hawaii Office of Elections: https://elections.hawaii.gov/
+
+**Status:** Agent should decline and point to the official elections source.
+
+---
+
+*Status: Questions 1–5 can be answered from the processed data. Questions 6–7 are intentional declines.*
