@@ -1,0 +1,264 @@
+# Other Tourism Research – Research & Economic Analysis
+
+Source: https://dbedt.hawaii.gov/economic/tourism/other-research
+
+- [Skip to Content](https://dbedt.hawaii.gov/economic/tourism/other-research#main)
+- [Skip to Navigation](https://dbedt.hawaii.gov/economic/tourism/other-research#navigation)
+- [Skip to Footer](https://dbedt.hawaii.gov/economic/tourism/other-research#footer)
+- English
+- [English](https://dbedt.hawaii.gov/economic/tourism/other-research#language_text_english)
+- 廣東話
+- [廣東話](https://dbedt.hawaii.gov/economic/tourism/other-research#language_text_cantonese)
+- Chuukese
+- [Chuukese](https://dbedt.hawaii.gov/economic/tourism/other-research#language_text_chuukese)
+- ʻŌlelo Hawaiʻi
+- [ʻŌlelo Hawaiʻi](https://dbedt.hawaii.gov/economic/tourism/other-research#language_text_hawaiian)
+- Ilokano
+- [Ilokano](https://dbedt.hawaii.gov/economic/tourism/other-research#language_text_ilokano)
+- 日本語
+- [日本語](https://dbedt.hawaii.gov/economic/tourism/other-research#language_text_japanese)
+- 한국어
+- [한국어](https://dbedt.hawaii.gov/economic/tourism/other-research#language_text_korean)
+- 国语
+- [国语](https://dbedt.hawaii.gov/economic/tourism/other-research#language_text_mandarin)
+- Marshallese
+- [Marshallese](https://dbedt.hawaii.gov/economic/tourism/other-research#language_text_marshallese)
+- Samoan
+- [Samoan](https://dbedt.hawaii.gov/economic/tourism/other-research#language_text_samoan)
+- Español
+- [Español](https://dbedt.hawaii.gov/economic/tourism/other-research#language_text_spanish)
+- Tagalog
+- [Tagalog](https://dbedt.hawaii.gov/economic/tourism/other-research#language_text_tagalog)
+- ภาษาไทย
+- [ภาษาไทย](https://dbedt.hawaii.gov/economic/tourism/other-research#language_text_thai)
+- Tiếng Việt
+- [Tiếng Việt](https://dbedt.hawaii.gov/economic/tourism/other-research#language_text_vietnamese)
+- Visayan
+- [Visayan](https://dbedt.hawaii.gov/economic/tourism/other-research#language_text_visayancebuano)
+- [Hawaii.gov](https://portal.ehawaii.gov/)
+- [Government Directory](https://portal.ehawaii.gov/government/departments-and-agencies/)
+
+# Research & Economic Analysis
+
+- [Research & Economic Analysis](https://dbedt.hawaii.gov/economic)
+- Home
+- [Home](https://dbedt.hawaii.gov/economic/)
+- Data Statistics & Data Hawaii Data Book Economic Data Warehouse Tourism Data Warehouse State of Hawaii Facts & Figures Monthly Economic Indicators Monthly Energy Statistics Quarterly Economic Statistics County Social, Business and Economic Trends in Hawaii Other Web Sites with Statistics
+- [Data](https://dbedt.hawaii.gov/economic/statistics-data/)
+- Statistics & Data
+- [Statistics & Data](https://dbedt.hawaii.gov/economic/statistics-data/)
+- Hawaii Data Book
+- [Hawaii Data Book](https://dbedt.hawaii.gov/economic/databook/)
+- Economic Data Warehouse
+- [Economic Data Warehouse](https://dbedt.hawaii.gov/economic/datawarehouse)
+- Tourism Data Warehouse
+- [Tourism Data Warehouse](https://dbedt.hawaii.gov/economic/tourism-datawarehouse/)
+- State of Hawaii Facts & Figures
+- [State of Hawaii Facts & Figures](https://dbedt.hawaii.gov/economic/facts/)
+- Monthly Economic Indicators
+- [Monthly Economic Indicators](https://dbedt.hawaii.gov/economic/mei/)
+- Monthly Energy Statistics
+- [Monthly Energy Statistics](https://dbedt.hawaii.gov/economic/energy-trends-2/)
+- Quarterly Economic Statistics
+- [Quarterly Economic Statistics](https://dbedt.hawaii.gov/economic/qser/)
+- County Social, Business and Economic Trends in Hawaii
+- [County Social, Business and Economic Trends in Hawaii](https://dbedt.hawaii.gov/economic/county_report-2/)
+- Other Web Sites with Statistics
+- [Other Web Sites with Statistics](https://dbedt.hawaii.gov/economic/other-stats/)
+- Forecasts DBEDT Quarterly Forecast Quarterly Tourism Forecast Long Range Projections
+- [Forecasts](https://dbedt.hawaii.gov/economic/economic-forecast/)
+- DBEDT Quarterly Forecast
+- [DBEDT Quarterly Forecast](https://dbedt.hawaii.gov/economic/qser/outlook-economy/)
+- Quarterly Tourism Forecast
+- [Quarterly Tourism Forecast](https://dbedt.hawaii.gov/economic/tourism-forecast/)
+- Long Range Projections
+- [Long Range Projections](https://dbedt.hawaii.gov/economic/economic-forecast/long-range-projections/)
+- Reports
+- [Reports](https://dbedt.hawaii.gov/economic/reports_studies/)
+- Dashboards Dashboards main County Data Portal Maui Update Economy Dashboard Tourism Dashboard Daily Pax Dashboard Labor Market Dashboard Housing Market Dashboard Population Dashboard Population by Race Migration Dashboard Language-Use Dashboard Agriculture Dashboard Hawaii Rankings and Comparisons Area Profile (Interactive Maps) Hawaii’s Generational Economy Genuine Progress Indicator
+- [Dashboards](https://dbedt.hawaii.gov/economic/ranks/)
+- Dashboards main
+- [Dashboards main](https://dbedt.hawaii.gov/economic/dashboards-main/)
+- County Data Portal
+- [County Data Portal](https://dbedt.hawaii.gov/economic/county-data-portal/)
+- Maui Update
+- [Maui Update](https://dbedt.hawaii.gov/economic/maui-data-update/)
+- Economy Dashboard
+- [Economy Dashboard](https://dbedt.hawaii.gov/economic/economy-dashboard/)
+- Tourism Dashboard
+- [Tourism Dashboard](https://dbedt.hawaii.gov/economic/tourism-dashboard/)
+- Daily Pax Dashboard
+- [Daily Pax Dashboard](https://dbedt.hawaii.gov/economic/daily-passenger-counts)
+- Labor Market Dashboard
+- [Labor Market Dashboard](https://dbedt.hawaii.gov/economic/labormarket-dashboard/)
+- Housing Market Dashboard
+- [Housing Market Dashboard](https://dbedt.hawaii.gov/economic/housing-market-dashboard/)
+- Population Dashboard
+- [Population Dashboard](https://dbedt.hawaii.gov/economic/population-dashboard/)
+- Population by Race
+- [Population by Race](https://dbedt.hawaii.gov/economic/race-dashboard/)
+- Migration Dashboard
+- [Migration Dashboard](https://dbedt.hawaii.gov/economic/migration-dashboard/)
+- Language-Use Dashboard
+- [Language-Use Dashboard](https://dbedt.hawaii.gov/economic/language-use-dashboard/)
+- Agriculture Dashboard
+- [Agriculture Dashboard](https://dbedt.hawaii.gov/economic/agriculture-dashboard/)
+- Hawaii Rankings and Comparisons
+- [Hawaii Rankings and Comparisons](https://dbedt.hawaii.gov/economic/ranks/)
+- Area Profile (Interactive Maps)
+- [Area Profile (Interactive Maps)](https://experience.arcgis.com/experience/4aa8bc844ade4757a8008c28e26f2c22/)
+- Hawaii’s Generational Economy
+- [Hawaii’s Generational Economy](https://dbedt.hawaii.gov/economic/dashboards-main/hawaii-generational-economy-dashboard/)
+- Genuine Progress Indicator
+- [Genuine Progress Indicator](https://dbedt.hawaii.gov/economic/hawaii-genuine-progress-indicator-hi-gpi/)
+- Tourism Tourism Home Tourism Data Warehouse Daily Passenger Counts Tourism Dashboard DBEDT Tourism Forecast Tourism Studies Tourism Price Index Monthly Visitor Statistics Annual Visitor Reports Infrastructure Reports Evaluation & Performance Other Tourism Research
+- [Tourism](https://dbedt.hawaii.gov/economic/tourism)
+- Tourism Home
+- [Tourism Home](https://dbedt.hawaii.gov/economic/tourism/)
+- Daily Passenger Counts
+- [Daily Passenger Counts](https://dbedt.hawaii.gov/economic/daily-passenger-counts/)
+- DBEDT Tourism Forecast
+- [DBEDT Tourism Forecast](https://dbedt.hawaii.gov/economic/tourism-forecast)
+- Tourism Studies
+- [Tourism Studies](https://dbedt.hawaii.gov/economic/reports_studies/)
+- Tourism Price Index
+- [Tourism Price Index](https://dbedt.hawaii.gov/economic/tourism-price-index/)
+- Monthly Visitor Statistics
+- [Monthly Visitor Statistics](https://dbedt.hawaii.gov/economic/tourism/monthly-statistics/)
+- Annual Visitor Reports
+- [Annual Visitor Reports](https://dbedt.hawaii.gov/economic/tourism/annual-reports/)
+- Infrastructure Reports
+- [Infrastructure Reports](https://dbedt.hawaii.gov/economic/tourism/infrastructure-reports/)
+- Evaluation & Performance
+- [Evaluation & Performance](https://dbedt.hawaii.gov/economic/tourism/evaluation-and-performance/)
+- Other Tourism Research
+- [Other Tourism Research](https://dbedt.hawaii.gov/economic/tourism/other-research/)
+- Labor Labor Home Unemployment Statistics Job Count by industry Employers by Size Employment and Wages (by Industry) Employment and Wages (by Occupation) Hours and Earnings Occupational Injuries Census of Fatal Occupational Injuries Weekly Unemployment Updates Labor Market Dashboard
+- [Labor](https://dbedt.hawaii.gov/economic/unemployment-2021-ui_state_2022/)
+- Labor Home
+- [Labor Home](https://dbedt.hawaii.gov/economic/labor/)
+- Unemployment Statistics
+- [Unemployment Statistics](https://dbedt.hawaii.gov/economic/labor/unemployment-statistics/)
+- Job Count by industry
+- [Job Count by industry](https://dbedt.hawaii.gov/economic/labor/job-count-by-industry/)
+- Employers by Size
+- [Employers by Size](https://dbedt.hawaii.gov/economic/labor/employers-by-size/)
+- Employment and Wages (by Industry)
+- [Employment and Wages (by Industry)](https://dbedt.hawaii.gov/economic/labor/employment-and-wages-by-industry/)
+- Employment and Wages (by Occupation)
+- [Employment and Wages (by Occupation)](https://dbedt.hawaii.gov/economic/labor/employment-and-wages-by-occupation/)
+- Hours and Earnings
+- [Hours and Earnings](https://dbedt.hawaii.gov/economic/labor/hours-and-earnings/)
+- Occupational Injuries
+- [Occupational Injuries](https://dbedt.hawaii.gov/economic/labor/occupational-injuries-and-illnesses/)
+- Census of Fatal Occupational Injuries
+- [Census of Fatal Occupational Injuries](https://dbedt.hawaii.gov/economic/labor/fatal-occupational-injuries/)
+- Weekly Unemployment Updates
+- [Weekly Unemployment Updates](https://dbedt.hawaii.gov/economic/unemployment-2021-ui_state_2022/)
+- Population State Data Center Latest Population Estimates American Community Survey Hawaii Census 2020 Dashboard: Population in Hawaii Dashboard: Migration Dashboard: Language Use in Hawaii Population by Race Dashboard
+- [Population](https://census.hawaii.gov)
+- State Data Center
+- [State Data Center](https://census.hawaii.gov)
+- Latest Population Estimates
+- [Latest Population Estimates](https://census.hawaii.gov/home/population-estimate)
+- American Community Survey
+- [American Community Survey](https://census.hawaii.gov/acs/)
+- Hawaii Census 2020
+- [Hawaii Census 2020](https://census.hawaii.gov/census_2020/data/)
+- Dashboard: Population in Hawaii
+- [Dashboard: Population in Hawaii](https://dbedt.hawaii.gov/economic/population-dashboard/)
+- Dashboard: Migration
+- [Dashboard: Migration](https://dbedt.hawaii.gov/economic/migration-dashboard/)
+- Dashboard: Language Use in Hawaii
+- [Dashboard: Language Use in Hawaii](https://dbedt.hawaii.gov/economic/language-use-dashboard/)
+- Population by Race Dashboard
+- [Population by Race Dashboard](https://dbedt.hawaii.gov/economic/race-dashboard/)
+- Misc. Business Revitalization Task Force
+- [Misc.](https://dbedt.hawaii.gov/economic/misc/)
+- Business Revitalization Task Force
+- [Business Revitalization Task Force](https://dbedt.hawaii.gov/economic/business-revitalization-task-force/)
+- DBEDT Home
+- [DBEDT Home](https://dbedt.hawaii.gov)
+
+## Other Tourism Research
+
+DBEDT subscribes to Vision Insight’s Brand Health and Profiles databases for the United States, Canada, Japan, Australia, and Korea. Consumers are surveyed each day. DBEDT receive access to new data each week for daily brand health tracking metrics: media-focused, brand health, purchase/intent, and consumer status. Data in the reports reflects two-week moving average except for the ‘intent to travel metric to any Hawaiian Island’, which reflects one-week moving average. Use the scroll bar on the right to view more files.
+- [Hawaii Brand Health Trends-10/20/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-10-20.pdf)
+- [Hawaii Brand Health Trends-10/12/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-10-12.pdf)
+- [Hawaii Brand Health Trends-10/05/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-10-05.pdf)
+- [Hawaii Brand Health Trends-09/28/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-09-28.pdf)
+- [Hawaii Brand Health Trends-09/22/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-09-22.pdf)
+- [Hawaii Brand Health Trends-09/14/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-09-14.pdf)
+- [Hawaii Brand Health Trends-08/31/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-08-31.pdf)
+- [Hawaii Brand Health Trends-08/24/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-08-24.pdf)
+- [Hawaii Brand Health Trends-08/19/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-08-19.pdf)
+- [Hawaii Brand Health Trends-08/10/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-08-10.pdf)
+- [Hawaii Brand Health Trends-08/04/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-08-04.pdf)
+- [Hawaii Brand Health Trends-07/27/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-07-27.pdf)
+- [Hawaii Brand Health Trends-07/21/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-07-21.pdf)
+- [Hawaii Brand Health Trends-07/13/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-07-13.pdf)
+- [Hawaii Brand Health Trends-07/06/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-07-06.pdf)
+- [Hawaii Brand Health Trends-06/29/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-06-29.pdf)
+- [Hawaii Brand Health Trends-06/22/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-06-22.pdf)
+- [Hawaii Brand Health Trends-06/15/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-06-15.pdf)
+- [Hawaii Brand Health Trends-06/08/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-06-08.pdf)
+- [Hawaii Brand Health Trends-06/02/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-06-02.pdf)
+- [Hawaii Brand Health Trends-05/27/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-05-27.pdf)
+- [Hawaii Brand Health Trends-05/18/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-05-18.pdf)
+- [Hawaii Brand Health Trends-05/11/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-05-11.pdf)
+- [Hawaii Brand Health Trends-05/05/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-05-05.pdf)
+- [Hawaii Brand Health Trends-04/27/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-04-27.pdf)
+- [Hawaii Brand Health Trends-04/21/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-04-21.pdf)
+- [Hawaii Brand Health Trends-04/13/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-04-13.pdf)
+- [Hawaii Brand Health Trends-04/06/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-04-06.pdf)
+- [Hawaii Brand Health Trends-03/30/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-03-30.pdf)
+- [Hawaii Brand Health Trends-03/23/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-03-23.pdf)
+- [Hawaii Brand Health Trends-03/16/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-03-16.pdf)
+- [Hawaii Brand Health Trends-03/09/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-03-09.pdf)
+- [Hawaii Brand Health Trends-03/03/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-03-03.pdf)
+- [Hawaii Brand Health Trends-02/24/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-02-24.pdf)
+- [Hawaii Brand Health Trends-02/17/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-02-17.pdf)
+- [Hawaii Brand Health Trends-02/11/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-02-11.pdf)
+- [Hawaii Brand Health Trends-02/03/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-02-03.pdf)
+- [Hawaii Brand Health Trends-01/27/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-01-27.pdf)
+- [Hawaii Brand Health Trends-01/20/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-01-20.pdf)
+- [Hawaii Brand Health Trends-01/12/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-01-12.pdf)
+- [Hawaii Brand Health Trends-01/05/2026 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/brand-health-index-2026-01-05.pdf)
+DBEDT subscribes to Vision Insight’s Brand Health and Profiles databases for the United States, Canada, Japan, Australia, and Korea. Consumers are surveyed each day. DBEDT receive access to new data each week for selected traveler segments for the countries. Use the scroll bar on the right to view more files.
+- [US Traveler Profiles, 2026-07 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/us-traveler-profiles-2026-07.pdf)
+- [US Traveler Profiles, 2026-06 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/us-traveler-profiles-2026-06.pdf)
+- [US Traveler Profiles, 2026-05 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/us-traveler-profiles-2026-05.pdf)
+- [US Traveler Profiles, 2026-04 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/us-traveler-profiles-2026-04.pdf)
+- [US Traveler Profiles, 2026-03 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/us-traveler-profiles-2026-03.pdf)
+- [US Traveler Profiles, 2026-02 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/us-traveler-profiles-2026-02.pdf)
+- [US Traveler Profiles, 2026-01 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/us-traveler-profiles-2026-01.pdf)
+- [US Traveler Profiles, 2025-12 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/us-traveler-profiles-2025-12.pdf)
+- [US Traveler Profiles, 2025-11 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/us-traveler-profiles-2025-11.pdf)
+- [US Traveler Profiles, 2025-10 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/us-traveler-profiles-2025-10.pdf)
+- [US Traveler Profiles, 2025-09 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/us-traveler-profiles-2025-09.pdf)
+- [US Traveler Profiles, 2025-08 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/us-traveler-profiles-2025-08.pdf)
+- [US Traveler Profiles, 2025-07 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/us-traveler-profiles-2025-07.pdf)
+- [US Traveler Profiles, 2025-06 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/us-traveler-profiles-2025-06.pdf)
+- [US Traveler Profiles, 2025-05 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/us-traveler-profiles-2025-05.pdf)
+- [US Traveler Profiles, 2025-04 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/us-traveler-profiles-2025-04.pdf)
+- [US Traveler Profiles, 2025-03 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/us-traveler-profiles-2025-03.pdf)
+- [US Traveler Profiles, 2025-02 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/us-traveler-profiles-2025-02.pdf)
+- [US Traveler Profiles, 2025-01 (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/us-traveler-profiles-2025-01.pdf)
+- [Portrait of American Travelers-2026 Spring (PDF)](https://files.hawaii.gov/dbedt/economic/tourism/other-research/portrait-of-american-travelers-spring-2026.pdf)
+
+## About Us
+
+- Contact
+- [Contact](https://dbedt.hawaii.gov/contact)
+
+## Policies
+
+- Terms of Use
+- [Terms of Use](https://portal.ehawaii.gov/terms-of-use.html)
+- Accessibility
+- [Accessibility](https://portal.ehawaii.gov/accessibility.html)
+- Privacy Policy
+- [Privacy Policy](https://portal.ehawaii.gov/privacy-policy.html)
+- 808 586-2466
+- Contact the Webmaster
+- [Contact the Webmaster](https://dbedt.hawaii.gov/cdn-cgi/l/email-protection#86e2e4e3e2f2a8f1e3e4ebe7f5f2e3f4c6eee7f1e7efefa8e1e9f0)
