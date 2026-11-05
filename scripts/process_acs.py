@@ -29,6 +29,16 @@ PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
 HOUSE_URL = "https://files.hawaii.gov/dbedt/census/acs/acs2024/5yr/acs2024_5yr_house_hi.xlsx"
 SENATE_URL = "https://files.hawaii.gov/dbedt/census/acs/acs2024/5yr/acs2024_5yr_senate_hi.xlsx"
 
+# Key labels from DP02 (social characteristics)
+DP02_LABELS = {
+    # First "65 years and over" under Householder living alone = overall 65+ living alone
+    "65 years and over": "householders_65plus_living_alone",
+    # First "With a disability" under DISABILITY STATUS = overall disability
+    "With a disability": "with_disability",
+    # First "Speak English less than very well" = overall limited English
+    'Speak English less than "very well"': "limited_english",
+}
+
 # Key labels from DP03 (economic characteristics)
 DP03_LABELS = {
     "Population 16 years and over": "pop_16_plus",
@@ -41,16 +51,16 @@ DP03_LABELS = {
     "All families": "pct_families_poverty",
     "All people": "pct_people_poverty",
     "65 years and over": "pct_65plus_poverty",
-    # Correct row under PEOPLE poverty section (not the "under 5 years only" family row)
     "Related children of the householder under 5 years": "pct_children_under5_poverty",
-    # Overall uninsured (first occurrence under main HEALTH INSURANCE COVERAGE section)
     "No health insurance coverage": "pct_no_health_insurance",
+    "With Food Stamp/SNAP benefits in the past 12 months": "snap_benefits",
 }
 
-# Key labels from DP04 (housing characteristics) for rent burden
+# Key labels from DP04 (housing characteristics)
 DP04_LABELS = {
     "30.0 to 34.9 percent": "rent_30_to_34_9",
     "35.0 percent or more": "rent_35_plus",
+    "No vehicles available": "no_vehicle",
 }
 
 def download_file(url: str, dest: Path) -> None:
@@ -73,9 +83,9 @@ def extract_district_number(name: str) -> Optional[int]:
 
 def extract_metrics(excel_path: Path, sheet_name: str, labels: dict, chamber: str, prefer_first: bool = False) -> pd.DataFrame:
     """
-    Generic extractor for wide-format ACS sheets (DP03 or DP04).
+    Generic extractor for wide-format ACS sheets (DP02, DP03, or DP04).
     Each district occupies 4 columns: estimate, MOE, percent, percent MOE.
-    prefer_first=True takes the first match (useful for overall health insurance).
+    prefer_first=True takes the first match (useful for overall rates).
     """
     print(f"Reading {excel_path} sheet {sheet_name} ...")
     df = pd.read_excel(excel_path, sheet_name=sheet_name, header=None)
@@ -108,11 +118,19 @@ def extract_metrics(excel_path: Path, sheet_name: str, labels: dict, chamber: st
                 record[f"{field}_percent_moe"] = None
                 continue
 
-            # under-5 poverty: always take LAST match so we get the people-level row
+            # Special cases: under-5 poverty takes LAST match (people-level row)
             if field == "pct_children_under5_poverty":
                 row_idx = matching_rows.index[-1]
-            # For health insurance and Employed we want the first (overall) match
-            elif prefer_first or field in ("pct_no_health_insurance", "employed"):
+            # These take first match for the overall (not age/tenure subgroup) figure
+            elif prefer_first or field in (
+                "pct_no_health_insurance",
+                "employed",
+                "householders_65plus_living_alone",
+                "with_disability",
+                "limited_english",
+                "snap_benefits",
+                "no_vehicle",
+            ):
                 row_idx = matching_rows.index[0]
             else:
                 row_idx = matching_rows.index[-1]
@@ -135,18 +153,24 @@ def main():
     download_file(HOUSE_URL, house_raw)
     download_file(SENATE_URL, senate_raw)
 
-    # Extract DP03 (economic + health insurance + poverty)
-    # prefer_first=True so we get the overall uninsured rate
+    # Extract DP02 (social: 65+ alone, disability, limited English)
+    house_dp02 = extract_metrics(house_raw, "DP02", DP02_LABELS, "house", prefer_first=True)
+    senate_dp02 = extract_metrics(senate_raw, "DP02", DP02_LABELS, "senate", prefer_first=True)
+
+    # Extract DP03 (economic + health insurance + poverty + SNAP)
     house_dp03 = extract_metrics(house_raw, "DP03", DP03_LABELS, "house", prefer_first=True)
     senate_dp03 = extract_metrics(senate_raw, "DP03", DP03_LABELS, "senate", prefer_first=True)
 
-    # Extract DP04 (housing / rent burden) — last match is fine here
-    house_dp04 = extract_metrics(house_raw, "DP04", DP04_LABELS, "house", prefer_first=False)
-    senate_dp04 = extract_metrics(senate_raw, "DP04", DP04_LABELS, "senate", prefer_first=False)
+    # Extract DP04 (housing / rent burden / no vehicle)
+    house_dp04 = extract_metrics(house_raw, "DP04", DP04_LABELS, "house", prefer_first=True)
+    senate_dp04 = extract_metrics(senate_raw, "DP04", DP04_LABELS, "senate", prefer_first=True)
 
-    # Merge DP03 + DP04 on chamber + district
-    house_merged = pd.merge(house_dp03, house_dp04, on=["chamber", "district", "district_name"], how="outer")
-    senate_merged = pd.merge(senate_dp03, senate_dp04, on=["chamber", "district", "district_name"], how="outer")
+    # Merge all on chamber + district
+    house_merged = pd.merge(house_dp02, house_dp03, on=["chamber", "district", "district_name"], how="outer")
+    house_merged = pd.merge(house_merged, house_dp04, on=["chamber", "district", "district_name"], how="outer")
+
+    senate_merged = pd.merge(senate_dp02, senate_dp03, on=["chamber", "district", "district_name"], how="outer")
+    senate_merged = pd.merge(senate_merged, senate_dp04, on=["chamber", "district", "district_name"], how="outer")
 
     house_out = PROCESSED_DIR / "house_districts.csv"
     senate_out = PROCESSED_DIR / "senate_districts.csv"
@@ -156,10 +180,17 @@ def main():
 
     print(f"\nWrote {house_out}")
     print(f"Wrote {senate_out}")
-    print("\nSample of house data (selected columns):")
-    cols = ["district", "pct_no_health_insurance_percent", "pct_no_health_insurance_percent_moe", "pct_people_poverty_percent", "pct_people_poverty_percent_moe"]
+    print("\nSample of house data (persona columns):")
+    cols = [
+        "district",
+        "householders_65plus_living_alone_percent",
+        "with_disability_percent",
+        "limited_english_percent",
+        "snap_benefits_percent",
+        "no_vehicle_percent",
+    ]
     print(house_merged[cols].head(5).to_string())
-    print("\nDone. Percent MOE columns are now included.")
+    print("\nDone. Persona metrics (65+ alone, disability, limited English, SNAP, no vehicle) are included.")
 
 if __name__ == "__main__":
     main()
