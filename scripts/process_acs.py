@@ -70,7 +70,6 @@ def extract_district_number(name: str) -> Optional[int]:
     return int(match.group(1)) if match else None
 
 def _num(val):
-    """Parse a number from ACS cell (handles commas, ±, (X))."""
     if val is None or (isinstance(val, float) and math.isnan(val)):
         return None
     s = str(val).replace(",", "").replace("±", "").replace("%", "").strip()
@@ -84,12 +83,9 @@ def _num(val):
 def compute_65plus_alone(df, start_col):
     """
     Sum male + female householders 65+ living alone.
-    Male: under "Male householder, no spouse/partner present" > "Householder living alone" > "65 years and over"
-    Female: same under "Female householder…"
-    Returns (estimate, moe, percent, percent_moe).
+    Returns (estimate, moe, percent_str, percent_moe_str, raw_pct).
+    raw_pct is the unrounded percent (e.g. 17.234) for ranking.
     """
-    # Find the two "65 years and over" rows that sit under "Householder living alone"
-    # Row 11 is male (under Male householder section), Row 15 is female
     male_row = None
     female_row = None
     total_hh_row = None
@@ -99,7 +95,6 @@ def compute_65plus_alone(df, start_col):
         if label == "Total households" and total_hh_row is None:
             total_hh_row = i
         if label == "Male householder, no spouse/partner present":
-            # next "Householder living alone" then "65 years and over"
             for j in range(i + 1, min(i + 6, len(df))):
                 if str(df.iloc[j, 0]) == "65 years and over":
                     male_row = j
@@ -111,7 +106,7 @@ def compute_65plus_alone(df, start_col):
                     break
 
     if male_row is None or female_row is None or total_hh_row is None:
-        return None, None, None, None
+        return None, None, None, None, None
 
     male_est = _num(df.iloc[male_row, start_col]) or 0
     male_moe = _num(df.iloc[male_row, start_col + 1]) or 0
@@ -124,17 +119,17 @@ def compute_65plus_alone(df, start_col):
     moe = math.sqrt(male_moe ** 2 + female_moe ** 2)
 
     if total_hh == 0:
-        return est, moe, None, None
+        return est, moe, None, None, None
 
     pct = est / total_hh
-    # percent MOE = sqrt(MOE_x² − p²·MOE_total²) / total  (if negative under root, use sum MOE / total)
     under = moe ** 2 - (pct ** 2) * (total_hh_moe ** 2)
     if under < 0:
         pct_moe = moe / total_hh
     else:
         pct_moe = math.sqrt(under) / total_hh
 
-    return est, moe, f"{pct * 100:.1f}%", f"±{pct_moe * 100:.1f}"
+    raw_pct = pct * 100
+    return est, moe, f"{raw_pct:.1f}%", f"±{pct_moe * 100:.1f}", raw_pct
 
 def extract_metrics(excel_path: Path, sheet_name: str, labels: dict, chamber: str, prefer_first: bool = False) -> pd.DataFrame:
     print(f"Reading {excel_path} sheet {sheet_name} ...")
@@ -157,13 +152,13 @@ def extract_metrics(excel_path: Path, sheet_name: str, labels: dict, chamber: st
             "district_name": district_name,
         }
 
-        # Special handling for 65+ living alone on DP02
         if sheet_name == "DP02":
-            est, moe, pct, pct_moe = compute_65plus_alone(df, start_col)
+            est, moe, pct, pct_moe, raw_pct = compute_65plus_alone(df, start_col)
             record["householders_65plus_living_alone_estimate"] = est
             record["householders_65plus_living_alone_moe"] = f"±{moe:.0f}" if moe else None
             record["householders_65plus_living_alone_percent"] = pct
             record["householders_65plus_living_alone_percent_moe"] = pct_moe
+            record["householders_65plus_living_alone_raw_pct"] = raw_pct
 
         for label, field in labels.items():
             mask = df[0].astype(str).str.contains(re.escape(label), case=False, na=False)
@@ -235,7 +230,7 @@ def main():
         row = house_merged[house_merged.district == d]
         if not row.empty:
             r = row.iloc[0]
-            print(f"  HD{d}: {r['householders_65plus_living_alone_percent']} {r['householders_65plus_living_alone_percent_moe']} ({r['householders_65plus_living_alone_estimate']})")
+            print(f"  HD{d}: {r['householders_65plus_living_alone_percent']} {r['householders_65plus_living_alone_percent_moe']} ({r['householders_65plus_living_alone_estimate']}) raw={r['householders_65plus_living_alone_raw_pct']:.2f}")
     print("\nDone.")
 
 if __name__ == "__main__":
