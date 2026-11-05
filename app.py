@@ -2,6 +2,7 @@
 Know Your District — district profile dashboard for Hawaii legislative offices.
 
 Presentation only. Calculations, routing, and guardrails live in scripts/agent.py.
+Comparison ranking lives in scripts/comparison.py.
 
 Run locally:
     python3 -m streamlit run app.py
@@ -11,6 +12,7 @@ import math
 
 import streamlit as st
 from scripts.agent import answer, get_district, build_profile
+from scripts.comparison import MEASURES, comparison_csv, programs_for, rank_districts
 
 st.set_page_config(
     page_title="Know Your District",
@@ -28,7 +30,6 @@ st.markdown(
         padding-bottom: 0.75rem;
         margin-bottom: 1.25rem;
     }
-    /* Higher specificity so Streamlit's p rules do not override */
     div[data-testid="stMarkdownContainer"] p.kyd-kicker,
     p.kyd-kicker {
         color: #0B5563 !important;
@@ -156,9 +157,13 @@ st.markdown(
 st.sidebar.markdown("**Know Your District**")
 st.sidebar.caption("Hawaii legislative districts")
 
-chamber = st.sidebar.radio("Chamber", ["House", "Senate"], horizontal=True)
+chamber = st.sidebar.radio("Chamber", ["House", "Senate"], horizontal=True, key="profile_chamber")
 max_dist = 51 if chamber == "House" else 25
-district = st.sidebar.selectbox("District", list(range(1, max_dist + 1)))
+if "requested_district" in st.session_state:
+    req = st.session_state.pop("requested_district")
+    if 1 <= req <= max_dist:
+        st.session_state["profile_district"] = req
+district = st.sidebar.selectbox("District", list(range(1, max_dist + 1)), key="profile_district")
 
 st.sidebar.divider()
 st.sidebar.markdown("**Ask a question**")
@@ -270,7 +275,6 @@ st.markdown(
 if not data:
     st.error(f"No data for {chamber} District {district}.")
 else:
-    # People
     st.markdown('<p class="kyd-section">People</p>', unsafe_allow_html=True)
     c1, c2, c3 = st.columns(3)
     with c1:
@@ -281,7 +285,11 @@ else:
         card("People below the poverty line", v, m, "People · DP03")
     with c3:
         v, m = percent_parts(data, "householders_65plus_living_alone")
-        card("People age 65+ living alone", v, m, "Households · DP02")
+        card(
+            "Households with a person age 65+ living alone",
+            v, m,
+            "Share of total households · DP02. Not the share of seniors who live alone.",
+        )
 
     c4, c5, c6 = st.columns(3)
     with c4:
@@ -294,7 +302,6 @@ else:
         v, m = percent_parts(data, "pct_65plus_poverty")
         card("People age 65+ below poverty", v, m, "People 65+ · DP03")
 
-    # Access
     st.markdown('<p class="kyd-section">Access</p>', unsafe_allow_html=True)
     a1, a2, a3 = st.columns(3)
     with a1:
@@ -307,7 +314,6 @@ else:
         v, m = percent_parts(data, "snap_benefits")
         card("Households reporting SNAP", v, m, "ACS survey estimate, not DHS enrollment · DP03")
 
-    # Economic Conditions
     st.markdown('<p class="kyd-section">Economic Conditions</p>', unsafe_allow_html=True)
     e1, e2, e3 = st.columns(3)
     with e1:
@@ -331,15 +337,120 @@ else:
         v, m = money_parts(data, "per_capita_income")
         card("Per capita income", v, m, "People · DP03")
 
-    # Sources
     with st.expander("Sources and margins of error"):
         st.markdown(build_profile(chamber.lower(), district))
         st.caption(
             "Margins of error are ACS 90% confidence intervals. "
             "Percent margins are used for percent figures. "
             "Rent burden combines the 30.0–34.9% and 35%+ GRAPI bands; its margin is the square root of the sum of the squared percent margins. "
-            "SNAP is the share of households that reported receiving SNAP on the ACS survey, not administrative enrollment published by DHS."
+            "SNAP is the share of households that reported receiving SNAP on the ACS survey, not administrative enrollment published by DHS. "
+            "Households with a person age 65+ living alone is the share of total households (DP02), not the share of seniors who live alone."
         )
+
+# ---------------------------------------------------------------------------
+# District comparison — one chamber, one measure, no composite score
+# ---------------------------------------------------------------------------
+st.divider()
+st.markdown('<p class="kyd-section">District comparison</p>', unsafe_allow_html=True)
+st.caption(
+    "Ranks districts within one chamber by one verified measure, highest percentage first. "
+    "This is a comparison of survey estimates, not an eligibility ranking, an enrollment-gap ranking, or a need score."
+)
+
+measure_labels = {key: meta["label"] for key, meta in MEASURES.items()}
+cmp_chamber = st.radio("Chamber to compare", ["House", "Senate"], horizontal=True, key="cmp_chamber")
+cmp_measure = st.selectbox(
+    "Measure",
+    options=list(MEASURES.keys()),
+    format_func=lambda k: measure_labels[k],
+    key="cmp_measure",
+)
+
+ranked, missing_count = rank_districts(cmp_chamber.lower(), cmp_measure)
+meta = MEASURES[cmp_measure]
+
+st.markdown(
+    f"**{meta['label']}** — {cmp_chamber} districts. "
+    f"Denominator: {meta['denominator']}. Source: {meta['table']}, ACS 2020–2024 5-year."
+)
+if missing_count:
+    st.warning(f"{missing_count} district(s) have no estimate for this measure and are excluded. Missing data is not treated as zero.")
+else:
+    st.caption("No missing estimates for this measure. Missing data would be excluded, never treated as zero.")
+
+st.info(
+    "Overlapping margins of error mean an apparent difference between districts may not be statistically meaningful. "
+    "A flag marks estimates whose margin of error exceeds 30% of the estimate."
+)
+
+if ranked:
+    table_rows = []
+    for r in ranked:
+        est = f"{int(r['estimate']):,}" if r["estimate"] is not None else ""
+        est_moe = f"±{int(r['estimate_moe']):,}" if r["estimate_moe"] is not None else ""
+        table_rows.append({
+            "District": r["district"],
+            "Percent": r["percent_display"],
+            "Percent MOE": r["percent_moe_display"],
+            "Estimate": est,
+            "Estimate MOE": est_moe,
+            "Denominator": r["denominator"],
+            "Source": r["source_table"],
+            "Year": r["year"],
+            "Uncertainty flag": r["uncertainty_flag"],
+        })
+    st.dataframe(table_rows, use_container_width=True, hide_index=True)
+
+    st.download_button(
+        "Download comparison as CSV",
+        data=comparison_csv(ranked),
+        file_name=f"{cmp_chamber.lower()}_{cmp_measure}_comparison.csv",
+        mime="text/csv",
+    )
+
+    pick = st.selectbox(
+        "Open a district profile from these results",
+        options=[r["district"] for r in ranked],
+        format_func=lambda d: f"{cmp_chamber} District {d}",
+        key="open_profile",
+    )
+    if st.button("Open profile"):
+        st.session_state["requested_district"] = pick
+        st.session_state["profile_opened"] = (
+            f"{cmp_chamber} District {pick}'s profile is now displayed at the top of the page."
+        )
+        if cmp_chamber != chamber:
+            st.session_state["profile_chamber"] = cmp_chamber
+        st.rerun()
+    st.caption("The selected district's profile will appear at the top of the page.")
+    if st.session_state.get("profile_opened"):
+        st.success(st.session_state["profile_opened"])
+
+# ---------------------------------------------------------------------------
+# Program information — only programs whose official pages were opened
+# ---------------------------------------------------------------------------
+st.markdown('<p class="kyd-section">Program information</p>', unsafe_allow_html=True)
+st.caption(
+    "Programs that may be relevant to the selected measure. A district statistic does not establish any individual's eligibility. "
+    "District-level eligible-but-not-enrolled counts are not available in the current data. "
+    "SNAP receipt and county enrollment are not subtracted from district estimates; the populations, units, and geographies are not interchangeable."
+)
+
+verified, unverified = programs_for(cmp_measure)
+if verified:
+    for prog in verified:
+        st.markdown(
+            f"**{prog['name']}**  \n"
+            f"{prog['serves']}  \n"
+            f"[Official page]({prog['url']}) · checked {prog['checked']}"
+        )
+else:
+    st.markdown("No verified program page is linked to this measure.")
+
+if unverified:
+    st.warning("Official information that could not be verified on the date checked:")
+    for item in unverified:
+        st.markdown(f"**{item['name']}** — {item['note']} [Page]({item['url']}) · checked {item['checked']}")
 
 # Answer
 if "last_question" in st.session_state:
