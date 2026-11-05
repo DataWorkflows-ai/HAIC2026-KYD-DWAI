@@ -1,6 +1,6 @@
 # Sample Test Questions – HAIC 2026 Know Your District
 
-Seven demo questions (five that should be answered, two that should be declined). Use these to evaluate the agent.
+Ten demo questions (seven original + three general-lookup). Use these to evaluate the agent.
 
 ---
 
@@ -85,15 +85,15 @@ Med-QUEST (https://medquest.hawaii.gov/), marketplace plans.
 ## 4. Rent burden >30% of income
 
 **Question:**  
-What share of households in my district spend more than 30% of their income on rent?
+What share of households in House District 19 spend more than 30% of their income on rent?
 
-**Example Answer (House District 19):**  
+**Example Answer:**  
 In House District 19, 55.4% of renter households spend 30% or more of their household income on gross rent (ACS 2020-2024 5-year).
 
 **Source:**  
 ACS 2024 5-year Data Profiles, DP04, “GROSS RENT AS A PERCENTAGE OF HOUSEHOLD INCOME (GRAPI)” — sum of 30–34.9% and 35%+ rows.
 
-**Status:** Rent burden columns (`rent_30_to_34_9_percent` and `rent_35_plus_percent`) are now extracted in the processed CSVs. Sum the two percentages for the >30% figure.
+**Note:** The original contest wording used “my district.” The agent now requires a named district and will reply “I can't answer that yet. Please name a district, e.g. 'HD 19'.” if none is given. This test question names HD 19 so the numeric answer is expected.
 
 **Warnings:**  
 - Applies only to renter households that pay rent.  
@@ -155,4 +155,40 @@ For official election results and district maps, see the Hawaii Office of Electi
 
 ---
 
-*Status: Questions 1–5 can be answered from the processed data. Questions 6–7 are intentional declines.*
+## 8. General lookup — House District median income
+
+**Question:**  
+What is the median household income in HD 5?
+
+**Expected Response:**  
+In House District 5, the median household income is $<value> ±$<moe> (ACS 2020-2024 5-year, DP03).
+
+**Source:** ACS 2020-2024 5-year, DP03, median household income. Value and MOE come from the processed CSV / districts.db.
+
+---
+
+## 9. General lookup — Senate District poverty rate
+
+**Question:**  
+What is the poverty rate in SD 3?
+
+**Expected Response:**  
+In Senate District 3, the poverty rate is <percent> ±<percent MOE> (ACS 2020-2024 5-year, DP03).
+
+**Source:** ACS 2020-2024 5-year, DP03, percent of people below poverty. Percent and percent MOE come from the processed CSV / districts.db.
+
+---
+
+## 10. General lookup — no district named (should decline)
+
+**Question:**  
+What is the uninsured rate?
+
+**Expected Response:**  
+I can't answer that yet. Please name a district, e.g. 'HD 19' or 'SD 12'.
+
+**Status:** Agent should decline and ask for a district (no ranking requested, no district named).
+
+---
+
+*Status: Questions 1–5 use the original contest rules. Questions 6–7 are intentional declines. Questions 8–10 exercise the general district lookup.*

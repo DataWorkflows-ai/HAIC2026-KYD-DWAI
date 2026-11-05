@@ -33,6 +33,7 @@ SENATE_URL = "https://files.hawaii.gov/dbedt/census/acs/acs2024/5yr/acs2024_5yr_
 DP03_LABELS = {
     "Population 16 years and over": "pop_16_plus",
     "In labor force": "in_labor_force",
+    "Employed": "employed",
     "Median household income (dollars)": "median_hh_income",
     "Mean household income (dollars)": "mean_hh_income",
     "Per capita income (dollars)": "per_capita_income",
@@ -73,6 +74,7 @@ def extract_district_number(name: str) -> Optional[int]:
 def extract_metrics(excel_path: Path, sheet_name: str, labels: dict, chamber: str, prefer_first: bool = False) -> pd.DataFrame:
     """
     Generic extractor for wide-format ACS sheets (DP03 or DP04).
+    Each district occupies 4 columns: estimate, MOE, percent, percent MOE.
     prefer_first=True takes the first match (useful for overall health insurance).
     """
     print(f"Reading {excel_path} sheet {sheet_name} ...")
@@ -103,15 +105,14 @@ def extract_metrics(excel_path: Path, sheet_name: str, labels: dict, chamber: st
                 record[f"{field}_estimate"] = None
                 record[f"{field}_moe"] = None
                 record[f"{field}_percent"] = None
+                record[f"{field}_percent_moe"] = None
                 continue
 
             # under-5 poverty: always take LAST match so we get the people-level row
-            # ("Related children of the householder under 5 years"), not the earlier
-            # "under 5 years only" family rows.
             if field == "pct_children_under5_poverty":
                 row_idx = matching_rows.index[-1]
-            # For health insurance we want the first (overall) match; otherwise last
-            elif prefer_first or field == "pct_no_health_insurance":
+            # For health insurance and Employed we want the first (overall) match
+            elif prefer_first or field in ("pct_no_health_insurance", "employed"):
                 row_idx = matching_rows.index[0]
             else:
                 row_idx = matching_rows.index[-1]
@@ -119,6 +120,7 @@ def extract_metrics(excel_path: Path, sheet_name: str, labels: dict, chamber: st
             record[f"{field}_estimate"] = df.iloc[row_idx, start_col]
             record[f"{field}_moe"] = df.iloc[row_idx, start_col + 1]
             record[f"{field}_percent"] = df.iloc[row_idx, start_col + 2]
+            record[f"{field}_percent_moe"] = df.iloc[row_idx, start_col + 3]
 
         records.append(record)
 
@@ -155,9 +157,9 @@ def main():
     print(f"\nWrote {house_out}")
     print(f"Wrote {senate_out}")
     print("\nSample of house data (selected columns):")
-    cols = ["district", "pct_no_health_insurance_percent", "pct_children_under5_poverty_percent", "rent_35_plus_percent"]
+    cols = ["district", "pct_no_health_insurance_percent", "pct_no_health_insurance_percent_moe", "pct_people_poverty_percent", "pct_people_poverty_percent_moe"]
     print(house_merged[cols].head(5).to_string())
-    print("\nDone. Re-check the CSVs for health insurance, under-5 poverty, and rent burden columns.")
+    print("\nDone. Percent MOE columns are now included.")
 
 if __name__ == "__main__":
     main()

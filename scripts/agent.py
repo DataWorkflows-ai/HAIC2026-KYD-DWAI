@@ -4,6 +4,7 @@ Designed so Mitchell can drop it into a Streamlit app.
 End users: legislators and their offices.
 """
 
+import re
 import sqlite3
 from pathlib import Path
 
@@ -20,9 +21,28 @@ PROGRAMS = {
 }
 
 # Honolulu County (Oʻahu) 65+ poverty rate — ACS 2020-2024 5-year S1701
-# Source: data.census.gov table ACSST5Y2024.S1701, Honolulu County, Hawaii
-# 65 years and over: 9.0% ±0.5
 OAHU_65PLUS_POVERTY = "9.0% ±0.5"
+
+# Metric lookup map: keyword patterns → (field_prefix, display_label, source_table, is_money)
+METRICS = [
+    # poverty
+    (r"kūpuna|kupuna|65\s*\+|65\s*years|seniors?", "pct_65plus_poverty", "65+ poverty rate", "DP03", False),
+    (r"under\s*5|children\s*under|young\s*children", "pct_children_under5_poverty", "share of related children under 5 in poverty", "DP03", False),
+    (r"families?\s*poverty|family\s*poverty", "pct_families_poverty", "share of families below poverty", "DP03", False),
+    (r"poverty|below\s*poverty|poor", "pct_people_poverty", "poverty rate", "DP03", False),
+    # health
+    (r"uninsured|no\s*health|without\s*health|health\s*insurance", "pct_no_health_insurance", "share of residents without health insurance", "DP03", False),
+    # income
+    (r"median\s*household\s*income|median\s*income", "median_hh_income", "median household income", "DP03", True),
+    (r"mean\s*household\s*income|mean\s*income", "mean_hh_income", "mean household income", "DP03", True),
+    (r"per\s*capita|per-capita", "per_capita_income", "per capita income", "DP03", True),
+    (r"median\s*family\s*income|family\s*income", "median_family_income", "median family income", "DP03", True),
+    # labor — "employment" maps to employed share; "labor force" is separate
+    (r"labor\s*force|workforce\s*participation|labor\s*force\s*participation", "in_labor_force", "labor force participation rate", "DP03", False),
+    (r"employment\s*rate|employed|employment", "employed", "employment rate", "DP03", False),
+    # rent
+    (r"rent\s*burden|rent\s*over\s*30|30\s*%\s*of\s*(?:their\s*)?income\s*on\s*rent|grapi", "rent_burden", "share of renters spending 30%+ of income on rent", "DP04", False),
+]
 
 def get_district(chamber: str, district_number: int):
     """Return one district row as a dict, or None if not found."""
@@ -35,7 +55,6 @@ def get_district(chamber: str, district_number: int):
     return dict(row) if row else None
 
 def get_county_snap(county: str):
-    """Return SNAP households for a county, or None."""
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     cur = conn.execute("SELECT * FROM county_snap WHERE county = ?", (county,))
@@ -44,7 +63,6 @@ def get_county_snap(county: str):
     return dict(row) if row else None
 
 def get_county_taxes(county: str):
-    """Return GET and TAT liabilities for a county, or None."""
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     cur = conn.execute("SELECT * FROM county_taxes WHERE county = ?", (county,))
@@ -53,7 +71,6 @@ def get_county_taxes(county: str):
     return dict(row) if row else None
 
 def get_county_housing(county: str):
-    """Return housing and population context for a county, or None."""
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     cur = conn.execute("SELECT * FROM county_housing WHERE county = ?", (county,))
@@ -62,25 +79,99 @@ def get_county_housing(county: str):
     return dict(row) if row else None
 
 def _pct(value):
-    """Return a clean percentage string."""
     if value is None:
         return "N/A"
     return str(value)
 
 def _money(value):
-    """Return a formatted dollar string."""
     if value is None:
         return "N/A"
-    return f"${value:,}"
+    try:
+        return f"${int(float(str(value).replace(',',''))):,}"
+    except (TypeError, ValueError):
+        return str(value)
+
+def _clean_moe(value):
+    """Return a clean MOE string, or empty if missing / (X)."""
+    if value is None:
+        return ""
+    s = str(value).strip()
+    if s in ("", "(X)", "None", "nan"):
+        return ""
+    if not s.startswith("±"):
+        s = f"±{s}"
+    return f" {s}"
+
+def parse_district(q: str):
+    """Return (chamber, number) or (None, None)."""
+    m = re.search(r"\b(?:hd|house\s+district|house)\s*(\d+)", q)
+    if m:
+        return "house", int(m.group(1))
+    m = re.search(r"\b(?:sd|senate\s+district|senate)\s*(\d+)", q)
+    if m:
+        return "senate", int(m.group(1))
+    return None, None
+
+def district_not_found(chamber: str, num: int) -> str:
+    label = "House" if chamber == "house" else "Senate"
+    return (
+        f"I don't have {label} District {num}. "
+        f"Hawaii has House Districts 1–51 and Senate Districts 1–25."
+    )
+
+def general_lookup(q: str):
+    """
+    If the question names a district and a known metric, return the value
+    with source table, year, and percent margin of error. Otherwise return None.
+    """
+    chamber, num = parse_district(q)
+    if not chamber or not num:
+        return None
+    data = get_district(chamber, num)
+    if not data:
+        return district_not_found(chamber, num)
+
+    for pattern, field, label, table, is_money in METRICS:
+        if re.search(pattern, q):
+            if field == "rent_burden":
+                try:
+                    p1 = float(str(data.get("rent_30_to_34_9_percent", "0")).replace("%", ""))
+                    p2 = float(str(data.get("rent_35_plus_percent", "0")).replace("%", ""))
+                    total = p1 + p2
+                    value = f"{total:.1f}%"
+                    moe = ""  # sum of two bands; MOEs not simply additive
+                except (TypeError, ValueError):
+                    value, moe = "N/A", ""
+            else:
+                pct = data.get(f"{field}_percent")
+                est = data.get(f"{field}_estimate")
+                pct_moe = data.get(f"{field}_percent_moe")
+                est_moe = data.get(f"{field}_moe")
+                if is_money:
+                    value = _money(est)
+                    moe = _clean_moe(est_moe)
+                else:
+                    value = _pct(pct) if pct not in (None, "(X)") else _pct(est)
+                    # Prefer percent MOE for percent answers; omit if missing
+                    moe = _clean_moe(pct_moe)
+
+            chamber_label = "House" if chamber == "house" else "Senate"
+            return (
+                f"In {chamber_label} District {num}, the {label} is {value}{moe} "
+                f"(ACS 2020-2024 5-year, {table})."
+            )
+    return None
 
 def answer(question: str) -> str:
     """
-    Rule-based responder for the five test questions.
-    Returns a plain-language answer with citations and program links.
+    Rule-based responder. Specific contest rules run first so the seven
+    test questions keep their expected wording. Then a general lookup
+    handles any named district + supported metric. If no district is named
+    and no ranking is requested, politely ask for a district.
     """
     q = question.lower()
 
-    # Decline: partisan / political opinion questions (narrowed — opinion phrasing only)
+    # Decline: partisan / political opinion questions
     if any(phrase in q for phrase in ["which party", "should i vote", "better for this district", "political party is better"]):
         return (
             "I can't answer questions about which political party is better for a district. "
@@ -98,50 +189,52 @@ def answer(question: str) -> str:
             "https://humanservices.hawaii.gov/bessd/snap/"
         )
 
-    # 1. Kūpuna poverty in HD 22 (fixed parentheses) + Oʻahu comparison
+    # 1. Kūpuna poverty in HD 22 + Oʻahu comparison
     if ("house district 22" in q or "hd 22" in q) and ("65" in q or "kūpuna" in q or "kupuna" in q or "poverty" in q):
         data = get_district("house", 22)
         if not data:
-            return "House District 22 not found."
+            return district_not_found("house", 22)
+        moe = _clean_moe(data.get("pct_65plus_poverty_percent_moe"))
         return (
-            f"In House District 22, {_pct(data['pct_65plus_poverty_percent'])} of people age 65 and over live below the poverty line "
+            f"In House District 22, {_pct(data['pct_65plus_poverty_percent'])}{moe} of people age 65 and over live below the poverty line "
             f"(ACS 2020-2024 5-year, DP03). This is lower than the rate for kūpuna in Honolulu County (Oʻahu), which is {OAHU_65PLUS_POVERTY} "
             f"(ACS 2020-2024 5-year, S1701 / ACSST5Y2024.S1701).\n\n"
             f"Relevant programs: SNAP ({PROGRAMS['snap']}), LIHEAP ({PROGRAMS['liheap']}), "
             f"and senior nutrition / property-tax relief programs."
         )
 
-    # 3. Top uninsured House districts
+    # 3. Top uninsured House districts (ranking — no single district required)
     if "uninsured" in q or "health insurance" in q or "without health" in q:
-        conn = sqlite3.connect(DB_PATH)
-        conn.row_factory = sqlite3.Row
-        cur = conn.execute("""
-            SELECT district, pct_no_health_insurance_percent 
-            FROM house_districts 
-            ORDER BY CAST(REPLACE(pct_no_health_insurance_percent, '%', '') AS REAL) DESC 
-            LIMIT 3
-        """)
-        rows = cur.fetchall()
-        conn.close()
-        lines = [f"House District {r['district']}: {r['pct_no_health_insurance_percent']}" for r in rows]
-        return (
-            "Top 3 House districts by share of residents without health insurance "
-            "(ACS 2020-2024 5-year, DP03, civilian noninstitutionalized population):\n"
-            + "\n".join(lines) +
-            f"\n\nRelevant program: Med-QUEST ({PROGRAMS['medquest']})."
-        )
+        if "top" in q or "highest" in q or "which" in q:
+            conn = sqlite3.connect(DB_PATH)
+            conn.row_factory = sqlite3.Row
+            cur = conn.execute("""
+                SELECT district, pct_no_health_insurance_percent, pct_no_health_insurance_percent_moe
+                FROM house_districts 
+                ORDER BY CAST(REPLACE(pct_no_health_insurance_percent, '%', '') AS REAL) DESC 
+                LIMIT 3
+            """)
+            rows = cur.fetchall()
+            conn.close()
+            lines = []
+            for r in rows:
+                moe = _clean_moe(r["pct_no_health_insurance_percent_moe"])
+                lines.append(f"House District {r['district']}: {r['pct_no_health_insurance_percent']}{moe}")
+            return (
+                "Top 3 House districts by share of residents without health insurance "
+                "(ACS 2020-2024 5-year, DP03, civilian noninstitutionalized population):\n"
+                + "\n".join(lines) +
+                f"\n\nRelevant program: Med-QUEST ({PROGRAMS['medquest']})."
+            )
 
-    # 4. Rent burden >30% (sum of the two bands)
+    # 4. Rent burden >30% — requires a named district
     if "rent" in q and ("30" in q or "burden" in q or "income" in q):
-        district = 19
-        if "district" in q:
-            import re
-            m = re.search(r"district\s+(\d+)", q)
-            if m:
-                district = int(m.group(1))
-        data = get_district("house", district)
+        chamber, num = parse_district(q)
+        if not num:
+            return "I can't answer that yet. Please name a district, e.g. 'HD 19'."
+        data = get_district("house", num)
         if not data:
-            return f"House District {district} not found."
+            return district_not_found("house", num)
         try:
             p1 = float(str(data.get("rent_30_to_34_9_percent", "0")).replace("%", ""))
             p2 = float(str(data.get("rent_35_plus_percent", "0")).replace("%", ""))
@@ -150,7 +243,7 @@ def answer(question: str) -> str:
             total = None
         total_str = f"{total:.1f}%" if total is not None else "N/A"
         return (
-            f"In House District {district}, {total_str} of renter households spend 30% or more of their income on gross rent "
+            f"In House District {num}, {total_str} of renter households spend 30% or more of their income on gross rent "
             f"(ACS 2020-2024 5-year, DP04, GRAPI: 30–34.9% + 35%+).\n\n"
             f"Relevant programs: Housing Choice Voucher / Section 8 and other rental assistance ({PROGRAMS['hpha']})."
         )
@@ -159,49 +252,40 @@ def answer(question: str) -> str:
     if ("under 5" in q or "children under" in q) and ("poverty" in q or "low-income" in q or "low income" in q):
         data = get_district("house", 45)
         if not data:
-            return "House District 45 not found."
+            return district_not_found("house", 45)
+        moe = _clean_moe(data.get("pct_children_under5_poverty_percent_moe"))
         return (
-            f"In House District 45, {_pct(data.get('pct_children_under5_poverty_percent'))} of related children under 5 years live below the poverty level "
+            f"In House District 45, {_pct(data.get('pct_children_under5_poverty_percent'))}{moe} of related children under 5 years live below the poverty level "
             f"(ACS 2020-2024 5-year, DP03).\n\n"
             f"Relevant programs: Head Start / Early Head Start, Preschool Open Doors, EOEL Public Pre-K ({PROGRAMS['earlylearning']}), "
             f"Child Care Subsidy, Med-QUEST, SNAP, and WIC."
         )
 
-    # 2. SNAP eligibility (SD 12) — uses county-level enrollment
+    # 2. SNAP eligibility (SD 12)
     if "snap" in q and ("senate" in q or "district 12" in q):
         data = get_district("senate", 12)
         if not data:
-            return "Senate District 12 not found."
+            return district_not_found("senate", 12)
         oahu = get_county_snap("Honolulu")
         oahu_hh = f"{oahu['households']:,}" if oahu else "~50,700"
+        moe = _clean_moe(data.get("pct_people_poverty_percent_moe"))
         return (
-            f"Senate District 12 has a poverty rate of {_pct(data.get('pct_people_poverty_percent'))} "
-            f"(ACS 2020-2024 5-year). A rough indication of households that may be income-eligible for SNAP can be drawn from this figure. "
+            f"Senate District 12 has a poverty rate of {_pct(data.get('pct_people_poverty_percent'))}{moe} "
+            f"(ACS 2020-2024 5-year, DP03). A rough indication of households that may be income-eligible for SNAP can be drawn from this figure. "
             f"Actual SNAP enrollment is not published by legislative district. "
             f"At the county level, Honolulu County (Oʻahu) had {oahu_hh} SNAP households as of September 2025 "
             f"(Hawaii DHS BESSD testimony).\n\n"
             f"Relevant program: SNAP application via DHS BESSD ({PROGRAMS['snap']})."
         )
 
-    # County tax liabilities (GET / TAT) — May 2026
+    # County tax liabilities (GET / TAT)
     if ("get" in q or "general excise" in q or "tat" in q or "transient accommodation" in q) and ("county" in q or "oahu" in q or "oʻahu" in q or "maui" in q or "hawaii" in q or "kauai" in q or "kauaʻi" in q):
         county_map = {
-            "oahu": "Honolulu",
-            "oʻahu": "Honolulu",
-            "honolulu": "Honolulu",
-            "maui": "Maui",
-            "hawaii": "Hawaii",
-            "hawaiʻi": "Hawaii",
-            "kauai": "Kauai",
-            "kauaʻi": "Kauai",
+            "oahu": "Honolulu", "oʻahu": "Honolulu", "honolulu": "Honolulu",
+            "maui": "Maui", "hawaii": "Hawaii", "hawaiʻi": "Hawaii",
+            "kauai": "Kauai", "kauaʻi": "Kauai",
         }
-        county = None
-        for key, name in county_map.items():
-            if key in q:
-                county = name
-                break
-        if not county:
-            county = "Honolulu"
+        county = next((name for key, name in county_map.items() if key in q), "Honolulu")
         taxes = get_county_taxes(county)
         if not taxes:
             return f"No tax data found for {county} County."
@@ -213,25 +297,14 @@ def answer(question: str) -> str:
             f"Source: Hawaii Department of Taxation, May 2026 monthly reports."
         )
 
-    # County housing prices (UHERO) and population (Data Book / Census)
+    # County housing prices and population
     if ("home price" in q or "housing price" in q or "median home" in q or "single-family" in q or "single family" in q) and ("county" in q or "oahu" in q or "oʻahu" in q or "maui" in q or "hawaii" in q or "kauai" in q or "kauaʻi" in q):
         county_map = {
-            "oahu": "Honolulu",
-            "oʻahu": "Honolulu",
-            "honolulu": "Honolulu",
-            "maui": "Maui",
-            "hawaii": "Hawaii",
-            "hawaiʻi": "Hawaii",
-            "kauai": "Kauai",
-            "kauaʻi": "Kauai",
+            "oahu": "Honolulu", "oʻahu": "Honolulu", "honolulu": "Honolulu",
+            "maui": "Maui", "hawaii": "Hawaii", "hawaiʻi": "Hawaii",
+            "kauai": "Kauai", "kauaʻi": "Kauai",
         }
-        county = None
-        for key, name in county_map.items():
-            if key in q:
-                county = name
-                break
-        if not county:
-            county = "Honolulu"
+        county = next((name for key, name in county_map.items() if key in q), "Honolulu")
         housing = get_county_housing(county)
         if not housing:
             return f"No housing data found for {county} County."
@@ -242,6 +315,18 @@ def answer(question: str) -> str:
             f"(U.S. Census Bureau Vintage 2025 estimates / DBEDT Data Book).\n\n"
             f"These are county-level figures. Housing affordability remains a statewide challenge; "
             f"affording the median single-family home still requires more than 180% of state median income."
+        )
+
+    # General district + metric lookup
+    looked = general_lookup(q)
+    if looked:
+        return looked
+
+    # No district named and no ranking requested
+    chamber, num = parse_district(q)
+    if not num:
+        return (
+            "I can't answer that yet. Please name a district, e.g. 'HD 19' or 'SD 12'."
         )
 
     return (
@@ -258,6 +343,8 @@ if __name__ == "__main__":
     print()
     print(answer("What share of households in House District 19 spend more than 30% of their income on rent?"))
     print()
+    print(answer("What share of renters in Democrat-held districts are rent burdened?"))
+    print()
     print(answer("In Senate District 12, how many households are likely eligible for SNAP?"))
     print()
     print(answer("What was the General Excise Tax liability in Honolulu County in May 2026?"))
@@ -269,3 +356,15 @@ if __name__ == "__main__":
     print(answer("How many residents can vote for the first time in HD 5?"))
     print()
     print(answer("What is the exact number of SNAP enrollment by district?"))
+    print()
+    print(answer("What is the median household income in HD 5?"))
+    print()
+    print(answer("What is the poverty rate in SD 3?"))
+    print()
+    print(answer("What is the uninsured rate?"))
+    print()
+    print(answer("What is the uninsured rate in HD 12?"))
+    print()
+    print(answer("What is the employment rate in HD 12?"))
+    print()
+    print(answer("What is the poverty rate in HD 99?"))
