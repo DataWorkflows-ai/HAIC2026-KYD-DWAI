@@ -24,24 +24,25 @@ PROGRAMS = {
 OAHU_65PLUS_POVERTY = "9.0% ±0.5"
 
 # Metric lookup map: keyword patterns → (field_prefix, display_label, source_table, is_money)
+# Patterns are case-insensitive and cover common alternate phrasings.
 METRICS = [
     # poverty
     (r"kūpuna|kupuna|65\s*\+|65\s*years|seniors?", "pct_65plus_poverty", "65+ poverty rate", "DP03", False),
     (r"under\s*5|children\s*under|young\s*children", "pct_children_under5_poverty", "share of related children under 5 in poverty", "DP03", False),
     (r"families?\s*poverty|family\s*poverty", "pct_families_poverty", "share of families below poverty", "DP03", False),
-    (r"poverty|below\s*poverty|poor", "pct_people_poverty", "poverty rate", "DP03", False),
-    # health
-    (r"uninsured|no\s*health|without\s*health|health\s*insurance", "pct_no_health_insurance", "share of residents without health insurance", "DP03", False),
+    (r"poverty|below\s*poverty|poor|low[-\s]?income", "pct_people_poverty", "poverty rate", "DP03", False),
+    # health — uninsured / uninsurance / coverage
+    (r"uninsured|uninsurance|no\s*health|without\s*(?:health\s*)?insurance|health\s*insurance|health\s*coverage|lack\s*of\s*insurance", "pct_no_health_insurance", "share of residents without health insurance", "DP03", False),
     # income
-    (r"median\s*household\s*income|median\s*income", "median_hh_income", "median household income", "DP03", True),
+    (r"median\s*household\s*income|median\s*income|household\s*income|income", "median_hh_income", "median household income", "DP03", True),
     (r"mean\s*household\s*income|mean\s*income", "mean_hh_income", "mean household income", "DP03", True),
     (r"per\s*capita|per-capita", "per_capita_income", "per capita income", "DP03", True),
     (r"median\s*family\s*income|family\s*income", "median_family_income", "median family income", "DP03", True),
-    # labor — "employment" maps to employed share; "labor force" is separate
+    # labor
     (r"labor\s*force|workforce\s*participation|labor\s*force\s*participation", "in_labor_force", "labor force participation rate", "DP03", False),
-    (r"employment\s*rate|employed|employment", "employed", "employment rate", "DP03", False),
+    (r"employment\s*rate|employed|employment|unemployment|jobs", "employed", "employment rate", "DP03", False),
     # rent
-    (r"rent\s*burden|rent\s*over\s*30|30\s*%\s*of\s*(?:their\s*)?income\s*on\s*rent|grapi", "rent_burden", "share of renters spending 30%+ of income on rent", "DP04", False),
+    (r"rent\s*burden|rent\s*burdened|housing\s*costs|rent\s*over\s*30|30\s*%\s*of\s*(?:their\s*)?income\s*on\s*rent|grapi", "rent_burden", "share of renters spending 30%+ of income on rent", "DP04", False),
 ]
 
 def get_district(chamber: str, district_number: int):
@@ -103,13 +104,36 @@ def _clean_moe(value):
     return f" {s}"
 
 def parse_district(q: str):
-    """Return (chamber, number) or (None, None)."""
-    m = re.search(r"\b(?:hd|house\s+district|house)\s*(\d+)", q)
-    if m:
-        return "house", int(m.group(1))
-    m = re.search(r"\b(?:sd|senate\s+district|senate)\s*(\d+)", q)
-    if m:
-        return "senate", int(m.group(1))
+    """
+    Return (chamber, number) or (None, None).
+    Accepts: HD 12, HD12, House District 12, house district 12,
+    district 12 house, and the same patterns for SD / Senate District.
+    Case-insensitive.
+    """
+    # House patterns (order matters: more specific first)
+    house_patterns = [
+        r"\bhd\s*(\d+)",
+        r"\bhouse\s+district\s+(\d+)",
+        r"\bhouse\s+(\d+)",
+        r"\bdistrict\s+(\d+)\s+house",
+    ]
+    for pat in house_patterns:
+        m = re.search(pat, q)
+        if m:
+            return "house", int(m.group(1))
+
+    # Senate patterns
+    senate_patterns = [
+        r"\bsd\s*(\d+)",
+        r"\bsenate\s+district\s+(\d+)",
+        r"\bsenate\s+(\d+)",
+        r"\bdistrict\s+(\d+)\s+senate",
+    ]
+    for pat in senate_patterns:
+        m = re.search(pat, q)
+        if m:
+            return "senate", int(m.group(1))
+
     return None, None
 
 def district_not_found(chamber: str, num: int) -> str:
@@ -152,7 +176,6 @@ def general_lookup(q: str):
                     moe = _clean_moe(est_moe)
                 else:
                     value = _pct(pct) if pct not in (None, "(X)") else _pct(est)
-                    # Prefer percent MOE for percent answers; omit if missing
                     moe = _clean_moe(pct_moe)
 
             chamber_label = "House" if chamber == "house" else "Senate"
@@ -190,7 +213,7 @@ def answer(question: str) -> str:
         )
 
     # 1. Kūpuna poverty in HD 22 + Oʻahu comparison
-    if ("house district 22" in q or "hd 22" in q) and ("65" in q or "kūpuna" in q or "kupuna" in q or "poverty" in q):
+    if ("house district 22" in q or "hd 22" in q or "hd22" in q) and ("65" in q or "kūpuna" in q or "kupuna" in q or "poverty" in q):
         data = get_district("house", 22)
         if not data:
             return district_not_found("house", 22)
@@ -204,7 +227,7 @@ def answer(question: str) -> str:
         )
 
     # 3. Top uninsured House districts (ranking — no single district required)
-    if "uninsured" in q or "health insurance" in q or "without health" in q:
+    if re.search(r"uninsured|uninsurance|no\s*health|without\s*(?:health\s*)?insurance|health\s*insurance|health\s*coverage", q):
         if "top" in q or "highest" in q or "which" in q:
             conn = sqlite3.connect(DB_PATH)
             conn.row_factory = sqlite3.Row
@@ -228,7 +251,7 @@ def answer(question: str) -> str:
             )
 
     # 4. Rent burden >30% — requires a named district
-    if "rent" in q and ("30" in q or "burden" in q or "income" in q):
+    if re.search(r"rent\s*burden|rent\s*burdened|housing\s*costs", q) or ("rent" in q and ("30" in q or "burden" in q or "income" in q)):
         chamber, num = parse_district(q)
         if not num:
             return "I can't answer that yet. Please name a district, e.g. 'HD 19'."
@@ -363,8 +386,12 @@ if __name__ == "__main__":
     print()
     print(answer("What is the uninsured rate?"))
     print()
-    print(answer("What is the uninsured rate in HD 12?"))
+    print(answer("What is the uninsurance rate in house district 12?"))
     print()
-    print(answer("What is the employment rate in HD 12?"))
+    print(answer("HD12 without insurance?"))
     print()
-    print(answer("What is the poverty rate in HD 99?"))
+    print(answer("What is the household income in district 5 house?"))
+    print()
+    print(answer("How many are poor in SD12?"))
+    print()
+    print(answer("What is the rent burdened rate in HD 19?"))

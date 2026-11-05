@@ -1,6 +1,6 @@
 # Sample Test Questions – HAIC 2026 Know Your District
 
-Ten demo questions (seven original + three general-lookup). Use these to evaluate the agent.
+Fifteen demo questions (seven original + three general-lookup + five alternate phrasings). Use these to evaluate the agent.
 
 ---
 
@@ -191,4 +191,64 @@ I can't answer that yet. Please name a district, e.g. 'HD 19' or 'SD 12'.
 
 ---
 
-*Status: Questions 1–5 use the original contest rules. Questions 6–7 are intentional declines. Questions 8–10 exercise the general district lookup.*
+## 11. Alternate phrasing — uninsurance rate in house district 12
+
+**Question:**  
+What is the uninsurance rate in house district 12?
+
+**Expected Response:**  
+In House District 12, the share of residents without health insurance is 5.0% ±1.5 (ACS 2020-2024 5-year, DP03).
+
+**Notes:** Tests “uninsurance” synonym and “house district 12” (lowercase, full form).
+
+---
+
+## 12. Alternate phrasing — HD12 without insurance
+
+**Question:**  
+HD12 without insurance?
+
+**Expected Response:**  
+In House District 12, the share of residents without health insurance is 5.0% ±1.5 (ACS 2020-2024 5-year, DP03).
+
+**Notes:** Tests “HD12” (no space) and “without insurance” synonym.
+
+---
+
+## 13. Alternate phrasing — household income in district 5 house
+
+**Question:**  
+What is the household income in district 5 house?
+
+**Expected Response:**  
+In House District 5, the median household income is $<value> ±$<moe> (ACS 2020-2024 5-year, DP03).
+
+**Notes:** Tests “district 5 house” word order and “household income” synonym.
+
+---
+
+## 14. Alternate phrasing — poor in SD12
+
+**Question:**  
+How many are poor in SD12?
+
+**Expected Response:**  
+In Senate District 12, the poverty rate is <percent> ±<percent MOE> (ACS 2020-2024 5-year, DP03).
+
+**Notes:** Tests “SD12” (no space) and “poor” synonym.
+
+---
+
+## 15. Alternate phrasing — rent burdened in HD 19
+
+**Question:**  
+What is the rent burdened rate in HD 19?
+
+**Expected Response:**  
+In House District 19, the share of renters spending 30%+ of income on rent is 55.4% (ACS 2020-2024 5-year, DP04).
+
+**Notes:** Tests “rent burdened” synonym and “HD 19” form.
+
+---
+
+*Status: Questions 1–5 use the original contest rules. Questions 6–7 are intentional declines. Questions 8–10 exercise the general district lookup. Questions 11–15 exercise alternate phrasings for district detection and metric synonyms.*
