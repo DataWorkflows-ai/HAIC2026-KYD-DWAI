@@ -160,17 +160,8 @@ st.markdown(
         line-height: 1.55 !important;
         margin: 0.85rem 0 !important;
     }
-    .kyd-legend {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.55rem 1rem;
-        margin: 0.9rem 0 1rem 0;
-        line-height: 1.5;
-    }
-    .kyd-legend span {
-        color: #1A2332 !important;
-        font-size: 15px !important;
-        white-space: nowrap;
+    div[data-testid="stPlotlyChart"] {
+        overflow: hidden;
     }
     @media (max-width: 900px) {
         p.kyd-title { font-size: 26px !important; }
@@ -610,6 +601,24 @@ map_event = st.plotly_chart(
     key=f"map_{cmp_chamber}_{cmp_measure}",
 )
 
+# Color bins live in a normal Streamlit block below the chart.
+# The required basemap credit stays inside the Plotly map.
+st.caption("Color bins")
+legend_cols = st.columns(n_bins + (1 if missing_rows else 0))
+for i in range(n_bins):
+    legend_cols[i].markdown(
+        f'<span style="display:inline-block;width:14px;height:14px;background:{colors[i]};'
+        f'border:1px solid #5C6B78;margin-right:6px;vertical-align:middle;"></span>'
+        f'{bin_label(edges, i)}',
+        unsafe_allow_html=True,
+    )
+if missing_rows:
+    legend_cols[-1].markdown(
+        f'<span style="display:inline-block;width:14px;height:14px;background:{MISSING_COLOR};'
+        f'border:1px solid #5C6B78;margin-right:6px;vertical-align:middle;"></span>No estimate',
+        unsafe_allow_html=True,
+    )
+
 if located:
     import streamlit.components.v1 as components
     components.html(
@@ -622,20 +631,7 @@ if located:
         height=0,
     )
 
-# Notices below the map, each in its own block with spacing.
-legend_bits = []
-for i in range(n_bins):
-    legend_bits.append(
-        f'<span><span style="display:inline-block;width:14px;height:14px;background:{colors[i]};'
-        f'border:1px solid #5C6B78;margin-right:6px;vertical-align:middle;"></span>'
-        f'{bin_label(edges, i)}</span>'
-    )
-if missing_rows:
-    legend_bits.append(
-        f'<span><span style="display:inline-block;width:14px;height:14px;background:{MISSING_COLOR};'
-        f'border:1px solid #5C6B78;margin-right:6px;vertical-align:middle;"></span>No estimate</span>'
-    )
-st.markdown(f'<div class="kyd-legend">{"".join(legend_bits)}</div>', unsafe_allow_html=True)
+# Notices below the map, each in its own block.
 
 flagged = [r for r in valued if r["uncertainty_flag"] == "MOE exceeds 30% of estimate"]
 if flagged:
