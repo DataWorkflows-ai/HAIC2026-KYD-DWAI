@@ -199,9 +199,25 @@ def ranking(q: str):
         return None
     for pattern, field, label, table, is_money in METRICS:
         if re.search(pattern, q):
+            chamber_key = "senate" if "senate" in q or "sd" in q else "house"
+            chamber_label = "Senate" if chamber_key == "senate" else "House"
+
+            # Rent burden has no single percent column. Use the same GRAPI
+            # calculation as the comparison feature.
+            if field == "rent_burden":
+                from scripts.comparison import rank_districts
+                ranked, _ = rank_districts(chamber_key, "rent_burden")
+                if not ranked:
+                    return None
+                lines = [f"Top 5 {chamber_label} districts by {label} (ACS 2020-2024 5-year, {table}):"]
+                for r in ranked[:5]:
+                    moe = f" {r['percent_moe_display']}" if r["percent_moe_display"] else ""
+                    lines.append(f"- {chamber_label} District {r['district']}: {r['percent_display']}{moe}")
+                return "\n".join(lines)
+
             conn = sqlite3.connect(DB_PATH)
             conn.row_factory = sqlite3.Row
-            table_name = "senate_districts" if "senate" in q or "sd" in q else "house_districts"
+            table_name = f"{chamber_key}_districts"
             col = f"{field}_percent" if not is_money else f"{field}_estimate"
             moe_col = f"{field}_percent_moe" if not is_money else f"{field}_moe"
             raw_col = f"{field}_raw_pct"
@@ -223,7 +239,6 @@ def ranking(q: str):
             conn.close()
             if not rows:
                 return None
-            chamber_label = "Senate" if "senate" in table_name else "House"
             lines = [f"Top 5 {chamber_label} districts by {label} (ACS 2020-2024 5-year, {table}):"]
             for r in rows:
                 moe = _clean_moe(r["moe"])

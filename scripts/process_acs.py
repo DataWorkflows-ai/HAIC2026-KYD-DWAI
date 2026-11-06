@@ -135,6 +135,17 @@ def extract_metrics(excel_path: Path, sheet_name: str, labels: dict, chamber: st
     print(f"Reading {excel_path} sheet {sheet_name} ...")
     df = pd.read_excel(excel_path, sheet_name=sheet_name, header=None)
 
+    # Rent percent bands appear three times in DP04 (SMOCAPI with mortgage,
+    # SMOCAPI without, then GRAPI). Use only the GRAPI section.
+    grapi_after = None
+    if sheet_name == "DP04":
+        for i in range(len(df)):
+            if "GROSS RENT AS A PERCENTAGE OF HOUSEHOLD INCOME" in str(df.iloc[i, 0]):
+                grapi_after = i
+                break
+        if grapi_after is None:
+            raise ValueError(f"GRAPI section not found in {excel_path}")
+
     district_cols = []
     for col in range(1, df.shape[1], 4):
         district_name = df.iloc[0, col]
@@ -161,7 +172,12 @@ def extract_metrics(excel_path: Path, sheet_name: str, labels: dict, chamber: st
             record["householders_65plus_living_alone_raw_pct"] = raw_pct
 
         for label, field in labels.items():
-            mask = df[0].astype(str).str.contains(re.escape(label), case=False, na=False)
+            if field in ("rent_30_to_34_9", "rent_35_plus") and grapi_after is not None:
+                mask = (df.index > grapi_after) & df[0].astype(str).str.contains(
+                    re.escape(label), case=False, na=False
+                )
+            else:
+                mask = df[0].astype(str).str.contains(re.escape(label), case=False, na=False)
             matching_rows = df[mask]
             if matching_rows.empty:
                 record[f"{field}_estimate"] = None
@@ -179,6 +195,8 @@ def extract_metrics(excel_path: Path, sheet_name: str, labels: dict, chamber: st
                 "limited_english",
                 "snap_benefits",
                 "no_vehicle",
+                "rent_30_to_34_9",
+                "rent_35_plus",
             ):
                 row_idx = matching_rows.index[0]
             else:
