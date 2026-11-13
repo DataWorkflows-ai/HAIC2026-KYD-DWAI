@@ -1,0 +1,24 @@
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    environment:
+      POSTGRES_DB: kyd
+      POSTGRES_USER: kyd
+      POSTGRES_PASSWORD: ${KYD_PG_PASSWORD:-kyd_dev}
+    ports: ["127.0.0.1:5433:5432"]
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db:/docker-entrypoint-initdb.d:ro   # runs schema.sql on first start
+    command: >
+      bash -c "apt-get update -qq && apt-get install -y -qq postgresql-16-pgvector >/dev/null &&
+               docker-entrypoint.sh postgres"
+  graph:
+    image: neo4j:5-community
+    environment:
+      NEO4J_AUTH: neo4j/${KYD_NEO4J_PASSWORD:-kyd_dev_pw}
+      NEO4J_PLUGINS: '["apoc"]'
+    ports: ["127.0.0.1:7475:7474", "127.0.0.1:7688:7687"]
+    volumes: [neo4jdata:/data]
+volumes:
+  pgdata: {}
+  neo4jdata: {}

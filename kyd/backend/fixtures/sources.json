@@ -1,0 +1,9 @@
+[
+ {
+  "source_id": "acs5_2023_demo",
+  "publisher": "SYNTHETIC DEMO DATA",
+  "title": "Placeholder modeled on ACS 5-year 2019–2023 (state legislative districts)",
+  "url": "https://api.census.gov/data/2023/acs/acs5",
+  "release_date": "2024-12-12"
+ }
+]
