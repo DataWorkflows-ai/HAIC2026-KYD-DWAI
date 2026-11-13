@@ -12,8 +12,9 @@ app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:5173"], allo
 app.include_router(api)
 
 _dist = settings().frontend_dist
-if (_dist / "assets").exists():
-    app.mount("/assets", StaticFiles(directory=_dist / "assets"), name="assets")
+for _sub in ("assets", "geo"):
+    if (_dist / _sub).exists():
+        app.mount(f"/{_sub}", StaticFiles(directory=_dist / _sub), name=_sub)
 
 
 @app.get("/", include_in_schema=False)

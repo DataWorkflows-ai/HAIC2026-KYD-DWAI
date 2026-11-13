@@ -16,7 +16,7 @@ class ProgramGraph(Protocol):
 
 class FixtureGraph:
     def __init__(self) -> None:
-        raw = json.loads((settings().fixtures_dir / "programs.json").read_text(encoding="utf-8"))
+        raw = json.loads((settings().data_dir / "programs.json").read_text(encoding="utf-8"))
         self._p = {r["program_id"]: Program(**{k: v for k, v in r.items() if k in Program.model_fields}) for r in raw}
 
     def programs(self):
@@ -37,7 +37,11 @@ class FixtureGraph:
                 for p in self._p.values() if p.program_id != program_id and set(p.populations) & set(me.populations)]
 
     def lineage(self, indicator):
-        return [{"indicator": indicator, "source_id": "acs5_2023_demo", "publisher": "SYNTHETIC DEMO DATA"}]
+        from .repo import repo
+        r = repo()
+        ind = next((i for i in r.indicators() if i["indicator"] == indicator), None)
+        return [{"indicator": indicator, "table": ind.get("acs") if ind else None, "source_id": s.source_id,
+                 "publisher": s.publisher} for s in r.sources()]
 
 
 class Neo4jGraph:

@@ -1,0 +1,14 @@
+{
+ "house22": {
+  "file": "data/raw/gis/house22.geojson",
+  "sha256": "b91028327e9f74e50139e77b0354894ad83769fd4eff79e14427700abc7995d0",
+  "source": "https://geodata.hawaii.gov/arcgis/rest/services/AdminBnd/MapServer/33",
+  "retrieved_at": "2026-11-13T14:23:08.100835+00:00"
+ },
+ "senate22": {
+  "file": "data/raw/gis/senate22.geojson",
+  "sha256": "259df4ae842485212474c64eff9bedc9f0fbfdcd35cba60c27290a6e9282bc60",
+  "source": "https://geodata.hawaii.gov/arcgis/rest/services/AdminBnd/MapServer/34",
+  "retrieved_at": "2026-11-13T14:23:09.680835+00:00"
+ }
+}

@@ -7,6 +7,7 @@ from .config import settings
 from .models import AgentAnswer, AskRequest
 from .services.graph import graph
 from .services.repo import repo
+from .services import representation as rep
 
 api = APIRouter(prefix="/api")
 
@@ -58,6 +59,36 @@ def district_programs(geo_id: str, req: Request):
 @api.get("/map/{indicator}")
 def map_layer(indicator: str, geo_type: str = "sldl"):
     return tools.get_map_layer(indicator, geo_type)
+
+
+@api.get("/representation/{geo_id}")
+def representation(geo_id: str):
+    if not repo().geography(geo_id):
+        raise HTTPException(404, f"unknown geography {geo_id}")
+    return rep.representation(geo_id)
+
+
+MAP_FIGURES = ["total_pop", "median_hh_income", "pct_below_fpl", "pct_65plus", "pct_uninsured", "pct_rent_burden_30"]
+
+
+@api.get("/map-summary")
+def map_summary(geo_type: str = "sldl"):
+    """Everything a map popup needs for every district of a chamber, in a single request."""
+    r = repo()
+    geos = r.geographies(geo_type)
+    obs = r.observations([g.geo_id for g in geos], MAP_FIGURES)
+    by: dict[str, list] = {}
+    for o in obs:
+        by.setdefault(o.geo_id, []).append(o)
+    order = {k: i for i, k in enumerate(MAP_FIGURES)}
+    top = {}
+    for g in geos:
+        pm = tools.find_programs(g.geo_id, limit=1)
+        top[g.geo_id] = pm[0].program.name if pm else None
+    return {"roster": rep.roster_summary(), "overlap_method": rep.OVERLAP_METHOD, "districts": [
+        {"geo_id": g.geo_id, "name": g.name, "counties": g.counties, "member": rep.member(g.geo_id),
+         "counterparts": rep.counterparts(g.geo_id), "top_program": top[g.geo_id],
+         "figures": sorted(by.get(g.geo_id, []), key=lambda o: order[o.indicator])} for g in geos]}
 
 
 @api.get("/programs")

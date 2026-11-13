@@ -77,43 +77,6 @@ export function OverviewTab({ geo, geos, onAsk, onPick }: { geo: string; geos: G
   );
 }
 
-// ── Map (placeholder tile grid until ArcGIS boundaries load) ─────────────────
-export function MapTab({ geos, geo, onPick }: { geos: Geo[]; geo: string; onPick: (g: string) => void }) {
-  const [inds, setInds] = useState<{ indicator: string; label: string }[]>([]);
-  const [ind, setInd] = useState('pct_below_fpl');
-  const [chamber, setChamber] = useState<'sldl' | 'sldu'>('sldl');
-  const [feats, setFeats] = useState<Obs[]>([]);
-  useEffect(() => { api.indicators().then(setInds); }, []);
-  useEffect(() => { api.mapLayer(ind, chamber).then(d => setFeats(d.features)); }, [ind, chamber]);
-  const vals = feats.map(f => f.value ?? 0).sort((a, b) => a - b);
-  const q = (v: number) => Math.min(4, Math.floor((vals.filter(x => x <= v).length / Math.max(1, vals.length)) * 5));
-  const shades = ['bg-cyan-950', 'bg-cyan-900', 'bg-cyan-800', 'bg-cyan-700', 'bg-cyan-500'];
-  const name = (g: string) => geos.find(x => x.geo_id === g)?.name ?? g;
-  return (
-    <Card title="District map" right={
-      <div className="flex gap-2">
-        <select value={chamber} onChange={e => setChamber(e.target.value as any)} className="bg-premium-950 border border-premium-700 rounded px-2 py-1 text-xs">
-          <option value="sldl">House (51)</option><option value="sldu">Senate (25)</option>
-        </select>
-        <select value={ind} onChange={e => setInd(e.target.value)} className="bg-premium-950 border border-premium-700 rounded px-2 py-1 text-xs">
-          {inds.map(i => <option key={i.indicator} value={i.indicator}>{i.label}</option>)}
-        </select>
-      </div>}>
-      <p className="text-xs text-amber-300 mb-3">Placeholder tile grid. The ArcGIS adapter with 2022 reapportionment boundaries replaces this view (MapLibre as fallback).</p>
-      <div className="grid grid-cols-6 md:grid-cols-9 lg:grid-cols-13 gap-1.5" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(72px, 1fr))' }}>
-        {feats.map(f => (
-          <button key={f.geo_id} onClick={() => onPick(f.geo_id)} title={`${name(f.geo_id)}: ${fmt(f)}`}
-            className={`${shades[q(f.value ?? 0)]} ${f.geo_id === geo ? 'ring-2 ring-amber-400' : ''} ${f.flags.includes('suppressed_cv') ? 'opacity-50' : ''} rounded-md p-2 text-left hover:ring-2 hover:ring-cyan-300`}>
-            <div className="text-[10px] text-slate-300">{f.geo_id}</div>
-            <div className="text-xs font-mono text-white">{fmt(f)}</div>
-          </button>
-        ))}
-      </div>
-      <div className="flex items-center gap-1 mt-3 text-xs text-slate-500">Low{shades.map(s => <span key={s} className={`w-6 h-3 rounded ${s}`} />)}High · Faded tiles are low-reliability estimates</div>
-    </Card>
-  );
-}
-
 // ── Compare ─────────────────────────────────────────────────────────────────
 export function CompareTab({ geos, geo }: { geos: Geo[]; geo: string }) {
   const [a, setA] = useState(geo);

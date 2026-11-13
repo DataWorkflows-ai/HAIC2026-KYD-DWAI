@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { LayoutDashboard, Map, GitCompare, HandHeart, MessageSquare, BookOpen, MapPinned } from 'lucide-react';
+import { LayoutDashboard, Map, GitCompare, HandHeart, MessageSquare, BookOpen, MapPinned, Star } from 'lucide-react';
 import { api, type Geo, type Health } from './api';
 import { GeoPicker, Pill, usePersistentState } from './ui';
-import { AskTab, CompareTab, MapTab, OverviewTab, ProgramsTab, SourcesTab } from './tabs';
+import { AskTab, CompareTab, OverviewTab, ProgramsTab, SourcesTab } from './tabs';
+import { MapTab } from './MapTab';
 
 const TABS = [
   { id: 'overview', label: 'Overview', Icon: LayoutDashboard },
@@ -15,7 +16,8 @@ const TABS = [
 
 export default function App() {
   const [tab, setTab] = usePersistentState<string>('kyd_tab', 'overview');
-  const [geo, setGeo] = usePersistentState<string>('kyd_geo', 'HD-22');
+  const [office, setOffice] = usePersistentState<string | null>('kyd_office', null);
+  const [geo, setGeo] = usePersistentState<string>('kyd_geo', office ?? 'HD-22');
   const [geos, setGeos] = useState<Geo[]>([]);
   const [health, setHealth] = useState<Health | null>(null);
   const [pending, setPending] = useState<string | null>(null);
@@ -50,12 +52,21 @@ export default function App() {
           ))}
         </nav>
 
-        <GeoPicker geos={geos} value={geo} onChange={setGeo} />
+        <div className="flex items-center gap-2">
+          <GeoPicker geos={geos} value={geo} onChange={setGeo} />
+          {(geo.startsWith('HD') || geo.startsWith('SD')) && (
+            <button onClick={() => setOffice(office === geo ? null : geo)} aria-pressed={office === geo}
+              title={office === geo ? 'This is your office (click to clear)' : 'Set as my office: the map and agent default to it'}
+              className={`p-1.5 rounded-md border ${office === geo ? 'border-amber-600 text-amber-300' : 'border-premium-700 text-slate-500 hover:text-amber-300'}`}>
+              <Star className="w-4 h-4" fill={office === geo ? 'currentColor' : 'none'} />
+            </button>
+          )}
+        </div>
       </header>
 
-      <main className="flex-grow overflow-y-auto p-6">
+      <main className="flex-grow overflow-y-auto p-4 lg:p-6">
         {tab === 'overview' && <OverviewTab geo={geo} geos={geos} onAsk={ask} onPick={setGeo} />}
-        {tab === 'map' && <MapTab geos={geos} geo={geo} onPick={g => { setGeo(g); setTab('overview'); }} />}
+        {tab === 'map' && <MapTab geos={geos} geo={geo} office={office} onPick={setGeo} onOpen={g => { setGeo(g); setTab('overview'); }} />}
         {tab === 'compare' && <CompareTab geos={geos} geo={geo} />}
         {tab === 'programs' && <ProgramsTab geo={geo} />}
         {tab === 'ask' && <AskTab geo={geo} pending={pending} clearPending={() => setPending(null)} />}

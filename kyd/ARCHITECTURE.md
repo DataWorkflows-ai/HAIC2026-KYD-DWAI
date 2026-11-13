@@ -60,21 +60,46 @@ document refer to that file.
 
 ## Modes
 
-- `KYD_DATA_MODE=fixture` is the default. The app reads `backend/fixtures/*.json`.
-  These values are **synthetic demo data**, flagged `demo` in the data and shown
-  with a DEMO banner in the UI. Fixture mode lets the UI and agent be developed
-  while the real ETL lands.
-- `KYD_DATA_MODE=live` reads numbers from Postgres (`KYD_DATABASE_URL`) and
-  relationships from Neo4j (`KYD_NEO4J_URI`). `docker compose up` applies
-  `db/schema.sql`. Then run `python etl/seed_graph.py` and the rest of `etl/`.
+- **`KYD_DATA_MODE=sqlite`** is the default. It reads `kyd/data/kyd.sqlite`, which holds real ACS
+  2020–2024 data for all 76 districts plus derived state totals. The file is committed to the repo,
+  so the app needs no database server, and judges can run it as-is.
+- `KYD_DATA_MODE=fixture` uses synthetic demo data and shows a DEMO banner. It is for UI work only.
+- `KYD_DATA_MODE=live` reads numbers from Postgres (`KYD_DATABASE_URL`) and relationships from
+  Neo4j (`KYD_NEO4J_URI`). This is the hosted, production version of the stack.
 
-## Store split (supersedes decision doc §5.1 and §5.3)
+## Data build (run from repo root; outputs are committed)
 
-- **Postgres** is the source of truth for every number: observations with MOE,
-  geometry and crosswalks, embeddings for hybrid search, and the audit log.
-- **Neo4j** holds relationships only. Graph nodes reference indicators and
-  observations by ID and never store figures, so the citation rule has a single
-  enforcement point in the fact table.
+| Script | Input | Output |
+|---|---|---|
+| `kyd/etl/load_boundaries.py [--fetch]` | State GIS AdminBnd/MapServer 33 and 34 | `data/raw/gis/*`, `kyd/frontend/public/geo/*.geojson`, `kyd/data/district_overlap.csv`, `district_counties.json` |
+| `kyd/etl/load_acs_profile.py` | `data/raw/acs2024_5yr_{house,senate}_hi.xlsx` (DP02–DP05) | `kyd/data/kyd.sqlite` (28 indicators × 76 districts, plus derived state values) |
+| `kyd/data/legislators.csv` | hand-curated, with a source on every row | Representation API |
+| `kyd/data/programs.json` | hand-curated | Program graph (fixture form of the Neo4j model) |
+
+The test `test_acs_matches_teammate_database` cross-checks the ACS loader against
+`data/districts.db`, which `scripts/process_acs.py` builds independently.
+
+## Map (frontend/src/MapTab.tsx)
+
+- ArcGIS Maps SDK for JavaScript 4.33, loaded from the Esri CDN.
+- **Official boundaries:** a live FeatureLayer from the Hawaiʻi Statewide GIS Program, drawn as white lines.
+- **Choropleth:** a GeoJSONLayer from the bundled boundaries, joined to the selected indicator and shaded by quintile.
+- **Basemap:** Esri World Imagery, which needs no key, or OpenStreetMap. Set `VITE_ARCGIS_API_KEY` to use Esri's vector basemaps instead.
+- **Interaction:** on a computer, hover highlights a district and shows its Representative, the overlapping Senator(s) with share, key figures and top program. Click pins the district; double-click opens its profile. On touch devices, tap does the same.
+- **Controls:** a House/Senate toggle carries the selection over to the largest overlapping district in the other chamber. Island quick-zoom buttons cover each island group.
+- **"My office":** the star button next to the district picker sets the user's own district. The map chamber and selection default to it.
+- **Party is intentionally not shown.**
+
+## Known gaps
+
+- **Legislator roster (as of 2026-11-13):**
+  - 45 seats come from Office of Elections FINAL county reports or the Legislature roster.
+  - 25 unopposed seats come from secondary sources and still need confirming against the primary report.
+  - HD-24, 25, 28 and 37 are pending.
+  - SD-23 and HD-43 are flagged for review.
+- **Overlap shares** are by land area. Replace with 2020-block population weights (§2.4).
+- **County comparisons are missing,** and so are state values for medians and poverty rates. Fix by allowlisting `api.census.gov` and loading the state and county ACS profiles.
+- **Program ranking** compares against the state value where one exists, otherwise against the median district. The signal is weak for districts near the median.
 
 ## Run (dev)
 

@@ -55,6 +55,41 @@ class FixtureRepo:
         return list(self._sources.values())
 
 
+class SqliteRepo:
+    """Default mode. Bundled real data in kyd/data/kyd.sqlite, built by etl/load_acs_profile.py.
+    Needs no database server, so judges can run the app as-is."""
+    demo = False
+
+    def __init__(self) -> None:
+        import sqlite3
+        path = settings().data_dir / "kyd.sqlite"
+        if not path.exists():
+            raise FileNotFoundError(f"{path} missing. Run: python kyd/etl/load_acs_profile.py")
+        c = sqlite3.connect(f"file:{path}?mode=ro", uri=True, check_same_thread=False)
+        c.row_factory = sqlite3.Row
+        self._geos = {r["geo_id"]: Geography(geo_id=r["geo_id"], geo_type=r["geo_type"], name=r["name"],
+                                             counties=[x for x in json.loads(r["counties"]) if x])
+                      for r in c.execute("SELECT * FROM geography")}
+        self._sources = {r["source_id"]: Source(**{k: r[k] for k in Source.model_fields if k in r.keys()})
+                         for r in c.execute("SELECT * FROM source")}
+        self._ind = {r["indicator"]: dict(r) for r in c.execute("SELECT * FROM indicator")}
+        self._obs: dict[str, Observation] = {}
+        for r in c.execute("SELECT * FROM observation"):
+            i = self._ind[r["indicator"]]
+            o = Observation(obs_id=r["obs_id"], geo_id=r["geo_id"], indicator=r["indicator"], label=i["label"],
+                            unit=i["unit"], value=r["value"], moe=r["moe"], vintage=r["vintage"],
+                            method=r["method"], method_note=r["method_note"], source_id=r["source_id"])
+            self._obs[o.obs_id] = apply_flags(o, self._sources[o.source_id].release_date)
+        c.close()
+
+    geographies = FixtureRepo.geographies
+    geography = FixtureRepo.geography
+    observations = FixtureRepo.observations
+    observation = FixtureRepo.observation
+    indicators = FixtureRepo.indicators
+    sources = FixtureRepo.sources
+
+
 class PostgresRepo:
     """Live mode. Reads facts.observation (status = 'live') joined to its reference tables."""
     demo = False
@@ -114,5 +149,6 @@ _repo: FactRepo | None = None
 def repo() -> FactRepo:
     global _repo
     if _repo is None:
-        _repo = PostgresRepo() if settings().data_mode == "live" else FixtureRepo()
+        mode = settings().data_mode
+        _repo = PostgresRepo() if mode == "live" else FixtureRepo() if mode == "fixture" else SqliteRepo()
     return _repo

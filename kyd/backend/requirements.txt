@@ -9,3 +9,8 @@ duckdb>=1.1
 # optional: presidio-analyzer presidio-anonymizer (PII scrubbing, §8.3)
 # dev
 pytest>=8
+# etl
+openpyxl>=3.1
+shapely>=2.0
+pyproj>=3.6
+numpy>=1.26

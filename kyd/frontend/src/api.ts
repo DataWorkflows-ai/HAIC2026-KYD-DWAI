@@ -19,6 +19,16 @@ export type Answer = {
   text: string; route: 'S1' | 'S2' | 'REFUSED'; intent: string | null; geo_ids: string[];
   observations: Obs[]; programs: ProgramMatch[]; escalation_reasons: string[]; trace: any[];
 };
+export type Member = {
+  geo_id: string; name: string | null; title: string; basis: string;
+  status: 'official' | 'secondary' | 'verify' | 'pending'; source: string | null; source_url: string | null; note: string | null;
+};
+export type Counterpart = { geo_id: string; share_of_this: number; share_of_other: number; member: Member | null };
+export type MapDistrict = {
+  geo_id: string; name: string; counties: string[]; member: Member | null; counterparts: Counterpart[];
+  top_program: string | null; figures: Obs[];
+};
+export type MapSummary = { roster: { as_of: string; counts: Record<string, number> }; overlap_method: string; districts: MapDistrict[] };
 export type Health = { ok: boolean; mode: string; demo: boolean; llm: string; geographies: number; programs: number };
 
 async function j<T>(url: string, init?: RequestInit): Promise<T> {
@@ -33,6 +43,7 @@ export const api = {
   profile: (g: string) => j<Profile>(`/api/districts/${g}`),
   programs: (g: string) => j<ProgramMatch[]>(`/api/districts/${g}/programs`),
   compare: (a: string, b: string) => j<{ a: string; b: string; rows: { indicator: string; a: Obs; b: Obs; significant: boolean }[] }>(`/api/compare?a=${a}&b=${b}`),
+  mapSummary: (t: string) => j<MapSummary>(`/api/map-summary?geo_type=${t}`),
   mapLayer: (ind: string, t: string) => j<{ features: Obs[] }>(`/api/map/${ind}?geo_type=${t}`),
   indicators: () => j<{ indicator: string; label: string; unit: string; topic: string }[]>('/api/indicators'),
   sources: () => j<any[]>('/api/sources'),
