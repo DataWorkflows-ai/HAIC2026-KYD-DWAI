@@ -3,8 +3,9 @@ AABD — Aid to the Aged, Blind, and Disabled. Standalone, highly visible.
 
 Lenses the user can turn on separately:
 
-  disability   S1810 percent with a disability (own filter for potential eligibility)
-  age_65_plus  S0103 people 65 and over (Senate only)
+  disability    S1810 percent with a disability
+  age_65_plus   S0103 people 65 and over (Senate only)
+  foreign_born  DP02 foreign-born, Oceania (Pacific), and year of entry
 
 Statewide snapshot from DHS Databook 2025, page 4.
 Not district enrollment. Not an eligible-but-not-enrolled gap.
@@ -24,10 +25,12 @@ FILES = {
     "senate": {
         "s1810": RAW / "S1810_senate_districts.json",
         "s0103": RAW / "S0103_senate_districts.json",
+        "dp02": RAW / "DP02_senate_districts.json",
     },
     "house": {
         "s1810": RAW / "S1810_house_districts.json",
-        "s0103": None,  # withheld for most House districts
+        "s0103": None,
+        "dp02": RAW / "DP02_house_districts.json",
     },
 }
 
@@ -77,6 +80,26 @@ def _disability(row: dict) -> dict[str, Any]:
     }
 
 
+def _foreign_born(row: dict) -> dict[str, Any]:
+    total_pop = _num(row.get("DP02_0088E")) or _num(row.get("DP02_0087E"))
+    foreign = _num(row.get("DP02_0094E"))
+    oceania = _num(row.get("DP02_0109E"))
+    entered_2010_or_later = _num(row.get("DP02_0103E"))
+    entered_before_2010 = _num(row.get("DP02_0104E"))
+    foreign_share = round(100 * foreign / total_pop, 1) if foreign is not None and total_pop else None
+    return {
+        "filter": "foreign_born",
+        "label": "Foreign-born and year of entry",
+        "foreign_born_count": foreign,
+        "foreign_born_share_percent": foreign_share,
+        "oceania_pacific_count": oceania,
+        "entered_2010_or_later": entered_2010_or_later,
+        "entered_before_2010": entered_before_2010,
+        "source": "DP02: 0094E foreign-born, 0109E Oceania, 0103E/0104E year of entry",
+        "interpretation": "Districts with a higher Pacific Island (Oceania) foreign-born population may have more AABD-eligible residents. Statewide, 51% of AABD clients are Other Pacific Islander and 46% are COFA.",
+    }
+
+
 def _age_65(row: dict) -> dict[str, Any]:
     count = _num(row.get("S0103_C02_001E"))
     return {
@@ -104,7 +127,7 @@ def get_aabd(
     if chamber not in FILES:
         return {"data_available": False, "error": "chamber must be 'house' or 'senate'"}
 
-    wanted = list(filters) if filters else ["disability", "age_65_plus"]
+    wanted = list(filters) if filters else ["disability", "age_65_plus", "foreign_born"]
     result: dict[str, Any] = {
         "data_available": True,
         "capability": "aabd",
@@ -131,6 +154,10 @@ def get_aabd(
         else:
             row = _find(path, district_number)
             result["age_65_plus"] = _age_65(row) if row else {"error": "not found"}
+
+    if "foreign_born" in wanted:
+        row = _find(FILES[chamber]["dp02"], district_number)
+        result["foreign_born"] = _foreign_born(row) if row else {"error": "not found"}
 
     result["caveats"] = [
         "Not district enrollment. Not an eligible-but-not-enrolled gap.",

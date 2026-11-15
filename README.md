@@ -171,7 +171,7 @@ Statewide snapshot from DHS Databook 2025, page 5: 4,432 average monthly clients
 
 Aid to the Aged, Blind, and Disabled. Its own card, separate from other programs.
 
-Disability prevalence from S1810 is its own filter for potential eligibility. A higher rate means more people who may meet the disability criterion. The 65+ count from S0103 is a separate Senate-only age filter.
+Disability prevalence from S1810 is its own filter. Foreign-born from DP02 is its own filter: total foreign-born, Oceania (Pacific), and year of entry (2010 or later / before 2010). Districts with a higher Pacific Island foreign-born population may have more AABD-eligible residents. A higher rate means more people who may meet the disability criterion. The 65+ count from S0103 is a separate Senate-only age filter.
 
 ```python
 from scripts.aabd import get_aabd
