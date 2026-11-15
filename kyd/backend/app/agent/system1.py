@@ -8,15 +8,26 @@ Cues are checked in order, and the first decisive cue exits:
   5. Otherwise → answer with a template (S1)
 """
 from __future__ import annotations
+import json
 import re
 import unicodedata
 from dataclasses import dataclass, field
+from functools import lru_cache
+
+from ..config import settings
+
+DOMINANT_SHARE = 0.6        # a place resolves to one district only if that district holds ≥ 60% of it
 
 REFUSE_PATTERNS = [
     (r"\b(who|which (person|people|resident|household)s?)\b.*\b(on|receiv\w*|get\w*)\b.*\b(snap|welfare|benefits|medicaid|quest)\b",
      "individual"),
     (r"\b(name|address|phone|ssn|social security)\b.*\b(of|for)\b.*\b(resident|recipient|person)", "individual"),
-    (r"\b(vote|voting|elect|elections?|re-?elect|campaign|candidates?|incumbent|challenger|democrat\w*|republican\w*|partisan|endorse\w*)\b", "partisan"),
+    # Electoral advice and party politics. Voting RECORDS ("how did HD 22 vote on SB 123") are allowed.
+    (r"\b(campaign\w*|candidates?|re-?elect\w*|elections?|electoral|incumbent|challenger|ballot|swing (district|seat)s?"
+     r"|democrat\w*|republican\w*|partisan|endorse\w*)\b", "partisan"),
+    (r"\b(should|who will|who would|who to|whom to|who do i|who should)\b.*\b(vote for|vote against|win|beat|lose|run for)\b",
+     "partisan"),
+    (r"\bvot\w* (for|against) (him|her|them|the (representative|senator|rep|incumbent))\b", "partisan"),
 ]
 
 INTENTS = {
@@ -44,9 +55,44 @@ class Route:
     geo_ids: list[str] = field(default_factory=list)
     reasons: list[str] = field(default_factory=list)
     refusal: str | None = None
+    places: list[dict] = field(default_factory=list)   # place names matched by the gazetteer, with candidates
 
 
-def resolve_districts(text: str, context_geo: str | None, aliases: dict[str, list[str]] | None = None) -> list[str]:
+@lru_cache
+def gazetteer() -> dict[str, dict]:
+    """Place names and ZIPs → districts, built by etl/load_places.py. Empty if the file is missing."""
+    p = settings().data_dir / "place_aliases.json"
+    return json.loads(p.read_text(encoding="utf-8"))["aliases"] if p.exists() else {}
+
+
+def _chamber(t: str, context_geo: str | None) -> str:
+    if re.search(r"\b(senate|senator|sd)\b", t):
+        return "SD"
+    if re.search(r"\b(house|representative|rep|hd)\b", t):
+        return "HD"
+    return "SD" if (context_geo or "").startswith("SD") else "HD"
+
+
+def resolve_places(text: str, context_geo: str | None, aliases: dict[str, dict] | None = None) -> list[dict]:
+    """Longest alias first, and a matched span is not matched again ("Waipio Acres" is not also "Waipio")."""
+    aliases = gazetteer() if aliases is None else aliases
+    t = normalize(text)
+    ch = _chamber(t, context_geo)
+    found = []
+    for alias in sorted(aliases, key=len, reverse=True):
+        m = re.search(rf"\b{re.escape(alias)}\b", t)
+        if not m:
+            continue
+        t = t[:m.start()] + " " * len(alias) + t[m.end():]
+        a = aliases[alias]
+        cands = a.get(ch) or []
+        dominant = cands[0][0] if cands and cands[0][1] >= DOMINANT_SHARE and not a.get("ambiguous") else None
+        found.append({"alias": alias, "name": a["name"], "chamber": ch, "dominant": dominant,
+                      "candidates": [g for g, _ in cands]})
+    return found
+
+
+def resolve_districts(text: str, context_geo: str | None, places: list[dict] | None = None) -> list[str]:
     out = []
     for m in DISTRICT_RE.finditer(text):
         chamber = "SD" if m.group(1).lower() in ("senate", "sd", "senator") else "HD"
@@ -54,10 +100,8 @@ def resolve_districts(text: str, context_geo: str | None, aliases: dict[str, lis
         if (chamber == "SD" and 1 <= n <= 25) or (chamber == "HD" and 1 <= n <= 51):
             out.append(f"{chamber}-{n:02d}")
     t = normalize(text)
-    for alias, geos in (aliases or {}).items():           # gazetteer, filled from ref.place_alias
-        if re.search(rf"\b{re.escape(alias)}\b", t):
-            out.extend(geos)
-    if not out and context_geo and re.search(r"\b(this|my|the) district\b|^\W*$", t + " this district"):
+    out.extend(p["dominant"] for p in places or [] if p["dominant"])
+    if not out and not places and context_geo and re.search(r"\b(this|my|the) district\b|^\W*$", t + " this district"):
         out.append(context_geo)
     return list(dict.fromkeys(out))
 
@@ -74,7 +118,7 @@ def classify(text: str) -> tuple[str | None, float, list[str]]:
     return top, conf, multi
 
 
-def route(text: str, context_geo: str | None = None, aliases=None) -> Route:
+def route(text: str, context_geo: str | None = None, aliases: dict[str, dict] | None = None) -> Route:
     t = normalize(text)
     for pat, kind in REFUSE_PATTERNS:                                     # cue 1
         if re.search(pat, t):
@@ -83,11 +127,17 @@ def route(text: str, context_geo: str | None = None, aliases=None) -> Route:
                    "I provide nonpartisan, population-level data only and can't advise on elections or candidates.")
             return Route("REFUSE", reasons=[f"guardrail:{kind}"], refusal=msg)
 
-    geos = resolve_districts(text, context_geo, aliases)                  # cue 2
+    places = resolve_places(text, context_geo, aliases)
+    geos = resolve_districts(text, context_geo, places)                   # cue 2
     intent, conf, multi = classify(text)                                  # cue 3
     reasons = []
     if intent == "compare" and len(geos) == 1 and context_geo and context_geo not in geos:
         geos.append(context_geo)
+    split = [p for p in places if not p["dominant"]]
+    if split:
+        reasons.append("place_spans_districts")
+        if not geos:                                                      # hand the candidates to S2
+            geos = list(dict.fromkeys(g for p in split for g in p["candidates"]))
     if not geos:
         reasons.append("no_district_resolved")
     if len(geos) > 2:
@@ -99,5 +149,5 @@ def route(text: str, context_geo: str | None = None, aliases=None) -> Route:
     if intent == "compare" and len(geos) != 2:
         reasons.append("compare_needs_two")
     if reasons:
-        return Route("S2", intent, geos, reasons)
-    return Route("S1", intent, geos)
+        return Route("S2", intent, geos, reasons, places=places)
+    return Route("S1", intent, geos, places=places)

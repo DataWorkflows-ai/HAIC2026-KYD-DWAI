@@ -31,8 +31,14 @@ export type MapDistrict = {
 export type MapSummary = { roster: { as_of: string; counts: Record<string, number> }; overlap_method: string; districts: MapDistrict[] };
 export type Health = { ok: boolean; mode: string; demo: boolean; llm: string; geographies: number; programs: number };
 
+// Bearer token from the login flow (see backend/app/auth.py). Stored per tab; absent = anonymous viewer.
+function authHeader(): Record<string, string> {
+  try { const t = sessionStorage.getItem('kyd_token'); return t ? { Authorization: `Bearer ${t}` } : {}; }
+  catch { return {}; }
+}
+
 async function j<T>(url: string, init?: RequestInit): Promise<T> {
-  const r = await fetch(url, init);
+  const r = await fetch(url, { ...init, headers: { ...authHeader(), ...(init?.headers ?? {}) } });
   if (!r.ok) throw new Error(`${r.status} ${await r.text()}`);
   return r.json();
 }

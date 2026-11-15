@@ -58,6 +58,25 @@ document refer to that file.
 - **Geography IDs** follow the pattern `HI`, `CNTY-15003`, `SD-01`…`SD-25` and
   `HD-01`…`HD-51`, for 77 standard geographies plus counties.
 
+## Identity and roles
+
+`app/auth.py`. Client-sent `x-kyd-*` headers are ignored unless `KYD_TRUST_PROXY_HEADERS=true`, which
+is only safe behind an SSO proxy that strips them from incoming requests. Otherwise identity comes from an
+HMAC-signed bearer token (`KYD_AUTH_SECRET`; mint with `python -m app.auth --sub NAME --role ROLE`).
+No token = anonymous `viewer`. Roles: viewer, staff, legislator, auditor, admin. `/api/me` echoes the caller.
+The frontend sends `sessionStorage.kyd_token` as the bearer token when present.
+
+## Agent routing notes
+
+- Guardrails refuse electoral advice and party politics, not voting records ("how did HD 22 vote on SB 123").
+- Place names and ZIPs resolve through `kyd/data/place_aliases.json`. A place maps to one district only when
+  that district holds ≥ 60% of its area; otherwise the agent escalates (`place_spans_districts`) and, with no
+  LLM, asks which district.
+- If System 2 fails (timeout, HTTP error, bad response), the request falls back to a System 1 template
+  (`s2_error`) instead of returning a 500.
+- Numbers in an S2 answer that do not match a returned observation are replaced in the text
+  (`unsupported_numbers_removed`); they never reach the user.
+
 ## Modes
 
 - **`KYD_DATA_MODE=sqlite`** is the default. It reads `kyd/data/kyd.sqlite`, which holds real ACS
@@ -73,6 +92,7 @@ document refer to that file.
 |---|---|---|
 | `kyd/etl/load_boundaries.py [--fetch]` | State GIS AdminBnd/MapServer 33 and 34 | `data/raw/gis/*`, `kyd/frontend/public/geo/*.geojson`, `kyd/data/district_overlap.csv`, `district_counties.json` |
 | `kyd/etl/load_acs_profile.py` | `data/raw/acs2024_5yr_{house,senate}_hi.xlsx` (DP02–DP05) | `kyd/data/kyd.sqlite` (28 indicators × 76 districts, plus derived state values) |
+| `kyd/etl/load_places.py [--fetch]` | State GIS Census/MapServer 28 (2020 CDPs) and 32 (ZCTAs) | `kyd/data/place_aliases.json` (place/ZIP → districts with area share) |
 | `kyd/data/legislators.csv` | hand-curated, with a source on every row | Representation API |
 | `kyd/data/programs.json` | hand-curated | Program graph (fixture form of the Neo4j model) |
 

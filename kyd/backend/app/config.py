@@ -20,6 +20,9 @@ class Settings(BaseSettings):
     llm_base_url: str = ""                          # OpenAI-compatible local server (llama.cpp, vLLM)
     llm_api_key: str = ""
 
+    auth_secret: str = ""                           # HMAC key for bearer tokens (app/auth.py); empty = everyone is anonymous
+    trust_proxy_headers: bool = False               # only behind an SSO proxy that strips client x-kyd-* headers
+
     cv_suppress: float = 0.30                       # §9.2
     stale_after_days: int = 540                     # §6.4
     fixtures_dir: Path = ROOT / "backend" / "fixtures"

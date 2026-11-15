@@ -1,6 +1,7 @@
 from __future__ import annotations
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import APIRouter, Depends, HTTPException
 from . import audit
+from .auth import Principal, current_principal
 from .agent import tools
 from .agent.orchestrator import ask
 from .config import settings
@@ -12,9 +13,12 @@ from .services import representation as rep
 api = APIRouter(prefix="/api")
 
 
-def _who(req: Request) -> tuple[str, str]:
-    # SSO later. For now, trust a reverse-proxy header, defaulting to anonymous.
-    return req.headers.get("x-kyd-user", "anonymous"), req.headers.get("x-kyd-role", "viewer")
+Who = Depends(current_principal)
+
+
+@api.get("/me")
+def me(who: Principal = Who):
+    return {"user": who.user, "role": who.role}
 
 
 @api.get("/health")
@@ -35,24 +39,24 @@ def indicators():
 
 
 @api.get("/districts/{geo_id}")
-def district(geo_id: str, req: Request):
+def district(geo_id: str, who: Principal = Who):
     try:
         p = tools.get_district_profile(geo_id)
     except KeyError:
         raise HTTPException(404, f"unknown geography {geo_id}")
-    audit.record(*_who(req), "get_district_profile", geo_ids=[geo_id], row_count=len(p.observations))
+    audit.record(who.user, who.role, "get_district_profile", geo_ids=[geo_id], row_count=len(p.observations))
     return p
 
 
 @api.get("/compare")
-def compare(a: str, b: str, req: Request):
-    audit.record(*_who(req), "compare_district", geo_ids=[a, b])
+def compare(a: str, b: str, who: Principal = Who):
+    audit.record(who.user, who.role, "compare_district", geo_ids=[a, b])
     return tools.compare_district(a, b)
 
 
 @api.get("/districts/{geo_id}/programs")
-def district_programs(geo_id: str, req: Request):
-    audit.record(*_who(req), "find_programs", geo_ids=[geo_id])
+def district_programs(geo_id: str, who: Principal = Who):
+    audit.record(who.user, who.role, "find_programs", geo_ids=[geo_id])
     return tools.find_programs(geo_id, limit=12)
 
 
@@ -116,15 +120,14 @@ def cite(obs_id: str):
 
 
 @api.post("/agent/ask", response_model=AgentAnswer)
-async def agent_ask(body: AskRequest, req: Request):
+async def agent_ask(body: AskRequest, who: Principal = Who):
     a = await ask(body.question, body.geo_id)
-    audit.record(*_who(req), "agent_ask", route=a.route, geo_ids=a.geo_ids,
+    audit.record(who.user, who.role, "agent_ask", route=a.route, geo_ids=a.geo_ids,
                  row_count=len(a.observations), query=body.question)
     return a
 
 
 @api.get("/audit/verify")
-def audit_verify(req: Request):
-    if _who(req)[1] not in ("auditor", "admin"):
-        raise HTTPException(403, "auditor role required")
+def audit_verify(who: Principal = Who):
+    who.require("auditor", "admin")
     return audit.verify_chain()

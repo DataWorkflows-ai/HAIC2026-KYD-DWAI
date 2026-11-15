@@ -34,7 +34,15 @@ def test_okina_normalization():
 
 
 def test_audit_chain():
-    assert c.get("/api/audit/verify", headers={"x-kyd-role": "auditor"}).json()["ok"]
+    from app.auth import mint
+    from app.config import settings
+    s = settings()
+    old, s.auth_secret = s.auth_secret, "test-secret"
+    try:
+        tok = mint("auditor.test", "auditor")
+        assert c.get("/api/audit/verify", headers={"Authorization": f"Bearer {tok}"}).json()["ok"]
+    finally:
+        s.auth_secret = old
 
 
 # ── real data, map and representation ──────────────────────────────────────

@@ -13,6 +13,10 @@ from pydantic import BaseModel
 from ..config import settings
 from .tools import TOOL_SPECS, TOOLS
 
+class NotConfigured(RuntimeError):
+    """No LLM provider is configured (KYD_LLM_PROVIDER=none)."""
+
+
 SYSTEM = """You are Know Your District, a nonpartisan assistant for Hawaiʻi legislative offices.
 Rules:
 - Use tools for every figure. Never state a number that a tool did not return.
@@ -59,31 +63,57 @@ def collect_obs(payload) -> list[dict]:
 
 
 NUM = re.compile(r"(?<![\w-])\$?\d[\d,]*(?:\.\d+)?%?")
+# Spans that hold numbers we never check: citation ids, district ids/names, years and year ranges.
+_SKIP = re.compile(r"\[obs:[^\]]+\]|\b(?:SD|HD)-\d+\b|\bDistrict \d+\b|\b(?:19|20)\d{2}(?:[–-](?:19|20)\d{2})?\b")
+REDACTED = "[figure removed: not from a cited source]"
 
 
-def unsupported_numbers(text: str, obs: list[dict]) -> list[str]:
-    """Return numbers in the text that do not match any returned value or MOE.
-    District numbers, years and citation ids are ignored."""
+def _allowed(obs: list[dict]) -> set[float]:
     allowed = set()
     for o in obs:
         for k in ("value", "moe"):
             v = o.get(k)
             if v is not None:
                 allowed |= {round(float(v), 1), round(float(v)), round(float(v), 2)}
-    bad = []
-    clean = re.sub(r"\[obs:[^\]]+\]|\b(?:SD|HD)-\d+\b|\bDistrict \d+\b|\b(?:19|20)\d{2}(?:[–-](?:19|20)\d{2})?\b", "", text)
-    for m in NUM.findall(clean):
-        n = float(m.strip("$%").replace(",", ""))
-        if n in allowed or round(n, 1) in allowed or round(n) in allowed or n < 10 and float(n).is_integer():
+    return allowed
+
+
+def _unsupported_spans(text: str, obs: list[dict]) -> list[tuple[int, int, str]]:
+    allowed = _allowed(obs)
+    skip = [m.span() for m in _SKIP.finditer(text)]
+    out = []
+    for m in NUM.finditer(text):
+        if any(a <= m.start() < b for a, b in skip):
             continue
-        bad.append(m)
-    return bad
+        n = float(m.group().strip("$%").replace(",", ""))
+        if n in allowed or round(n, 1) in allowed or round(n) in allowed or n < 10 and n.is_integer():
+            continue
+        out.append((m.start(), m.end(), m.group()))
+    return out
+
+
+def unsupported_numbers(text: str, obs: list[dict]) -> list[str]:
+    """Numbers in the text that do not match any returned value or MOE.
+    District numbers, years, citation ids and small counts (< 10) are ignored."""
+    return [s for _, _, s in _unsupported_spans(text, obs)]
+
+
+def redact_unsupported(text: str, obs: list[dict]) -> tuple[str, list[str]]:
+    """Replace every unsupported number in place, so it never reaches the user, and say so once."""
+    spans = _unsupported_spans(text, obs)
+    if not spans:
+        return text, []
+    for a, b, _ in reversed(spans):
+        text = text[:a] + REDACTED + text[b:]
+    text += ("\n\n⚠ Some figures were removed because they could not be traced to a cited source. "
+             "Ask again, or open the district profile for the sourced numbers.")
+    return text, [s for _, _, s in spans]
 
 
 async def run(question: str, hint: dict, max_steps: int = 6) -> tuple[str, list[dict], list[dict]]:
     s = settings()
     if s.llm_provider == "none":
-        raise RuntimeError("no LLM configured")
+        raise NotConfigured("no LLM configured")
     user = f"{question}\n\n(System 1 hint: {json.dumps(hint)})"
     trace: list[dict] = []
     if s.llm_provider == "anthropic":

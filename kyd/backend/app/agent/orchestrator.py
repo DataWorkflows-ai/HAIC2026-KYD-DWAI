@@ -1,10 +1,12 @@
 """Entry point for /api/agent/ask. Runs System 1 → optional System 2, then validation."""
 from __future__ import annotations
+import logging
 from ..models import AgentAnswer, Observation, ProgramMatch
 from ..services.repo import repo
 from . import system1, system2
 from .tools import compare_district, find_programs, get_district_profile
 
+log = logging.getLogger("kyd.agent")
 HEADLINE = ["total_pop", "median_hh_income", "pct_below_fpl", "pct_65plus", "pct_rent_burden_30", "pct_uninsured"]
 
 
@@ -46,6 +48,37 @@ def answer_s1(rt: system1.Route) -> AgentAnswer:
                        route="S1", intent="profile", geo_ids=[g], observations=p.observations, trace=trace)
 
 
+def _district_label(geo_id: str) -> str:
+    return f"{'Senate' if geo_id.startswith('SD') else 'House'} District {int(geo_id[3:])}"
+
+
+def _clarify_place(rt: system1.Route, reasons: list[str]) -> AgentAnswer | None:
+    """A place that spans several districts, and no LLM to reason about it: ask which district."""
+    split = [p for p in rt.places if not p["dominant"] and p["candidates"]]
+    if not split:
+        return None
+    p = split[0]
+    opts = [_district_label(g) for g in p["candidates"]]
+    listed = opts[0] if len(opts) == 1 else ", ".join(opts[:-1]) + f" or {opts[-1]}"
+    return AgentAnswer(text=f"{p['name']} falls in more than one district. Do you mean {listed}?",
+                       route="S1", intent=rt.intent, geo_ids=p["candidates"], escalation_reasons=reasons)
+
+
+def _fallback(rt: system1.Route, reason: str) -> AgentAnswer:
+    """S2 is unavailable or failed. Answer with a template if the route allows it, otherwise ask."""
+    reasons = rt.reasons + [reason]
+    if (c := _clarify_place(rt, reasons)) is not None:
+        return c
+    if rt.geo_ids and len(rt.geo_ids) <= 2:
+        if rt.intent not in ("compare", "programs") or (rt.intent == "compare" and len(rt.geo_ids) < 2):
+            rt.intent = "profile"                                 # unclear intent, one district → its profile
+        a = answer_s1(rt)
+        a.escalation_reasons = reasons
+        return a
+    return AgentAnswer(text="Which district do you mean? For example, “House District 22” or “Senate District 9”.",
+                       route="S1", intent=rt.intent, escalation_reasons=reasons)
+
+
 async def ask(question: str, context_geo: str | None) -> AgentAnswer:
     rt = system1.route(question, context_geo)
     if rt.decision == "REFUSE":
@@ -61,20 +94,15 @@ async def ask(question: str, context_geo: str | None) -> AgentAnswer:
 
     try:
         text, obs, trace = await system2.run(question, {"intent": rt.intent, "geo_ids": rt.geo_ids,
-                                                        "reasons": rt.reasons})
-    except RuntimeError:                                          # no LLM configured → degrade gracefully
-        if rt.geo_ids and rt.intent:
-            if rt.intent == "compare" and len(rt.geo_ids) < 2:
-                rt.intent = "profile"
-            a = answer_s1(rt)
-            a.escalation_reasons = rt.reasons + ["s2_unavailable"]
-            return a
-        return AgentAnswer(text="Which district do you mean? For example, “House District 22” or “Senate District 9”.",
-                           route="S1", intent=rt.intent, escalation_reasons=rt.reasons + ["s2_unavailable"])
-    bad = system2.unsupported_numbers(text, obs)
-    if bad:
-        text += f"\n\n⚠ Validation: these numbers were not traced to a cited source and should be ignored: {', '.join(bad)}"
+                                                        "reasons": rt.reasons, "places": rt.places})
+    except system2.NotConfigured:                                 # no LLM configured → degrade gracefully
+        return _fallback(rt, "s2_unavailable")
+    except Exception:                                             # timeout, 5xx, bad JSON … never a 500
+        log.exception("System 2 failed; falling back to System 1")
+        return _fallback(rt, "s2_error")
+    text, bad = system2.redact_unsupported(text, obs)
+    reasons = rt.reasons + (["unsupported_numbers_removed"] if bad else [])
     return AgentAnswer(text=text, route="S2", intent=rt.intent, geo_ids=rt.geo_ids,
                        observations=[Observation(**{k: v for k, v in o.items() if k in Observation.model_fields})
                                      for o in obs],
-                       escalation_reasons=rt.reasons, trace=[{"tool": t["tool"], "args": t["args"]} for t in trace])
+                       escalation_reasons=reasons, trace=[{"tool": t["tool"], "args": t["args"]} for t in trace])
