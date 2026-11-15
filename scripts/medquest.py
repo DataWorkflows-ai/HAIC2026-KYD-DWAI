@@ -231,7 +231,63 @@ def get_medquest_poverty(
     }
 
 
-def search_medquest_uninsured(chamber: str | None = None) -> list[dict[str, Any]]:
+def get_medquest_island_ratio(sfy: int = 2025) -> dict[str, Any]:
+    """
+    Island-level enrollment-to-need ratio. Its own filter.
+
+    Need = county population × 2024 S1701 poverty rate (people below 100% FPL).
+    Enrollment = DHS Databook page 27 recipients for that island.
+    Ratio = enrollment / people below poverty.
+
+    Rough. Med-QUEST eligibility extends above 100% FPL (138% for adults,
+    higher for children, pregnant women, elderly/disabled), so the ratio
+    will often be above 1. Compare islands to each other, not to 1.0.
+    """
+    # 2024 ACS S1701 poverty rate by county (DHS Databook reprint)
+    poverty_rate = {"oahu": 8.8, "hawaii": 16.7, "kauai": 7.4, "maui": 9.7}
+    # July 2025 county population from the project county table
+    population = {"oahu": 988703, "hawaii": 210043, "kauai": 73400, "maui": 160674}
+
+    row = next((r for r in ENROLLMENT if r["sfy"] == sfy), None)
+    if not row:
+        return {"data_available": False, "error": "sfy must be 2015-2025"}
+
+    islands = []
+    for name in ["oahu", "hawaii", "kauai", "maui"]:
+        rate = poverty_rate[name]
+        pop = population[name]
+        need = round(pop * rate / 100)
+        enrolled = row[name]
+        ratio = round(enrolled / need, 2) if need else None
+        islands.append({
+            "island": name,
+            "enrollment": enrolled,
+            "poverty_rate_percent": rate,
+            "population": pop,
+            "people_below_poverty": need,
+            "enrollment_to_need_ratio": ratio,
+        })
+
+    islands.sort(key=lambda r: r["enrollment_to_need_ratio"] or 0)
+    return {
+        "data_available": True,
+        "capability": "medquest_island_ratio",
+        "program": "Med-QUEST",
+        "filter": "island_enrollment_to_need",
+        "title": "Enrollment-to-need ratio by island",
+        "sfy": sfy,
+        "islands": islands,
+        "lowest_ratio": islands[0]["island"] if islands else None,
+        "method": "enrollment / (county population × 2024 poverty rate)",
+        "interpretation": "A lower ratio means enrollment looks thinner relative to the county poverty population. Ratios above 1 are expected because eligibility extends above 100% FPL.",
+        "how_to_display": "Own filter on the Med-QUEST card. Rank islands by the ratio.",
+        "caveats": [
+            "Rough. Need is below 100% of poverty; Med-QUEST eligibility is higher.",
+            "Molokai and Lanai are in the Maui county poverty rate, not separate.",
+            "Island figures, not legislative districts.",
+            "Not a measured eligible-but-not-enrolled gap.",
+        ],
+    }
     """All districts ranked by uninsured rate, highest first."""
     chambers = [chamber.lower()] if chamber else ["senate", "house"]
     out = []
