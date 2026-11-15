@@ -147,16 +147,22 @@ This is an indirect comparison. DHS demographics are statewide, not by district.
 
 ## General Assistance (standalone)
 
-Reported separately from SNAP, TANF, and other programs.
+Reported separately from SNAP, TANF, AABD, and Med-QUEST. Three lenses. The user can turn on one, two, or all three.
 
-Statewide snapshot from DHS Databook 2025, page 5 (June 2025): 4,432 average monthly clients. By sex: 59% male, 41% female. By age: 69% are 40-64, 30% are 18-39. By race: Caucasian 35%, Hawaiian/part-Hawaiian 28%, Other Pacific Islander 13%. Citizenship: 90% US citizen.
+| Lens | What it shows | Source |
+|------|---------------|--------|
+| disability | Percent with a disability | S1810 |
+| poverty_18_64 | Adults 18-64 below poverty | S1701 C02_006E |
+| age_structure | Working-age share (18-64) | DP05 |
 
-District proxy from Census S1810: percent with a disability. A higher rate means more people likely eligible for GA. S1801 was not returned for these districts; S1810 supplies the same rate.
+A higher disability rate, more adults 18-64 in poverty, or a larger working-age share means a larger likely GA-eligible population.
 
 ```python
-from scripts.ga_proxy import get_ga_proxy, search_ga_proxy
-get_ga_proxy("senate", 1)
-search_ga_proxy()  # ranked by disability rate
+from scripts.ga_proxy import get_ga_proxy
+
+get_ga_proxy("senate", 1)                                          # all three
+get_ga_proxy("senate", 1, lenses=["disability"])                   # one
+get_ga_proxy("senate", 1, lenses=["disability", "poverty_18_64"])  # two
 ```
 
-Show as its own card.
+Statewide snapshot from DHS Databook 2025, page 5: 4,432 average monthly clients. 59% male, 41% female. 69% are 40-64. Show as its own card.
