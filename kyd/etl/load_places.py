@@ -8,6 +8,7 @@ Source: Hawaii Statewide GIS Program, Census/MapServer
 
 Output
   kyd/data/place_aliases.json   {alias: {"name", "kind", "HD": [[geo_id, share], ...], "SD": [...]}}
+                                also merges kyd/data/neighborhood_aliases.json (run load_local_areas.py first)
 
 `share` is the fraction of the place's AREA inside the district (equal-area projection),
 so it has the same population-weighting caveat as district_overlap.csv. Shares under 5%
@@ -33,6 +34,10 @@ MIN_SHARE = 0.05
 # Common short forms → CDP names. Hyphenated CDPs ("Haiku-Pauwela") also get each part as an alias.
 EXTRA = {"honolulu": ["Urban Honolulu"], "mililani": ["Mililani Town", "Mililani Mauka"],
          "ewa": ["Ewa Beach", "Ewa Gentry", "Ewa Villages"]}
+
+
+ENGLISH = {"triangle", "anchorage", "beachside", "hillcrest", "sisal", "marconi", "lakeside", "university",
+           "downtown", "kokomo", "reserve", "military", "queens", "triangle park", "village park", "sunset beach"}
 
 
 def normalize(s: str) -> str:
@@ -102,6 +107,17 @@ def main() -> None:
     for f in json.loads((RAW / "zcta20.geojson").read_text())["features"]:
         z = f["properties"]["zcta5ce20"]
         add(z, f"ZIP {z}", "zip", districts_for(shape(f["geometry"]), chambers))
+
+    # Neighborhoods (Oʻahu) and GNIS places (neighbor islands) from load_local_areas.py fill in names that
+    # are not Census places. Census places win on a name clash. Plain English words are left out so
+    # that, say, "triangle" or "anchorage" in a question is not read as a place.
+    extra = OUT_DATA / "neighborhood_aliases.json"
+    if extra.exists():
+        for k, v in json.loads(extra.read_text(encoding="utf-8"))["aliases"].items():
+            if k not in aliases and k not in ENGLISH:
+                aliases[k] = v
+    else:
+        print("note: run load_local_areas.py first to include neighborhoods")
 
     out = OUT_DATA / "place_aliases.json"
     out.write_text(json.dumps({"source": {k: f"{SERVICE}/{v}" for k, v in LAYERS.items()},

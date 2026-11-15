@@ -69,7 +69,9 @@ The frontend sends `sessionStorage.kyd_token` as the bearer token when present.
 ## Agent routing notes
 
 - Guardrails refuse electoral advice and party politics, not voting records ("how did HD 22 vote on SB 123").
-- Place names and ZIPs resolve through `kyd/data/place_aliases.json`. A place maps to one district only when
+- District numbers are State Legislature numbers (verified against the official state GIS service for all 76).
+  County council and Oʻahu neighborhood board numbers differ and are shown separately in the map cards.
+- Place names, Oʻahu neighborhoods and ZIPs resolve through `kyd/data/place_aliases.json`. A place maps to one district only when
   that district holds ≥ 60% of its area; otherwise the agent escalates (`place_spans_districts`) and, with no
   LLM, asks which district.
 - If System 2 fails (timeout, HTTP error, bad response), the request falls back to a System 1 template
@@ -92,6 +94,7 @@ The frontend sends `sessionStorage.kyd_token` as the bearer token when present.
 |---|---|---|
 | `kyd/etl/load_boundaries.py [--fetch]` | State GIS AdminBnd/MapServer 33 and 34 | `data/raw/gis/*`, `kyd/frontend/public/geo/*.geojson`, `kyd/data/district_overlap.csv`, `district_counties.json` |
 | `kyd/etl/load_acs_profile.py` | `data/raw/acs2024_5yr_{house,senate}_hi.xlsx` (DP02–DP05) | `kyd/data/kyd.sqlite` (28 indicators × 76 districts, plus derived state values) |
+| `kyd/etl/load_local_areas.py [--fetch]` | Honolulu open data (Realtor neighborhoods, Neighborhood Boards), state GIS council districts and GNIS places | `kyd/data/district_local.json` (neighborhoods, boards, council per district), `neighborhood_aliases.json` |
 | `kyd/etl/load_places.py [--fetch]` | State GIS Census/MapServer 28 (2020 CDPs) and 32 (ZCTAs) | `kyd/data/place_aliases.json` (place/ZIP → districts with area share) |
 | `kyd/data/legislators.csv` | hand-curated, with a source on every row | Representation API |
 | `kyd/data/programs.json` | hand-curated | Program graph (fixture form of the Neo4j model) |

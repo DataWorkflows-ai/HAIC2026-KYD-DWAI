@@ -24,11 +24,14 @@ export type Member = {
   status: 'official' | 'secondary' | 'verify' | 'pending'; source: string | null; source_url: string | null; note: string | null;
 };
 export type Counterpart = { geo_id: string; share_of_this: number; share_of_other: number; member: Member | null };
+export type Board = { number: number; name: string; share: number };
+export type Council = { body: string; number: number | null; name: string | null; share: number };
 export type MapDistrict = {
   geo_id: string; name: string; counties: string[]; member: Member | null; counterparts: Counterpart[];
+  neighborhoods: string[]; boards: Board[]; council: Council[];
   top_program: string | null; figures: Obs[];
 };
-export type MapSummary = { roster: { as_of: string; counts: Record<string, number> }; overlap_method: string; districts: MapDistrict[] };
+export type MapSummary = { roster: { as_of: string; counts: Record<string, number> }; overlap_method: string; local_method: string; districts: MapDistrict[] };
 export type Health = { ok: boolean; mode: string; demo: boolean; llm: string; geographies: number; programs: number };
 
 // Bearer token from the login flow (see backend/app/auth.py). Stored per tab; absent = anonymous viewer.

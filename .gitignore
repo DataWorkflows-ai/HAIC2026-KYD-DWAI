@@ -218,3 +218,8 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Large raw GIS downloads; re-fetched by kyd/etl/load_places.py and load_local_areas.py (.sha256 files are committed)
+data/raw/gis/cdp20.geojson
+data/raw/gis/zcta20.geojson
+data/raw/gis/local/*.geojson

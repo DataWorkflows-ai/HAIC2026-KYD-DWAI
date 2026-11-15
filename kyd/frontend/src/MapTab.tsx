@@ -49,6 +49,46 @@ function loadSdk(): Promise<any> {
 }
 
 const memberName = (m: Member | null) => m?.name ?? 'Not yet confirmed';
+const pct = (x: number) => `${Math.round(x * 100)}%`;
+
+/** Neighborhoods, Oʻahu neighborhood boards and county council districts inside a legislative district. */
+function LocalAreas({ d, compact }: { d: MapDistrict; compact: boolean }) {
+  const shown = compact ? d.neighborhoods.slice(0, 8) : d.neighborhoods;
+  const more = d.neighborhoods.length - shown.length;
+  const council = d.council.filter(c => c.share >= (compact ? 0.15 : 0.05));
+  const boards = d.boards.filter(b => b.share >= (compact ? 0.15 : 0.05));
+  return (
+    <>
+      {d.neighborhoods.length > 0 && (
+        <div>
+          <div className="text-[11px] uppercase tracking-wide text-slate-500">Neighborhoods</div>
+          <div className="text-slate-200 text-xs leading-snug">
+            {shown.join(' · ')}{more > 0 && <span className="text-slate-500"> + {more} more</span>}
+          </div>
+        </div>
+      )}
+      {council.length > 0 && (
+        <div className="text-xs">
+          <span className="text-slate-500">{council[0].body.replace(' (residency area)', '')}: </span>
+          {council.map((c, i) => (
+            <span key={`${c.body}${c.number}`} className="text-slate-200">
+              {i > 0 && ', '}{c.number == null || (c.name && c.body.includes('residency')) ? c.name : `District ${c.number}`}
+              {council.length > 1 && <span className="text-slate-500"> ({pct(c.share)})</span>}
+            </span>))}
+        </div>
+      )}
+      {boards.length > 0 && (
+        <div className="text-xs">
+          <span className="text-slate-500">Neighborhood board{boards.length > 1 ? 's' : ''}: </span>
+          {boards.map((b, i) => (
+            <span key={b.number} className="text-slate-200">
+              {i > 0 && ', '}No. {b.number} {b.name}{boards.length > 1 && <span className="text-slate-500"> ({pct(b.share)})</span>}
+            </span>))}
+        </div>
+      )}
+    </>
+  );
+}
 const isTouch = () => typeof window !== 'undefined' && window.matchMedia?.('(hover: none)').matches;
 
 function StatusBadge({ m }: { m: Member | null }) {
@@ -68,6 +108,7 @@ function DistrictCard({ d, chamber, compact = false }: { d: MapDistrict; chamber
         <div className="font-semibold text-slate-100">{d.name}</div>
         <div className="text-xs text-slate-400">{d.counties.join(', ')}</div>
       </div>
+      <LocalAreas d={d} compact={compact} />
       <div>
         <div className="text-[11px] uppercase tracking-wide text-slate-500">{d.member?.title ?? (chamber === 'sldl' ? 'Representative' : 'Senator')}</div>
         <div className="text-slate-100">{memberName(d.member)}<StatusBadge m={d.member} /></div>
@@ -320,7 +361,7 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
         {/* hover card (desktop) */}
         {hov && hover && (
           <div ref={tooltipHost} className="absolute z-10 w-72 p-3 rounded-lg bg-premium-900/95 border border-cyan-800 shadow-2xl pointer-events-none"
-            style={{ left: Math.min(hover.x + 16, (el.current?.clientWidth ?? 800) - 300), top: Math.min(hover.y + 16, (el.current?.clientHeight ?? 600) - 260) }}>
+            style={{ left: Math.min(hover.x + 16, (el.current?.clientWidth ?? 800) - 300), top: Math.max(8, Math.min(hover.y + 16, (el.current?.clientHeight ?? 600) - 440)) }}>
             <DistrictCard d={hov} chamber={chamber} compact />
             <div className="text-[10px] text-slate-500 mt-2">Click to pin · double-click to open profile</div>
           </div>
@@ -351,6 +392,8 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
           <ul className="text-xs text-slate-400 space-y-1.5 list-disc ml-4">
             <li>Boundaries: 2022 reapportionment plan, from the Hawaiʻi Statewide GIS Program ArcGIS service (white lines).</li>
             <li>House and Senate districts do not nest. Overlap shares are by land area until population weights are added.</li>
+            <li>District numbers are State Legislature districts. County council and Oʻahu neighborhood board numbers are different and are listed separately.</li>
+            {summary[chamber]?.local_method && <li>{summary[chamber]!.local_method}</li>}
             <li>Legislators as of {roster?.as_of ?? '—'}, taken from Office of Elections final reports and the Legislature roster.
               {roster && (roster.counts.secondary || roster.counts.pending || roster.counts.verify) ? (
                 <> {roster.counts.secondary ?? 0} seats are still to be confirmed against official records, {roster.counts.pending ?? 0} are pending and {roster.counts.verify ?? 0} need review.</>) : null}

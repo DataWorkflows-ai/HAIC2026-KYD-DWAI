@@ -89,9 +89,10 @@ def map_summary(geo_type: str = "sldl"):
     for g in geos:
         pm = tools.find_programs(g.geo_id, limit=1)
         top[g.geo_id] = pm[0].program.name if pm else None
-    return {"roster": rep.roster_summary(), "overlap_method": rep.OVERLAP_METHOD, "districts": [
+    return {"roster": rep.roster_summary(), "overlap_method": rep.OVERLAP_METHOD, "local_method": rep.LOCAL_METHOD,
+            "districts": [
         {"geo_id": g.geo_id, "name": g.name, "counties": g.counties, "member": rep.member(g.geo_id),
-         "counterparts": rep.counterparts(g.geo_id), "top_program": top[g.geo_id],
+         "counterparts": rep.counterparts(g.geo_id), **rep.local_areas(g.geo_id), "top_program": top[g.geo_id],
          "figures": sorted(by.get(g.geo_id, []), key=lambda o: order[o.indicator])} for g in geos]}
 
 

@@ -130,3 +130,22 @@ def test_s2_answer_with_invented_number_is_redacted(monkeypatch):
     monkeypatch.setattr(system2, "run", fake)
     a = asyncio.run(orchestrator.ask("how does HD 22 compare with others nearby on things", None))
     assert "99.9" not in a.text and f"{o['value']}%" in a.text and "unsupported_numbers_removed" in a.escalation_reasons
+
+
+# neighborhoods, boards, council districts ──────────────────────────────────
+def test_every_district_lists_neighborhoods():
+    d = c.get("/api/map-summary?geo_type=sldl").json()["districts"] + \
+        c.get("/api/map-summary?geo_type=sldu").json()["districts"]
+    assert len(d) == 76 and all(x["neighborhoods"] for x in d)
+    assert all(x["council"] for x in d)                      # Kauaʻi: one at-large entry
+
+
+def test_hd19_is_inside_honolulu_council_district_4():
+    r = c.get("/api/representation/HD-19").json()
+    assert r["council"][0]["body"] == "Honolulu City Council" and r["council"][0]["number"] == 4
+    assert "ʻĀina Haina" in r["neighborhoods"]
+
+
+def test_neighborhood_names_resolve():
+    assert system1.route("Profile of Kaimukī").geo_ids == ["HD-20"]
+    assert system1.route("Kaunakakai demographics").geo_ids == ["HD-13"]

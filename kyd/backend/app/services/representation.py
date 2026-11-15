@@ -10,6 +10,7 @@ share of overlap.
 """
 from __future__ import annotations
 import csv
+import json
 from functools import lru_cache
 from ..config import settings
 
@@ -32,6 +33,22 @@ def _overlap() -> list[dict]:
     with p.open() as f:
         return [{**r, "share_of_house": float(r["share_of_house"]), "share_of_senate": float(r["share_of_senate"])}
                 for r in csv.DictReader(f)]
+
+
+LOCAL_METHOD = ("Neighborhoods: Honolulu Board of Realtors areas (City & County of Honolulu, 2012) on Oʻahu, "
+                "USGS GNIS populated places elsewhere. Boards: Honolulu Neighborhood Plan (2008). Council districts: "
+                "Hawaiʻi Statewide GIS Program. Matched by area overlap with 2022 district boundaries.")
+
+
+@lru_cache
+def _local() -> dict[str, dict]:
+    p = settings().data_dir / "district_local.json"
+    return json.loads(p.read_text(encoding="utf-8"))["districts"] if p.exists() else {}
+
+
+def local_areas(geo_id: str) -> dict:
+    """Neighborhoods, Oʻahu neighborhood boards and county council districts inside a legislative district."""
+    return _local().get(geo_id, {"neighborhoods": [], "boards": [], "council": []})
 
 
 def member(geo_id: str) -> dict | None:
@@ -59,7 +76,8 @@ def counterparts(geo_id: str) -> list[dict]:
 
 def representation(geo_id: str) -> dict:
     return {"geo_id": geo_id, "member": member(geo_id), "counterparts": counterparts(geo_id),
-            "roster_as_of": ROSTER_AS_OF, "overlap_method": OVERLAP_METHOD}
+            **local_areas(geo_id), "roster_as_of": ROSTER_AS_OF, "overlap_method": OVERLAP_METHOD,
+            "local_method": LOCAL_METHOD}
 
 
 def roster_summary() -> dict:
