@@ -385,3 +385,12 @@ Its own query, layer, and data field for AABD.
 - Layering: can be shown on its own, or layered with the disability proxy (S1810) for the same Senate district.
 - Not for House: Census withholds S0103 for most House districts. A missing House cell is not zero.
 - Not enrollment: this is a Census age count, not AABD caseload. Statewide AABD demographics are in the DHS Databook 2025, page 4.
+
+## S2701 — Health insurance coverage (unique Med-QUEST filter)
+
+Uninsured rate by legislative district. Its own filter for Med-QUEST.
+
+- Files: `data/raw/S2701_senate_districts.json`, `data/raw/S2701_house_districts.json`
+- Key columns: `S2701_C05_001E` percent uninsured, `S2701_C04_001E` uninsured count
+- Use: a higher uninsured rate may mean more Med-QUEST-eligible residents who are not enrolled
+- Not a measured gap. Island enrollment (Databook page 27) is a separate figure.

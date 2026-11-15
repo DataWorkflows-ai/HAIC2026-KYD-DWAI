@@ -6,12 +6,24 @@ SFY 2015 through SFY 2025. Figures as of June for each fiscal year.
 
 This is island enrollment, not legislative-district enrollment,
 and not an eligible-but-not-enrolled gap.
+
+Unique filter: S2701 uninsured rate by district. A higher uninsured
+rate may mean more Med-QUEST-eligible residents who are not enrolled.
 Front-end agnostic. No UI imports.
 """
 
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Any
+
+from snap_gap import _load, _district_number, _num
+
+RAW = Path(__file__).resolve().parent.parent / "data" / "raw"
+S2701 = {
+    "senate": RAW / "S2701_senate_districts.json",
+    "house": RAW / "S2701_house_districts.json",
+}
 
 # DHS Databook 2025, page 27. Number of recipients by island.
 ENROLLMENT = [
@@ -87,3 +99,71 @@ def get_medquest_trend(island: str = "statewide") -> dict[str, Any]:
         "series": series,
         "source": "DHS Databook 2025, page 27",
     }
+
+
+def get_medquest_uninsured(chamber: str, district_number: int) -> dict[str, Any]:
+    """
+    Unique Med-QUEST filter: uninsured rate by legislative district.
+
+    Higher uninsured rate may mean more Med-QUEST-eligible residents
+    who are not enrolled. This is a proxy, not a measured gap.
+    """
+    chamber = chamber.lower()
+    if chamber not in S2701:
+        return {"data_available": False, "error": "chamber must be 'house' or 'senate'"}
+
+    header, rows = _load(S2701[chamber])
+    name_idx = header.index("NAME")
+    row = next(
+        ({header[i]: r[i] for i in range(len(header))}
+         for r in rows if _district_number(r[name_idx]) == district_number),
+        None,
+    )
+    if not row:
+        return {"data_available": False, "chamber": chamber, "district": district_number,
+                "error": "District not found in S2701."}
+
+    total = _num(row.get("S2701_C01_001E"))
+    insured = _num(row.get("S2701_C02_001E"))
+    uninsured = _num(row.get("S2701_C04_001E"))
+    uninsured_rate = _num(row.get("S2701_C05_001E"))
+    insured_rate = _num(row.get("S2701_C03_001E"))
+
+    return {
+        "data_available": True,
+        "capability": "medquest_uninsured",
+        "program": "Med-QUEST",
+        "filter": "uninsured",
+        "title": "Uninsured rate",
+        "chamber": chamber,
+        "district": district_number,
+        "uninsured_rate_percent": uninsured_rate,
+        "uninsured_count": uninsured,
+        "insured_rate_percent": insured_rate,
+        "insured_count": insured,
+        "civilian_population": total,
+        "source": "S2701 C05_001E (percent uninsured), C04_001E (count)",
+        "interpretation": "A higher uninsured rate may mean more Med-QUEST-eligible residents who are not enrolled.",
+        "how_to_display": "Own filter on the Med-QUEST card. Unique to this program.",
+        "caveats": [
+            "Proxy only. Uninsured is not the same as Med-QUEST-eligible.",
+            "Not a measured eligible-but-not-enrolled gap.",
+            "Enrollment by island is a separate figure and is not by district.",
+        ],
+    }
+
+
+def search_medquest_uninsured(chamber: str | None = None) -> list[dict[str, Any]]:
+    """All districts ranked by uninsured rate, highest first."""
+    chambers = [chamber.lower()] if chamber else ["senate", "house"]
+    out = []
+    for ch in chambers:
+        header, rows = _load(S2701[ch])
+        name_idx = header.index("NAME")
+        for row in rows:
+            num = _district_number(row[name_idx])
+            if num is None:
+                continue
+            out.append(get_medquest_uninsured(ch, num))
+    out.sort(key=lambda r: r.get("uninsured_rate_percent") or 0, reverse=True)
+    return out

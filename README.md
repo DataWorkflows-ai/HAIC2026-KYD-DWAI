@@ -195,3 +195,12 @@ get_medquest_trend("statewide")       # 2015-2025 series
 SFY 2025: 404,922 statewide. Oahu 244,167 (60.3%), Hawaii 85,322 (21.1%), Maui 47,691 (11.8%), Kauai 22,964 (5.7%), Molokai 3,881, Lanai 897.
 
 Island enrollment only. Not by legislative district. Not a gap.
+
+Unique filter: uninsured rate by district from Census S2701. A higher uninsured rate may mean more Med-QUEST-eligible residents who are not enrolled.
+
+```python
+from scripts.medquest import get_medquest_uninsured, search_medquest_uninsured
+get_medquest_uninsured("senate", 1)
+search_medquest_uninsured()  # ranked by uninsured rate
+```
+
