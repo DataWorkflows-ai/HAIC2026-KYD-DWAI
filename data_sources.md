@@ -394,3 +394,14 @@ Uninsured rate by legislative district. Its own filter for Med-QUEST.
 - Key columns: `S2701_C05_001E` percent uninsured, `S2701_C04_001E` uninsured count
 - Use: a higher uninsured rate may mean more Med-QUEST-eligible residents who are not enrolled
 - Not a measured gap. Island enrollment (Databook page 27) is a separate figure.
+
+## Med-QUEST enrollment-to-need ratio (island comparison)
+
+Its own filter. Compares islands to each other. Not a district measure.
+
+- Ratio = island Med-QUEST enrollment (DHS Databook page 27) / people below poverty
+- People below poverty = county population × 2024 S1701 poverty rate
+- A **lower** ratio means enrollment is thinner relative to the poverty population: more potential unenrolled eligible.
+- A **higher** ratio does **not** mean more potential eligible. It means enrollment looks thicker relative to need.
+- Ratios above 1 are expected because Med-QUEST eligibility extends above 100% of poverty.
+- Molokai and Lanai are inside the Maui county poverty rate.

@@ -17,7 +17,7 @@ list_programs()
 | **TANF / TAONF** | Where families with children in poverty are concentrated. | Related children under 18 below poverty, island caseload vs county poverty, race under-enrollment |
 | **General Assistance** | Where temporarily disabled working-age adults may be eligible. | Disability rate, adults 18-64 below poverty, working-age share. One, two, or all three. |
 | **AABD** | Where aged, blind, or disabled residents may be eligible. | Disability prevalence, 65+ (Senate only), foreign-born / Oceania / year of entry |
-| **Med-QUEST** | Island enrollment, where the uninsured are, and where income-eligible people are concentrated. | Enrollment by island (2015-2025), uninsured rate by district, poverty at 125/150/185/200% FPL, enrollment-to-need ratio by island |
+| **Med-QUEST** | Island enrollment, where the uninsured are, and where income-eligible people are concentrated. | Enrollment by island (2015-2025), uninsured rate by district, poverty at 125/150/185/200% FPL, enrollment-to-need ratio by island (lower = thinner enrollment relative to poverty; higher does not mean more eligible) |
 
 Except for SNAP, these are eligibility proxies. They are not district enrollment and not a district gap. Each program is separate. A user can open one, or layer several.
 

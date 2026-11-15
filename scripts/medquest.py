@@ -279,8 +279,8 @@ def get_medquest_island_ratio(sfy: int = 2025) -> dict[str, Any]:
         "islands": islands,
         "lowest_ratio": islands[0]["island"] if islands else None,
         "method": "enrollment / (county population × 2024 poverty rate)",
-        "interpretation": "A lower ratio means enrollment looks thinner relative to the county poverty population. Ratios above 1 are expected because eligibility extends above 100% FPL.",
-        "how_to_display": "Own filter on the Med-QUEST card. Rank islands by the ratio.",
+        "interpretation": "Compare islands to each other. A lower ratio means enrollment is thinner relative to the county poverty population, which suggests more potential unenrolled eligible. A higher ratio does not mean more potential eligible — it means enrollment looks thicker relative to need.",
+        "how_to_display": "Own filter. Show the ratio next to a plain-language note: lower ratio = enrollment thinner relative to poverty. Rank lowest first.",
         "caveats": [
             "Rough. Need is below 100% of poverty; Med-QUEST eligibility is higher.",
             "Molokai and Lanai are in the Maui county poverty rate, not separate.",
