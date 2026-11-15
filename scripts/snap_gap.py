@@ -38,10 +38,12 @@ FILES = {
     "senate": {
         "s2201": RAW / "S2201_senate_districts.json",
         "s1701": RAW / "S1701_senate_districts.json",
+        "dp02": RAW / "DP02_senate_districts.json",
     },
     "house": {
         "s2201": RAW / "S2201_house_districts.json",
         "s1701": RAW / "S1701_house_districts.json",
+        "dp02": RAW / "DP02_house_districts.json",
     },
 }
 
@@ -55,13 +57,17 @@ S1701_BELOW_200_COUNT = "S1701_C01_042E"  # people below 200% FPL
 S1701_BELOW_200_MOE = "S1701_C01_042M"
 S1701_BELOW_POVERTY_COUNT = "S1701_C02_001E"
 S1701_PERCENT_DO_NOT_USE = "S1701_C03_001E"
+DP02_AVG_HH_SIZE = "DP02_0016E"           # average household size (persons)
+DP02_AVG_HH_SIZE_MOE = "DP02_0016M"
 
 CAVEATS = [
     "Gap is computed from counts, not percents.",
     "S2201 C04 is the composition of SNAP households (or the overall receipt rate on the total row). It is not used in the gap.",
     "S1701 C03 is a percent. It is not used in the gap.",
     "Eligibility proxy is the count of people below 200% FPL (Hawaii SNAP gross-income limit per DHS Databook).",
-    "S2201 counts households; S1701 counts people. The residual mixes units and is an estimate, not a measured caseload.",
+    "S2201 counts households; S1701 counts people.",
+    "Person-level SNAP estimate = SNAP household count × district average household size (DP02_0016E). This assumes SNAP households are the same size as all households, which is usually not true. SNAP households tend to be larger. Group-specific average household size is not published at district level in DP02/DP05.",
+    "The person-level gap is an approximation for comparison with S1701. The household-count gap remains the primary figure.",
     "Actual SNAP eligibility also depends on assets, household composition, and immigration status.",
     "All Census figures are sample estimates and carry margins of error.",
 ]
@@ -107,10 +113,12 @@ def get_snap_gap(chamber: str, district_number: int) -> dict[str, Any]:
 
     s2201_header, s2201_rows = _load(FILES[chamber]["s2201"])
     s1701_header, s1701_rows = _load(FILES[chamber]["s1701"])
+    dp02_header, dp02_rows = _load(FILES[chamber]["dp02"])
 
     enrolled_row = _row_by_district(s2201_header, s2201_rows, district_number)
     eligible_row = _row_by_district(s1701_header, s1701_rows, district_number)
-    if not enrolled_row or not eligible_row:
+    size_row = _row_by_district(dp02_header, dp02_rows, district_number)
+    if not enrolled_row or not eligible_row or not size_row:
         return {
             "data_available": False,
             "chamber": chamber,
@@ -124,6 +132,16 @@ def get_snap_gap(chamber: str, district_number: int) -> dict[str, Any]:
     eligible_count = _num(eligible_row.get(S1701_BELOW_200_COUNT))
     eligible_moe = _num(eligible_row.get(S1701_BELOW_200_MOE))
     below_poverty_count = _num(eligible_row.get(S1701_BELOW_POVERTY_COUNT))
+    avg_hh_size = _num(size_row.get(DP02_AVG_HH_SIZE))
+    avg_hh_size_moe = _num(size_row.get(DP02_AVG_HH_SIZE_MOE))
+
+    # Person-level approximation: SNAP households × district average household size
+    snap_persons_est = None
+    person_gap = None
+    if enrolled_count is not None and avg_hh_size is not None:
+        snap_persons_est = round(enrolled_count * avg_hh_size, 0)
+    if snap_persons_est is not None and eligible_count is not None:
+        person_gap = eligible_count - snap_persons_est
 
     # Guard: refuse to compute if someone passes a percent by mistake
     if enrolled_count is not None and enrolled_count < 100 and district_number:
@@ -160,7 +178,18 @@ def get_snap_gap(chamber: str, district_number: int) -> dict[str, Any]:
         "gap": {
             "estimate": gap,
             "formula": "S1701 people below 200% FPL − S2201 SNAP households",
-            "unit_warning": "people minus households — estimate only",
+            "unit_warning": "people minus households — primary count gap; see person_level for same-unit comparison",
+        },
+        "person_level": {
+            "avg_household_size": avg_hh_size,
+            "avg_household_size_moe": avg_hh_size_moe,
+            "avg_household_size_source": "DP02_0016E (district average, all households)",
+            "snap_persons_estimate": snap_persons_est,
+            "formula": "S2201 SNAP households × DP02 average household size",
+            "eligible_persons": eligible_count,
+            "person_gap": person_gap,
+            "person_gap_formula": "S1701 people below 200% FPL − estimated SNAP persons",
+            "limitation": "Uses district-wide average household size, not group-specific. SNAP households are often larger than average, so this may understate SNAP persons.",
         },
         "not_used": {
             "S2201_C04": "percent; composition of SNAP households or overall receipt rate. Not used.",

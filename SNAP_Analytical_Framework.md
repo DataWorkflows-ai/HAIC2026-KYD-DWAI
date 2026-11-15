@@ -70,7 +70,17 @@ gap = S1701 people below 200% FPL (C01_042E)
 
 The residual is the estimated eligible-but-not-enrolled figure. It mixes people and households, so it is an estimate, not a measured caseload. Always return that caveat with the number.
 
-`scripts/snap_gap.py` implements this. `get_snap_gap()` reads only the count columns and records the percent columns under `not_used`.
+### 3b. Person-level approximation (for comparison with S1701)
+
+S2201 is households; S1701 is people. To compare in the same unit:
+
+1. Take the district average household size from DP02 (`DP02_0016E`).
+2. Estimate SNAP persons = SNAP household count (`C03_001E`) × average household size.
+3. Person-level gap = people below 200% FPL (`C01_042E`) − estimated SNAP persons.
+
+DP02/DP05 publish average household size for the district as a whole, not by race or age of householder. Group-specific sizes are not available at this geography, so the same district average is used for every group.
+
+Limitation: SNAP households are often larger than the district average, so this can understate SNAP persons and overstate the gap. The household-count gap remains the primary figure. The person-level figure is an approximation for same-unit comparison only.
 
 ### 4. Compare demographics
 
