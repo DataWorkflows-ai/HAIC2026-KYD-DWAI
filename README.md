@@ -1,6 +1,43 @@
 # HAIC2026-KYD-DWAI
 HAIC 2026 Challenge: Know Your District
 
+## District boundaries
+
+The map uses official 2022 House and Senate polygons from the Hawaiʻi Statewide GIS Program AdminBnd MapServer. One service holds both chambers. Source: Hawaii State Office of Elections, March 2022. The files are saved in the repo and are not downloaded when the app runs.
+
+- Service: https://geodata.hawaii.gov/arcgis/rest/services/AdminBnd/MapServer
+- Senate GeoJSON (layer 34): https://geodata.hawaii.gov/arcgis/rest/services/AdminBnd/MapServer/34/query?where=1%3D1&outFields=*&f=geojson
+- House GeoJSON (layer 33): https://geodata.hawaii.gov/arcgis/rest/services/AdminBnd/MapServer/33/query?where=1%3D1&outFields=*&f=geojson
+- Saved as `data/boundaries/senate_2022.geojson` and `data/boundaries/house_2022.geojson`
+
+**Senate, 25 polygons.** Attributes: `county`, `senate_id` (1–25), `senate_name`, `senate_abbr`, and short code `state_senate` (S01–S25).
+
+**House, 51 polygons.** Attributes: `county`, `house_id` (1–51), district code `state_house` (H01–H51), `house_abbr`, and `house_name`.
+
+Join key to the ACS tables is chamber plus `senate_id` or `house_id`. One feature per district; multipart islands are not separate districts. Full field notes are in `data_sources.md` and `data/boundaries/README.md`.
+
+**Election precincts, 250 polygons.** AdminBnd layer 13, Office of Elections, May 2024. Each precinct carries its 2022 House code (`state_hous`, H01–H51) and Senate code (`state_sena`, S01–S25), plus county. That is the crosswalk for rolling precinct election results up to a legislative district. It does not include total population, target population, or deviation from target.
+
+- Layer: https://geodata.hawaii.gov/arcgis/rest/services/AdminBnd/MapServer/13
+- Metadata: https://files.hawaii.gov/dbedt/op/gis/data/precincts.pdf
+
+## 2022 election results
+
+Use case: how a district voted in 2022. Join to the map on district number. Full notes are in `data_sources.md`.
+
+- Primary, August 13, 2022: `data/processed/election_2022_primary_by_district.csv`. All 25 Senate and 51 House districts. Party-ballot totals, not one combined district vote.
+- General, November 8, 2022, final: `data/processed/election_2022_general_by_district.csv`. One row per contest, district, and candidate. 21 Senate and 42 House contests. Missing contests were not printed, usually because they were uncontested.
+
+## ACS 2020–2024 profiles
+
+The repo has both ACS 2020–2024 5-year workbooks: `data/raw/acs2024_5yr_house_hi.xlsx` and `data/raw/acs2024_5yr_senate_hi.xlsx`. Each has DP02, DP03, DP04, and DP05.
+
+- DP02 (House and Senate): households, education, language, veterans, disability, internet.
+- DP05 (House and Senate): age and sex, race and ethnicity, housing units, citizen voting-age population.
+- Subject tables are separate. S1801 disability by type and S2201 SNAP receipt cover House and Senate. S0103 (age 65+) is Senate only; House is withheld for most districts. S1701 poverty detail is not available at House or Senate district level.
+
+Every number is a sample estimate. Show the margin of error, the table ID, and the 2020–2024 vintage. Hawaii districts are drawn on permanent residents and range from about 24,000 to 84,000 people, so compare percents, not raw counts. These district numbers are the 2022 districts. Do not compare them with pre-2022 ACS or 2020 Census redistricting tables.
+
 ## Verify against the original source data
 
 These steps check the committed district figures against the official DBEDT ACS 2020–2024 five-year workbooks. Run them from the repository root.
@@ -29,3 +66,39 @@ python3 scripts/test_defects.py
 ```
 
 `test_comparison.py` checks ranking, chamber separation, missing values, and CSV contents against the committed data. `test_defects.py` reads the two Excel files and checks that the committed rent-burden figures match the GRAPI section of the source workbooks for all 76 districts. Do not run `scripts/process_acs.py` or `scripts/load_sqlite.py` as part of this check; those rewrite the committed tables.
+
+## SNAP gap analysis (additive)
+
+S2201 (SNAP receipt) and S1701 (poverty / income-to-poverty) JSON tables for House and Senate districts are now in `data/raw/`. These support the district-level enrolled-vs-eligible gap analysis described in `SNAP_Analytical_Framework.md`.
+
+- `data/raw/S2201_senate_districts.json`, `data/raw/S2201_house_districts.json` — enrolled demographic profile
+- `data/raw/S1701_senate_districts.json`, `data/raw/S1701_house_districts.json` — income-eligible population proxy (<130% FPL)
+
+The front-end-agnostic interface is `scripts/snap_gap.py` (`get_snap_gap(chamber, district_number) -> dict`). Any front end can call it. Map configuration, boundary GeoJSON, and existing app code are unchanged.
+
+## TANF/TAONF eligibility proxy (unique feature)
+
+This is a distinct, searchable query for identifying need by district. It is not a SNAP measure and not an enrollment count.
+
+**What it answers:** How many related children under 18 live below the poverty level in this district? That is the best public approximation of families with related children who may be income-eligible for TANF/TAONF.
+
+**Source:** ACS S1701 `C02_005E` — below poverty level, related children of householder under 18 years. Counts only. The percent column is not used in the calculation.
+
+**How to query it:**
+
+```python
+from scripts.tanf_proxy import get_tanf_proxy, search_tanf_proxy
+
+# One district
+get_tanf_proxy("senate", 1)
+
+# All districts, ranked by count
+search_tanf_proxy()
+
+# House only, districts with at least 500 related children below poverty
+search_tanf_proxy(chamber="house", min_count=500)
+```
+
+Each result is a plain dict: count, margin of error, total related children, percent of related children below poverty, and caveats. Any front end can render it. No UI framework is imported.
+
+**Why it is separate:** SNAP can be compared enrolled-vs-eligible at district level. TANF/TAONF cannot — DHS publishes demographics statewide only. This query fills that gap with a district-level need signal so a user can see where families with children in poverty are concentrated, then compare that pattern to the statewide enrolled profile.
