@@ -1,0 +1,17 @@
+category_type,category,percent,snapshot,geography,source
+sex,Female,54,June 2025,Statewide,DHS Databook 2025
+sex,Male,46,June 2025,Statewide,DHS Databook 2025
+age,Below 18,38,June 2025,Statewide,DHS Databook 2025
+age,18 - 39,23,June 2025,Statewide,DHS Databook 2025
+age,40 - 64,24,June 2025,Statewide,DHS Databook 2025
+age,65 and above,15,June 2025,Statewide,DHS Databook 2025
+race_ethnicity,Hawaiian/part-Hawaiian,28,June 2025,Statewide,DHS Databook 2025
+race_ethnicity,Caucasian,28,June 2025,Statewide,DHS Databook 2025
+race_ethnicity,Other Pacific Islander,17,June 2025,Statewide,DHS Databook 2025
+race_ethnicity,Filipino,14,June 2025,Statewide,DHS Databook 2025
+race_ethnicity,Other Asian,11,June 2025,Statewide,DHS Databook 2025
+race_ethnicity,Black,2,June 2025,Statewide,DHS Databook 2025
+race_ethnicity,American Indian / Alaskan,< 1,June 2025,Statewide,DHS Databook 2025
+race_ethnicity,Other / Unknown,< .1,June 2025,Statewide,DHS Databook 2025
+citizenship,US Citizen,92,June 2025,Statewide,DHS Databook 2025
+citizenship,Non-US / Unspecified,8,June 2025,Statewide,DHS Databook 2025

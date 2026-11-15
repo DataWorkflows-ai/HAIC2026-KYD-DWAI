@@ -44,3 +44,10 @@ tabulation. District identifiers join one-to-one. No mismatch was found.
 State of Hawaiʻi Office of Elections; Hawaiʻi Statewide GIS Program. The GIS
 data do not represent or confer legal boundaries, rights, or claims. They show
 district geography only, not the location of individual households.
+
+## SNAP and BESSD context layers (additive)
+
+- `senate_2022_bessd.geojson` / `house_2022_bessd.geojson` — island/branch BESSD SFY 2026 caseload joined on county
+- `senate_2022_snap.geojson` / `house_2022_snap.geojson` — same island caseload plus statewide DHS SNAP demographics (June 2025) and SFY 2025 caseload on every feature
+- Original `senate_2022.geojson` and `house_2022.geojson` are unchanged
+- These values are statewide or island-level, not district enrollment

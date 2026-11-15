@@ -1,0 +1,14 @@
+measure,year,geography,value,unit,source
+population_below_50pct_fpl,2024,Hawaii,85760,persons,ACS via DHS Databook 2025 S1701
+population_below_125pct_fpl,2024,Hawaii,176587,persons,ACS via DHS Databook 2025 S1701
+population_below_150pct_fpl,2024,Hawaii,216581,persons,ACS via DHS Databook 2025 S1701
+population_below_185pct_fpl,2024,Hawaii,281418,persons,ACS via DHS Databook 2025 S1701
+population_below_200pct_fpl,2024,Hawaii,319667,persons,ACS via DHS Databook 2025 S1701
+poverty_rate,2024,Honolulu County,8.8,percent,ACS via DHS Databook 2025
+poverty_rate,2024,Hawaii County,16.7,percent,ACS via DHS Databook 2025
+poverty_rate,2024,Kauai County,7.4,percent,ACS via DHS Databook 2025
+poverty_rate,2024,Maui County,9.7,percent,ACS via DHS Databook 2025
+children_under_18_poverty_rate,2024,Honolulu County,9.9,percent,ACS via DHS Databook 2025 S1701
+children_under_18_poverty_rate,2024,Hawaii County,21.2,percent,ACS via DHS Databook 2025 S1701
+children_under_18_poverty_rate,2024,Kauai County,9.5,percent,ACS via DHS Databook 2025 S1701
+children_under_18_poverty_rate,2024,Maui County,10.1,percent,ACS via DHS Databook 2025 S1701

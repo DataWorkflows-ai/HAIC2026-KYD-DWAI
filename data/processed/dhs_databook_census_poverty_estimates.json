@@ -1,0 +1,37 @@
+{
+  "source": "DHS Databook 2025, Poverty section (pages 12-13)",
+  "source_url": "https://humanservices.hawaii.gov/wp-content/uploads/2026/03/DHS-Databook-2025.pdf",
+  "census_source": "American Community Survey, U.S. Census Bureau, 1-year estimates (ACS 2020 is 5-year only). Table S1701.",
+  "note": "These are Census estimates of the population below poverty thresholds — the eligibility proxy context for SNAP and related programs. They are not administrative enrollment counts. The Databook states that for SNAP, a family's gross income must not exceed 200% FPL in Hawaii.",
+  "snap_gross_income_limit_stated_in_databook": "200% FPL",
+  "hawaii_federal_poverty_guidelines_2025": {
+    "source": "HHS, effective January 2025",
+    "persons": {
+      "1": 17990, "2": 24320, "3": 30650, "4": 36980,
+      "5": 43310, "6": 49640, "7": 55970, "8": 62300
+    },
+    "each_additional": 6330
+  },
+  "population_in_poverty_percent_by_county": [
+    {"year": 2020, "honolulu": 8.4, "hawaii": 14.0, "kauai": 7.9, "maui": 9.0},
+    {"year": 2021, "honolulu": 10.2, "hawaii": 14.8, "kauai": 11.7, "maui": 12.1},
+    {"year": 2022, "honolulu": 9.7, "hawaii": 15.1, "kauai": 6.6, "maui": 8.2},
+    {"year": 2023, "honolulu": 9.0, "hawaii": 17.5, "kauai": 7.6, "maui": 8.8},
+    {"year": 2024, "honolulu": 8.8, "hawaii": 16.7, "kauai": 7.4, "maui": 9.7}
+  ],
+  "individuals_below_percent_of_poverty_hawaii": [
+    {"year": 2020, "pct_50": 63613, "pct_125": 165273, "pct_150": 206044, "pct_185": 272560, "pct_200": 299492},
+    {"year": 2021, "pct_50": 77766, "pct_125": 194807, "pct_150": 234586, "pct_185": 300684, "pct_200": 327894},
+    {"year": 2022, "pct_50": 75921, "pct_125": 187890, "pct_150": 232063, "pct_185": 300752, "pct_200": 324113},
+    {"year": 2023, "pct_50": 71029, "pct_125": 181863, "pct_150": 222340, "pct_185": 280968, "pct_200": 313312},
+    {"year": 2024, "pct_50": 85760, "pct_125": 176587, "pct_150": 216581, "pct_185": 281418, "pct_200": 319667}
+  ],
+  "children_under_18_in_poverty_percent_by_county": [
+    {"year": 2019, "honolulu": 9.9, "hawaii": 19.4, "kauai": 13.2, "maui": 17.6},
+    {"year": 2020, "honolulu": 10.8, "hawaii": 18.1, "kauai": 9.0, "maui": 10.1},
+    {"year": 2021, "honolulu": 12.1, "hawaii": 18.8, "kauai": 15.7, "maui": 15.7},
+    {"year": 2022, "honolulu": 12.0, "hawaii": 19.3, "kauai": 9.4, "maui": 9.6},
+    {"year": 2023, "honolulu": 9.8, "hawaii": 22.2, "kauai": 7.0, "maui": 9.1},
+    {"year": 2024, "honolulu": 9.9, "hawaii": 21.2, "kauai": 9.5, "maui": 10.1}
+  ]
+}
