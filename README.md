@@ -166,3 +166,17 @@ get_ga_proxy("senate", 1, lenses=["disability", "poverty_18_64"])  # two
 ```
 
 Statewide snapshot from DHS Databook 2025, page 5: 4,432 average monthly clients. 59% male, 41% female. 69% are 40-64. Show as its own card.
+
+## AABD (standalone)
+
+Aid to the Aged, Blind, and Disabled. Its own card, separate from other programs.
+
+Disability prevalence from S1810 is its own filter for potential eligibility. A higher rate means more people who may meet the disability criterion. The 65+ count from S0103 is a separate Senate-only age filter.
+
+```python
+from scripts.aabd import get_aabd
+get_aabd("senate", 1, filters=["disability"])   # disability only
+get_aabd("senate", 1)                           # disability and 65+
+```
+
+Statewide snapshot from DHS Databook 2025, page 4: 754 average monthly clients. 65% female. 72% are 65-79. 51% Other Pacific Islander. Not district enrollment and not a gap.
