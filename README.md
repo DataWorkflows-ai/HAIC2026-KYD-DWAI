@@ -1,6 +1,26 @@
 # HAIC2026-KYD-DWAI
 HAIC 2026 Challenge: Know Your District
 
+
+## What a legislator can query
+
+This is the core of the app. Five programs, each its own capability. Filters are the controls inside each one. Any front end calls `list_programs()` and renders the result.
+
+```python
+from scripts.programs import list_programs
+list_programs()
+```
+
+| Program | What it answers | Filters |
+|---------|-----------------|---------|
+| **SNAP** | Who is enrolled vs who looks eligible, by district. The only program with a district gap. | SNAP household count, people below 200% FPL, gap, person-level estimate |
+| **TANF / TAONF** | Where families with children in poverty are concentrated. | Related children under 18 below poverty, island caseload vs county poverty, race under-enrollment |
+| **General Assistance** | Where temporarily disabled working-age adults may be eligible. | Disability rate, adults 18-64 below poverty, working-age share. One, two, or all three. |
+| **AABD** | Where aged, blind, or disabled residents may be eligible. | Disability prevalence, 65+ (Senate only), foreign-born / Oceania / year of entry |
+| **Med-QUEST** | Island enrollment, and where the uninsured are. | Enrollment by island (2015-2025), uninsured rate by district |
+
+Except for SNAP, these are eligibility proxies. They are not district enrollment and not a district gap. Each program is separate. A user can open one, or layer several.
+
 ## District boundaries
 
 The map uses official 2022 House and Senate polygons from the Hawaiʻi Statewide GIS Program AdminBnd MapServer. One service holds both chambers. Source: Hawaii State Office of Elections, March 2022. The files are saved in the repo and are not downloaded when the app runs.
