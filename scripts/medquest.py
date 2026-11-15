@@ -153,6 +153,84 @@ def get_medquest_uninsured(chamber: str, district_number: int) -> dict[str, Any]
     }
 
 
+def get_medquest_poverty(
+    chamber: str,
+    district_number: int,
+    threshold: str = "125",
+) -> dict[str, Any]:
+    """
+    Med-QUEST income-eligibility filter from S1701.
+
+    Published thresholds (district total): 125, 150, 185, 200 percent of poverty.
+    138% FPL is not published. 125% is the closest published cut below 138%
+    for adults. 150% is the next published step. Higher cuts (185, 200) stand
+    in for the higher limits that apply to children, pregnant women, and
+    elderly/disabled — those higher limits are not published by group.
+
+    By demographic category, S1701 only breaks out below 100% of poverty:
+    under 18, 18-64, 65 and over.
+    """
+    chamber = chamber.lower()
+    cuts = {
+        "125": ("S1701_C01_039E", "125% of poverty — closest published cut below 138% for adults"),
+        "150": ("S1701_C01_040E", "150% of poverty — next published step above 138%"),
+        "185": ("S1701_C01_041E", "185% of poverty — higher threshold proxy"),
+        "200": ("S1701_C01_042E", "200% of poverty — higher threshold proxy for children, pregnant, elderly/disabled"),
+    }
+    if threshold not in cuts:
+        return {"data_available": False, "error": "threshold must be 125, 150, 185, or 200", "published": list(cuts)}
+
+    from snap_gap import FILES as SNAP_FILES
+    path = SNAP_FILES[chamber]["s1701"]
+    header, rows = _load(path)
+    name_idx = header.index("NAME")
+    row = next(
+        ({header[i]: r[i] for i in range(len(header))}
+         for r in rows if _district_number(r[name_idx]) == district_number),
+        None,
+    )
+    if not row:
+        return {"data_available": False, "error": "District not found in S1701."}
+
+    col, label = cuts[threshold]
+    total_pop = _num(row.get("S1701_C01_001E"))
+    count = _num(row.get(col))
+    rate = round(100 * count / total_pop, 1) if count is not None and total_pop else None
+
+    def demo(col_name: str, name: str) -> dict[str, Any]:
+        n = _num(row.get(col_name))
+        return {"category": name, "below_poverty_count": n, "threshold": "100% of poverty"}
+
+    return {
+        "data_available": True,
+        "capability": "medquest_poverty",
+        "program": "Med-QUEST",
+        "filter": "poverty",
+        "title": "Income-eligible population",
+        "chamber": chamber,
+        "district": district_number,
+        "threshold": threshold,
+        "threshold_label": label,
+        "count": count,
+        "rate_percent": rate,
+        "population": total_pop,
+        "source": f"S1701 {col}",
+        "by_category": [
+            demo("S1701_C02_002E", "Under 18"),
+            demo("S1701_C02_006E", "18 to 64"),
+            demo("S1701_C02_010E", "65 and over"),
+        ],
+        "category_note": "Age groups are below 100% of poverty only. S1701 does not publish 125/150/185/200 by age. Use the district total for those higher thresholds.",
+        "eligibility_note": "Med-QUEST extends to 138% FPL for adults and higher for households with children, pregnant women, and elderly/disabled. 138% is not a Census cut.",
+        "how_to_display": "Own filter on the Med-QUEST card. Let the user pick 125, 150, 185, or 200.",
+        "caveats": [
+            "138% FPL is not published. 125% is the closest cut below it; 150% is the next step.",
+            "Higher thresholds are district totals, not by demographic group.",
+            "Not a measured eligible-but-not-enrolled gap.",
+        ],
+    }
+
+
 def search_medquest_uninsured(chamber: str | None = None) -> list[dict[str, Any]]:
     """All districts ranked by uninsured rate, highest first."""
     chambers = [chamber.lower()] if chamber else ["senate", "house"]

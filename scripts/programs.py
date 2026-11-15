@@ -74,6 +74,7 @@ def list_programs() -> dict[str, Any]:
                 "filters": [
                     {"id": "enrollment", "label": "Enrollment by island (SFY 2015-2025)", "source": "DHS Databook page 27"},
                     {"id": "uninsured", "label": "Uninsured rate by district", "source": "S2701 C05_001E"},
+                    {"id": "poverty", "label": "Income-eligible population (125/150/185/200% FPL)", "source": "S1701"},
                 ],
             },
         ],
