@@ -144,3 +144,19 @@ get_tanf_underenrollment("senate", 1)
 Example: if Native Hawaiians are 33% of statewide TANF recipients but 40% of a district's poverty population, under-enrollment is +7 percentage points.
 
 This is an indirect comparison. DHS demographics are statewide, not by district. DHS and Census race categories do not match exactly (Hawaiian/part-Hawaiian vs Native Hawaiian / Pacific Islander). The result includes both the combined NHPI comparison and the 33% Hawaiian-only comparison. Show it as its own card.
+
+## General Assistance (standalone)
+
+Reported separately from SNAP, TANF, and other programs.
+
+Statewide snapshot from DHS Databook 2025, page 5 (June 2025): 4,432 average monthly clients. By sex: 59% male, 41% female. By age: 69% are 40-64, 30% are 18-39. By race: Caucasian 35%, Hawaiian/part-Hawaiian 28%, Other Pacific Islander 13%. Citizenship: 90% US citizen.
+
+District proxy from Census S1810: percent with a disability. A higher rate means more people likely eligible for GA. S1801 was not returned for these districts; S1810 supplies the same rate.
+
+```python
+from scripts.ga_proxy import get_ga_proxy, search_ga_proxy
+get_ga_proxy("senate", 1)
+search_ga_proxy()  # ranked by disability rate
+```
+
+Show as its own card.
