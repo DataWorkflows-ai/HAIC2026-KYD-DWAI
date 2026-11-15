@@ -124,3 +124,23 @@ February 2026:
 | Oahu | 2,326 | 2.35 | 8.8% |
 
 Hawaii County is highest on both per-capita TANF and poverty rate. These are island/county figures, not district enrollment.
+
+## TANF under-enrollment by race (standalone metric)
+
+Its own metric. Compares the statewide DHS TANF race profile to the district poverty profile from Census S1701.
+
+```
+under_enrollment_pp = district share of people below poverty
+                    − statewide share of TANF recipients
+```
+
+Positive means the group is a larger share of the district's poverty population than of statewide TANF recipients: under-enrollment relative to need.
+
+```python
+from scripts.tanf_underenrollment import get_tanf_underenrollment
+get_tanf_underenrollment("senate", 1)
+```
+
+Example: if Native Hawaiians are 33% of statewide TANF recipients but 40% of a district's poverty population, under-enrollment is +7 percentage points.
+
+This is an indirect comparison. DHS demographics are statewide, not by district. DHS and Census race categories do not match exactly (Hawaiian/part-Hawaiian vs NHPI alone). The result includes both the combined NHPI comparison and the 33% Hawaiian-only comparison. Show it as its own card.
