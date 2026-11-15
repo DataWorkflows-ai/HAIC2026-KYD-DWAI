@@ -374,3 +374,14 @@ Note: Legislative testimony from BESSD/DHS is typically posted on the Hawaii Sta
 ### Federal Regional Data
 - BLS Hawaii: https://www.bls.gov/regions/west/hawaii.htm
 - BEA by place: https://www.bea.gov/data/by-place-us (search for Hawaii)
+
+## S0103 use case — AABD age proxy (Senate only)
+
+Its own query, layer, and data field for AABD.
+
+- File: `data/raw/S0103_senate_districts.json`
+- Key column: `S0103_C02_001E` — count of people 65 years and over
+- Use: AABD serves people who are elderly (65+) and/or disabled. This is the age side of the eligibility proxy. A Senate district with more residents 65 and over has a larger likely AABD-eligible population on the age criterion.
+- Layering: can be shown on its own, or layered with the disability proxy (S1810) for the same Senate district.
+- Not for House: Census withholds S0103 for most House districts. A missing House cell is not zero.
+- Not enrollment: this is a Census age count, not AABD caseload. Statewide AABD demographics are in the DHS Databook 2025, page 4.
