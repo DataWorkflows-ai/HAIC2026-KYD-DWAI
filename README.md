@@ -102,3 +102,25 @@ search_tanf_proxy(chamber="house", min_count=500)
 Each result is a plain dict: count, margin of error, total related children, percent of related children below poverty, and caveats. Any front end can render it. No UI framework is imported.
 
 **Why it is separate:** SNAP can be compared enrolled-vs-eligible at district level. TANF/TAONF cannot — DHS publishes demographics statewide only. This query fills that gap with a district-level need signal so a user can see where families with children in poverty are concentrated, then compare that pattern to the statewide enrolled profile.
+
+## TANF by island (standalone)
+
+Its own capability. Not nested under SNAP. Call `get_tanf_by_island()` and show the result as its own card or section.
+
+It summarizes BESSD TANF caseload by island, computes enrollment per 1,000 residents, and sets that next to the county poverty rate from Census S1701.
+
+```python
+from scripts.tanf_by_island import get_tanf_by_island
+get_tanf_by_island()  # February 2026 by default
+```
+
+February 2026:
+
+| Island | TANF persons | Per 1,000 residents | County poverty rate |
+|--------|--------------|---------------------|---------------------|
+| Hawaii | 1,443 | 6.87 | 16.7% |
+| Maui | 424 | 2.64 | 9.7% |
+| Kauai | 188 | 2.56 | 7.4% |
+| Oahu | 2,326 | 2.35 | 8.8% |
+
+Hawaii County is highest on both per-capita TANF and poverty rate. These are island/county figures, not district enrollment.
