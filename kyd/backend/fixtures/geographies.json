@@ -1,0 +1,653 @@
+[
+ {
+  "geo_id": "HI",
+  "geo_type": "state",
+  "name": "State of Hawaiʻi",
+  "counties": [
+   "CNTY-15001",
+   "CNTY-15003",
+   "CNTY-15007",
+   "CNTY-15009"
+  ]
+ },
+ {
+  "geo_id": "CNTY-15001",
+  "geo_type": "county",
+  "name": "Hawaiʻi County",
+  "counties": [
+   "CNTY-15001"
+  ]
+ },
+ {
+  "geo_id": "CNTY-15003",
+  "geo_type": "county",
+  "name": "City & County of Honolulu",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "CNTY-15007",
+  "geo_type": "county",
+  "name": "Kauaʻi County",
+  "counties": [
+   "CNTY-15007"
+  ]
+ },
+ {
+  "geo_id": "CNTY-15009",
+  "geo_type": "county",
+  "name": "Maui County",
+  "counties": [
+   "CNTY-15009"
+  ]
+ },
+ {
+  "geo_id": "SD-01",
+  "geo_type": "sldu",
+  "name": "Senate District 1",
+  "counties": [
+   "CNTY-15001"
+  ]
+ },
+ {
+  "geo_id": "SD-02",
+  "geo_type": "sldu",
+  "name": "Senate District 2",
+  "counties": [
+   "CNTY-15001"
+  ]
+ },
+ {
+  "geo_id": "SD-03",
+  "geo_type": "sldu",
+  "name": "Senate District 3",
+  "counties": [
+   "CNTY-15001"
+  ]
+ },
+ {
+  "geo_id": "SD-04",
+  "geo_type": "sldu",
+  "name": "Senate District 4",
+  "counties": [
+   "CNTY-15001"
+  ]
+ },
+ {
+  "geo_id": "SD-05",
+  "geo_type": "sldu",
+  "name": "Senate District 5",
+  "counties": [
+   "CNTY-15009"
+  ]
+ },
+ {
+  "geo_id": "SD-06",
+  "geo_type": "sldu",
+  "name": "Senate District 6",
+  "counties": [
+   "CNTY-15009"
+  ]
+ },
+ {
+  "geo_id": "SD-07",
+  "geo_type": "sldu",
+  "name": "Senate District 7",
+  "counties": [
+   "CNTY-15009"
+  ]
+ },
+ {
+  "geo_id": "SD-08",
+  "geo_type": "sldu",
+  "name": "Senate District 8",
+  "counties": [
+   "CNTY-15007"
+  ]
+ },
+ {
+  "geo_id": "SD-09",
+  "geo_type": "sldu",
+  "name": "Senate District 9",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "SD-10",
+  "geo_type": "sldu",
+  "name": "Senate District 10",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "SD-11",
+  "geo_type": "sldu",
+  "name": "Senate District 11",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "SD-12",
+  "geo_type": "sldu",
+  "name": "Senate District 12",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "SD-13",
+  "geo_type": "sldu",
+  "name": "Senate District 13",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "SD-14",
+  "geo_type": "sldu",
+  "name": "Senate District 14",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "SD-15",
+  "geo_type": "sldu",
+  "name": "Senate District 15",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "SD-16",
+  "geo_type": "sldu",
+  "name": "Senate District 16",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "SD-17",
+  "geo_type": "sldu",
+  "name": "Senate District 17",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "SD-18",
+  "geo_type": "sldu",
+  "name": "Senate District 18",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "SD-19",
+  "geo_type": "sldu",
+  "name": "Senate District 19",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "SD-20",
+  "geo_type": "sldu",
+  "name": "Senate District 20",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "SD-21",
+  "geo_type": "sldu",
+  "name": "Senate District 21",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "SD-22",
+  "geo_type": "sldu",
+  "name": "Senate District 22",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "SD-23",
+  "geo_type": "sldu",
+  "name": "Senate District 23",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "SD-24",
+  "geo_type": "sldu",
+  "name": "Senate District 24",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "SD-25",
+  "geo_type": "sldu",
+  "name": "Senate District 25",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "HD-01",
+  "geo_type": "sldl",
+  "name": "House District 1",
+  "counties": [
+   "CNTY-15001"
+  ]
+ },
+ {
+  "geo_id": "HD-02",
+  "geo_type": "sldl",
+  "name": "House District 2",
+  "counties": [
+   "CNTY-15001"
+  ]
+ },
+ {
+  "geo_id": "HD-03",
+  "geo_type": "sldl",
+  "name": "House District 3",
+  "counties": [
+   "CNTY-15001"
+  ]
+ },
+ {
+  "geo_id": "HD-04",
+  "geo_type": "sldl",
+  "name": "House District 4",
+  "counties": [
+   "CNTY-15001"
+  ]
+ },
+ {
+  "geo_id": "HD-05",
+  "geo_type": "sldl",
+  "name": "House District 5",
+  "counties": [
+   "CNTY-15001"
+  ]
+ },
+ {
+  "geo_id": "HD-06",
+  "geo_type": "sldl",
+  "name": "House District 6",
+  "counties": [
+   "CNTY-15001"
+  ]
+ },
+ {
+  "geo_id": "HD-07",
+  "geo_type": "sldl",
+  "name": "House District 7",
+  "counties": [
+   "CNTY-15001"
+  ]
+ },
+ {
+  "geo_id": "HD-08",
+  "geo_type": "sldl",
+  "name": "House District 8",
+  "counties": [
+   "CNTY-15009"
+  ]
+ },
+ {
+  "geo_id": "HD-09",
+  "geo_type": "sldl",
+  "name": "House District 9",
+  "counties": [
+   "CNTY-15009"
+  ]
+ },
+ {
+  "geo_id": "HD-10",
+  "geo_type": "sldl",
+  "name": "House District 10",
+  "counties": [
+   "CNTY-15009"
+  ]
+ },
+ {
+  "geo_id": "HD-11",
+  "geo_type": "sldl",
+  "name": "House District 11",
+  "counties": [
+   "CNTY-15009"
+  ]
+ },
+ {
+  "geo_id": "HD-12",
+  "geo_type": "sldl",
+  "name": "House District 12",
+  "counties": [
+   "CNTY-15009"
+  ]
+ },
+ {
+  "geo_id": "HD-13",
+  "geo_type": "sldl",
+  "name": "House District 13",
+  "counties": [
+   "CNTY-15009"
+  ]
+ },
+ {
+  "geo_id": "HD-14",
+  "geo_type": "sldl",
+  "name": "House District 14",
+  "counties": [
+   "CNTY-15009"
+  ]
+ },
+ {
+  "geo_id": "HD-15",
+  "geo_type": "sldl",
+  "name": "House District 15",
+  "counties": [
+   "CNTY-15007"
+  ]
+ },
+ {
+  "geo_id": "HD-16",
+  "geo_type": "sldl",
+  "name": "House District 16",
+  "counties": [
+   "CNTY-15007"
+  ]
+ },
+ {
+  "geo_id": "HD-17",
+  "geo_type": "sldl",
+  "name": "House District 17",
+  "counties": [
+   "CNTY-15007"
+  ]
+ },
+ {
+  "geo_id": "HD-18",
+  "geo_type": "sldl",
+  "name": "House District 18",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "HD-19",
+  "geo_type": "sldl",
+  "name": "House District 19",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "HD-20",
+  "geo_type": "sldl",
+  "name": "House District 20",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "HD-21",
+  "geo_type": "sldl",
+  "name": "House District 21",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "HD-22",
+  "geo_type": "sldl",
+  "name": "House District 22",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "HD-23",
+  "geo_type": "sldl",
+  "name": "House District 23",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "HD-24",
+  "geo_type": "sldl",
+  "name": "House District 24",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "HD-25",
+  "geo_type": "sldl",
+  "name": "House District 25",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "HD-26",
+  "geo_type": "sldl",
+  "name": "House District 26",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "HD-27",
+  "geo_type": "sldl",
+  "name": "House District 27",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "HD-28",
+  "geo_type": "sldl",
+  "name": "House District 28",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "HD-29",
+  "geo_type": "sldl",
+  "name": "House District 29",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "HD-30",
+  "geo_type": "sldl",
+  "name": "House District 30",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "HD-31",
+  "geo_type": "sldl",
+  "name": "House District 31",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "HD-32",
+  "geo_type": "sldl",
+  "name": "House District 32",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "HD-33",
+  "geo_type": "sldl",
+  "name": "House District 33",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "HD-34",
+  "geo_type": "sldl",
+  "name": "House District 34",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "HD-35",
+  "geo_type": "sldl",
+  "name": "House District 35",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "HD-36",
+  "geo_type": "sldl",
+  "name": "House District 36",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "HD-37",
+  "geo_type": "sldl",
+  "name": "House District 37",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "HD-38",
+  "geo_type": "sldl",
+  "name": "House District 38",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "HD-39",
+  "geo_type": "sldl",
+  "name": "House District 39",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "HD-40",
+  "geo_type": "sldl",
+  "name": "House District 40",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "HD-41",
+  "geo_type": "sldl",
+  "name": "House District 41",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "HD-42",
+  "geo_type": "sldl",
+  "name": "House District 42",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "HD-43",
+  "geo_type": "sldl",
+  "name": "House District 43",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "HD-44",
+  "geo_type": "sldl",
+  "name": "House District 44",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "HD-45",
+  "geo_type": "sldl",
+  "name": "House District 45",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "HD-46",
+  "geo_type": "sldl",
+  "name": "House District 46",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "HD-47",
+  "geo_type": "sldl",
+  "name": "House District 47",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "HD-48",
+  "geo_type": "sldl",
+  "name": "House District 48",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "HD-49",
+  "geo_type": "sldl",
+  "name": "House District 49",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "HD-50",
+  "geo_type": "sldl",
+  "name": "House District 50",
+  "counties": [
+   "CNTY-15003"
+  ]
+ },
+ {
+  "geo_id": "HD-51",
+  "geo_type": "sldl",
+  "name": "House District 51",
+  "counties": [
+   "CNTY-15003"
+  ]
+ }
+]

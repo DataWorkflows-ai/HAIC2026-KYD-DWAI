@@ -1,0 +1,10816 @@
+{
+ "sources": {
+  "oahu_neighborhoods": "https://services.arcgis.com/tNJpAOha4mODLkXz/arcgis/rest/services/Realtor_Neighborhoods_2012/FeatureServer/0",
+  "oahu_boards": "https://services.arcgis.com/tNJpAOha4mODLkXz/arcgis/rest/services/Neighborhood_Boards_with_Dissolved_Subdistricts/FeatureServer/0",
+  "council_honolulu": "https://geodata.hawaii.gov/arcgis/rest/services/AdminBnd/MapServer/11",
+  "council_maui": "https://geodata.hawaii.gov/arcgis/rest/services/AdminBnd/MapServer/35",
+  "council_hawaii": "https://geodata.hawaii.gov/arcgis/rest/services/AdminBnd/MapServer/10",
+  "gnis_places": "https://geodata.hawaii.gov/arcgis/rest/services/HistoricCultural/MapServer/2"
+ },
+ "method": "area overlap; neighborhoods ≥ 15% inside the district, boards/council ≥ 5% of the district; neighbor-island places are GNIS points (not boundaries)",
+ "aliases": {
+  "agriculture/navy": {
+   "name": "Agriculture/Navy",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-35",
+     0.967
+    ]
+   ],
+   "SD": [
+    [
+     "SD-15",
+     0.992
+    ]
+   ]
+  },
+  "agriculture/preserve": {
+   "name": "Agriculture/Preserve",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-47",
+     0.509
+    ],
+    [
+     "HD-46",
+     0.182
+    ],
+    [
+     "HD-39",
+     0.162
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     0.709
+    ],
+    [
+     "SD-18",
+     0.186
+    ]
+   ]
+  },
+  "ahaolelo": {
+   "name": "Ahaolelo",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     1.0
+    ]
+   ]
+  },
+  "ahuimanu": {
+   "name": "ʻĀhuimanu",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     1.0
+    ]
+   ]
+  },
+  "ahuimanu hills": {
+   "name": "Ahuimanu Hills",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     1.0
+    ]
+   ]
+  },
+  "ahuimanu knolls": {
+   "name": "Ahuimanu Knolls",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     1.0
+    ]
+   ]
+  },
+  "aiea": {
+   "name": "ʻAiea",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-32",
+     0.822
+    ],
+    [
+     "HD-33",
+     0.168
+    ]
+   ],
+   "SD": [
+    [
+     "SD-16",
+     0.756
+    ],
+    [
+     "SD-15",
+     0.234
+    ]
+   ]
+  },
+  "aiea heights": {
+   "name": "ʻAiea Heights",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-33",
+     0.961
+    ]
+   ],
+   "SD": [
+    [
+     "SD-16",
+     1.0
+    ]
+   ]
+  },
+  "aikahi park": {
+   "name": "Aikahi Park",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-50",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     1.0
+    ]
+   ]
+  },
+  "aina haina": {
+   "name": "ʻĀina Haina",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-19",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-09",
+     1.0
+    ]
+   ]
+  },
+  "aina haina beach": {
+   "name": "Aina Haina Beach",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-19",
+     0.97
+    ]
+   ],
+   "SD": [
+    [
+     "SD-09",
+     0.97
+    ]
+   ]
+  },
+  "ainaloa": {
+   "name": "ʻĀinaloa",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-03",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-02",
+     1.0
+    ]
+   ]
+  },
+  "ainapo": {
+   "name": "ʻĀinapō",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-05",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "akolea plantation estates": {
+   "name": "ʻĀkōlea Plantation Estates",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-01",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-01",
+     1.0
+    ]
+   ]
+  },
+  "akona": {
+   "name": "Akona",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-01",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "ala moana": {
+   "name": "Ala Moana",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-25",
+     0.486
+    ],
+    [
+     "HD-24",
+     0.161
+    ]
+   ],
+   "SD": [
+    [
+     "SD-12",
+     0.686
+    ]
+   ]
+  },
+  "alewa heights": {
+   "name": "ʻĀlewa Heights",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-27",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-14",
+     0.997
+    ]
+   ]
+  },
+  "aliamanu": {
+   "name": "Āliamanu",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-31",
+     0.587
+    ],
+    [
+     "HD-32",
+     0.413
+    ]
+   ],
+   "SD": [
+    [
+     "SD-15",
+     1.0
+    ]
+   ]
+  },
+  "alii bluffs": {
+   "name": "Alii Bluffs",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     0.997
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     0.997
+    ]
+   ]
+  },
+  "alii kai": {
+   "name": "Aliʻi Kai",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-06",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "alii shores": {
+   "name": "Alii Shores",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     0.983
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     0.983
+    ]
+   ]
+  },
+  "aloha kona": {
+   "name": "Aloha Kona",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-06",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "anaehoomalu": {
+   "name": "ʻAnaehoʻomalu",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-07",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "anahola": {
+   "name": "Anahola",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-15",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "anchorage": {
+   "name": "Anchorage",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-18",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-25",
+     1.0
+    ]
+   ]
+  },
+  "bay view estates": {
+   "name": "Bay View Estates",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-50",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     1.0
+    ]
+   ]
+  },
+  "bay view garden": {
+   "name": "Bay View Garden",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-50",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     1.0
+    ]
+   ]
+  },
+  "beach parks": {
+   "name": "Beach Parks",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-47",
+     0.947
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     0.947
+    ]
+   ]
+  },
+  "beachside": {
+   "name": "Beachside",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-50",
+     0.952
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     0.755
+    ],
+    [
+     "SD-25",
+     0.197
+    ]
+   ]
+  },
+  "black point": {
+   "name": "Black Point",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-20",
+     0.999
+    ]
+   ],
+   "SD": [
+    [
+     "SD-09",
+     0.999
+    ]
+   ]
+  },
+  "black sands": {
+   "name": "Black Sands",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-04",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-02",
+     1.0
+    ]
+   ]
+  },
+  "bluestone": {
+   "name": "Bluestone",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-51",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-25",
+     1.0
+    ]
+   ]
+  },
+  "botanical garden": {
+   "name": "Botanical Garden",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-46",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-17",
+     1.0
+    ]
+   ]
+  },
+  "business": {
+   "name": "Business",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-39",
+     0.713
+    ],
+    [
+     "HD-36",
+     0.287
+    ]
+   ],
+   "SD": [
+    [
+     "SD-19",
+     1.0
+    ]
+   ]
+  },
+  "captain cook": {
+   "name": "Captain Cook",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-06",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "castle hill": {
+   "name": "Castle Hill",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-49",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     1.0
+    ]
+   ]
+  },
+  "cemetary": {
+   "name": "Cemetary",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-37",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-17",
+     1.0
+    ]
+   ]
+  },
+  "chinatown": {
+   "name": "Chinatown",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-28",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-13",
+     1.0
+    ]
+   ]
+  },
+  "club view estate": {
+   "name": "Club View Estate",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     1.0
+    ]
+   ]
+  },
+  "coconut grove": {
+   "name": "Coconut Grove",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-50",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     1.0
+    ]
+   ]
+  },
+  "country club": {
+   "name": "Country Club",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-50",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     1.0
+    ]
+   ]
+  },
+  "country club knoll": {
+   "name": "Country Club Knoll",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-51",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-25",
+     1.0
+    ]
+   ]
+  },
+  "country garden estates": {
+   "name": "Country Garden Estates",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-05",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "crater village": {
+   "name": "Crater Village",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-14",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-06",
+     1.0
+    ]
+   ]
+  },
+  "crestview": {
+   "name": "Crestview",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-35",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-18",
+     1.0
+    ]
+   ]
+  },
+  "crown terrace": {
+   "name": "Crown Terrace",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     0.993
+    ]
+   ]
+  },
+  "diamond head": {
+   "name": "Diamond Head",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-20",
+     0.997
+    ]
+   ],
+   "SD": [
+    [
+     "SD-09",
+     0.997
+    ]
+   ]
+  },
+  "discovery harbour": {
+   "name": "Discovery Harbour",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-05",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "downtown": {
+   "name": "Downtown",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-25",
+     0.739
+    ]
+   ],
+   "SD": [
+    [
+     "SD-13",
+     0.424
+    ],
+    [
+     "SD-12",
+     0.414
+    ]
+   ]
+  },
+  "dowsett": {
+   "name": "Dowsett",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-27",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-13",
+     1.0
+    ]
+   ]
+  },
+  "eden roc": {
+   "name": "Eden Roc",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-05",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-02",
+     1.0
+    ]
+   ]
+  },
+  "eleele": {
+   "name": "ʻEleʻele",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-17",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "elevenmile homestead": {
+   "name": "Elevenmile Homestead",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-05",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-02",
+     1.0
+    ]
+   ]
+  },
+  "enchanted lake": {
+   "name": "Enchanted Lake",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-51",
+     0.786
+    ],
+    [
+     "HD-50",
+     0.214
+    ]
+   ],
+   "SD": [
+    [
+     "SD-25",
+     0.941
+    ]
+   ]
+  },
+  "ewa": {
+   "name": "ʻEwa",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-40",
+     0.408
+    ],
+    [
+     "HD-39",
+     0.361
+    ],
+    [
+     "HD-42",
+     0.178
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     0.438
+    ],
+    [
+     "SD-19",
+     0.361
+    ],
+    [
+     "SD-21",
+     0.198
+    ]
+   ]
+  },
+  "ewa beach": {
+   "name": "ʻEwa Beach",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-40",
+     0.555
+    ],
+    [
+     "HD-41",
+     0.443
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     0.998
+    ]
+   ]
+  },
+  "ewa gentry": {
+   "name": "ʻEwa Gentry",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-40",
+     0.838
+    ],
+    [
+     "HD-41",
+     0.162
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     1.0
+    ]
+   ]
+  },
+  "ewa gentry alii court": {
+   "name": "Ewa Gentry Alii Court",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-40",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     1.0
+    ]
+   ]
+  },
+  "ewa gentry alii cove": {
+   "name": "Ewa Gentry Alii Cove",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-40",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     1.0
+    ]
+   ]
+  },
+  "ewa gentry breakers": {
+   "name": "Ewa Gentry Breakers",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-40",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     1.0
+    ]
+   ]
+  },
+  "ewa gentry carriages": {
+   "name": "Ewa Gentry Carriages",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-40",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     1.0
+    ]
+   ]
+  },
+  "ewa gentry cortebella": {
+   "name": "Ewa Gentry Cortebella",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-40",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     1.0
+    ]
+   ]
+  },
+  "ewa gentry cypress point": {
+   "name": "Ewa Gentry Cypress Point",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-40",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     1.0
+    ]
+   ]
+  },
+  "ewa gentry fiesta/del verde": {
+   "name": "Ewa Gentry Fiesta/Del Verde",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-41",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-21",
+     1.0
+    ]
+   ]
+  },
+  "ewa gentry haleakea": {
+   "name": "Ewa Gentry Haleakea",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-40",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     1.0
+    ]
+   ]
+  },
+  "ewa gentry kula lei": {
+   "name": "Ewa Gentry Kula Lei",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-41",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-21",
+     1.0
+    ]
+   ]
+  },
+  "ewa gentry las brisas": {
+   "name": "Ewa Gentry Las Brisas",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-40",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     1.0
+    ]
+   ]
+  },
+  "ewa gentry latitudes": {
+   "name": "Ewa Gentry Latitudes",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-41",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     1.0
+    ]
+   ]
+  },
+  "ewa gentry lofts": {
+   "name": "Ewa Gentry Lofts",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-40",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     1.0
+    ]
+   ]
+  },
+  "ewa gentry lombard way": {
+   "name": "Ewa Gentry Lombard Way",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-40",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     1.0
+    ]
+   ]
+  },
+  "ewa gentry meridian": {
+   "name": "Ewa Gentry Meridian",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-40",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     1.0
+    ]
+   ]
+  },
+  "ewa gentry montecito/tuscany": {
+   "name": "Ewa Gentry Montecito/Tuscany",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-40",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     1.0
+    ]
+   ]
+  },
+  "ewa gentry prescott": {
+   "name": "Ewa Gentry Prescott",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-40",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     1.0
+    ]
+   ]
+  },
+  "ewa gentry sea breeze": {
+   "name": "Ewa Gentry Sea Breeze",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-40",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     1.0
+    ]
+   ]
+  },
+  "ewa gentry soda creek": {
+   "name": "Ewa Gentry Soda Creek",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-42",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     0.609
+    ],
+    [
+     "SD-21",
+     0.391
+    ]
+   ]
+  },
+  "ewa gentry sonoma": {
+   "name": "Ewa Gentry Sonoma",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-40",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     1.0
+    ]
+   ]
+  },
+  "ewa gentry summerhill": {
+   "name": "Ewa Gentry Summerhill",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-40",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     1.0
+    ]
+   ]
+  },
+  "ewa gentry sun terra": {
+   "name": "Ewa Gentry Sun Terra",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-41",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     1.0
+    ]
+   ]
+  },
+  "ewa gentry sun terra on the park": {
+   "name": "Ewa Gentry Sun Terra On The Park",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-41",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     1.0
+    ]
+   ]
+  },
+  "ewa gentry sun terra south": {
+   "name": "Ewa Gentry Sun Terra South",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-41",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-21",
+     1.0
+    ]
+   ]
+  },
+  "ewa gentry terrazza": {
+   "name": "Ewa Gentry Terrazza",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-40",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     1.0
+    ]
+   ]
+  },
+  "ewa gentry tiburon": {
+   "name": "Ewa Gentry Tiburon",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-40",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     1.0
+    ]
+   ]
+  },
+  "ewa gentry trovare": {
+   "name": "Ewa Gentry Trovare",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-40",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     1.0
+    ]
+   ]
+  },
+  "ewa gentry tuscany ii": {
+   "name": "Ewa Gentry Tuscany II",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-40",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     1.0
+    ]
+   ]
+  },
+  "ewa gentry woodbridge": {
+   "name": "Ewa Gentry Woodbridge",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-40",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     1.0
+    ]
+   ]
+  },
+  "ewa villages": {
+   "name": "ʻEwa Villages",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-41",
+     0.686
+    ],
+    [
+     "HD-42",
+     0.314
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     0.512
+    ],
+    [
+     "SD-21",
+     0.488
+    ]
+   ]
+  },
+  "fern acres": {
+   "name": "Fern Acres",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-03",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-02",
+     1.0
+    ]
+   ]
+  },
+  "fern forest": {
+   "name": "Fern Forest",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-05",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-02",
+     1.0
+    ]
+   ]
+  },
+  "fish pond": {
+   "name": "Fish Pond",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     0.284
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     0.166
+    ]
+   ]
+  },
+  "foster village": {
+   "name": "Foster Village",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-32",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-15",
+     1.0
+    ]
+   ]
+  },
+  "freitas dairy": {
+   "name": "Freitas Dairy",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-45",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-22",
+     1.0
+    ]
+   ]
+  },
+  "glenwood": {
+   "name": "Glenwood",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-05",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-02",
+     1.0
+    ]
+   ]
+  },
+  "government": {
+   "name": "Government",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-49",
+     0.768
+    ],
+    [
+     "HD-48",
+     0.195
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     0.739
+    ],
+    [
+     "SD-23",
+     0.247
+    ]
+   ]
+  },
+  "government/agriculture": {
+   "name": "Government/Agriculture",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-47",
+     0.783
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     0.818
+    ]
+   ]
+  },
+  "government/preserve": {
+   "name": "Government/Preserve",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-45",
+     0.918
+    ]
+   ],
+   "SD": [
+    [
+     "SD-22",
+     0.981
+    ]
+   ]
+  },
+  "haena": {
+   "name": "Hāʻena",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-03",
+     1.0
+    ],
+    [
+     "HD-15",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-02",
+     1.0
+    ],
+    [
+     "SD-08",
+     1.0
+    ]
+   ],
+   "ambiguous": true
+  },
+  "hahaione": {
+   "name": "Hahaione",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-18",
+     0.769
+    ],
+    [
+     "HD-19",
+     0.231
+    ]
+   ],
+   "SD": [
+    [
+     "SD-09",
+     1.0
+    ]
+   ]
+  },
+  "haiku": {
+   "name": "Haʻikū",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "haiku knolls": {
+   "name": "Haiku Knolls",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     0.948
+    ]
+   ]
+  },
+  "haiku park": {
+   "name": "Haiku Park",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     0.996
+    ]
+   ]
+  },
+  "haiku plantation": {
+   "name": "Haiku Plantation",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     1.0
+    ]
+   ]
+  },
+  "haiku village": {
+   "name": "Haiku Village",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-49",
+     0.501
+    ],
+    [
+     "HD-48",
+     0.499
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     1.0
+    ]
+   ]
+  },
+  "haina": {
+   "name": "Haina",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-01",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "hakalau": {
+   "name": "Hakalau",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-01",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "hakipuu": {
+   "name": "Hakipuu",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     0.998
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     0.998
+    ]
+   ]
+  },
+  "halaula": {
+   "name": "Halaʻula",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-08",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "halawa": {
+   "name": "Hālawa",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-08",
+     1.0
+    ],
+    [
+     "HD-13",
+     1.0
+    ],
+    [
+     "HD-32",
+     0.632
+    ],
+    [
+     "HD-33",
+     0.213
+    ],
+    [
+     "HD-31",
+     0.155
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ],
+    [
+     "SD-07",
+     1.0
+    ],
+    [
+     "SD-16",
+     0.582
+    ],
+    [
+     "SD-15",
+     0.347
+    ]
+   ],
+   "ambiguous": true
+  },
+  "halawa heights": {
+   "name": "Hālawa Heights",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-32",
+     0.922
+    ]
+   ],
+   "SD": [
+    [
+     "SD-14",
+     0.561
+    ],
+    [
+     "SD-16",
+     0.437
+    ]
+   ]
+  },
+  "hale kou": {
+   "name": "Hale Kou",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-49",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     1.0
+    ]
+   ]
+  },
+  "hale lumi": {
+   "name": "Hale Lumi",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-35",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-18",
+     1.0
+    ]
+   ]
+  },
+  "hale pili": {
+   "name": "Hale Pili",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-06",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "halehomaha": {
+   "name": "Halehomaha",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-15",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "haleiwa": {
+   "name": "Haleʻiwa",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-47",
+     0.998
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     0.998
+    ]
+   ]
+  },
+  "halekauwila": {
+   "name": "Halekauwila",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-49",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     1.0
+    ]
+   ]
+  },
+  "halena": {
+   "name": "Hālena",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "halepiula": {
+   "name": "Halepiula",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-01",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "halepuu": {
+   "name": "Halepuu",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-49",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     1.0
+    ]
+   ]
+  },
+  "haliimaile": {
+   "name": "Hāliʻimaile",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-12",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "hamoa": {
+   "name": "Hāmoa",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "hana": {
+   "name": "Hāna",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "hanaipoe": {
+   "name": "Hanaipoe",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-01",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "hanalei": {
+   "name": "Hanalei",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-15",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "hanalei homesteads": {
+   "name": "Hanalei Homesteads",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-15",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "hanamaulu": {
+   "name": "Hanamāʻulu",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-16",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "hanapepe": {
+   "name": "Hanapēpē",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-17",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "hanapepe heights": {
+   "name": "Hanapēpē Heights",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-17",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "haou": {
+   "name": "Hāʻōʻū",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "happy valley": {
+   "name": "Happy Valley",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-10",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-05",
+     1.0
+    ]
+   ]
+  },
+  "harbor view": {
+   "name": "Harbor View",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-39",
+     0.571
+    ],
+    [
+     "HD-36",
+     0.429
+    ]
+   ],
+   "SD": [
+    [
+     "SD-18",
+     0.645
+    ],
+    [
+     "SD-19",
+     0.355
+    ]
+   ]
+  },
+  "hauula": {
+   "name": "Hauʻula",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-47",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     1.0
+    ]
+   ]
+  },
+  "hawaii beaches estates": {
+   "name": "Hawaiʻi Beaches Estates",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-04",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-02",
+     1.0
+    ]
+   ]
+  },
+  "hawaii loa ridge": {
+   "name": "Hawaii Loa Ridge",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-19",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-09",
+     1.0
+    ]
+   ]
+  },
+  "hawaiian acres": {
+   "name": "Hawaiian Acres",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-03",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-02",
+     1.0
+    ]
+   ]
+  },
+  "hawaiian beaches": {
+   "name": "Hawaiian Beaches",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-04",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-02",
+     1.0
+    ]
+   ]
+  },
+  "hawaiian ocean view": {
+   "name": "Hawaiian Ocean View",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-05",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "hawaiian ocean view estates": {
+   "name": "Hawaiian Ocean View Estates",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-05",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "hawaiian ocean view ranchos": {
+   "name": "Hawaiian Ocean View Ranchos",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-05",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "hawaiian paradise park": {
+   "name": "Hawaiian Paradise Park",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-04",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-02",
+     1.0
+    ]
+   ]
+  },
+  "hawi": {
+   "name": "Hāwī",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-08",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "heeia kea": {
+   "name": "Heeia Kea",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     0.986
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     0.75
+    ],
+    [
+     "SD-24",
+     0.236
+    ]
+   ]
+  },
+  "heeia view": {
+   "name": "Heeia View",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     0.984
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     0.984
+    ]
+   ]
+  },
+  "hikapoloa": {
+   "name": "Hikapoloa",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-08",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "hilea": {
+   "name": "Hīlea",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-05",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "hillcrest": {
+   "name": "Hillcrest",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-51",
+     1.0
+    ],
+    [
+     "HD-06",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-25",
+     1.0
+    ],
+    [
+     "SD-03",
+     1.0
+    ]
+   ],
+   "ambiguous": true
+  },
+  "hilo": {
+   "name": "Hilo",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-02",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-01",
+     1.0
+    ]
+   ]
+  },
+  "hoakalei-ka makana": {
+   "name": "Hoakalei-Ka Makana",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-41",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     1.0
+    ]
+   ]
+  },
+  "hokuula": {
+   "name": "Hōkūʻula",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "holualoa": {
+   "name": "Hōlualoa",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-06",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "honalo": {
+   "name": "Honalo",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-06",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "honaunau": {
+   "name": "Hōnaunau",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-06",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "honokaa": {
+   "name": "Honokaʻa",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-01",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "honokahua": {
+   "name": "Honokahua",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-14",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-06",
+     1.0
+    ]
+   ]
+  },
+  "honokohau": {
+   "name": "Honokōhau",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-07",
+     1.0
+    ],
+    [
+     "HD-14",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ],
+    [
+     "SD-06",
+     1.0
+    ]
+   ],
+   "ambiguous": true
+  },
+  "honokowai": {
+   "name": "Honokōwai",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-14",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-06",
+     1.0
+    ]
+   ]
+  },
+  "honomakau": {
+   "name": "Honomakaʻu",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-08",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "honomu": {
+   "name": "Honomu",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-01",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "honouliuli": {
+   "name": "Honouliuli",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-40",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     1.0
+    ]
+   ]
+  },
+  "honuapo": {
+   "name": "Honuʻapo",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-05",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "hookena": {
+   "name": "Hoʻokena",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-05",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "hoolehua": {
+   "name": "Hoʻolehua",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "hoopuloa": {
+   "name": "Hoʻōpūloa",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-05",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "hopuwai": {
+   "name": "Hopuwai",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-01",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "huehue": {
+   "name": "Huʻehuʻe",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-07",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "huelani": {
+   "name": "Huelani",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-41",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     1.0
+    ]
+   ]
+  },
+  "huelo": {
+   "name": "Huelo",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "hygienic store": {
+   "name": "Hygienic Store",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     0.996
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     0.996
+    ]
+   ]
+  },
+  "judd hillside": {
+   "name": "Judd Hillside",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-22",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-11",
+     1.0
+    ]
+   ]
+  },
+  "ka makana": {
+   "name": "Ka Makana",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-41",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     1.0
+    ]
+   ]
+  },
+  "ka makana ivc": {
+   "name": "Ka Makana IVC",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-41",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     1.0
+    ]
+   ]
+  },
+  "kaaawa": {
+   "name": "Kaʻaʻawa",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     1.0
+    ]
+   ]
+  },
+  "kaalaea": {
+   "name": "Kaalaea",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     0.999
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     0.999
+    ]
+   ]
+  },
+  "kaanapali": {
+   "name": "Kāʻanapali",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-14",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-06",
+     1.0
+    ]
+   ]
+  },
+  "kaanapali landing": {
+   "name": "Kāʻanapali Landing",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-14",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-06",
+     1.0
+    ]
+   ]
+  },
+  "kaau": {
+   "name": "Kaʻau",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-01",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "kaawaloa": {
+   "name": "Kaʻawaloa",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-06",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "kaawanui village": {
+   "name": "Kaawanui Village",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-17",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "kaeleku": {
+   "name": "Kaʻelekū",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "kaena point": {
+   "name": "Kaena Point",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-46",
+     0.96
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     0.96
+    ]
+   ]
+  },
+  "kahakuloa": {
+   "name": "Kahakuloa",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-14",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-05",
+     1.0
+    ]
+   ]
+  },
+  "kahala": {
+   "name": "Kāhala",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-20",
+     0.884
+    ]
+   ],
+   "SD": [
+    [
+     "SD-09",
+     1.0
+    ]
+   ]
+  },
+  "kahala kua": {
+   "name": "Kahala Kua",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-19",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-09",
+     1.0
+    ]
+   ]
+  },
+  "kahaluu": {
+   "name": "Kahaluʻu",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-06",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "kahaluu fishpond": {
+   "name": "Kahaluu Fishpond",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     0.239
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     0.239
+    ]
+   ]
+  },
+  "kahaluu town": {
+   "name": "Kahaluu Town",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     1.0
+    ]
+   ]
+  },
+  "kahana": {
+   "name": "Kahana",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-14",
+     1.0
+    ],
+    [
+     "HD-47",
+     0.643
+    ],
+    [
+     "HD-48",
+     0.352
+    ]
+   ],
+   "SD": [
+    [
+     "SD-06",
+     1.0
+    ],
+    [
+     "SD-23",
+     0.995
+    ]
+   ],
+   "ambiguous": true
+  },
+  "kahanahou": {
+   "name": "Kahanahou",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     0.979
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     0.979
+    ]
+   ]
+  },
+  "kahuku": {
+   "name": "Kahuku",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-47",
+     0.995
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     0.995
+    ]
+   ]
+  },
+  "kahului": {
+   "name": "Kahului",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-09",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-05",
+     1.0
+    ]
+   ]
+  },
+  "kai nani": {
+   "name": "Kai Nani",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-19",
+     0.977
+    ]
+   ],
+   "SD": [
+    [
+     "SD-09",
+     0.977
+    ]
+   ]
+  },
+  "kailua": {
+   "name": "Kailua",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ],
+    [
+     "HD-07",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ],
+    [
+     "SD-03",
+     1.0
+    ]
+   ],
+   "ambiguous": true
+  },
+  "kailua bluffs": {
+   "name": "Kailua Bluffs",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-51",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-25",
+     1.0
+    ]
+   ]
+  },
+  "kailua estates": {
+   "name": "Kailua Estates",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-51",
+     0.755
+    ],
+    [
+     "HD-50",
+     0.245
+    ]
+   ],
+   "SD": [
+    [
+     "SD-25",
+     1.0
+    ]
+   ]
+  },
+  "kailua town": {
+   "name": "Kailua Town",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-50",
+     0.812
+    ],
+    [
+     "HD-51",
+     0.188
+    ]
+   ],
+   "SD": [
+    [
+     "SD-25",
+     0.715
+    ],
+    [
+     "SD-24",
+     0.285
+    ]
+   ]
+  },
+  "kaimalino": {
+   "name": "Kaimalino",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-50",
+     0.986
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     0.986
+    ]
+   ]
+  },
+  "kaimu": {
+   "name": "Kaimū",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-04",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-02",
+     1.0
+    ]
+   ]
+  },
+  "kaimuki": {
+   "name": "Kaimukī",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-20",
+     0.809
+    ],
+    [
+     "HD-21",
+     0.176
+    ]
+   ],
+   "SD": [
+    [
+     "SD-09",
+     0.7
+    ],
+    [
+     "SD-10",
+     0.3
+    ]
+   ]
+  },
+  "kainaliu": {
+   "name": "Kainaliu",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-06",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "kakaako": {
+   "name": "Kakaako",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-25",
+     0.929
+    ]
+   ],
+   "SD": [
+    [
+     "SD-12",
+     0.929
+    ]
+   ]
+  },
+  "kakio": {
+   "name": "Kākiʻo",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "kalae": {
+   "name": "Kalaʻe",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "kalaheo": {
+   "name": "Kalāheo",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-17",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "kalaheo hillside": {
+   "name": "Kalaheo Hillside",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-50",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     1.0
+    ]
+   ]
+  },
+  "kalama tract": {
+   "name": "Kalama Tract",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-50",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     0.637
+    ],
+    [
+     "SD-25",
+     0.363
+    ]
+   ]
+  },
+  "kalama valley": {
+   "name": "Kalama Valley",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-18",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-25",
+     1.0
+    ]
+   ]
+  },
+  "kalama/coconut grove": {
+   "name": "Kalama/Coconut Grove",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-50",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     0.623
+    ],
+    [
+     "SD-25",
+     0.377
+    ]
+   ]
+  },
+  "kalani iki": {
+   "name": "Kalani Iki",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-19",
+     0.81
+    ],
+    [
+     "HD-21",
+     0.189
+    ]
+   ],
+   "SD": [
+    [
+     "SD-09",
+     0.81
+    ],
+    [
+     "SD-10",
+     0.189
+    ]
+   ]
+  },
+  "kalaoa": {
+   "name": "Kalaoa",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-07",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "kalapana seaview estates": {
+   "name": "Kalapana Seaview Estates",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-04",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-02",
+     1.0
+    ]
+   ]
+  },
+  "kalaupapa": {
+   "name": "Kalaupapa",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "kalawahine streamside": {
+   "name": "Kalawahine Streamside",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-26",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-11",
+     1.0
+    ]
+   ]
+  },
+  "kalawao": {
+   "name": "Kalawao",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "kalihi": {
+   "name": "Kalihi",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-29",
+     0.521
+    ],
+    [
+     "HD-30",
+     0.432
+    ]
+   ],
+   "SD": [
+    [
+     "SD-14",
+     0.745
+    ],
+    [
+     "SD-15",
+     0.221
+    ]
+   ]
+  },
+  "kalihi kai": {
+   "name": "Kalihi Kai",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-28",
+     0.617
+    ],
+    [
+     "HD-30",
+     0.211
+    ]
+   ],
+   "SD": [
+    [
+     "SD-13",
+     0.617
+    ],
+    [
+     "SD-15",
+     0.211
+    ]
+   ]
+  },
+  "kalihi uka": {
+   "name": "Kalihi Uka",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-29",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-14",
+     1.0
+    ]
+   ]
+  },
+  "kalihi valley": {
+   "name": "Kalihi Valley",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-29",
+     0.998
+    ]
+   ],
+   "SD": [
+    [
+     "SD-14",
+     0.998
+    ]
+   ]
+  },
+  "kalihi wai": {
+   "name": "Kalihi Wai",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-15",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "kaloko": {
+   "name": "Kaloko",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-07",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "kaluaaha": {
+   "name": "Kaluaʻaha",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "kam hwy makai": {
+   "name": "Kam Hwy Makai",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     0.913
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     0.913
+    ]
+   ]
+  },
+  "kamaili": {
+   "name": "Kamaili",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-04",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-02",
+     1.0
+    ]
+   ]
+  },
+  "kamalo": {
+   "name": "Kamalō",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "kamehame ridge": {
+   "name": "Kamehame Ridge",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-18",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-25",
+     1.0
+    ]
+   ]
+  },
+  "kamehameha heights": {
+   "name": "Kamehameha Heights",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-29",
+     0.876
+    ]
+   ],
+   "SD": [
+    [
+     "SD-14",
+     0.993
+    ]
+   ]
+  },
+  "kamilo nui": {
+   "name": "Kamilo Nui",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-18",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-25",
+     1.0
+    ]
+   ]
+  },
+  "kamiloiki": {
+   "name": "Kamiloiki",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-18",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-25",
+     1.0
+    ]
+   ]
+  },
+  "kamiloloa": {
+   "name": "Kamiloloa",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "kamooalii": {
+   "name": "Kamooalii",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-49",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     1.0
+    ]
+   ]
+  },
+  "kanahena": {
+   "name": "Kanahena",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-11",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-06",
+     1.0
+    ]
+   ]
+  },
+  "kaneohe bay": {
+   "name": "Kaneohe Bay",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-50",
+     0.944
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     0.944
+    ]
+   ]
+  },
+  "kaneohe bus": {
+   "name": "Kaneohe Bus",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-49",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     1.0
+    ]
+   ]
+  },
+  "kaneohe heights": {
+   "name": "Kaneohe Heights",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-50",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     1.0
+    ]
+   ]
+  },
+  "kaneohe town": {
+   "name": "Kaneohe Town",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-49",
+     0.719
+    ],
+    [
+     "HD-48",
+     0.281
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     1.0
+    ]
+   ]
+  },
+  "kaneohe woods": {
+   "name": "Kaneohe Woods",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-49",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     1.0
+    ]
+   ]
+  },
+  "kaniahiku village": {
+   "name": "Kaniahiku Village",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-04",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-02",
+     1.0
+    ]
+   ]
+  },
+  "kaopa": {
+   "name": "Kaopa",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-50",
+     0.757
+    ],
+    [
+     "HD-51",
+     0.243
+    ]
+   ],
+   "SD": [
+    [
+     "SD-25",
+     0.965
+    ]
+   ]
+  },
+  "kapaa": {
+   "name": "Kapaʻa",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-15",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "kapaahu": {
+   "name": "Kapaahu",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-04",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-02",
+     1.0
+    ]
+   ]
+  },
+  "kapaau": {
+   "name": "Kapaʻau",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-08",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "kapahi": {
+   "name": "Kapahi",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-15",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "kapahulu": {
+   "name": "Kapahulu",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-20",
+     0.735
+    ]
+   ],
+   "SD": [
+    [
+     "SD-10",
+     0.67
+    ],
+    [
+     "SD-09",
+     0.289
+    ]
+   ]
+  },
+  "kapaia": {
+   "name": "Kapaia",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-16",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "kapalama": {
+   "name": "Kapalama",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-30",
+     0.881
+    ]
+   ],
+   "SD": [
+    [
+     "SD-15",
+     0.723
+    ],
+    [
+     "SD-14",
+     0.158
+    ]
+   ]
+  },
+  "kapalaoa": {
+   "name": "Kapalaoa",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-07",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "kapalawai": {
+   "name": "Kapalawai",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-17",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "kapalua": {
+   "name": "Kapalua",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-14",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-06",
+     1.0
+    ]
+   ]
+  },
+  "kapiolani-kinau-ward": {
+   "name": "Kapiolani-Kinau-Ward",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-25",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-12",
+     0.528
+    ],
+    [
+     "SD-13",
+     0.472
+    ]
+   ]
+  },
+  "kapoho": {
+   "name": "Kapoho",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-04",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-02",
+     1.0
+    ]
+   ]
+  },
+  "kapolei": {
+   "name": "Kapolei",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-42",
+     0.473
+    ],
+    [
+     "HD-43",
+     0.395
+    ]
+   ],
+   "SD": [
+    [
+     "SD-21",
+     1.0
+    ]
+   ]
+  },
+  "kapolei knolls": {
+   "name": "Kapolei Knolls",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-43",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-21",
+     1.0
+    ]
+   ]
+  },
+  "kapolei-aeloa": {
+   "name": "Kapolei-Aeloa",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-42",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-21",
+     1.0
+    ]
+   ]
+  },
+  "kapolei-iwalani": {
+   "name": "Kapolei-Iwalani",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-42",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-21",
+     1.0
+    ]
+   ]
+  },
+  "kapolei-kai": {
+   "name": "Kapolei-Kai",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-42",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-21",
+     1.0
+    ]
+   ]
+  },
+  "kapolei-kekuilani": {
+   "name": "Kapolei-Kekuilani",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-42",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-21",
+     1.0
+    ]
+   ]
+  },
+  "kapolei-malanai": {
+   "name": "Kapolei-Malanai",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-42",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-21",
+     1.0
+    ]
+   ]
+  },
+  "kapulena": {
+   "name": "Kapulena",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-01",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "kapuna hala": {
+   "name": "Kapuna Hala",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-49",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     0.821
+    ],
+    [
+     "SD-23",
+     0.179
+    ]
+   ]
+  },
+  "kapunakea": {
+   "name": "Kapunakea",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-14",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-06",
+     1.0
+    ]
+   ]
+  },
+  "kaueleau": {
+   "name": "Kaueleau",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-04",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-02",
+     1.0
+    ]
+   ]
+  },
+  "kaukahoku": {
+   "name": "Kaukahōkū",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-06",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "kaumakani": {
+   "name": "Kaumakani",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-17",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "kaumalapau": {
+   "name": "Kaumalapau",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "kaumana": {
+   "name": "Kaūmana",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-01",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-01",
+     1.0
+    ]
+   ]
+  },
+  "kaunakakai": {
+   "name": "Kaunakakai",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "kaunene": {
+   "name": "Kaunēnē",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-05",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "kaupakulua": {
+   "name": "Kaupakulua",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "kaupo": {
+   "name": "Kaupō",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "kaupulehu": {
+   "name": "Kaʻūpūlehu",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-07",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "kawaihae": {
+   "name": "Kawaihae",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-08",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "kawaihau": {
+   "name": "Kawaihau",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-15",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "kawailoa": {
+   "name": "Kawailoa",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-47",
+     0.97
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     0.97
+    ]
+   ]
+  },
+  "kawainui": {
+   "name": "Kawainui",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-01",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-01",
+     1.0
+    ]
+   ]
+  },
+  "kawela": {
+   "name": "Kawela",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ],
+    [
+     "HD-01",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ],
+    [
+     "SD-04",
+     1.0
+    ]
+   ],
+   "ambiguous": true
+  },
+  "kawela bay": {
+   "name": "Kawela Bay",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-47",
+     0.994
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     0.994
+    ]
+   ]
+  },
+  "ke noho kai": {
+   "name": "Ke Noho Kai",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-41",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     1.0
+    ]
+   ]
+  },
+  "keaahala": {
+   "name": "Keaahala",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-49",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     0.668
+    ],
+    [
+     "SD-23",
+     0.332
+    ]
+   ]
+  },
+  "keaau": {
+   "name": "Keaʻau",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-03",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-02",
+     1.0
+    ]
+   ]
+  },
+  "kealakekua": {
+   "name": "Kealakekua",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-06",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "kealapuali": {
+   "name": "Kealapuali",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-06",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "kealaula kai": {
+   "name": "Kealaula Kai",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-18",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-25",
+     1.0
+    ]
+   ]
+  },
+  "kealia": {
+   "name": "Keālia",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-05",
+     1.0
+    ],
+    [
+     "HD-15",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ],
+    [
+     "SD-08",
+     1.0
+    ]
+   ],
+   "ambiguous": true
+  },
+  "keanae": {
+   "name": "Keʻanae",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "keanakolu": {
+   "name": "Keanakolu",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-01",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "keapuka": {
+   "name": "Keapuka",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-49",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     1.0
+    ]
+   ]
+  },
+  "keauhou": {
+   "name": "Keauhou",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-06",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "keaukaha": {
+   "name": "Keaukaha",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-03",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-01",
+     1.0
+    ]
+   ]
+  },
+  "keawaiki": {
+   "name": "Keawaiki",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-07",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "keei": {
+   "name": "Keʻei",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-06",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "kehena": {
+   "name": "Kehena",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-04",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-02",
+     1.0
+    ]
+   ]
+  },
+  "kekaha": {
+   "name": "Kekaha",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-17",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "kekupua": {
+   "name": "Kekupua",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-17",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "kelawea": {
+   "name": "Kelawea",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-14",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-06",
+     1.0
+    ]
+   ]
+  },
+  "keokea": {
+   "name": "Kēōkea",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-06",
+     1.0
+    ],
+    [
+     "HD-12",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ],
+    [
+     "SD-07",
+     1.0
+    ]
+   ],
+   "ambiguous": true
+  },
+  "keola o pokai bay": {
+   "name": "Keola O Pokai Bay",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-45",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-22",
+     1.0
+    ]
+   ]
+  },
+  "keolu hills": {
+   "name": "Keolu Hills",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-51",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-25",
+     1.0
+    ]
+   ]
+  },
+  "keoneoio": {
+   "name": "Keoneʻōʻio",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-11",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-06",
+     1.0
+    ]
+   ]
+  },
+  "kepuhi": {
+   "name": "Kepuhi",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "kiekie": {
+   "name": "Kiʻekiʻe",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-17",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "kihei": {
+   "name": "Kīhei",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-11",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-06",
+     1.0
+    ]
+   ]
+  },
+  "kiholo": {
+   "name": "Kīholo",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-07",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "kii": {
+   "name": "Kiʻi",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-17",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "kilauea": {
+   "name": "Kīlauea",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-15",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "kipahulu": {
+   "name": "Kīpahulu",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "kipu": {
+   "name": "Kīpū",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ],
+    [
+     "HD-16",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ],
+    [
+     "SD-08",
+     1.0
+    ]
+   ],
+   "ambiguous": true
+  },
+  "ko olina": {
+   "name": "Ko Olina",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-41",
+     0.486
+    ],
+    [
+     "HD-44",
+     0.445
+    ]
+   ],
+   "SD": [
+    [
+     "SD-22",
+     0.768
+    ],
+    [
+     "SD-21",
+     0.163
+    ]
+   ]
+  },
+  "koali": {
+   "name": "Koali",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "koheo": {
+   "name": "Kōheo",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "koko head terrace": {
+   "name": "Koko Head Terrace",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-18",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-25",
+     1.0
+    ]
+   ]
+  },
+  "koko kai": {
+   "name": "Koko Kai",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-18",
+     0.941
+    ]
+   ],
+   "SD": [
+    [
+     "SD-25",
+     0.941
+    ]
+   ]
+  },
+  "koko villas": {
+   "name": "Koko Villas",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-18",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-25",
+     1.0
+    ]
+   ]
+  },
+  "kokokahi": {
+   "name": "Kokokahi",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-50",
+     0.966
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     1.0
+    ]
+   ]
+  },
+  "kokomo": {
+   "name": "Kokomo",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "koloa": {
+   "name": "Kōloa",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-17",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "koloa mill": {
+   "name": "Koloa Mill",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-17",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "komakawai": {
+   "name": "Komakawai",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-05",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "komohana kai": {
+   "name": "Komohana Kai",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-06",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "kona south estates": {
+   "name": "Kona South Estates",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-05",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "koolaupoku": {
+   "name": "Koolaupoku",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-50",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     1.0
+    ]
+   ]
+  },
+  "kuakini heights": {
+   "name": "Kuakini Heights",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-06",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "kualapuu": {
+   "name": "Kualapuʻu",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "kualoa": {
+   "name": "Kualoa",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     0.974
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     0.974
+    ]
+   ]
+  },
+  "kualoa beach": {
+   "name": "Kualoa Beach",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     0.721
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     0.721
+    ]
+   ]
+  },
+  "kuau": {
+   "name": "Kūʻau",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "kuhio village": {
+   "name": "Kūhiō Village",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-08",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "kuilima": {
+   "name": "Kuilima",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-47",
+     0.997
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     0.997
+    ]
+   ]
+  },
+  "kukaiau": {
+   "name": "Kūkaʻiau",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-01",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "kukanono": {
+   "name": "Kukanono",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-50",
+     0.988
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     0.988
+    ]
+   ]
+  },
+  "kukilakila": {
+   "name": "Kukilakila",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-51",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-25",
+     1.0
+    ]
+   ]
+  },
+  "kukio": {
+   "name": "Kūkiʻo",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-07",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "kukui": {
+   "name": "Kukui",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-05",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-02",
+     1.0
+    ]
+   ]
+  },
+  "kukui village": {
+   "name": "Kukui Village",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-01",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "kukuihaele": {
+   "name": "Kukuihaele",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-01",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "kukuiula": {
+   "name": "Kukuiʻula",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-17",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "kuliouou": {
+   "name": "Kuliʻouʻou",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-19",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-09",
+     1.0
+    ]
+   ]
+  },
+  "kumukumu": {
+   "name": "Kumukumu",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-15",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "kunia": {
+   "name": "Kunia",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-39",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-18",
+     1.0
+    ]
+   ]
+  },
+  "kupolo": {
+   "name": "Kupolo",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-16",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "kurtistown": {
+   "name": "Kurtistown",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-03",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-02",
+     1.0
+    ]
+   ]
+  },
+  "kuulei tract": {
+   "name": "Kuulei Tract",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-50",
+     0.998
+    ]
+   ],
+   "SD": [
+    [
+     "SD-25",
+     1.0
+    ]
+   ]
+  },
+  "lahaina": {
+   "name": "Lahaina",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-14",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-06",
+     1.0
+    ]
+   ]
+  },
+  "lahainaluna": {
+   "name": "Lahainaluna",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-14",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-06",
+     1.0
+    ]
+   ]
+  },
+  "laie": {
+   "name": "Lāʻie",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-47",
+     0.995
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     0.995
+    ]
+   ]
+  },
+  "lalakoa": {
+   "name": "Lālākoa",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "lanai city": {
+   "name": "Lānaʻi City",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "laniakea": {
+   "name": "Laniākea",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-06",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "lanikai": {
+   "name": "Lanikai",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-51",
+     0.996
+    ]
+   ],
+   "SD": [
+    [
+     "SD-25",
+     0.996
+    ]
+   ]
+  },
+  "laulima": {
+   "name": "Laulima",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-18",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-25",
+     1.0
+    ]
+   ]
+  },
+  "launiupoko": {
+   "name": "Launiupoko",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-14",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-06",
+     1.0
+    ]
+   ]
+  },
+  "laupahoehoe": {
+   "name": "Laupāhoehoe",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-01",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "lawai": {
+   "name": "Lāwaʻi",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-17",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "leeward estates": {
+   "name": "Leeward Estates",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-40",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     1.0
+    ]
+   ]
+  },
+  "leilani estates": {
+   "name": "Leilani Estates",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-04",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-02",
+     1.0
+    ]
+   ]
+  },
+  "lihue": {
+   "name": "Līhuʻe",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-16",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "liliha": {
+   "name": "Liliha",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-28",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-13",
+     1.0
+    ]
+   ]
+  },
+  "lilipuna": {
+   "name": "Lilipuna",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     0.777
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     0.777
+    ]
+   ]
+  },
+  "lopa": {
+   "name": "Lōpā",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "lower paia": {
+   "name": "Lower Pāʻia",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "lualualei": {
+   "name": "Lualualei",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-45",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-22",
+     1.0
+    ]
+   ]
+  },
+  "lulani ocean": {
+   "name": "Lulani Ocean",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     0.998
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     0.998
+    ]
+   ]
+  },
+  "luna kai": {
+   "name": "Luna Kai",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-18",
+     0.964
+    ]
+   ],
+   "SD": [
+    [
+     "SD-25",
+     0.567
+    ],
+    [
+     "SD-09",
+     0.433
+    ]
+   ]
+  },
+  "lunaville": {
+   "name": "Lunaville",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-14",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-06",
+     1.0
+    ]
+   ]
+  },
+  "maalaea": {
+   "name": "Māʻalaea",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-14",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-06",
+     1.0
+    ]
+   ]
+  },
+  "maalehu": {
+   "name": "Maʻālehu",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "mahaiula": {
+   "name": "Mahaiʻula",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-07",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "mahalani": {
+   "name": "Mahalani",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-49",
+     0.959
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     0.959
+    ]
+   ]
+  },
+  "mahinui": {
+   "name": "Mahinui",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-50",
+     0.935
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     0.994
+    ]
+   ]
+  },
+  "mahukona": {
+   "name": "Māhukona",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-08",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "maili": {
+   "name": "Māʻili",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-44",
+     0.993
+    ]
+   ],
+   "SD": [
+    [
+     "SD-22",
+     0.999
+    ]
+   ]
+  },
+  "makaha": {
+   "name": "Mākaha",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-45",
+     0.989
+    ]
+   ],
+   "SD": [
+    [
+     "SD-22",
+     0.989
+    ]
+   ]
+  },
+  "makahalau": {
+   "name": "Makahalau",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-08",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "makakilo": {
+   "name": "Makakilo",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-43",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-21",
+     1.0
+    ]
+   ]
+  },
+  "makakilo-anuhea": {
+   "name": "Makakilo-Anuhea",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-43",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-21",
+     1.0
+    ]
+   ]
+  },
+  "makakilo-highlands": {
+   "name": "Makakilo-Highlands",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-43",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-21",
+     1.0
+    ]
+   ]
+  },
+  "makakilo-highpointe": {
+   "name": "Makakilo-Highpointe",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-43",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-21",
+     1.0
+    ]
+   ]
+  },
+  "makakilo-kahiwelo": {
+   "name": "Makakilo-Kahiwelo",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-43",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-21",
+     1.0
+    ]
+   ]
+  },
+  "makakilo-kumulani": {
+   "name": "Makakilo-Kumulani",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-43",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-21",
+     1.0
+    ]
+   ]
+  },
+  "makakilo-palehua heights": {
+   "name": "Makakilo-Palehua Heights",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-43",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-21",
+     1.0
+    ]
+   ]
+  },
+  "makakilo-royal ridge": {
+   "name": "Makakilo-Royal Ridge",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-43",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-21",
+     1.0
+    ]
+   ]
+  },
+  "makakilo-starsedge": {
+   "name": "Makakilo-Starsedge",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-43",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-21",
+     1.0
+    ]
+   ]
+  },
+  "makakilo-wai kaloi": {
+   "name": "Makakilo-Wai Kaloi",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-43",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-21",
+     1.0
+    ]
+   ]
+  },
+  "makakilo-west hills": {
+   "name": "Makakilo-West Hills",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-43",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-21",
+     1.0
+    ]
+   ]
+  },
+  "makalawena": {
+   "name": "Makalawena",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-07",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "makaoku": {
+   "name": "Makaokū",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-03",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-01",
+     1.0
+    ]
+   ]
+  },
+  "makapala": {
+   "name": "Makapala",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-08",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "makawao": {
+   "name": "Makawao",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-12",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "makena": {
+   "name": "Mākena",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-11",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-06",
+     1.0
+    ]
+   ]
+  },
+  "makiki": {
+   "name": "Makiki",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-26",
+     0.723
+    ],
+    [
+     "HD-25",
+     0.205
+    ]
+   ],
+   "SD": [
+    [
+     "SD-11",
+     1.0
+    ]
+   ]
+  },
+  "makiki heights": {
+   "name": "Makiki Heights",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-26",
+     0.74
+    ],
+    [
+     "HD-22",
+     0.26
+    ]
+   ],
+   "SD": [
+    [
+     "SD-11",
+     1.0
+    ]
+   ]
+  },
+  "mala": {
+   "name": "Māla",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-14",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-06",
+     1.0
+    ]
+   ]
+  },
+  "malaekahana": {
+   "name": "Malaekahana",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-47",
+     0.999
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     0.999
+    ]
+   ]
+  },
+  "mana": {
+   "name": "Mānā",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-17",
+     1.0
+    ],
+    [
+     "HD-08",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ],
+    [
+     "SD-04",
+     1.0
+    ]
+   ],
+   "ambiguous": true
+  },
+  "manana": {
+   "name": "Manana",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-35",
+     0.643
+    ],
+    [
+     "HD-34",
+     0.357
+    ]
+   ],
+   "SD": [
+    [
+     "SD-19",
+     1.0
+    ]
+   ]
+  },
+  "manoa": {
+   "name": "Manoa",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-22",
+     0.987
+    ]
+   ],
+   "SD": [
+    [
+     "SD-11",
+     0.987
+    ]
+   ]
+  },
+  "mapunapuna": {
+   "name": "Mapunapuna",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-31",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-15",
+     1.0
+    ]
+   ]
+  },
+  "marina west": {
+   "name": "Marina West",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-18",
+     0.731
+    ],
+    [
+     "HD-19",
+     0.269
+    ]
+   ],
+   "SD": [
+    [
+     "SD-09",
+     1.0
+    ]
+   ]
+  },
+  "mariners cove": {
+   "name": "Mariners Cove",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-18",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-25",
+     1.0
+    ]
+   ]
+  },
+  "mariners ridge": {
+   "name": "Mariners Ridge",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-18",
+     0.778
+    ],
+    [
+     "HD-19",
+     0.212
+    ]
+   ],
+   "SD": [
+    [
+     "SD-25",
+     0.507
+    ],
+    [
+     "SD-09",
+     0.493
+    ]
+   ]
+  },
+  "mariners valley": {
+   "name": "Mariners Valley",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-18",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-25",
+     1.0
+    ]
+   ]
+  },
+  "matson point": {
+   "name": "Matson Point",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     0.906
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     0.906
+    ]
+   ]
+  },
+  "maui meadows": {
+   "name": "Maui Meadows",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-11",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-06",
+     1.0
+    ]
+   ]
+  },
+  "mauna loa estates": {
+   "name": "Mauna Loa Estates",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-05",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-02",
+     1.0
+    ]
+   ]
+  },
+  "maunalani heights": {
+   "name": "Maunalani Heights",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-21",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-10",
+     1.0
+    ]
+   ]
+  },
+  "maunaloa": {
+   "name": "Maunaloa",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "maunawili": {
+   "name": "Maunawili",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-49",
+     0.995
+    ]
+   ],
+   "SD": [
+    [
+     "SD-25",
+     0.997
+    ]
+   ]
+  },
+  "mccully": {
+   "name": "McCully",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-23",
+     0.837
+    ],
+    [
+     "HD-24",
+     0.163
+    ]
+   ],
+   "SD": [
+    [
+     "SD-12",
+     1.0
+    ]
+   ]
+  },
+  "metcalf acres": {
+   "name": "Metcalf Acres",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-47",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     1.0
+    ]
+   ]
+  },
+  "mikiola": {
+   "name": "Mikiola",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-50",
+     0.997
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     0.997
+    ]
+   ]
+  },
+  "mililani": {
+   "name": "Mililani",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-38",
+     0.564
+    ],
+    [
+     "HD-37",
+     0.292
+    ]
+   ],
+   "SD": [
+    [
+     "SD-17",
+     0.808
+    ],
+    [
+     "SD-18",
+     0.168
+    ]
+   ]
+  },
+  "mililani mauka": {
+   "name": "Mililani Mauka",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-38",
+     0.809
+    ],
+    [
+     "HD-37",
+     0.191
+    ]
+   ],
+   "SD": [
+    [
+     "SD-17",
+     1.0
+    ]
+   ]
+  },
+  "milo village": {
+   "name": "Milo Village",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-01",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "milolii": {
+   "name": "Miloliʻi",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-05",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "miomio": {
+   "name": "Miomio",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     0.965
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     0.965
+    ]
+   ]
+  },
+  "moanalua gardens": {
+   "name": "Moanalua Gardens",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-32",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-14",
+     1.0
+    ]
+   ]
+  },
+  "moanalua valley": {
+   "name": "Moanalua Valley",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-32",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-14",
+     1.0
+    ]
+   ]
+  },
+  "moiliili": {
+   "name": "Mōʻiliʻili",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-23",
+     0.558
+    ],
+    [
+     "HD-22",
+     0.442
+    ]
+   ],
+   "SD": [
+    [
+     "SD-10",
+     0.602
+    ],
+    [
+     "SD-11",
+     0.349
+    ]
+   ]
+  },
+  "mokae": {
+   "name": "Mokae",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "mokulau": {
+   "name": "Mokulau",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "mokuleia": {
+   "name": "Mokulēʻia",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-46",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     1.0
+    ]
+   ]
+  },
+  "mokulele": {
+   "name": "Mokulele",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-50",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     1.0
+    ]
+   ]
+  },
+  "moloaa": {
+   "name": "Moloaa",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-15",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "momilani": {
+   "name": "Momilani",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-34",
+     0.979
+    ]
+   ],
+   "SD": [
+    [
+     "SD-19",
+     0.703
+    ],
+    [
+     "SD-16",
+     0.297
+    ]
+   ]
+  },
+  "monohaa": {
+   "name": "Monohaa",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-06",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "moomomi": {
+   "name": "Moʻomomi",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "mopua": {
+   "name": "Mōpua",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-14",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-06",
+     1.0
+    ]
+   ]
+  },
+  "mountain view": {
+   "name": "Mountain View",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-05",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-02",
+     1.0
+    ]
+   ]
+  },
+  "muolea": {
+   "name": "Mūʻolea",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "naalehu": {
+   "name": "Nāʻālehu",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-05",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "nahiku": {
+   "name": "Nāhiku",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "nanakai gardens": {
+   "name": "Nanakai Gardens",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-44",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-21",
+     1.0
+    ]
+   ]
+  },
+  "nanakuli": {
+   "name": "Nānākuli",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-44",
+     0.996
+    ]
+   ],
+   "SD": [
+    [
+     "SD-22",
+     0.999
+    ]
+   ]
+  },
+  "nanawale estates": {
+   "name": "Nānāwale Estates",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-04",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-02",
+     1.0
+    ]
+   ]
+  },
+  "napali haweo": {
+   "name": "Napali Haweo",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-18",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-25",
+     1.0
+    ]
+   ]
+  },
+  "napili": {
+   "name": "Nāpili",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-14",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-06",
+     1.0
+    ]
+   ]
+  },
+  "napoopoo": {
+   "name": "Nāpōʻopoʻo",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-06",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "napua point": {
+   "name": "Napua Point",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-18",
+     0.611
+    ]
+   ],
+   "SD": [
+    [
+     "SD-09",
+     0.727
+    ]
+   ]
+  },
+  "navy/federal": {
+   "name": "Navy/Federal",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-34",
+     0.95
+    ]
+   ],
+   "SD": [
+    [
+     "SD-16",
+     0.817
+    ]
+   ]
+  },
+  "nawiliwili": {
+   "name": "Nāwiliwili",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-16",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "newtown": {
+   "name": "Newtown",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-33",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-16",
+     1.0
+    ]
+   ]
+  },
+  "ninole": {
+   "name": "Nīnole",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-05",
+     1.0
+    ],
+    [
+     "HD-01",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ],
+    [
+     "SD-04",
+     1.0
+    ]
+   ],
+   "ambiguous": true
+  },
+  "niu beach": {
+   "name": "Niu Beach",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-19",
+     0.906
+    ]
+   ],
+   "SD": [
+    [
+     "SD-09",
+     0.906
+    ]
+   ]
+  },
+  "niu valley": {
+   "name": "Niu Valley",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-19",
+     0.998
+    ]
+   ],
+   "SD": [
+    [
+     "SD-09",
+     0.998
+    ]
+   ]
+  },
+  "niu village": {
+   "name": "Niu Village",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-01",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "niulii": {
+   "name": "Niuliʻi",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-08",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "niumalu": {
+   "name": "Niumalu",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-16",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "nohanani tract": {
+   "name": "Nohanani Tract",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-50",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     1.0
+    ]
+   ]
+  },
+  "not in use/dropped": {
+   "name": "Not In Use/Dropped",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-40",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     1.0
+    ]
+   ]
+  },
+  "numila": {
+   "name": "Numila",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-17",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "nuuanu": {
+   "name": "Nuuanu",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-27",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-13",
+     1.0
+    ]
+   ]
+  },
+  "nuuanu pali": {
+   "name": "Nuuanu Pali",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-27",
+     0.971
+    ]
+   ],
+   "SD": [
+    [
+     "SD-13",
+     0.962
+    ]
+   ]
+  },
+  "ocean pointe": {
+   "name": "Ocean Pointe",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-41",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     1.0
+    ]
+   ]
+  },
+  "old pali": {
+   "name": "Old Pali",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-27",
+     0.97
+    ]
+   ],
+   "SD": [
+    [
+     "SD-13",
+     0.969
+    ]
+   ]
+  },
+  "olinda": {
+   "name": "Olinda",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-12",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "olohena": {
+   "name": "Olohena",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-16",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "olokele": {
+   "name": "Olokele",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-17",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "olomana": {
+   "name": "Olomana",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-50",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     0.985
+    ]
+   ]
+  },
+  "olowalu": {
+   "name": "Olowalu",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-14",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-06",
+     1.0
+    ]
+   ]
+  },
+  "omao": {
+   "name": "ʻŌmaʻo",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-16",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "omaopio": {
+   "name": "ʻŌmaʻopio",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-12",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "ookala": {
+   "name": "ʻŌʻōkala",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-01",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "opaeopaeilio": {
+   "name": "Opaeopaeilio",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-16",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "opihikao": {
+   "name": "ʻOpihikao",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-04",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-02",
+     1.0
+    ]
+   ]
+  },
+  "orchidlands estates": {
+   "name": "Orchidlands Estates",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-03",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-02",
+     1.0
+    ]
+   ]
+  },
+  "paako": {
+   "name": "Paako",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-11",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-06",
+     1.0
+    ]
+   ]
+  },
+  "paalaakai": {
+   "name": "Paalaakai",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-47",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     1.0
+    ]
+   ]
+  },
+  "paauhau": {
+   "name": "Pāʻauhau",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-01",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "paauilo": {
+   "name": "Paʻauilo",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-01",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "pacific heights": {
+   "name": "Pacific Heights",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-27",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-13",
+     1.0
+    ]
+   ]
+  },
+  "pacific palisades": {
+   "name": "Pacific Palisades",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-34",
+     0.955
+    ]
+   ],
+   "SD": [
+    [
+     "SD-16",
+     0.955
+    ]
+   ]
+  },
+  "pahala": {
+   "name": "Pāhala",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-05",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "pahoa": {
+   "name": "Pāhoa",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-04",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-02",
+     1.0
+    ]
+   ]
+  },
+  "paia": {
+   "name": "Pāʻia",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "paiko lagoon": {
+   "name": "Paiko Lagoon",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-19",
+     0.891
+    ]
+   ],
+   "SD": [
+    [
+     "SD-09",
+     0.891
+    ]
+   ]
+  },
+  "pakala village": {
+   "name": "Pākalā Village",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-17",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "palama": {
+   "name": "Palama",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-28",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-13",
+     1.0
+    ]
+   ]
+  },
+  "palani junction": {
+   "name": "Palani Junction",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-07",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "paliaalii": {
+   "name": "Paliʻaʻalii",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-08",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "palolo": {
+   "name": "Palolo",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-21",
+     0.989
+    ]
+   ],
+   "SD": [
+    [
+     "SD-10",
+     0.989
+    ]
+   ]
+  },
+  "papa bay estates": {
+   "name": "Pāpā Bay Estates",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-05",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "papaaloa": {
+   "name": "Pāpaʻaloa",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-01",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "papaikou": {
+   "name": "Pāpaʻikou",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-01",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-01",
+     1.0
+    ]
+   ]
+  },
+  "papakolea": {
+   "name": "Papakolea",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-27",
+     0.597
+    ],
+    [
+     "HD-26",
+     0.403
+    ]
+   ],
+   "SD": [
+    [
+     "SD-11",
+     0.999
+    ]
+   ]
+  },
+  "papaloa": {
+   "name": "Papaloa",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-05",
+     1.0
+    ],
+    [
+     "HD-15",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ],
+    [
+     "SD-08",
+     1.0
+    ]
+   ],
+   "ambiguous": true
+  },
+  "parkway": {
+   "name": "Parkway",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-49",
+     0.563
+    ],
+    [
+     "HD-50",
+     0.437
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     1.0
+    ]
+   ]
+  },
+  "pauahi": {
+   "name": "Pauahi",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-05",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "paukaa": {
+   "name": "Paukaa",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-01",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-01",
+     1.0
+    ]
+   ]
+  },
+  "paukukalo": {
+   "name": "Paukūkalo",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-10",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-05",
+     1.0
+    ]
+   ]
+  },
+  "pauoa valley": {
+   "name": "Pauoa Valley",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-27",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-13",
+     1.0
+    ]
+   ]
+  },
+  "pauwalu": {
+   "name": "Pauwalu",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "pauwela": {
+   "name": "Paʻuwela",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "pawaa": {
+   "name": "Pawaa",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-23",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-12",
+     1.0
+    ]
+   ]
+  },
+  "pearl city": {
+   "name": "Pearl City",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-37",
+     0.852
+    ]
+   ],
+   "SD": [
+    [
+     "SD-17",
+     0.852
+    ]
+   ]
+  },
+  "pearlridge": {
+   "name": "Pearlridge",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-33",
+     0.859
+    ]
+   ],
+   "SD": [
+    [
+     "SD-16",
+     0.978
+    ]
+   ]
+  },
+  "pepeekeo": {
+   "name": "Pepeʻekeo",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-01",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-01",
+     1.0
+    ]
+   ]
+  },
+  "pepeekeo mill": {
+   "name": "Pepeʻekeo Mill",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-01",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-01",
+     1.0
+    ]
+   ]
+  },
+  "piihonua": {
+   "name": "Piʻihonua",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-01",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-01",
+     1.0
+    ]
+   ]
+  },
+  "pikoiloa": {
+   "name": "Pikoiloa",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-49",
+     0.661
+    ],
+    [
+     "HD-50",
+     0.339
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     1.0
+    ]
+   ]
+  },
+  "poamoho estates - unit 1": {
+   "name": "Poamoho Estates - Unit 1",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-47",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     1.0
+    ]
+   ]
+  },
+  "pohakupu": {
+   "name": "Pōhākupu",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-50",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     1.0
+    ]
+   ]
+  },
+  "pohoiki": {
+   "name": "Pohoiki",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-04",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-02",
+     1.0
+    ]
+   ]
+  },
+  "poipu": {
+   "name": "Poʻipū",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-17",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "pokii": {
+   "name": "Pokii",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-17",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "port allen": {
+   "name": "Port Allen",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-17",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "portlock": {
+   "name": "Portlock",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-18",
+     0.993
+    ]
+   ],
+   "SD": [
+    [
+     "SD-25",
+     0.993
+    ]
+   ]
+  },
+  "preserve": {
+   "name": "Preserve",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     0.987
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     0.988
+    ]
+   ]
+  },
+  "princeville": {
+   "name": "Princeville",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-15",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "pua loke": {
+   "name": "Pua Loke",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-16",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "puaakala": {
+   "name": "Puaʻākala",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-01",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-01",
+     1.0
+    ]
+   ]
+  },
+  "puahuula": {
+   "name": "Puahuula",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-49",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     1.0
+    ]
+   ]
+  },
+  "puako": {
+   "name": "Puakō",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-07",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "pualaa": {
+   "name": "Pūʻālaʻa",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-04",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-02",
+     1.0
+    ]
+   ]
+  },
+  "puhi": {
+   "name": "Puhi",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-16",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "pukaauhuhu": {
+   "name": "Pukaauhuhu",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "pukalani": {
+   "name": "Pukalani",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-12",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "pukoo": {
+   "name": "Pūkoʻo",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "pulehu": {
+   "name": "Pūlehu",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-12",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "punahou": {
+   "name": "Punahou",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-22",
+     0.796
+    ],
+    [
+     "HD-26",
+     0.169
+    ]
+   ],
+   "SD": [
+    [
+     "SD-11",
+     1.0
+    ]
+   ]
+  },
+  "punaluu": {
+   "name": "Punaluʻu",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-05",
+     1.0
+    ],
+    [
+     "HD-47",
+     0.999
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ],
+    [
+     "SD-23",
+     0.999
+    ]
+   ],
+   "ambiguous": true
+  },
+  "punaluu kahawai": {
+   "name": "Punaluʻu Kahawai",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-05",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "punchbowl": {
+   "name": "Punchbowl",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-26",
+     0.774
+    ]
+   ],
+   "SD": [
+    [
+     "SD-11",
+     0.664
+    ],
+    [
+     "SD-13",
+     0.336
+    ]
+   ]
+  },
+  "puohala village": {
+   "name": "Pūʻōhala Village",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-49",
+     0.956
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     0.956
+    ]
+   ]
+  },
+  "puopelu": {
+   "name": "Puopelu",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-08",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "pupukea": {
+   "name": "Pūpūkea",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-47",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     1.0
+    ]
+   ]
+  },
+  "puualii": {
+   "name": "Puualii",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     0.998
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     1.0
+    ]
+   ]
+  },
+  "puuanahulu": {
+   "name": "Puʻuanahulu",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-07",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "puueo": {
+   "name": "Puʻuʻeo",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-01",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-01",
+     1.0
+    ]
+   ]
+  },
+  "puuiki": {
+   "name": "Puʻuiki",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "puukolii": {
+   "name": "Puukolii",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-14",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-06",
+     1.0
+    ]
+   ]
+  },
+  "puunene": {
+   "name": "Puʻunēnē",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-09",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-05",
+     1.0
+    ]
+   ]
+  },
+  "puunoa": {
+   "name": "Puunoa",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-14",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-06",
+     1.0
+    ]
+   ]
+  },
+  "puunui": {
+   "name": "Puʻunui",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-27",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-13",
+     0.998
+    ]
+   ]
+  },
+  "puuohala village": {
+   "name": "Puʻuohala Village",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-10",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-05",
+     1.0
+    ]
+   ]
+  },
+  "puuohoku ranch": {
+   "name": "Puʻuohoku Ranch",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "puupanini": {
+   "name": "Puupanini",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-20",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-09",
+     1.0
+    ]
+   ]
+  },
+  "puuwai": {
+   "name": "Puʻuwai",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-17",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "queens gate": {
+   "name": "Queens Gate",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-18",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-25",
+     1.0
+    ]
+   ]
+  },
+  "renaissance": {
+   "name": "Renaissance",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-36",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-19",
+     1.0
+    ]
+   ]
+  },
+  "robinson heights": {
+   "name": "Robinson Heights",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-36",
+     0.981
+    ]
+   ],
+   "SD": [
+    [
+     "SD-19",
+     0.567
+    ],
+    [
+     "SD-18",
+     0.433
+    ]
+   ]
+  },
+  "royal hawaiian estates": {
+   "name": "Royal Hawaiian Estates",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-05",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-02",
+     1.0
+    ]
+   ]
+  },
+  "royal kunia": {
+   "name": "Royal Kunia",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-39",
+     0.974
+    ]
+   ],
+   "SD": [
+    [
+     "SD-18",
+     0.974
+    ]
+   ]
+  },
+  "royal summit": {
+   "name": "Royal Summit",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-33",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-16",
+     1.0
+    ]
+   ]
+  },
+  "saddle road junction": {
+   "name": "Saddle Road Junction",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-08",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "salt lake": {
+   "name": "Salt Lake",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-31",
+     0.994
+    ]
+   ],
+   "SD": [
+    [
+     "SD-15",
+     1.0
+    ]
+   ]
+  },
+  "school": {
+   "name": "School",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-47",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     1.0
+    ]
+   ]
+  },
+  "sea view": {
+   "name": "Sea View",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-06",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "seaview": {
+   "name": "Seaview",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-35",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-18",
+     1.0
+    ]
+   ]
+  },
+  "spinnaker isle": {
+   "name": "Spinnaker Isle",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-19",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-09",
+     1.0
+    ]
+   ]
+  },
+  "spreckelsville": {
+   "name": "Spreckelsville",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "st. louis heights": {
+   "name": "St. Louis Heights",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-21",
+     0.91
+    ]
+   ],
+   "SD": [
+    [
+     "SD-10",
+     0.914
+    ]
+   ]
+  },
+  "sunset": {
+   "name": "Sunset",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-47",
+     0.996
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     0.996
+    ]
+   ]
+  },
+  "sunset/velzy": {
+   "name": "Sunset/Velzy",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-47",
+     0.998
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     0.998
+    ]
+   ]
+  },
+  "tantalus": {
+   "name": "Tantalus",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-22",
+     0.541
+    ],
+    [
+     "HD-26",
+     0.305
+    ],
+    [
+     "HD-27",
+     0.153
+    ]
+   ],
+   "SD": [
+    [
+     "SD-11",
+     0.847
+    ],
+    [
+     "SD-13",
+     0.153
+    ]
+   ]
+  },
+  "temple valley": {
+   "name": "Temple Valley",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     1.0
+    ]
+   ]
+  },
+  "tiki gardens": {
+   "name": "Tiki Gardens",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-03",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-02",
+     1.0
+    ]
+   ]
+  },
+  "triangle": {
+   "name": "Triangle",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-18",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-25",
+     1.0
+    ]
+   ]
+  },
+  "ualakaa": {
+   "name": "Ualakaa",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-22",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-11",
+     1.0
+    ]
+   ]
+  },
+  "ualapue": {
+   "name": "ʻUalapuʻe",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "ulu ko": {
+   "name": "Ulu Ko",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-16",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "ulu mahi": {
+   "name": "Ulu Mahi",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-16",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "ulumalu": {
+   "name": "Ulumalu",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "ulupalakua": {
+   "name": "ʻUlupalakua",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-12",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "umikoa": {
+   "name": "ʻUmikoa",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-01",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "umipaa": {
+   "name": "ʻUmipaʻa",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "unspecified/no name": {
+   "name": "Unspecified/No Name",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-33",
+     0.396
+    ],
+    [
+     "HD-41",
+     0.321
+    ],
+    [
+     "HD-34",
+     0.162
+    ]
+   ],
+   "SD": [
+    [
+     "SD-16",
+     0.559
+    ],
+    [
+     "SD-20",
+     0.323
+    ]
+   ]
+  },
+  "upper nahiku": {
+   "name": "Upper Nahiku",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "upper village three": {
+   "name": "Upper Village Three",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "vacationland hawaii": {
+   "name": "Vacationland Hawaii",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-04",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-02",
+     1.0
+    ]
+   ]
+  },
+  "valley estates": {
+   "name": "Valley Estates",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     1.0
+    ]
+   ]
+  },
+  "valley of the temples": {
+   "name": "Valley of the Temples",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     1.0
+    ]
+   ]
+  },
+  "village park": {
+   "name": "Village Park",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-39",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-18",
+     1.0
+    ]
+   ]
+  },
+  "volcano": {
+   "name": "Volcano",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-05",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "wahiawa": {
+   "name": "Wahiawā",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-46",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-17",
+     0.976
+    ]
+   ]
+  },
+  "wahiawa heights": {
+   "name": "Wahiawa Heights",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-46",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-17",
+     1.0
+    ]
+   ]
+  },
+  "wahiawa park": {
+   "name": "Wahiawa Park",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-46",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-17",
+     1.0
+    ]
+   ]
+  },
+  "wahilauhue": {
+   "name": "Wahīlauhue",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "waiaka": {
+   "name": "Waiʻaka",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-08",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "waiakea": {
+   "name": "Waiākea",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-03",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-01",
+     1.0
+    ]
+   ]
+  },
+  "waiakoa": {
+   "name": "Waiakoa",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-12",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ]
+   ]
+  },
+  "waialae iki": {
+   "name": "Waialae Iki",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-19",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-09",
+     1.0
+    ]
+   ]
+  },
+  "waialae nui": {
+   "name": "Waialae Nui",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-19",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-09",
+     1.0
+    ]
+   ]
+  },
+  "waialae nui ridge": {
+   "name": "Waialae Nui Ridge",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-19",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-09",
+     1.0
+    ]
+   ]
+  },
+  "waialae nui valley": {
+   "name": "Waialae Nui Valley",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-19",
+     0.997
+    ]
+   ],
+   "SD": [
+    [
+     "SD-09",
+     0.976
+    ]
+   ]
+  },
+  "waialua": {
+   "name": "Waialua",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ],
+    [
+     "HD-46",
+     0.904
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     1.0
+    ],
+    [
+     "SD-07",
+     1.0
+    ]
+   ],
+   "ambiguous": true
+  },
+  "waianae": {
+   "name": "Waiʻanae",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-45",
+     0.975
+    ]
+   ],
+   "SD": [
+    [
+     "SD-22",
+     0.975
+    ]
+   ]
+  },
+  "waiau": {
+   "name": "Waiau",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-34",
+     0.787
+    ],
+    [
+     "HD-33",
+     0.213
+    ]
+   ],
+   "SD": [
+    [
+     "SD-16",
+     1.0
+    ]
+   ]
+  },
+  "waiehu": {
+   "name": "Waiehu",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-14",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-05",
+     1.0
+    ]
+   ]
+  },
+  "waiehu camp": {
+   "name": "Waiehu Camp",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-14",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-05",
+     1.0
+    ]
+   ]
+  },
+  "waiehu village": {
+   "name": "Waiehu Village",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-14",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-05",
+     1.0
+    ]
+   ]
+  },
+  "waieli": {
+   "name": "Waieli",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-17",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "waihee": {
+   "name": "Waiheʻe",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     1.0
+    ],
+    [
+     "HD-14",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     1.0
+    ],
+    [
+     "SD-05",
+     1.0
+    ]
+   ],
+   "ambiguous": true
+  },
+  "waihole": {
+   "name": "Waihole",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     0.998
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     0.998
+    ]
+   ]
+  },
+  "waihou": {
+   "name": "Waihou",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-06",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "waikalua": {
+   "name": "Waikalua",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-49",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     1.0
+    ]
+   ]
+  },
+  "waikane": {
+   "name": "Waikāne",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     0.999
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     0.999
+    ]
+   ]
+  },
+  "waikapu": {
+   "name": "Waikapū",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-10",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-05",
+     1.0
+    ]
+   ]
+  },
+  "waikapuna": {
+   "name": "Waikapuna",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-05",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "waikele": {
+   "name": "Waikele",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-35",
+     0.761
+    ],
+    [
+     "HD-39",
+     0.187
+    ]
+   ],
+   "SD": [
+    [
+     "SD-18",
+     0.948
+    ]
+   ]
+  },
+  "waikii": {
+   "name": "Waikiʻi",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-08",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "waikiki": {
+   "name": "Waikīkī",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-24",
+     0.999
+    ]
+   ],
+   "SD": [
+    [
+     "SD-12",
+     0.999
+    ]
+   ]
+  },
+  "waikoloa": {
+   "name": "Waikoloa",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-08",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "waikoloa beach resort": {
+   "name": "Waikoloa Beach Resort",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-07",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "waikoloa village": {
+   "name": "Waikoloa Village",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-07",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "waikui": {
+   "name": "Waikui",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-07",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "wailea": {
+   "name": "Wailea",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-01",
+     1.0
+    ],
+    [
+     "HD-11",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ],
+    [
+     "SD-06",
+     1.0
+    ]
+   ],
+   "ambiguous": true
+  },
+  "wailua": {
+   "name": "Wailua",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-13",
+     1.0
+    ],
+    [
+     "HD-15",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-07",
+     1.0
+    ],
+    [
+     "SD-08",
+     1.0
+    ]
+   ],
+   "ambiguous": true
+  },
+  "wailua homesteads": {
+   "name": "Wailua Homesteads",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-16",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "wailua house lots": {
+   "name": "Wailua House Lots",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-15",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "wailuku": {
+   "name": "Wailuku",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-10",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-05",
+     1.0
+    ]
+   ]
+  },
+  "wailuku heights": {
+   "name": "Wailuku Heights",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-10",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-05",
+     1.0
+    ]
+   ]
+  },
+  "wailuna": {
+   "name": "Wailuna",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-33",
+     0.994
+    ]
+   ],
+   "SD": [
+    [
+     "SD-16",
+     1.0
+    ]
+   ]
+  },
+  "wailupe": {
+   "name": "Wailupe",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-19",
+     0.962
+    ]
+   ],
+   "SD": [
+    [
+     "SD-09",
+     0.962
+    ]
+   ]
+  },
+  "wailupe beach": {
+   "name": "Wailupe Beach",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-19",
+     0.952
+    ]
+   ],
+   "SD": [
+    [
+     "SD-09",
+     0.952
+    ]
+   ]
+  },
+  "waimalu": {
+   "name": "Waimalu",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-34",
+     0.511
+    ],
+    [
+     "HD-33",
+     0.359
+    ]
+   ],
+   "SD": [
+    [
+     "SD-16",
+     0.616
+    ],
+    [
+     "SD-15",
+     0.378
+    ]
+   ]
+  },
+  "waimanalo": {
+   "name": "Waimānalo",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-51",
+     0.98
+    ]
+   ],
+   "SD": [
+    [
+     "SD-25",
+     0.987
+    ]
+   ]
+  },
+  "waimanalo residence lots unit 9": {
+   "name": "Waimanalo Residence Lots Unit 9",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-51",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-25",
+     1.0
+    ]
+   ]
+  },
+  "waimea": {
+   "name": "Waimea",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-47",
+     1.0
+    ],
+    [
+     "HD-17",
+     1.0
+    ],
+    [
+     "HD-08",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     1.0
+    ],
+    [
+     "SD-08",
+     1.0
+    ],
+    [
+     "SD-04",
+     1.0
+    ]
+   ],
+   "ambiguous": true
+  },
+  "wainaku": {
+   "name": "Wainaku",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-01",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-01",
+     1.0
+    ]
+   ]
+  },
+  "wainee": {
+   "name": "Waineʻe",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-14",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-06",
+     1.0
+    ]
+   ]
+  },
+  "wainiha": {
+   "name": "Wainiha",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-15",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "waiohinu": {
+   "name": "Waiʻōhinu",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-05",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "waipahoehoe": {
+   "name": "Waipāhoehoe",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-03",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-02",
+     1.0
+    ]
+   ]
+  },
+  "waipahu": {
+   "name": "Waipahu",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-46",
+     0.484
+    ],
+    [
+     "HD-36",
+     0.264
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     0.484
+    ],
+    [
+     "SD-19",
+     0.389
+    ]
+   ]
+  },
+  "waipahu estates": {
+   "name": "Waipahu Estates",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-36",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-19",
+     1.0
+    ]
+   ]
+  },
+  "waipahu gardens": {
+   "name": "Waipahu Gardens",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-36",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-19",
+     1.0
+    ]
+   ]
+  },
+  "waipahu triangle": {
+   "name": "Waipahu Triangle",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-35",
+     0.9
+    ]
+   ],
+   "SD": [
+    [
+     "SD-19",
+     1.0
+    ]
+   ]
+  },
+  "waipio": {
+   "name": "Waipiʻo",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-01",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "waipio gentry": {
+   "name": "Waipio Gentry",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-37",
+     0.844
+    ],
+    [
+     "HD-35",
+     0.156
+    ]
+   ],
+   "SD": [
+    [
+     "SD-18",
+     1.0
+    ]
+   ]
+  },
+  "waipouli": {
+   "name": "Waipouli",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-15",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-08",
+     1.0
+    ]
+   ]
+  },
+  "weliweli": {
+   "name": "Weliweli",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-07",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "weloka": {
+   "name": "Welokā",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-01",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-04",
+     1.0
+    ]
+   ]
+  },
+  "west loch villages": {
+   "name": "West Loch Villages",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-40",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     1.0
+    ]
+   ]
+  },
+  "west marina": {
+   "name": "West Marina",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-18",
+     0.606
+    ],
+    [
+     "HD-19",
+     0.394
+    ]
+   ],
+   "SD": [
+    [
+     "SD-25",
+     0.544
+    ],
+    [
+     "SD-09",
+     0.456
+    ]
+   ]
+  },
+  "westloch estates": {
+   "name": "Westloch Estates",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-39",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-19",
+     1.0
+    ]
+   ]
+  },
+  "westloch fairway": {
+   "name": "Westloch Fairway",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-40",
+     0.509
+    ],
+    [
+     "HD-39",
+     0.491
+    ]
+   ],
+   "SD": [
+    [
+     "SD-20",
+     1.0
+    ]
+   ]
+  },
+  "white sands beach estates": {
+   "name": "White Sands Beach Estates",
+   "kind": "place",
+   "HD": [
+    [
+     "HD-06",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-03",
+     1.0
+    ]
+   ]
+  },
+  "whitmore village": {
+   "name": "Whitmore Village",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-46",
+     0.982
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     0.632
+    ],
+    [
+     "SD-17",
+     0.368
+    ]
+   ]
+  },
+  "wilhelmina": {
+   "name": "Wilhelmina",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-21",
+     0.929
+    ]
+   ],
+   "SD": [
+    [
+     "SD-10",
+     1.0
+    ]
+   ]
+  },
+  "wilikina": {
+   "name": "Wilikina",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-46",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     0.835
+    ],
+    [
+     "SD-17",
+     0.165
+    ]
+   ]
+  },
+  "windward estates": {
+   "name": "Windward Estates",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-49",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     1.0
+    ]
+   ]
+  },
+  "windward mall": {
+   "name": "Windward Mall",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     0.849
+    ],
+    [
+     "HD-49",
+     0.151
+    ]
+   ],
+   "SD": [
+    [
+     "SD-24",
+     1.0
+    ]
+   ]
+  },
+  "woodlawn": {
+   "name": "Woodlawn",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-22",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-11",
+     1.0
+    ]
+   ]
+  },
+  "woodridge": {
+   "name": "Woodridge",
+   "kind": "neighborhood",
+   "HD": [
+    [
+     "HD-48",
+     1.0
+    ]
+   ],
+   "SD": [
+    [
+     "SD-23",
+     1.0
+    ]
+   ]
+  }
+ }
+}

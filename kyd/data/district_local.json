@@ -1,0 +1,3518 @@
+{
+ "sources": {
+  "oahu_neighborhoods": "https://services.arcgis.com/tNJpAOha4mODLkXz/arcgis/rest/services/Realtor_Neighborhoods_2012/FeatureServer/0",
+  "oahu_boards": "https://services.arcgis.com/tNJpAOha4mODLkXz/arcgis/rest/services/Neighborhood_Boards_with_Dissolved_Subdistricts/FeatureServer/0",
+  "council_honolulu": "https://geodata.hawaii.gov/arcgis/rest/services/AdminBnd/MapServer/11",
+  "council_maui": "https://geodata.hawaii.gov/arcgis/rest/services/AdminBnd/MapServer/35",
+  "council_hawaii": "https://geodata.hawaii.gov/arcgis/rest/services/AdminBnd/MapServer/10",
+  "gnis_places": "https://geodata.hawaii.gov/arcgis/rest/services/HistoricCultural/MapServer/2"
+ },
+ "method": "area overlap; neighborhoods ≥ 15% inside the district, boards/council ≥ 5% of the district; neighbor-island places are GNIS points (not boundaries)",
+ "districts": {
+  "HD-01": {
+   "neighborhoods": [
+    "Honokaʻa",
+    "Pepeʻekeo",
+    "Pāpaʻikou",
+    "Laupāhoehoe",
+    "Wainaku",
+    "Paʻauilo",
+    "Honomu",
+    "Paukaa",
+    "Kukuihaele",
+    "Akona",
+    "Haina",
+    "Hakalau",
+    "Halepiula",
+    "Hanaipoe",
+    "Hopuwai",
+    "Kapulena",
+    "Kawainui",
+    "Kawela",
+    "Kaūmana",
+    "Kaʻau",
+    "Keanakolu",
+    "Kukui Village",
+    "Kūkaʻiau",
+    "Milo Village",
+    "Niu Village",
+    "Nīnole",
+    "Pepeʻekeo Mill",
+    "Piʻihonua",
+    "Puaʻākala",
+    "Puʻuʻeo",
+    "Pāpaʻaloa",
+    "Pāʻauhau",
+    "Wailea",
+    "Waipiʻo",
+    "Welokā",
+    "ʻUmikoa",
+    "ʻĀkōlea Plantation Estates",
+    "ʻŌʻōkala"
+   ],
+   "boards": [],
+   "council": [
+    {
+     "body": "Hawaiʻi County Council",
+     "number": 1,
+     "name": null,
+     "share": 0.588
+    },
+    {
+     "body": "Hawaiʻi County Council",
+     "number": 2,
+     "name": null,
+     "share": 0.412
+    }
+   ]
+  },
+  "HD-02": {
+   "neighborhoods": [
+    "Hilo"
+   ],
+   "boards": [],
+   "council": [
+    {
+     "body": "Hawaiʻi County Council",
+     "number": 3,
+     "name": null,
+     "share": 0.595
+    },
+    {
+     "body": "Hawaiʻi County Council",
+     "number": 2,
+     "name": null,
+     "share": 0.343
+    },
+    {
+     "body": "Hawaiʻi County Council",
+     "number": 5,
+     "name": null,
+     "share": 0.062
+    }
+   ]
+  },
+  "HD-03": {
+   "neighborhoods": [
+    "ʻĀinaloa",
+    "Hawaiian Acres",
+    "Orchidlands Estates",
+    "Kurtistown",
+    "Fern Acres",
+    "Keaʻau",
+    "Tiki Gardens",
+    "Hāʻena",
+    "Keaukaha",
+    "Makaokū",
+    "Waipāhoehoe",
+    "Waiākea"
+   ],
+   "boards": [],
+   "council": [
+    {
+     "body": "Hawaiʻi County Council",
+     "number": 3,
+     "name": null,
+     "share": 0.515
+    },
+    {
+     "body": "Hawaiʻi County Council",
+     "number": 5,
+     "name": null,
+     "share": 0.482
+    }
+   ]
+  },
+  "HD-04": {
+   "neighborhoods": [
+    "Hawaiian Paradise Park",
+    "Hawaiian Beaches",
+    "Nānāwale Estates",
+    "Leilani Estates",
+    "Pāhoa",
+    "Black Sands",
+    "Kamaili",
+    "Hawaiʻi Beaches Estates",
+    "Kaimū",
+    "Kalapana Seaview Estates",
+    "Kaniahiku Village",
+    "Kapaahu",
+    "Kapoho",
+    "Kaueleau",
+    "Kehena",
+    "Pohoiki",
+    "Pūʻālaʻa",
+    "Vacationland Hawaii",
+    "ʻOpihikao"
+   ],
+   "boards": [],
+   "council": [
+    {
+     "body": "Hawaiʻi County Council",
+     "number": 4,
+     "name": null,
+     "share": 0.781
+    },
+    {
+     "body": "Hawaiʻi County Council",
+     "number": 6,
+     "name": null,
+     "share": 0.214
+    }
+   ]
+  },
+  "HD-05": {
+   "neighborhoods": [
+    "Hawaiian Ocean View",
+    "Mountain View",
+    "Pāhala",
+    "Eden Roc",
+    "Discovery Harbour",
+    "Fern Forest",
+    "Mauna Loa Estates",
+    "Nāʻālehu",
+    "Royal Hawaiian Estates",
+    "Volcano",
+    "Waiʻōhinu",
+    "Country Garden Estates",
+    "Elevenmile Homestead",
+    "Glenwood",
+    "Hawaiian Ocean View Estates",
+    "Hawaiian Ocean View Ranchos",
+    "Honuʻapo",
+    "Hoʻokena",
+    "Hoʻōpūloa",
+    "Hīlea",
+    "Kaunēnē",
+    "Keālia",
+    "Komakawai",
+    "Kona South Estates",
+    "Kukui",
+    "Miloliʻi",
+    "Nīnole",
+    "Papaloa",
+    "Pauahi",
+    "Punaluʻu",
+    "Punaluʻu Kahawai",
+    "Pāpā Bay Estates",
+    "Waikapuna",
+    "ʻĀinapō"
+   ],
+   "boards": [],
+   "council": [
+    {
+     "body": "Hawaiʻi County Council",
+     "number": 6,
+     "name": null,
+     "share": 0.732
+    },
+    {
+     "body": "Hawaiʻi County Council",
+     "number": 7,
+     "name": null,
+     "share": 0.125
+    },
+    {
+     "body": "Hawaiʻi County Council",
+     "number": 5,
+     "name": null,
+     "share": 0.065
+    }
+   ]
+  },
+  "HD-06": {
+   "neighborhoods": [
+    "Captain Cook",
+    "Hōlualoa",
+    "Kealakekua",
+    "Honalo",
+    "Aliʻi Kai",
+    "Aloha Kona",
+    "Hale Pili",
+    "Hillcrest",
+    "Hōnaunau",
+    "Kahaluʻu",
+    "Kainaliu",
+    "Kaukahōkū",
+    "Kaʻawaloa",
+    "Kealapuali",
+    "Keauhou",
+    "Keʻei",
+    "Komohana Kai",
+    "Kuakini Heights",
+    "Kēōkea",
+    "Laniākea",
+    "Monohaa",
+    "Nāpōʻopoʻo",
+    "Sea View",
+    "Waihou",
+    "White Sands Beach Estates"
+   ],
+   "boards": [],
+   "council": [
+    {
+     "body": "Hawaiʻi County Council",
+     "number": 7,
+     "name": null,
+     "share": 0.749
+    },
+    {
+     "body": "Hawaiʻi County Council",
+     "number": 6,
+     "name": null,
+     "share": 0.246
+    }
+   ]
+  },
+  "HD-07": {
+   "neighborhoods": [
+    "Kailua",
+    "Waikoloa Village",
+    "Kaloko",
+    "Waikoloa Beach Resort",
+    "Puakō",
+    "Honokōhau",
+    "Huʻehuʻe",
+    "Kalaoa",
+    "Kapalaoa",
+    "Kaʻūpūlehu",
+    "Keawaiki",
+    "Kīholo",
+    "Kūkiʻo",
+    "Mahaiʻula",
+    "Makalawena",
+    "Palani Junction",
+    "Puʻuanahulu",
+    "Waikui",
+    "Weliweli",
+    "ʻAnaehoʻomalu"
+   ],
+   "boards": [],
+   "council": [
+    {
+     "body": "Hawaiʻi County Council",
+     "number": 8,
+     "name": null,
+     "share": 0.452
+    },
+    {
+     "body": "Hawaiʻi County Council",
+     "number": 9,
+     "name": null,
+     "share": 0.28
+    },
+    {
+     "body": "Hawaiʻi County Council",
+     "number": 2,
+     "name": null,
+     "share": 0.19
+    },
+    {
+     "body": "Hawaiʻi County Council",
+     "number": 7,
+     "name": null,
+     "share": 0.078
+    }
+   ]
+  },
+  "HD-08": {
+   "neighborhoods": [
+    "Waimea",
+    "Hāwī",
+    "Kapaʻau",
+    "Halaʻula",
+    "Hikapoloa",
+    "Honomakaʻu",
+    "Hālawa",
+    "Kawaihae",
+    "Kūhiō Village",
+    "Makahalau",
+    "Makapala",
+    "Māhukona",
+    "Mānā",
+    "Niuliʻi",
+    "Paliʻaʻalii",
+    "Puopelu",
+    "Saddle Road Junction",
+    "Waikiʻi",
+    "Waikoloa",
+    "Waiʻaka"
+   ],
+   "boards": [],
+   "council": [
+    {
+     "body": "Hawaiʻi County Council",
+     "number": 9,
+     "name": null,
+     "share": 0.906
+    },
+    {
+     "body": "Hawaiʻi County Council",
+     "number": 1,
+     "name": null,
+     "share": 0.09
+    }
+   ]
+  },
+  "HD-09": {
+   "neighborhoods": [
+    "Kahului",
+    "Puʻunēnē"
+   ],
+   "boards": [],
+   "council": [
+    {
+     "body": "Maui County Council (residency area)",
+     "number": 4,
+     "name": "Kahului Residency Area",
+     "share": 0.983
+    }
+   ]
+  },
+  "HD-10": {
+   "neighborhoods": [
+    "Wailuku",
+    "Waikapū",
+    "Happy Valley",
+    "Paukūkalo",
+    "Puʻuohala Village",
+    "Wailuku Heights"
+   ],
+   "boards": [],
+   "council": [
+    {
+     "body": "Maui County Council (residency area)",
+     "number": 3,
+     "name": "Wailuku-Waihee-Waikapu Residency Area",
+     "share": 0.997
+    }
+   ]
+  },
+  "HD-11": {
+   "neighborhoods": [
+    "Kīhei",
+    "Wailea",
+    "Mākena",
+    "Kanahena",
+    "Keoneʻōʻio",
+    "Maui Meadows",
+    "Paako"
+   ],
+   "boards": [],
+   "council": [
+    {
+     "body": "Maui County Council (residency area)",
+     "number": 5,
+     "name": "South Maui Residency Area",
+     "share": 0.836
+    },
+    {
+     "body": "Maui County Council (residency area)",
+     "number": 7,
+     "name": "Upcountry (Pukalani-Kula-Ulupalakua) Residency Area",
+     "share": 0.162
+    }
+   ]
+  },
+  "HD-12": {
+   "neighborhoods": [
+    "Pukalani",
+    "Makawao",
+    "Kēōkea",
+    "Olinda",
+    "Hāliʻimaile",
+    "Pūlehu",
+    "Waiakoa",
+    "ʻUlupalakua",
+    "ʻŌmaʻopio"
+   ],
+   "boards": [],
+   "council": [
+    {
+     "body": "Maui County Council (residency area)",
+     "number": 7,
+     "name": "Upcountry (Pukalani-Kula-Ulupalakua) Residency Area",
+     "share": 0.638
+    },
+    {
+     "body": "Maui County Council (residency area)",
+     "number": 5,
+     "name": "South Maui Residency Area",
+     "share": 0.193
+    },
+    {
+     "body": "Maui County Council (residency area)",
+     "number": 1,
+     "name": "East Maui (Hana-Keanae-Kailua) Residency Area",
+     "share": 0.107
+    },
+    {
+     "body": "Maui County Council (residency area)",
+     "number": 6,
+     "name": "Makawao-Haiku-Paia Residency Area",
+     "share": 0.06
+    }
+   ]
+  },
+  "HD-13": {
+   "neighborhoods": [
+    "Kaunakakai",
+    "Lānaʻi City",
+    "Pāʻia",
+    "Kualapuʻu",
+    "Hāna",
+    "Maunaloa",
+    "ʻUalapuʻe",
+    "Haʻikū",
+    "Hoʻolehua",
+    "Huelo",
+    "Hālawa",
+    "Hālena",
+    "Hāmoa",
+    "Hāʻōʻū",
+    "Hōkūʻula",
+    "Kailua",
+    "Kalaupapa",
+    "Kalawao",
+    "Kalaʻe",
+    "Kaluaʻaha",
+    "Kamalō",
+    "Kamiloloa",
+    "Kaumalapau",
+    "Kaupakulua",
+    "Kaupō",
+    "Kawela",
+    "Kaʻelekū",
+    "Kepuhi",
+    "Keʻanae",
+    "Koali",
+    "Kokomo",
+    "Kākiʻo",
+    "Kīpahulu",
+    "Kīpū",
+    "Kōheo",
+    "Kūʻau",
+    "Lower Pāʻia",
+    "Lālākoa",
+    "Lōpā",
+    "Maʻālehu",
+    "Mokae",
+    "Mokulau",
+    "Moʻomomi",
+    "Mūʻolea",
+    "Nāhiku",
+    "Pauwalu",
+    "Paʻuwela",
+    "Pukaauhuhu",
+    "Puʻuiki",
+    "Puʻuohoku Ranch",
+    "Pūkoʻo",
+    "Spreckelsville",
+    "Ulumalu",
+    "Upper Nahiku",
+    "Upper Village Three",
+    "Wahīlauhue",
+    "Waialua",
+    "Wailua",
+    "ʻUmipaʻa"
+   ],
+   "boards": [],
+   "council": [
+    {
+     "body": "Maui County Council (residency area)",
+     "number": 9,
+     "name": "Molokai Residency Area",
+     "share": 0.368
+    },
+    {
+     "body": "Maui County Council (residency area)",
+     "number": 1,
+     "name": "East Maui (Hana-Keanae-Kailua) Residency Area",
+     "share": 0.289
+    },
+    {
+     "body": "Maui County Council (residency area)",
+     "number": 8,
+     "name": "Lanai Residency Area",
+     "share": 0.199
+    },
+    {
+     "body": "Maui County Council (residency area)",
+     "number": 6,
+     "name": "Makawao-Haiku-Paia Residency Area",
+     "share": 0.078
+    },
+    {
+     "body": "Maui County Council (residency area)",
+     "number": 2,
+     "name": "West Maui Residency Area",
+     "share": 0.062
+    }
+   ]
+  },
+  "HD-14": {
+   "neighborhoods": [
+    "Lahaina",
+    "Kāʻanapali",
+    "Launiupoko",
+    "Kapalua",
+    "Māʻalaea",
+    "Olowalu",
+    "Crater Village",
+    "Honokahua",
+    "Honokōhau",
+    "Honokōwai",
+    "Kahakuloa",
+    "Kahana",
+    "Kapunakea",
+    "Kelawea",
+    "Kāʻanapali Landing",
+    "Lahainaluna",
+    "Lunaville",
+    "Māla",
+    "Mōpua",
+    "Nāpili",
+    "Puukolii",
+    "Puunoa",
+    "Waiehu",
+    "Waiehu Camp",
+    "Waiehu Village",
+    "Waiheʻe",
+    "Waineʻe"
+   ],
+   "boards": [],
+   "council": [
+    {
+     "body": "Maui County Council (residency area)",
+     "number": 2,
+     "name": "West Maui Residency Area",
+     "share": 0.682
+    },
+    {
+     "body": "Maui County Council (residency area)",
+     "number": 3,
+     "name": "Wailuku-Waihee-Waikapu Residency Area",
+     "share": 0.267
+    }
+   ]
+  },
+  "HD-15": {
+   "neighborhoods": [
+    "Kapaʻa",
+    "Kīlauea",
+    "Wailua",
+    "Anahola",
+    "Princeville",
+    "Hāʻena",
+    "Hanalei",
+    "Wainiha",
+    "Halehomaha",
+    "Hanalei Homesteads",
+    "Kalihi Wai",
+    "Kapahi",
+    "Kawaihau",
+    "Keālia",
+    "Kumukumu",
+    "Moloaa",
+    "Papaloa",
+    "Wailua House Lots",
+    "Waipouli"
+   ],
+   "boards": [],
+   "council": [
+    {
+     "body": "Kauaʻi County Council",
+     "number": null,
+     "name": "elected at large",
+     "share": 1.0
+    }
+   ]
+  },
+  "HD-16": {
+   "neighborhoods": [
+    "Līhuʻe",
+    "Wailua Homesteads",
+    "Hanamāʻulu",
+    "Puhi",
+    "ʻŌmaʻo",
+    "Kapaia",
+    "Kupolo",
+    "Kīpū",
+    "Niumalu",
+    "Nāwiliwili",
+    "Olohena",
+    "Opaeopaeilio",
+    "Pua Loke",
+    "Ulu Ko",
+    "Ulu Mahi"
+   ],
+   "boards": [],
+   "council": [
+    {
+     "body": "Kauaʻi County Council",
+     "number": null,
+     "name": "elected at large",
+     "share": 1.0
+    }
+   ]
+  },
+  "HD-17": {
+   "neighborhoods": [
+    "Waimea",
+    "Kalāheo",
+    "Kekaha",
+    "Hanapēpē",
+    "Lāwaʻi",
+    "ʻEleʻele",
+    "Kōloa",
+    "Poʻipū",
+    "Kaumakani",
+    "Pākalā Village",
+    "Hanapēpē Heights",
+    "Kaawanui Village",
+    "Kapalawai",
+    "Kekupua",
+    "Kiʻekiʻe",
+    "Kiʻi",
+    "Koloa Mill",
+    "Kukuiʻula",
+    "Mānā",
+    "Numila",
+    "Olokele",
+    "Pokii",
+    "Port Allen",
+    "Puʻuwai",
+    "Waieli"
+   ],
+   "boards": [],
+   "council": [
+    {
+     "body": "Kauaʻi County Council",
+     "number": null,
+     "name": "elected at large",
+     "share": 1.0
+    }
+   ]
+  },
+  "HD-18": {
+   "neighborhoods": [
+    "Mariners Ridge",
+    "West Marina",
+    "Koko Head Terrace",
+    "Kalama Valley",
+    "Kamilo Nui",
+    "Hahaione",
+    "Mariners Valley",
+    "Luna Kai",
+    "Triangle",
+    "Mariners Cove",
+    "Napali Haweo",
+    "Koko Kai",
+    "Portlock",
+    "Kamiloiki",
+    "Queens Gate",
+    "Kamehame Ridge",
+    "Marina West",
+    "Anchorage",
+    "Koko Villas",
+    "Laulima",
+    "Kealaula Kai",
+    "Napua Point"
+   ],
+   "boards": [
+    {
+     "number": 1,
+     "name": "Hawaiʻi Kai",
+     "share": 0.992
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 4,
+     "name": null,
+     "share": 0.999
+    }
+   ]
+  },
+  "HD-19": {
+   "neighborhoods": [
+    "ʻĀina Haina",
+    "Kalani Iki",
+    "Niu Valley",
+    "Kuliʻouʻou",
+    "West Marina",
+    "Waialae Iki",
+    "Mariners Ridge",
+    "Hawaii Loa Ridge",
+    "Waialae Nui Valley",
+    "Waialae Nui Ridge",
+    "Paiko Lagoon",
+    "Waialae Nui",
+    "Kahala Kua",
+    "Hahaione",
+    "Wailupe",
+    "Aina Haina Beach",
+    "Spinnaker Isle",
+    "Niu Beach",
+    "Kai Nani",
+    "Wailupe Beach",
+    "Marina West"
+   ],
+   "boards": [
+    {
+     "number": 2,
+     "name": "Kuliouou-Kalani Iki",
+     "share": 0.69
+    },
+    {
+     "number": 3,
+     "name": "Waialae-Kahala",
+     "share": 0.204
+    },
+    {
+     "number": 1,
+     "name": "Hawaiʻi Kai",
+     "share": 0.101
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 4,
+     "name": null,
+     "share": 0.999
+    }
+   ]
+  },
+  "HD-20": {
+   "neighborhoods": [
+    "Diamond Head",
+    "Kaimukī",
+    "Kapahulu",
+    "Kāhala",
+    "Puupanini",
+    "Black Point"
+   ],
+   "boards": [
+    {
+     "number": 5,
+     "name": "Diamond Head-Kapahulu-St Louis Ht",
+     "share": 0.477
+    },
+    {
+     "number": 3,
+     "name": "Waialae-Kahala",
+     "share": 0.272
+    },
+    {
+     "number": 4,
+     "name": "Kaimukī",
+     "share": 0.246
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 4,
+     "name": null,
+     "share": 0.997
+    }
+   ]
+  },
+  "HD-21": {
+   "neighborhoods": [
+    "Palolo",
+    "Kalani Iki",
+    "St. Louis Heights",
+    "Wilhelmina",
+    "Maunalani Heights",
+    "Kaimukī"
+   ],
+   "boards": [
+    {
+     "number": 6,
+     "name": "Palolo",
+     "share": 0.683
+    },
+    {
+     "number": 5,
+     "name": "Diamond Head-Kapahulu-St Louis Ht",
+     "share": 0.16
+    },
+    {
+     "number": 4,
+     "name": "Kaimukī",
+     "share": 0.154
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 5,
+     "name": null,
+     "share": 0.829
+    },
+    {
+     "body": "Honolulu City Council",
+     "number": 4,
+     "name": null,
+     "share": 0.171
+    }
+   ]
+  },
+  "HD-22": {
+   "neighborhoods": [
+    "Manoa",
+    "Tantalus",
+    "Woodlawn",
+    "Mōʻiliʻili",
+    "Punahou",
+    "Makiki Heights",
+    "Ualakaa",
+    "Judd Hillside"
+   ],
+   "boards": [
+    {
+     "number": 7,
+     "name": "Manoa",
+     "share": 0.71
+    },
+    {
+     "number": 10,
+     "name": "Makiki-Lwr Punchbowl-Tantalus",
+     "share": 0.225
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 5,
+     "name": null,
+     "share": 0.996
+    }
+   ]
+  },
+  "HD-23": {
+   "neighborhoods": [
+    "Mōʻiliʻili",
+    "Pawaa",
+    "McCully"
+   ],
+   "boards": [
+    {
+     "number": 8,
+     "name": "Mccully-Moiliili",
+     "share": 0.581
+    },
+    {
+     "number": 11,
+     "name": "Ala Moana-Kakaako",
+     "share": 0.223
+    },
+    {
+     "number": 5,
+     "name": "Diamond Head-Kapahulu-St Louis Ht",
+     "share": 0.155
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 5,
+     "name": null,
+     "share": 0.852
+    },
+    {
+     "body": "Honolulu City Council",
+     "number": 4,
+     "name": null,
+     "share": 0.148
+    }
+   ]
+  },
+  "HD-24": {
+   "neighborhoods": [
+    "Waikīkī",
+    "Ala Moana",
+    "McCully"
+   ],
+   "boards": [
+    {
+     "number": 9,
+     "name": "Waikīkī",
+     "share": 0.743
+    },
+    {
+     "number": 8,
+     "name": "Mccully-Moiliili",
+     "share": 0.173
+    },
+    {
+     "number": 11,
+     "name": "Ala Moana-Kakaako",
+     "share": 0.062
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 4,
+     "name": null,
+     "share": 0.764
+    },
+    {
+     "body": "Honolulu City Council",
+     "number": 5,
+     "name": null,
+     "share": 0.235
+    }
+   ]
+  },
+  "HD-25": {
+   "neighborhoods": [
+    "Kakaako",
+    "Downtown",
+    "Ala Moana",
+    "Makiki",
+    "Kapiolani-Kinau-Ward"
+   ],
+   "boards": [
+    {
+     "number": 11,
+     "name": "Ala Moana-Kakaako",
+     "share": 0.59
+    },
+    {
+     "number": 13,
+     "name": "Downtown-Chinatown",
+     "share": 0.343
+    },
+    {
+     "number": 10,
+     "name": "Makiki-Lwr Punchbowl-Tantalus",
+     "share": 0.067
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 6,
+     "name": null,
+     "share": 0.575
+    },
+    {
+     "body": "Honolulu City Council",
+     "number": 5,
+     "name": null,
+     "share": 0.424
+    }
+   ]
+  },
+  "HD-26": {
+   "neighborhoods": [
+    "Tantalus",
+    "Punchbowl",
+    "Makiki",
+    "Makiki Heights",
+    "Papakolea",
+    "Punahou",
+    "Kalawahine Streamside"
+   ],
+   "boards": [
+    {
+     "number": 10,
+     "name": "Makiki-Lwr Punchbowl-Tantalus",
+     "share": 0.793
+    },
+    {
+     "number": 12,
+     "name": "Nuuanu-Punchbowl",
+     "share": 0.204
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 5,
+     "name": null,
+     "share": 0.702
+    },
+    {
+     "body": "Honolulu City Council",
+     "number": 6,
+     "name": null,
+     "share": 0.298
+    }
+   ]
+  },
+  "HD-27": {
+   "neighborhoods": [
+    "Old Pali",
+    "Nuuanu Pali",
+    "Nuuanu",
+    "Pauoa Valley",
+    "Dowsett",
+    "Tantalus",
+    "ʻĀlewa Heights",
+    "Puʻunui",
+    "Pacific Heights",
+    "Papakolea"
+   ],
+   "boards": [
+    {
+     "number": 12,
+     "name": "Nuuanu-Punchbowl",
+     "share": 0.772
+    },
+    {
+     "number": 14,
+     "name": "Liliha-Kapalama",
+     "share": 0.208
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 6,
+     "name": null,
+     "share": 1.0
+    }
+   ]
+  },
+  "HD-28": {
+   "neighborhoods": [
+    "Liliha",
+    "Kalihi Kai",
+    "Chinatown",
+    "Palama"
+   ],
+   "boards": [
+    {
+     "number": 15,
+     "name": "Kalihi-Palama",
+     "share": 0.811
+    },
+    {
+     "number": 14,
+     "name": "Liliha-Kapalama",
+     "share": 0.094
+    },
+    {
+     "number": 13,
+     "name": "Downtown-Chinatown",
+     "share": 0.093
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 6,
+     "name": null,
+     "share": 0.632
+    },
+    {
+     "body": "Honolulu City Council",
+     "number": 7,
+     "name": null,
+     "share": 0.367
+    }
+   ]
+  },
+  "HD-29": {
+   "neighborhoods": [
+    "Kalihi Valley",
+    "Kamehameha Heights",
+    "Kalihi",
+    "Kalihi Uka"
+   ],
+   "boards": [
+    {
+     "number": 16,
+     "name": "Kalihi Valley",
+     "share": 0.781
+    },
+    {
+     "number": 14,
+     "name": "Liliha-Kapalama",
+     "share": 0.178
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 6,
+     "name": null,
+     "share": 0.999
+    }
+   ]
+  },
+  "HD-30": {
+   "neighborhoods": [
+    "Kapalama",
+    "Kalihi",
+    "Kalihi Kai"
+   ],
+   "boards": [
+    {
+     "number": 18,
+     "name": "AliamanuSaltLakeFostrVillAirpr",
+     "share": 0.804
+    },
+    {
+     "number": 15,
+     "name": "Kalihi-Palama",
+     "share": 0.179
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 7,
+     "name": null,
+     "share": 0.935
+    }
+   ]
+  },
+  "HD-31": {
+   "neighborhoods": [
+    "Salt Lake",
+    "Mapunapuna",
+    "Hālawa",
+    "Āliamanu"
+   ],
+   "boards": [
+    {
+     "number": 18,
+     "name": "AliamanuSaltLakeFostrVillAirpr",
+     "share": 0.848
+    },
+    {
+     "number": 20,
+     "name": "ʻAiea",
+     "share": 0.148
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 7,
+     "name": null,
+     "share": 0.998
+    }
+   ]
+  },
+  "HD-32": {
+   "neighborhoods": [
+    "Hālawa Heights",
+    "Moanalua Valley",
+    "Hālawa",
+    "ʻAiea",
+    "Moanalua Gardens",
+    "Foster Village",
+    "Āliamanu"
+   ],
+   "boards": [
+    {
+     "number": 17,
+     "name": "Moanalua",
+     "share": 0.511
+    },
+    {
+     "number": 20,
+     "name": "ʻAiea",
+     "share": 0.41
+    },
+    {
+     "number": 18,
+     "name": "AliamanuSaltLakeFostrVillAirpr",
+     "share": 0.076
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 7,
+     "name": null,
+     "share": 0.998
+    }
+   ]
+  },
+  "HD-33": {
+   "neighborhoods": [
+    "Pearlridge",
+    "Unspecified/No Name",
+    "ʻAiea Heights",
+    "Newtown",
+    "Wailuna",
+    "Hālawa",
+    "Royal Summit",
+    "Waimalu",
+    "ʻAiea",
+    "Waiau"
+   ],
+   "boards": [
+    {
+     "number": 20,
+     "name": "ʻAiea",
+     "share": 0.946
+    },
+    {
+     "number": 21,
+     "name": "Pearl City",
+     "share": 0.054
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 8,
+     "name": null,
+     "share": 0.685
+    },
+    {
+     "body": "Honolulu City Council",
+     "number": 7,
+     "name": null,
+     "share": 0.315
+    }
+   ]
+  },
+  "HD-34": {
+   "neighborhoods": [
+    "Navy/Federal",
+    "Pacific Palisades",
+    "Unspecified/No Name",
+    "Waiau",
+    "Waimalu",
+    "Momilani",
+    "Manana"
+   ],
+   "boards": [
+    {
+     "number": 21,
+     "name": "Pearl City",
+     "share": 0.783
+    },
+    {
+     "number": 20,
+     "name": "ʻAiea",
+     "share": 0.216
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 8,
+     "name": null,
+     "share": 1.0
+    }
+   ]
+  },
+  "HD-35": {
+   "neighborhoods": [
+    "Agriculture/Navy",
+    "Waikele",
+    "Waipahu Triangle",
+    "Waipio Gentry",
+    "Seaview",
+    "Crestview",
+    "Manana",
+    "Hale Lumi"
+   ],
+   "boards": [
+    {
+     "number": 22,
+     "name": "Waipahu",
+     "share": 0.786
+    },
+    {
+     "number": 21,
+     "name": "Pearl City",
+     "share": 0.214
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 9,
+     "name": null,
+     "share": 0.503
+    },
+    {
+     "body": "Honolulu City Council",
+     "number": 8,
+     "name": null,
+     "share": 0.368
+    },
+    {
+     "body": "Honolulu City Council",
+     "number": 2,
+     "name": null,
+     "share": 0.129
+    }
+   ]
+  },
+  "HD-36": {
+   "neighborhoods": [
+    "Waipahu",
+    "Waipahu Estates",
+    "Harbor View",
+    "Waipahu Gardens",
+    "Robinson Heights",
+    "Renaissance",
+    "Business"
+   ],
+   "boards": [
+    {
+     "number": 22,
+     "name": "Waipahu",
+     "share": 1.0
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 9,
+     "name": null,
+     "share": 0.998
+    }
+   ]
+  },
+  "HD-37": {
+   "neighborhoods": [
+    "Pearl City",
+    "Mililani",
+    "Waipio Gentry",
+    "Mililani Mauka",
+    "Cemetary"
+   ],
+   "boards": [
+    {
+     "number": 21,
+     "name": "Pearl City",
+     "share": 0.754
+    },
+    {
+     "number": 25,
+     "name": "Mililani-Waipio-Melemanu",
+     "share": 0.174
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 8,
+     "name": null,
+     "share": 0.992
+    }
+   ]
+  },
+  "HD-38": {
+   "neighborhoods": [
+    "Mililani",
+    "Mililani Mauka"
+   ],
+   "boards": [
+    {
+     "number": 35,
+     "name": "Mililani Mauka-Launani Valley",
+     "share": 0.867
+    },
+    {
+     "number": 25,
+     "name": "Mililani-Waipio-Melemanu",
+     "share": 0.124
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 8,
+     "name": null,
+     "share": 0.999
+    }
+   ]
+  },
+  "HD-39": {
+   "neighborhoods": [
+    "Agriculture/Preserve",
+    "ʻEwa",
+    "Royal Kunia",
+    "Kunia",
+    "Village Park",
+    "Waikele",
+    "Business",
+    "Westloch Estates",
+    "Harbor View",
+    "Westloch Fairway"
+   ],
+   "boards": [
+    {
+     "number": 25,
+     "name": "Mililani-Waipio-Melemanu",
+     "share": 0.388
+    },
+    {
+     "number": 34,
+     "name": "Makakilo-Kapolei-Honokai Hale",
+     "share": 0.332
+    },
+    {
+     "number": 22,
+     "name": "Waipahu",
+     "share": 0.15
+    },
+    {
+     "number": 23,
+     "name": "ʻEwa",
+     "share": 0.125
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 2,
+     "name": null,
+     "share": 0.86
+    },
+    {
+     "body": "Honolulu City Council",
+     "number": 1,
+     "name": null,
+     "share": 0.105
+    }
+   ]
+  },
+  "HD-40": {
+   "neighborhoods": [
+    "ʻEwa",
+    "ʻEwa Beach",
+    "Leeward Estates",
+    "ʻEwa Gentry",
+    "Westloch Fairway",
+    "Ewa Gentry Prescott",
+    "West Loch Villages",
+    "Ewa Gentry Cypress Point",
+    "Ewa Gentry Tuscany II",
+    "Ewa Gentry Summerhill",
+    "Ewa Gentry Woodbridge",
+    "Ewa Gentry Sonoma",
+    "Ewa Gentry Haleakea",
+    "Ewa Gentry Montecito/Tuscany",
+    "Ewa Gentry Carriages",
+    "Ewa Gentry Terrazza",
+    "Honouliuli",
+    "Ewa Gentry Tiburon",
+    "Ewa Gentry Las Brisas",
+    "Ewa Gentry Alii Cove",
+    "Ewa Gentry Trovare",
+    "Ewa Gentry Breakers",
+    "Ewa Gentry Sea Breeze",
+    "Ewa Gentry Lombard Way",
+    "Ewa Gentry Alii Court",
+    "Ewa Gentry Cortebella",
+    "Ewa Gentry Meridian",
+    "Ewa Gentry Lofts",
+    "Not In Use/Dropped"
+   ],
+   "boards": [
+    {
+     "number": 23,
+     "name": "ʻEwa",
+     "share": 0.999
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 9,
+     "name": null,
+     "share": 0.999
+    }
+   ]
+  },
+  "HD-41": {
+   "neighborhoods": [
+    "Unspecified/No Name",
+    "ʻEwa Villages",
+    "Ocean Pointe",
+    "Ko Olina",
+    "ʻEwa Beach",
+    "Ka Makana",
+    "Ewa Gentry Sun Terra",
+    "Ewa Gentry Sun Terra On The Park",
+    "Hoakalei-Ka Makana",
+    "Ewa Gentry Kula Lei",
+    "Ka Makana IVC",
+    "Ewa Gentry Latitudes",
+    "Ewa Gentry Fiesta/Del Verde",
+    "Huelani",
+    "Ewa Gentry Sun Terra South",
+    "Ke Noho Kai",
+    "ʻEwa Gentry"
+   ],
+   "boards": [
+    {
+     "number": 34,
+     "name": "Makakilo-Kapolei-Honokai Hale",
+     "share": 0.747
+    },
+    {
+     "number": 23,
+     "name": "ʻEwa",
+     "share": 0.248
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 1,
+     "name": null,
+     "share": 0.878
+    },
+    {
+     "body": "Honolulu City Council",
+     "number": 9,
+     "name": null,
+     "share": 0.122
+    }
+   ]
+  },
+  "HD-42": {
+   "neighborhoods": [
+    "Kapolei",
+    "ʻEwa",
+    "ʻEwa Villages",
+    "Ewa Gentry Soda Creek",
+    "Kapolei-Malanai",
+    "Kapolei-Kekuilani",
+    "Kapolei-Aeloa",
+    "Kapolei-Iwalani",
+    "Kapolei-Kai"
+   ],
+   "boards": [
+    {
+     "number": 23,
+     "name": "ʻEwa",
+     "share": 0.553
+    },
+    {
+     "number": 34,
+     "name": "Makakilo-Kapolei-Honokai Hale",
+     "share": 0.447
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 1,
+     "name": null,
+     "share": 0.706
+    },
+    {
+     "body": "Honolulu City Council",
+     "number": 9,
+     "name": null,
+     "share": 0.294
+    }
+   ]
+  },
+  "HD-43": {
+   "neighborhoods": [
+    "Kapolei",
+    "Makakilo",
+    "Kapolei Knolls",
+    "Makakilo-West Hills",
+    "Makakilo-Wai Kaloi",
+    "Makakilo-Palehua Heights",
+    "Makakilo-Highpointe",
+    "Makakilo-Kumulani",
+    "Makakilo-Starsedge",
+    "Makakilo-Highlands",
+    "Makakilo-Anuhea",
+    "Makakilo-Royal Ridge",
+    "Makakilo-Kahiwelo"
+   ],
+   "boards": [
+    {
+     "number": 34,
+     "name": "Makakilo-Kapolei-Honokai Hale",
+     "share": 0.996
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 1,
+     "name": null,
+     "share": 1.0
+    }
+   ]
+  },
+  "HD-44": {
+   "neighborhoods": [
+    "Māʻili",
+    "Nānākuli",
+    "Ko Olina",
+    "Nanakai Gardens"
+   ],
+   "boards": [
+    {
+     "number": 36,
+     "name": "Nanakuli-Maili",
+     "share": 0.691
+    },
+    {
+     "number": 34,
+     "name": "Makakilo-Kapolei-Honokai Hale",
+     "share": 0.306
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 1,
+     "name": null,
+     "share": 1.0
+    }
+   ]
+  },
+  "HD-45": {
+   "neighborhoods": [
+    "Mākaha",
+    "Government/Preserve",
+    "Waiʻanae",
+    "Lualualei",
+    "Keola O Pokai Bay",
+    "Freitas Dairy"
+   ],
+   "boards": [
+    {
+     "number": 24,
+     "name": "Waiʻanae",
+     "share": 0.678
+    },
+    {
+     "number": 36,
+     "name": "Nanakuli-Maili",
+     "share": 0.314
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 1,
+     "name": null,
+     "share": 1.0
+    }
+   ]
+  },
+  "HD-46": {
+   "neighborhoods": [
+    "Agriculture/Preserve",
+    "Waialua",
+    "Mokulēʻia",
+    "Kaena Point",
+    "Whitmore Village",
+    "Waipahu",
+    "Wahiawā",
+    "Wahiawa Heights",
+    "Wilikina",
+    "Wahiawa Park",
+    "Botanical Garden"
+   ],
+   "boards": [
+    {
+     "number": 26,
+     "name": "Wahiawā",
+     "share": 0.527
+    },
+    {
+     "number": 27,
+     "name": "North Shore",
+     "share": 0.392
+    },
+    {
+     "number": 25,
+     "name": "Mililani-Waipio-Melemanu",
+     "share": 0.068
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 2,
+     "name": null,
+     "share": 0.996
+    }
+   ]
+  },
+  "HD-47": {
+   "neighborhoods": [
+    "Agriculture/Preserve",
+    "Government/Agriculture",
+    "Kahuku",
+    "Hauʻula",
+    "Sunset",
+    "Kawailoa",
+    "Waimea",
+    "Pūpūkea",
+    "Kuilima",
+    "Haleʻiwa",
+    "Kahana",
+    "Punaluʻu",
+    "Lāʻie",
+    "Sunset/Velzy",
+    "Malaekahana",
+    "Kawela Bay",
+    "Poamoho Estates - Unit 1",
+    "Beach Parks",
+    "Paalaakai",
+    "School",
+    "Metcalf Acres"
+   ],
+   "boards": [
+    {
+     "number": 27,
+     "name": "North Shore",
+     "share": 0.627
+    },
+    {
+     "number": 28,
+     "name": "Koolauloa",
+     "share": 0.368
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 2,
+     "name": null,
+     "share": 0.999
+    }
+   ]
+  },
+  "HD-48": {
+   "neighborhoods": [
+    "Preserve",
+    "Kaʻaʻawa",
+    "Temple Valley",
+    "Waikāne",
+    "Waihole",
+    "Kaalaea",
+    "Heeia Kea",
+    "Government",
+    "Hakipuu",
+    "ʻĀhuimanu",
+    "Waiheʻe",
+    "Kahana",
+    "Kualoa",
+    "Kahaluu Town",
+    "Haiku Plantation",
+    "Valley of the Temples",
+    "Lulani Ocean",
+    "Ahaolelo",
+    "Lilipuna",
+    "Crown Terrace",
+    "Club View Estate",
+    "Alii Shores",
+    "Puualii",
+    "Haiku Village",
+    "Ahuimanu Hills",
+    "Kaneohe Town",
+    "Hygienic Store",
+    "Alii Bluffs",
+    "Fish Pond",
+    "Haiku Park",
+    "Valley Estates",
+    "Windward Mall",
+    "Kahanahou",
+    "Woodridge",
+    "Haiku Knolls",
+    "Matson Point",
+    "Kahaluu Fishpond",
+    "Heeia View",
+    "Ahuimanu Knolls",
+    "Kam Hwy Makai",
+    "Miomio",
+    "Kualoa Beach"
+   ],
+   "boards": [
+    {
+     "number": 29,
+     "name": "Kahaluʻu",
+     "share": 0.622
+    },
+    {
+     "number": 28,
+     "name": "Koolauloa",
+     "share": 0.25
+    },
+    {
+     "number": 30,
+     "name": "Kāneʻohe",
+     "share": 0.123
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 2,
+     "name": null,
+     "share": 0.763
+    },
+    {
+     "body": "Honolulu City Council",
+     "number": 3,
+     "name": null,
+     "share": 0.235
+    }
+   ]
+  },
+  "HD-49": {
+   "neighborhoods": [
+    "Government",
+    "Maunawili",
+    "Pūʻōhala Village",
+    "Hale Kou",
+    "Keaahala",
+    "Pikoiloa",
+    "Keapuka",
+    "Kaneohe Town",
+    "Halekauwila",
+    "Kapuna Hala",
+    "Waikalua",
+    "Windward Estates",
+    "Haiku Village",
+    "Parkway",
+    "Castle Hill",
+    "Kamooalii",
+    "Mahalani",
+    "Halepuu",
+    "Kaneohe Bus",
+    "Puahuula",
+    "Kaneohe Woods",
+    "Windward Mall"
+   ],
+   "boards": [
+    {
+     "number": 30,
+     "name": "Kāneʻohe",
+     "share": 0.578
+    },
+    {
+     "number": 31,
+     "name": "Kailua",
+     "share": 0.411
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 3,
+     "name": null,
+     "share": 1.0
+    }
+   ]
+  },
+  "HD-50": {
+   "neighborhoods": [
+    "Kokokahi",
+    "Aikahi Park",
+    "Kukanono",
+    "Country Club",
+    "Coconut Grove",
+    "Mahinui",
+    "Beachside",
+    "Kalaheo Hillside",
+    "Kailua Town",
+    "Kalama Tract",
+    "Enchanted Lake",
+    "Koolaupoku",
+    "Kaopa",
+    "Olomana",
+    "Kuulei Tract",
+    "Pikoiloa",
+    "Kalama/Coconut Grove",
+    "Pōhākupu",
+    "Kaimalino",
+    "Bay View Garden",
+    "Mikiola",
+    "Kaneohe Bay",
+    "Bay View Estates",
+    "Parkway",
+    "Mokulele",
+    "Kailua Estates",
+    "Nohanani Tract",
+    "Kaneohe Heights"
+   ],
+   "boards": [
+    {
+     "number": 31,
+     "name": "Kailua",
+     "share": 0.588
+    },
+    {
+     "number": 33,
+     "name": "Mokapu",
+     "share": 0.278
+    },
+    {
+     "number": 30,
+     "name": "Kāneʻohe",
+     "share": 0.127
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 3,
+     "name": null,
+     "share": 0.999
+    }
+   ]
+  },
+  "HD-51": {
+   "neighborhoods": [
+    "Waimānalo",
+    "Bluestone",
+    "Enchanted Lake",
+    "Lanikai",
+    "Keolu Hills",
+    "Kailua Bluffs",
+    "Kailua Estates",
+    "Hillcrest",
+    "Kaopa",
+    "Country Club Knoll",
+    "Kailua Town",
+    "Kukilakila",
+    "Waimanalo Residence Lots Unit 9"
+   ],
+   "boards": [
+    {
+     "number": 32,
+     "name": "Waimānalo",
+     "share": 0.753
+    },
+    {
+     "number": 31,
+     "name": "Kailua",
+     "share": 0.235
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 3,
+     "name": null,
+     "share": 1.0
+    }
+   ]
+  },
+  "SD-01": {
+   "neighborhoods": [
+    "Hilo",
+    "Pepeʻekeo",
+    "Pāpaʻikou",
+    "Wainaku",
+    "Paukaa",
+    "Kawainui",
+    "Kaūmana",
+    "Keaukaha",
+    "Makaokū",
+    "Pepeʻekeo Mill",
+    "Piʻihonua",
+    "Puaʻākala",
+    "Puʻuʻeo",
+    "Waiākea",
+    "ʻĀkōlea Plantation Estates"
+   ],
+   "boards": [],
+   "council": [
+    {
+     "body": "Hawaiʻi County Council",
+     "number": 2,
+     "name": null,
+     "share": 0.467
+    },
+    {
+     "body": "Hawaiʻi County Council",
+     "number": 3,
+     "name": null,
+     "share": 0.287
+    },
+    {
+     "body": "Hawaiʻi County Council",
+     "number": 1,
+     "name": null,
+     "share": 0.214
+    }
+   ]
+  },
+  "SD-02": {
+   "neighborhoods": [
+    "Hawaiian Paradise Park",
+    "Mountain View",
+    "Hawaiian Beaches",
+    "ʻĀinaloa",
+    "Hawaiian Acres",
+    "Orchidlands Estates",
+    "Kurtistown",
+    "Fern Acres",
+    "Nānāwale Estates",
+    "Eden Roc",
+    "Keaʻau",
+    "Fern Forest",
+    "Leilani Estates",
+    "Mauna Loa Estates",
+    "Pāhoa",
+    "Royal Hawaiian Estates",
+    "Tiki Gardens",
+    "Black Sands",
+    "Kamaili",
+    "Elevenmile Homestead",
+    "Glenwood",
+    "Hawaiʻi Beaches Estates",
+    "Hāʻena",
+    "Kaimū",
+    "Kalapana Seaview Estates",
+    "Kaniahiku Village",
+    "Kapaahu",
+    "Kapoho",
+    "Kaueleau",
+    "Kehena",
+    "Kukui",
+    "Pohoiki",
+    "Pūʻālaʻa",
+    "Vacationland Hawaii",
+    "Waipāhoehoe",
+    "ʻOpihikao"
+   ],
+   "boards": [],
+   "council": [
+    {
+     "body": "Hawaiʻi County Council",
+     "number": 4,
+     "name": null,
+     "share": 0.498
+    },
+    {
+     "body": "Hawaiʻi County Council",
+     "number": 5,
+     "name": null,
+     "share": 0.295
+    },
+    {
+     "body": "Hawaiʻi County Council",
+     "number": 6,
+     "name": null,
+     "share": 0.143
+    },
+    {
+     "body": "Hawaiʻi County Council",
+     "number": 3,
+     "name": null,
+     "share": 0.064
+    }
+   ]
+  },
+  "SD-03": {
+   "neighborhoods": [
+    "Kailua",
+    "Hawaiian Ocean View",
+    "Captain Cook",
+    "Hōlualoa",
+    "Kealakekua",
+    "Pāhala",
+    "Discovery Harbour",
+    "Honalo",
+    "Nāʻālehu",
+    "Volcano",
+    "Waiʻōhinu",
+    "Aliʻi Kai",
+    "Aloha Kona",
+    "Country Garden Estates",
+    "Hale Pili",
+    "Hawaiian Ocean View Estates",
+    "Hawaiian Ocean View Ranchos",
+    "Hillcrest",
+    "Honokōhau",
+    "Honuʻapo",
+    "Hoʻokena",
+    "Hoʻōpūloa",
+    "Hīlea",
+    "Hōnaunau",
+    "Kahaluʻu",
+    "Kainaliu",
+    "Kaukahōkū",
+    "Kaunēnē",
+    "Kaʻawaloa",
+    "Kealapuali",
+    "Keauhou",
+    "Keālia",
+    "Keʻei",
+    "Komakawai",
+    "Komohana Kai",
+    "Kona South Estates",
+    "Kuakini Heights",
+    "Kēōkea",
+    "Laniākea",
+    "Miloliʻi",
+    "Monohaa",
+    "Nāpōʻopoʻo",
+    "Nīnole",
+    "Palani Junction",
+    "Papaloa",
+    "Pauahi",
+    "Punaluʻu",
+    "Punaluʻu Kahawai",
+    "Pāpā Bay Estates",
+    "Sea View",
+    "Waihou",
+    "Waikapuna",
+    "White Sands Beach Estates",
+    "ʻĀinapō"
+   ],
+   "boards": [],
+   "council": [
+    {
+     "body": "Hawaiʻi County Council",
+     "number": 6,
+     "name": null,
+     "share": 0.814
+    },
+    {
+     "body": "Hawaiʻi County Council",
+     "number": 7,
+     "name": null,
+     "share": 0.164
+    }
+   ]
+  },
+  "SD-04": {
+   "neighborhoods": [
+    "Waimea",
+    "Waikoloa Village",
+    "Honokaʻa",
+    "Hāwī",
+    "Kapaʻau",
+    "Kaloko",
+    "Laupāhoehoe",
+    "Halaʻula",
+    "Waikoloa Beach Resort",
+    "Paʻauilo",
+    "Honomu",
+    "Kukuihaele",
+    "Puakō",
+    "Akona",
+    "Haina",
+    "Hakalau",
+    "Halepiula",
+    "Hanaipoe",
+    "Hikapoloa",
+    "Honomakaʻu",
+    "Hopuwai",
+    "Huʻehuʻe",
+    "Hālawa",
+    "Kalaoa",
+    "Kapalaoa",
+    "Kapulena",
+    "Kawaihae",
+    "Kawela",
+    "Kaʻau",
+    "Kaʻūpūlehu",
+    "Keanakolu",
+    "Keawaiki",
+    "Kukui Village",
+    "Kīholo",
+    "Kūhiō Village",
+    "Kūkaʻiau",
+    "Kūkiʻo",
+    "Mahaiʻula",
+    "Makahalau",
+    "Makalawena",
+    "Makapala",
+    "Milo Village",
+    "Māhukona",
+    "Mānā",
+    "Niu Village",
+    "Niuliʻi",
+    "Nīnole",
+    "Paliʻaʻalii",
+    "Puopelu",
+    "Puʻuanahulu",
+    "Pāpaʻaloa",
+    "Pāʻauhau",
+    "Saddle Road Junction",
+    "Waikiʻi",
+    "Waikoloa",
+    "Waikui",
+    "Wailea",
+    "Waipiʻo",
+    "Waiʻaka",
+    "Weliweli",
+    "Welokā",
+    "ʻAnaehoʻomalu",
+    "ʻUmikoa",
+    "ʻŌʻōkala"
+   ],
+   "boards": [],
+   "council": [
+    {
+     "body": "Hawaiʻi County Council",
+     "number": 9,
+     "name": null,
+     "share": 0.328
+    },
+    {
+     "body": "Hawaiʻi County Council",
+     "number": 1,
+     "name": null,
+     "share": 0.259
+    },
+    {
+     "body": "Hawaiʻi County Council",
+     "number": 2,
+     "name": null,
+     "share": 0.201
+    },
+    {
+     "body": "Hawaiʻi County Council",
+     "number": 8,
+     "name": null,
+     "share": 0.127
+    },
+    {
+     "body": "Hawaiʻi County Council",
+     "number": 7,
+     "name": null,
+     "share": 0.052
+    }
+   ]
+  },
+  "SD-05": {
+   "neighborhoods": [
+    "Kahului",
+    "Wailuku",
+    "Waikapū",
+    "Happy Valley",
+    "Kahakuloa",
+    "Paukūkalo",
+    "Puʻunēnē",
+    "Puʻuohala Village",
+    "Waiehu",
+    "Waiehu Camp",
+    "Waiehu Village",
+    "Waiheʻe",
+    "Wailuku Heights"
+   ],
+   "boards": [],
+   "council": [
+    {
+     "body": "Maui County Council (residency area)",
+     "number": 3,
+     "name": "Wailuku-Waihee-Waikapu Residency Area",
+     "share": 0.707
+    },
+    {
+     "body": "Maui County Council (residency area)",
+     "number": 4,
+     "name": "Kahului Residency Area",
+     "share": 0.281
+    }
+   ]
+  },
+  "SD-06": {
+   "neighborhoods": [
+    "Kīhei",
+    "Lahaina",
+    "Wailea",
+    "Kāʻanapali",
+    "Launiupoko",
+    "Kapalua",
+    "Māʻalaea",
+    "Mākena",
+    "Olowalu",
+    "Crater Village",
+    "Honokahua",
+    "Honokōhau",
+    "Honokōwai",
+    "Kahana",
+    "Kanahena",
+    "Kapunakea",
+    "Kelawea",
+    "Keoneʻōʻio",
+    "Kāʻanapali Landing",
+    "Lahainaluna",
+    "Lunaville",
+    "Maui Meadows",
+    "Māla",
+    "Mōpua",
+    "Nāpili",
+    "Paako",
+    "Puukolii",
+    "Puunoa",
+    "Waineʻe"
+   ],
+   "boards": [],
+   "council": [
+    {
+     "body": "Maui County Council (residency area)",
+     "number": 2,
+     "name": "West Maui Residency Area",
+     "share": 0.573
+    },
+    {
+     "body": "Maui County Council (residency area)",
+     "number": 5,
+     "name": "South Maui Residency Area",
+     "share": 0.315
+    },
+    {
+     "body": "Maui County Council (residency area)",
+     "number": 3,
+     "name": "Wailuku-Waihee-Waikapu Residency Area",
+     "share": 0.065
+    }
+   ]
+  },
+  "SD-07": {
+   "neighborhoods": [
+    "Pukalani",
+    "Makawao",
+    "Kaunakakai",
+    "Lānaʻi City",
+    "Pāʻia",
+    "Kēōkea",
+    "Kualapuʻu",
+    "Hāna",
+    "Olinda",
+    "Hāliʻimaile",
+    "Maunaloa",
+    "ʻUalapuʻe",
+    "Haʻikū",
+    "Hoʻolehua",
+    "Huelo",
+    "Hālawa",
+    "Hālena",
+    "Hāmoa",
+    "Hāʻōʻū",
+    "Hōkūʻula",
+    "Kailua",
+    "Kalaupapa",
+    "Kalawao",
+    "Kalaʻe",
+    "Kaluaʻaha",
+    "Kamalō",
+    "Kamiloloa",
+    "Kaumalapau",
+    "Kaupakulua",
+    "Kaupō",
+    "Kawela",
+    "Kaʻelekū",
+    "Kepuhi",
+    "Keʻanae",
+    "Koali",
+    "Kokomo",
+    "Kākiʻo",
+    "Kīpahulu",
+    "Kīpū",
+    "Kōheo",
+    "Kūʻau",
+    "Lower Pāʻia",
+    "Lālākoa",
+    "Lōpā",
+    "Maʻālehu",
+    "Mokae",
+    "Mokulau",
+    "Moʻomomi",
+    "Mūʻolea",
+    "Nāhiku",
+    "Pauwalu",
+    "Paʻuwela",
+    "Pukaauhuhu",
+    "Puʻuiki",
+    "Puʻuohoku Ranch",
+    "Pūkoʻo",
+    "Pūlehu",
+    "Spreckelsville",
+    "Ulumalu",
+    "Upper Nahiku",
+    "Upper Village Three",
+    "Wahīlauhue",
+    "Waiakoa",
+    "Waialua",
+    "Wailua",
+    "ʻUlupalakua",
+    "ʻUmipaʻa",
+    "ʻŌmaʻopio"
+   ],
+   "boards": [],
+   "council": [
+    {
+     "body": "Maui County Council (residency area)",
+     "number": 9,
+     "name": "Molokai Residency Area",
+     "share": 0.277
+    },
+    {
+     "body": "Maui County Council (residency area)",
+     "number": 1,
+     "name": "East Maui (Hana-Keanae-Kailua) Residency Area",
+     "share": 0.246
+    },
+    {
+     "body": "Maui County Council (residency area)",
+     "number": 7,
+     "name": "Upcountry (Pukalani-Kula-Ulupalakua) Residency Area",
+     "share": 0.169
+    },
+    {
+     "body": "Maui County Council (residency area)",
+     "number": 8,
+     "name": "Lanai Residency Area",
+     "share": 0.15
+    },
+    {
+     "body": "Maui County Council (residency area)",
+     "number": 6,
+     "name": "Makawao-Haiku-Paia Residency Area",
+     "share": 0.074
+    }
+   ]
+  },
+  "SD-08": {
+   "neighborhoods": [
+    "Kapaʻa",
+    "Waimea",
+    "Līhuʻe",
+    "Wailua Homesteads",
+    "Kalāheo",
+    "Hanamāʻulu",
+    "Kekaha",
+    "Puhi",
+    "Kīlauea",
+    "Hanapēpē",
+    "Lāwaʻi",
+    "ʻEleʻele",
+    "Wailua",
+    "Anahola",
+    "Kōloa",
+    "Princeville",
+    "ʻŌmaʻo",
+    "Poʻipū",
+    "Kaumakani",
+    "Hāʻena",
+    "Hanalei",
+    "Wainiha",
+    "Pākalā Village",
+    "Halehomaha",
+    "Hanalei Homesteads",
+    "Hanapēpē Heights",
+    "Kaawanui Village",
+    "Kalihi Wai",
+    "Kapahi",
+    "Kapaia",
+    "Kapalawai",
+    "Kawaihau",
+    "Kekupua",
+    "Keālia",
+    "Kiʻekiʻe",
+    "Kiʻi",
+    "Koloa Mill",
+    "Kukuiʻula",
+    "Kumukumu",
+    "Kupolo",
+    "Kīpū",
+    "Moloaa",
+    "Mānā",
+    "Niumalu",
+    "Numila",
+    "Nāwiliwili",
+    "Olohena",
+    "Olokele",
+    "Opaeopaeilio",
+    "Papaloa",
+    "Pokii",
+    "Port Allen",
+    "Pua Loke",
+    "Puʻuwai",
+    "Ulu Ko",
+    "Ulu Mahi",
+    "Waieli",
+    "Wailua House Lots",
+    "Waipouli"
+   ],
+   "boards": [],
+   "council": [
+    {
+     "body": "Kauaʻi County Council",
+     "number": null,
+     "name": "elected at large",
+     "share": 1.0
+    }
+   ]
+  },
+  "SD-09": {
+   "neighborhoods": [
+    "ʻĀina Haina",
+    "Kalani Iki",
+    "Niu Valley",
+    "Diamond Head",
+    "Mariners Ridge",
+    "West Marina",
+    "Kuliʻouʻou",
+    "Kaimukī",
+    "Kāhala",
+    "Waialae Iki",
+    "Hawaii Loa Ridge",
+    "Hahaione",
+    "Kapahulu",
+    "Waialae Nui Valley",
+    "Waialae Nui Ridge",
+    "Paiko Lagoon",
+    "Waialae Nui",
+    "Puupanini",
+    "Kahala Kua",
+    "Luna Kai",
+    "Wailupe",
+    "Aina Haina Beach",
+    "Spinnaker Isle",
+    "Marina West",
+    "Niu Beach",
+    "Black Point",
+    "Kai Nani",
+    "Napua Point",
+    "Wailupe Beach"
+   ],
+   "boards": [
+    {
+     "number": 2,
+     "name": "Kuliouou-Kalani Iki",
+     "share": 0.511
+    },
+    {
+     "number": 3,
+     "name": "Waialae-Kahala",
+     "share": 0.213
+    },
+    {
+     "number": 1,
+     "name": "Hawaiʻi Kai",
+     "share": 0.138
+    },
+    {
+     "number": 5,
+     "name": "Diamond Head-Kapahulu-St Louis Ht",
+     "share": 0.082
+    },
+    {
+     "number": 4,
+     "name": "Kaimukī",
+     "share": 0.052
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 4,
+     "name": null,
+     "share": 0.999
+    }
+   ]
+  },
+  "SD-10": {
+   "neighborhoods": [
+    "Palolo",
+    "Kalani Iki",
+    "St. Louis Heights",
+    "Kapahulu",
+    "Wilhelmina",
+    "Kaimukī",
+    "Mōʻiliʻili",
+    "Maunalani Heights"
+   ],
+   "boards": [
+    {
+     "number": 6,
+     "name": "Palolo",
+     "share": 0.546
+    },
+    {
+     "number": 5,
+     "name": "Diamond Head-Kapahulu-St Louis Ht",
+     "share": 0.229
+    },
+    {
+     "number": 4,
+     "name": "Kaimukī",
+     "share": 0.139
+    },
+    {
+     "number": 8,
+     "name": "Mccully-Moiliili",
+     "share": 0.08
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 5,
+     "name": null,
+     "share": 0.757
+    },
+    {
+     "body": "Honolulu City Council",
+     "number": 4,
+     "name": null,
+     "share": 0.243
+    }
+   ]
+  },
+  "SD-11": {
+   "neighborhoods": [
+    "Manoa",
+    "Tantalus",
+    "Woodlawn",
+    "Makiki",
+    "Makiki Heights",
+    "Punchbowl",
+    "Punahou",
+    "Mōʻiliʻili",
+    "Papakolea",
+    "Ualakaa",
+    "Kalawahine Streamside",
+    "Judd Hillside"
+   ],
+   "boards": [
+    {
+     "number": 7,
+     "name": "Manoa",
+     "share": 0.567
+    },
+    {
+     "number": 10,
+     "name": "Makiki-Lwr Punchbowl-Tantalus",
+     "share": 0.353
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 5,
+     "name": null,
+     "share": 0.94
+    },
+    {
+     "body": "Honolulu City Council",
+     "number": 6,
+     "name": null,
+     "share": 0.06
+    }
+   ]
+  },
+  "SD-12": {
+   "neighborhoods": [
+    "Kakaako",
+    "Waikīkī",
+    "Ala Moana",
+    "Downtown",
+    "Pawaa",
+    "McCully",
+    "Kapiolani-Kinau-Ward"
+   ],
+   "boards": [
+    {
+     "number": 11,
+     "name": "Ala Moana-Kakaako",
+     "share": 0.517
+    },
+    {
+     "number": 9,
+     "name": "Waikīkī",
+     "share": 0.289
+    },
+    {
+     "number": 13,
+     "name": "Downtown-Chinatown",
+     "share": 0.113
+    },
+    {
+     "number": 8,
+     "name": "Mccully-Moiliili",
+     "share": 0.073
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 5,
+     "name": null,
+     "share": 0.433
+    },
+    {
+     "body": "Honolulu City Council",
+     "number": 4,
+     "name": null,
+     "share": 0.296
+    },
+    {
+     "body": "Honolulu City Council",
+     "number": 6,
+     "name": null,
+     "share": 0.269
+    }
+   ]
+  },
+  "SD-13": {
+   "neighborhoods": [
+    "Old Pali",
+    "Nuuanu Pali",
+    "Nuuanu",
+    "Pauoa Valley",
+    "Dowsett",
+    "Liliha",
+    "Tantalus",
+    "Downtown",
+    "Puʻunui",
+    "Kalihi Kai",
+    "Pacific Heights",
+    "Punchbowl",
+    "Chinatown",
+    "Kapiolani-Kinau-Ward",
+    "Palama"
+   ],
+   "boards": [
+    {
+     "number": 12,
+     "name": "Nuuanu-Punchbowl",
+     "share": 0.657
+    },
+    {
+     "number": 14,
+     "name": "Liliha-Kapalama",
+     "share": 0.151
+    },
+    {
+     "number": 15,
+     "name": "Kalihi-Palama",
+     "share": 0.104
+    },
+    {
+     "number": 13,
+     "name": "Downtown-Chinatown",
+     "share": 0.063
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 6,
+     "name": null,
+     "share": 1.0
+    }
+   ]
+  },
+  "SD-14": {
+   "neighborhoods": [
+    "Hālawa Heights",
+    "Kalihi Valley",
+    "Moanalua Valley",
+    "Kamehameha Heights",
+    "Kalihi",
+    "Moanalua Gardens",
+    "ʻĀlewa Heights",
+    "Kapalama",
+    "Kalihi Uka"
+   ],
+   "boards": [
+    {
+     "number": 17,
+     "name": "Moanalua",
+     "share": 0.483
+    },
+    {
+     "number": 16,
+     "name": "Kalihi Valley",
+     "share": 0.238
+    },
+    {
+     "number": 20,
+     "name": "ʻAiea",
+     "share": 0.17
+    },
+    {
+     "number": 14,
+     "name": "Liliha-Kapalama",
+     "share": 0.076
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 7,
+     "name": null,
+     "share": 0.654
+    },
+    {
+     "body": "Honolulu City Council",
+     "number": 6,
+     "name": null,
+     "share": 0.345
+    }
+   ]
+  },
+  "SD-15": {
+   "neighborhoods": [
+    "Agriculture/Navy",
+    "Salt Lake",
+    "Kapalama",
+    "Mapunapuna",
+    "Hālawa",
+    "Kalihi",
+    "Foster Village",
+    "Āliamanu",
+    "Waimalu",
+    "ʻAiea",
+    "Kalihi Kai"
+   ],
+   "boards": [
+    {
+     "number": 18,
+     "name": "AliamanuSaltLakeFostrVillAirpr",
+     "share": 0.64
+    },
+    {
+     "number": 22,
+     "name": "Waipahu",
+     "share": 0.142
+    },
+    {
+     "number": 15,
+     "name": "Kalihi-Palama",
+     "share": 0.09
+    },
+    {
+     "number": 20,
+     "name": "ʻAiea",
+     "share": 0.061
+    },
+    {
+     "number": 21,
+     "name": "Pearl City",
+     "share": 0.057
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 7,
+     "name": null,
+     "share": 0.786
+    },
+    {
+     "body": "Honolulu City Council",
+     "number": 9,
+     "name": null,
+     "share": 0.125
+    },
+    {
+     "body": "Honolulu City Council",
+     "number": 8,
+     "name": null,
+     "share": 0.075
+    }
+   ]
+  },
+  "SD-16": {
+   "neighborhoods": [
+    "Navy/Federal",
+    "Hālawa Heights",
+    "Pearlridge",
+    "Unspecified/No Name",
+    "ʻAiea Heights",
+    "Pacific Palisades",
+    "Hālawa",
+    "Newtown",
+    "ʻAiea",
+    "Waiau",
+    "Wailuna",
+    "Waimalu",
+    "Royal Summit",
+    "Momilani"
+   ],
+   "boards": [
+    {
+     "number": 20,
+     "name": "ʻAiea",
+     "share": 0.618
+    },
+    {
+     "number": 21,
+     "name": "Pearl City",
+     "share": 0.38
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 8,
+     "name": null,
+     "share": 0.737
+    },
+    {
+     "body": "Honolulu City Council",
+     "number": 7,
+     "name": null,
+     "share": 0.263
+    }
+   ]
+  },
+  "SD-17": {
+   "neighborhoods": [
+    "Mililani",
+    "Pearl City",
+    "Mililani Mauka",
+    "Whitmore Village",
+    "Wahiawā",
+    "Wahiawa Heights",
+    "Cemetary",
+    "Wilikina",
+    "Wahiawa Park",
+    "Botanical Garden"
+   ],
+   "boards": [
+    {
+     "number": 26,
+     "name": "Wahiawā",
+     "share": 0.373
+    },
+    {
+     "number": 21,
+     "name": "Pearl City",
+     "share": 0.341
+    },
+    {
+     "number": 35,
+     "name": "Mililani Mauka-Launani Valley",
+     "share": 0.234
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 8,
+     "name": null,
+     "share": 0.617
+    },
+    {
+     "body": "Honolulu City Council",
+     "number": 2,
+     "name": null,
+     "share": 0.383
+    }
+   ]
+  },
+  "SD-18": {
+   "neighborhoods": [
+    "Agriculture/Preserve",
+    "Mililani",
+    "Royal Kunia",
+    "Waikele",
+    "Kunia",
+    "Waipio Gentry",
+    "Village Park",
+    "Harbor View",
+    "Seaview",
+    "Crestview",
+    "Hale Lumi",
+    "Robinson Heights"
+   ],
+   "boards": [
+    {
+     "number": 25,
+     "name": "Mililani-Waipio-Melemanu",
+     "share": 0.506
+    },
+    {
+     "number": 34,
+     "name": "Makakilo-Kapolei-Honokai Hale",
+     "share": 0.291
+    },
+    {
+     "number": 22,
+     "name": "Waipahu",
+     "share": 0.198
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 2,
+     "name": null,
+     "share": 0.84
+    },
+    {
+     "body": "Honolulu City Council",
+     "number": 8,
+     "name": null,
+     "share": 0.153
+    }
+   ]
+  },
+  "SD-19": {
+   "neighborhoods": [
+    "ʻEwa",
+    "Waipahu",
+    "Business",
+    "Momilani",
+    "Waipahu Triangle",
+    "Waipahu Estates",
+    "Westloch Estates",
+    "Waipahu Gardens",
+    "Harbor View",
+    "Renaissance",
+    "Manana",
+    "Robinson Heights"
+   ],
+   "boards": [
+    {
+     "number": 23,
+     "name": "ʻEwa",
+     "share": 0.435
+    },
+    {
+     "number": 22,
+     "name": "Waipahu",
+     "share": 0.33
+    },
+    {
+     "number": 21,
+     "name": "Pearl City",
+     "share": 0.234
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 1,
+     "name": null,
+     "share": 0.392
+    },
+    {
+     "body": "Honolulu City Council",
+     "number": 9,
+     "name": null,
+     "share": 0.356
+    },
+    {
+     "body": "Honolulu City Council",
+     "number": 8,
+     "name": null,
+     "share": 0.251
+    }
+   ]
+  },
+  "SD-20": {
+   "neighborhoods": [
+    "ʻEwa",
+    "Unspecified/No Name",
+    "Ocean Pointe",
+    "ʻEwa Beach",
+    "ʻEwa Villages",
+    "Westloch Fairway",
+    "Ka Makana",
+    "Leeward Estates",
+    "ʻEwa Gentry",
+    "Ewa Gentry Sun Terra",
+    "Ewa Gentry Prescott",
+    "West Loch Villages",
+    "Ewa Gentry Soda Creek",
+    "Ewa Gentry Cypress Point",
+    "Ewa Gentry Sun Terra On The Park",
+    "Ewa Gentry Tuscany II",
+    "Ewa Gentry Summerhill",
+    "Ewa Gentry Woodbridge",
+    "Ewa Gentry Sonoma",
+    "Ewa Gentry Haleakea",
+    "Hoakalei-Ka Makana",
+    "Ewa Gentry Montecito/Tuscany",
+    "Ka Makana IVC",
+    "Ewa Gentry Latitudes",
+    "Ewa Gentry Carriages",
+    "Huelani",
+    "Ewa Gentry Terrazza",
+    "Honouliuli",
+    "Ewa Gentry Tiburon",
+    "Ewa Gentry Las Brisas",
+    "Ke Noho Kai",
+    "Ewa Gentry Alii Cove",
+    "Ewa Gentry Trovare",
+    "Ewa Gentry Breakers",
+    "Ewa Gentry Sea Breeze",
+    "Ewa Gentry Lombard Way",
+    "Ewa Gentry Alii Court",
+    "Ewa Gentry Cortebella",
+    "Ewa Gentry Meridian",
+    "Ewa Gentry Lofts",
+    "Not In Use/Dropped"
+   ],
+   "boards": [
+    {
+     "number": 23,
+     "name": "ʻEwa",
+     "share": 0.997
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 9,
+     "name": null,
+     "share": 0.882
+    },
+    {
+     "body": "Honolulu City Council",
+     "number": 1,
+     "name": null,
+     "share": 0.118
+    }
+   ]
+  },
+  "SD-21": {
+   "neighborhoods": [
+    "Kapolei",
+    "ʻEwa",
+    "Makakilo",
+    "ʻEwa Villages",
+    "Ko Olina",
+    "Kapolei Knolls",
+    "Kapolei-Malanai",
+    "Makakilo-West Hills",
+    "Kapolei-Kekuilani",
+    "Kapolei-Aeloa",
+    "Nanakai Gardens",
+    "Makakilo-Wai Kaloi",
+    "Kapolei-Iwalani",
+    "Makakilo-Palehua Heights",
+    "Makakilo-Highpointe",
+    "Kapolei-Kai",
+    "Makakilo-Kumulani",
+    "Ewa Gentry Soda Creek",
+    "Makakilo-Starsedge",
+    "Makakilo-Highlands",
+    "Ewa Gentry Kula Lei",
+    "Makakilo-Anuhea",
+    "Ewa Gentry Fiesta/Del Verde",
+    "Makakilo-Royal Ridge",
+    "Ewa Gentry Sun Terra South",
+    "Makakilo-Kahiwelo"
+   ],
+   "boards": [
+    {
+     "number": 34,
+     "name": "Makakilo-Kapolei-Honokai Hale",
+     "share": 0.887
+    },
+    {
+     "number": 23,
+     "name": "ʻEwa",
+     "share": 0.109
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 1,
+     "name": null,
+     "share": 0.951
+    }
+   ]
+  },
+  "SD-22": {
+   "neighborhoods": [
+    "Mākaha",
+    "Government/Preserve",
+    "Waiʻanae",
+    "Māʻili",
+    "Nānākuli",
+    "Lualualei",
+    "Ko Olina",
+    "Keola O Pokai Bay",
+    "Freitas Dairy"
+   ],
+   "boards": [
+    {
+     "number": 24,
+     "name": "Waiʻanae",
+     "share": 0.504
+    },
+    {
+     "number": 36,
+     "name": "Nanakuli-Maili",
+     "share": 0.414
+    },
+    {
+     "number": 34,
+     "name": "Makakilo-Kapolei-Honokai Hale",
+     "share": 0.075
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 1,
+     "name": null,
+     "share": 1.0
+    }
+   ]
+  },
+  "SD-23": {
+   "neighborhoods": [
+    "Agriculture/Preserve",
+    "Government/Agriculture",
+    "Waialua",
+    "Preserve",
+    "Mokulēʻia",
+    "Kahuku",
+    "Kaena Point",
+    "Hauʻula",
+    "Sunset",
+    "Kaʻaʻawa",
+    "Kawailoa",
+    "Waimea",
+    "Pūpūkea",
+    "Kahana",
+    "Whitmore Village",
+    "Kuilima",
+    "Temple Valley",
+    "Haleʻiwa",
+    "Government",
+    "Waikāne",
+    "Waihole",
+    "Kaalaea",
+    "Waipahu",
+    "Punaluʻu",
+    "Hakipuu",
+    "ʻĀhuimanu",
+    "Waiheʻe",
+    "Heeia Kea",
+    "Kualoa",
+    "Lāʻie",
+    "Sunset/Velzy",
+    "Kahaluu Town",
+    "Haiku Plantation",
+    "Valley of the Temples",
+    "Wilikina",
+    "Malaekahana",
+    "Lulani Ocean",
+    "Ahaolelo",
+    "Haiku Village",
+    "Club View Estate",
+    "Kawela Bay",
+    "Poamoho Estates - Unit 1",
+    "Beach Parks",
+    "Ahuimanu Hills",
+    "Keaahala",
+    "Paalaakai",
+    "Hygienic Store",
+    "Haiku Park",
+    "Valley Estates",
+    "Woodridge",
+    "Castle Hill",
+    "Haiku Knolls",
+    "Fish Pond",
+    "Kapuna Hala",
+    "Matson Point",
+    "Kahaluu Fishpond",
+    "Heeia View",
+    "Ahuimanu Knolls",
+    "School",
+    "Metcalf Acres",
+    "Kam Hwy Makai",
+    "Miomio",
+    "Kualoa Beach"
+   ],
+   "boards": [
+    {
+     "number": 27,
+     "name": "North Shore",
+     "share": 0.514
+    },
+    {
+     "number": 28,
+     "name": "Koolauloa",
+     "share": 0.249
+    },
+    {
+     "number": 26,
+     "name": "Wahiawā",
+     "share": 0.116
+    },
+    {
+     "number": 29,
+     "name": "Kahaluʻu",
+     "share": 0.085
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 2,
+     "name": null,
+     "share": 0.97
+    }
+   ]
+  },
+  "SD-24": {
+   "neighborhoods": [
+    "Government",
+    "Kokokahi",
+    "Aikahi Park",
+    "Kukanono",
+    "Country Club",
+    "Pūʻōhala Village",
+    "Coconut Grove",
+    "Mahinui",
+    "Pikoiloa",
+    "Hale Kou",
+    "Heeia Kea",
+    "Kaneohe Town",
+    "Beachside",
+    "Kalaheo Hillside",
+    "Keapuka",
+    "Lilipuna",
+    "Koolaupoku",
+    "Halekauwila",
+    "Crown Terrace",
+    "Keaahala",
+    "Kapuna Hala",
+    "Olomana",
+    "Waikalua",
+    "Kalama Tract",
+    "Pōhākupu",
+    "Alii Shores",
+    "Windward Estates",
+    "Puualii",
+    "Kaimalino",
+    "Parkway",
+    "Bay View Garden",
+    "Kalama/Coconut Grove",
+    "Kailua Town",
+    "Mikiola",
+    "Alii Bluffs",
+    "Windward Mall",
+    "Kahanahou",
+    "Kaneohe Bay",
+    "Bay View Estates",
+    "Mokulele",
+    "Kamooalii",
+    "Mahalani",
+    "Nohanani Tract",
+    "Halepuu",
+    "Kaneohe Bus",
+    "Puahuula",
+    "Kaneohe Heights",
+    "Kaneohe Woods"
+   ],
+   "boards": [
+    {
+     "number": 30,
+     "name": "Kāneʻohe",
+     "share": 0.466
+    },
+    {
+     "number": 31,
+     "name": "Kailua",
+     "share": 0.312
+    },
+    {
+     "number": 33,
+     "name": "Mokapu",
+     "share": 0.215
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 3,
+     "name": null,
+     "share": 0.999
+    }
+   ]
+  },
+  "SD-25": {
+   "neighborhoods": [
+    "Waimānalo",
+    "Mariners Ridge",
+    "West Marina",
+    "Bluestone",
+    "Enchanted Lake",
+    "Koko Head Terrace",
+    "Maunawili",
+    "Lanikai",
+    "Keolu Hills",
+    "Kalama Valley",
+    "Kamilo Nui",
+    "Mariners Valley",
+    "Kaopa",
+    "Kailua Town",
+    "Triangle",
+    "Mariners Cove",
+    "Kailua Estates",
+    "Napali Haweo",
+    "Koko Kai",
+    "Kuulei Tract",
+    "Portlock",
+    "Kailua Bluffs",
+    "Kamiloiki",
+    "Luna Kai",
+    "Hillcrest",
+    "Kalama Tract",
+    "Beachside",
+    "Queens Gate",
+    "Kamehame Ridge",
+    "Country Club Knoll",
+    "Kalama/Coconut Grove",
+    "Anchorage",
+    "Koko Villas",
+    "Kukilakila",
+    "Laulima",
+    "Kealaula Kai",
+    "Waimanalo Residence Lots Unit 9"
+   ],
+   "boards": [
+    {
+     "number": 31,
+     "name": "Kailua",
+     "share": 0.369
+    },
+    {
+     "number": 32,
+     "name": "Waimānalo",
+     "share": 0.339
+    },
+    {
+     "number": 1,
+     "name": "Hawaiʻi Kai",
+     "share": 0.284
+    }
+   ],
+   "council": [
+    {
+     "body": "Honolulu City Council",
+     "number": 3,
+     "name": null,
+     "share": 0.715
+    },
+    {
+     "body": "Honolulu City Council",
+     "number": 4,
+     "name": null,
+     "share": 0.285
+    }
+   ]
+  }
+ }
+}

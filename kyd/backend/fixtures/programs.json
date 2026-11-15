@@ -1,0 +1,189 @@
+[
+ {
+  "program_id": "snap",
+  "name": "SNAP (Food Stamps)",
+  "agency": "DHS / BESSD",
+  "level": "federal",
+  "summary": "Monthly food benefits for low-income households.",
+  "official_url": "https://humanservices.hawaii.gov/bessd/snap/",
+  "populations": [
+   "low_income_households"
+  ],
+  "proxy_indicators": [
+   "pct_below_200fpl",
+   "pct_snap_hh"
+  ],
+  "url_verified": false
+ },
+ {
+  "program_id": "wic",
+  "name": "WIC",
+  "agency": "DOH",
+  "level": "federal",
+  "summary": "Nutrition support for pregnant people, infants and children under 5.",
+  "official_url": "https://health.hawaii.gov/wic/",
+  "populations": [
+   "young_children",
+   "low_income_households"
+  ],
+  "proxy_indicators": [
+   "pct_under18",
+   "pct_below_200fpl"
+  ],
+  "url_verified": false
+ },
+ {
+  "program_id": "med_quest",
+  "name": "Med-QUEST (Medicaid)",
+  "agency": "DHS / MQD",
+  "level": "state",
+  "summary": "Health coverage for eligible low-income residents.",
+  "official_url": "https://medquest.hawaii.gov/",
+  "populations": [
+   "uninsured",
+   "low_income_households"
+  ],
+  "proxy_indicators": [
+   "pct_uninsured",
+   "pct_below_200fpl"
+  ],
+  "url_verified": false
+ },
+ {
+  "program_id": "liheap",
+  "name": "LIHEAP Energy Assistance",
+  "agency": "DHS / BESSD",
+  "level": "federal",
+  "summary": "Help with home energy bills.",
+  "official_url": "https://humanservices.hawaii.gov/bessd/liheap/",
+  "populations": [
+   "low_income_households"
+  ],
+  "proxy_indicators": [
+   "pct_below_fpl"
+  ],
+  "url_verified": false
+ },
+ {
+  "program_id": "eitc",
+  "name": "Earned Income Tax Credit",
+  "agency": "IRS / DOTAX",
+  "level": "federal",
+  "summary": "Refundable tax credit for working families.",
+  "official_url": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit-eitc",
+  "populations": [
+   "working_families"
+  ],
+  "proxy_indicators": [
+   "pct_below_200fpl"
+  ],
+  "url_verified": false
+ },
+ {
+  "program_id": "kupuna_care",
+  "name": "Kūpuna Care",
+  "agency": "DOH / EOA",
+  "level": "state",
+  "summary": "In-home and community services for older adults.",
+  "official_url": "https://health.hawaii.gov/eoa/",
+  "populations": [
+   "older_adults"
+  ],
+  "proxy_indicators": [
+   "pct_65plus"
+  ],
+  "url_verified": false
+ },
+ {
+  "program_id": "ssi",
+  "name": "Supplemental Security Income",
+  "agency": "SSA",
+  "level": "federal",
+  "summary": "Monthly payments for aged, blind or disabled people with low income.",
+  "official_url": "https://www.ssa.gov/ssi",
+  "populations": [
+   "older_adults",
+   "people_with_disabilities"
+  ],
+  "proxy_indicators": [
+   "pct_disability",
+   "pct_65plus"
+  ],
+  "url_verified": false
+ },
+ {
+  "program_id": "aca",
+  "name": "ACA Marketplace Subsidies",
+  "agency": "CMS",
+  "level": "federal",
+  "summary": "Premium tax credits for marketplace health plans.",
+  "official_url": "https://www.healthcare.gov/",
+  "populations": [
+   "uninsured"
+  ],
+  "proxy_indicators": [
+   "pct_uninsured"
+  ],
+  "url_verified": false
+ },
+ {
+  "program_id": "hcv",
+  "name": "Housing Choice Vouchers (Section 8)",
+  "agency": "HPHA / HUD",
+  "level": "federal",
+  "summary": "Rental assistance for low-income renters.",
+  "official_url": "https://www.hud.gov/topics/housing_choice_voucher_program_section_8",
+  "populations": [
+   "rent_burdened"
+  ],
+  "proxy_indicators": [
+   "pct_rent_burden_30"
+  ],
+  "url_verified": false
+ },
+ {
+  "program_id": "va_benefits",
+  "name": "VA Health & Benefits",
+  "agency": "VA",
+  "level": "federal",
+  "summary": "Health care and benefits for veterans.",
+  "official_url": "https://www.va.gov/",
+  "populations": [
+   "veterans"
+  ],
+  "proxy_indicators": [
+   "pct_veterans"
+  ],
+  "url_verified": false
+ },
+ {
+  "program_id": "lep_services",
+  "name": "Language Access Services",
+  "agency": "Office of Language Access",
+  "level": "state",
+  "summary": "Interpretation and translation for state services.",
+  "official_url": "https://health.hawaii.gov/ola/",
+  "populations": [
+   "limited_english"
+  ],
+  "proxy_indicators": [
+   "pct_limited_english"
+  ],
+  "url_verified": false
+ },
+ {
+  "program_id": "ui_workforce",
+  "name": "American Job Centers",
+  "agency": "DLIR / WDD",
+  "level": "state",
+  "summary": "Job search, training and unemployment help.",
+  "official_url": "https://labor.hawaii.gov/wdc/",
+  "populations": [
+   "job_seekers"
+  ],
+  "proxy_indicators": [
+   "unemployment_rate"
+  ],
+  "url_verified": false
+ }
+]

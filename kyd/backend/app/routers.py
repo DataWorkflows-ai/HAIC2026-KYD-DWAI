@@ -1,0 +1,134 @@
+from __future__ import annotations
+from fastapi import APIRouter, Depends, HTTPException
+from . import audit
+from .auth import Principal, current_principal
+from .agent import tools
+from .agent.orchestrator import ask
+from .config import settings
+from .models import AgentAnswer, AskRequest
+from .services.graph import graph
+from .services.repo import repo
+from .services import representation as rep
+
+api = APIRouter(prefix="/api")
+
+
+Who = Depends(current_principal)
+
+
+@api.get("/me")
+def me(who: Principal = Who):
+    return {"user": who.user, "role": who.role}
+
+
+@api.get("/health")
+def health():
+    r = repo()
+    return {"ok": True, "mode": settings().data_mode, "demo": r.demo, "llm": settings().llm_provider,
+            "geographies": len(r.geographies()), "programs": len(graph().programs())}
+
+
+@api.get("/geographies")
+def geographies(geo_type: str | None = None):
+    return repo().geographies(geo_type)
+
+
+@api.get("/indicators")
+def indicators():
+    return repo().indicators()
+
+
+@api.get("/districts/{geo_id}")
+def district(geo_id: str, who: Principal = Who):
+    try:
+        p = tools.get_district_profile(geo_id)
+    except KeyError:
+        raise HTTPException(404, f"unknown geography {geo_id}")
+    audit.record(who.user, who.role, "get_district_profile", geo_ids=[geo_id], row_count=len(p.observations))
+    return p
+
+
+@api.get("/compare")
+def compare(a: str, b: str, who: Principal = Who):
+    audit.record(who.user, who.role, "compare_district", geo_ids=[a, b])
+    return tools.compare_district(a, b)
+
+
+@api.get("/districts/{geo_id}/programs")
+def district_programs(geo_id: str, who: Principal = Who):
+    audit.record(who.user, who.role, "find_programs", geo_ids=[geo_id])
+    return tools.find_programs(geo_id, limit=12)
+
+
+@api.get("/map/{indicator}")
+def map_layer(indicator: str, geo_type: str = "sldl"):
+    return tools.get_map_layer(indicator, geo_type)
+
+
+@api.get("/representation/{geo_id}")
+def representation(geo_id: str):
+    if not repo().geography(geo_id):
+        raise HTTPException(404, f"unknown geography {geo_id}")
+    return rep.representation(geo_id)
+
+
+MAP_FIGURES = ["total_pop", "median_hh_income", "pct_below_fpl", "pct_65plus", "pct_uninsured", "pct_rent_burden_30"]
+
+
+@api.get("/map-summary")
+def map_summary(geo_type: str = "sldl"):
+    """Everything a map popup needs for every district of a chamber, in a single request."""
+    r = repo()
+    geos = r.geographies(geo_type)
+    obs = r.observations([g.geo_id for g in geos], MAP_FIGURES)
+    by: dict[str, list] = {}
+    for o in obs:
+        by.setdefault(o.geo_id, []).append(o)
+    order = {k: i for i, k in enumerate(MAP_FIGURES)}
+    top = {}
+    for g in geos:
+        pm = tools.find_programs(g.geo_id, limit=1)
+        top[g.geo_id] = pm[0].program.name if pm else None
+    return {"roster": rep.roster_summary(), "overlap_method": rep.OVERLAP_METHOD, "local_method": rep.LOCAL_METHOD,
+            "districts": [
+        {"geo_id": g.geo_id, "name": g.name, "counties": g.counties, "member": rep.member(g.geo_id),
+         "counterparts": rep.counterparts(g.geo_id), **rep.local_areas(g.geo_id), "top_program": top[g.geo_id],
+         "figures": sorted(by.get(g.geo_id, []), key=lambda o: order[o.indicator])} for g in geos]}
+
+
+@api.get("/programs")
+def programs():
+    return graph().programs()
+
+
+@api.get("/programs/{program_id}/related")
+def related(program_id: str):
+    return graph().related(program_id)
+
+
+@api.get("/sources")
+def sources():
+    return repo().sources()
+
+
+@api.get("/sources/observation/{obs_id}")
+def cite(obs_id: str):
+    o = repo().observation(obs_id)
+    if not o:
+        raise HTTPException(404, "unknown observation")
+    src = next((s for s in repo().sources() if s.source_id == o.source_id), None)
+    return {"observation": o, "source": src, "lineage": graph().lineage(o.indicator)}
+
+
+@api.post("/agent/ask", response_model=AgentAnswer)
+async def agent_ask(body: AskRequest, who: Principal = Who):
+    a = await ask(body.question, body.geo_id)
+    audit.record(who.user, who.role, "agent_ask", route=a.route, geo_ids=a.geo_ids,
+                 row_count=len(a.observations), query=body.question)
+    return a
+
+
+@api.get("/audit/verify")
+def audit_verify(who: Principal = Who):
+    who.require("auditor", "admin")
+    return audit.verify_chain()
