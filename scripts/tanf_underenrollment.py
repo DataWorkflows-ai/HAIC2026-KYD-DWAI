@@ -38,7 +38,7 @@ TANF_STATEWIDE = {
 GROUPS = [
     {
         "key": "nhpi",
-        "label": "Native Hawaiian / Pacific Islander alone",
+        "label": "Native Hawaiian / Pacific Islander",
         "tanf_keys": ["hawaiian", "other_pacific_islander"],
         "tanf_share": 33 + 21,  # DHS splits these; Census combines them
         "s1701_col": "S1701_C02_017E",
@@ -46,15 +46,15 @@ GROUPS = [
     },
     {
         "key": "white",
-        "label": "White alone",
+        "label": "White",
         "tanf_keys": ["caucasian"],
         "tanf_share": 26,
         "s1701_col": "S1701_C02_013E",
-        "note": "DHS Caucasian compared to Census White alone.",
+        "note": "DHS Caucasian compared to Census White.",
     },
     {
         "key": "asian",
-        "label": "Asian alone",
+        "label": "Asian",
         "tanf_keys": ["filipino", "other_asian"],
         "tanf_share": 8 + 6,
         "s1701_col": "S1701_C02_016E",
@@ -62,7 +62,7 @@ GROUPS = [
     },
     {
         "key": "black",
-        "label": "Black alone",
+        "label": "Black",
         "tanf_keys": ["black"],
         "tanf_share": 3,
         "s1701_col": "S1701_C02_014E",
@@ -70,7 +70,7 @@ GROUPS = [
     },
     {
         "key": "aian",
-        "label": "American Indian / Alaska Native alone",
+        "label": "American Indian / Alaska Native",
         "tanf_keys": ["aian"],
         "tanf_share": 1,
         "s1701_col": "S1701_C02_015E",
@@ -128,6 +128,7 @@ def get_tanf_underenrollment(chamber: str, district_number: int) -> dict[str, An
             "under_enrolled": under is not None and under > 0,
             "hawaiian_only_tanf_share_percent": hawaiian_only,
             "under_enrollment_vs_hawaiian_only_pp": under_vs_hawaiian,
+            "demographic_note": "Under-enrollment is for this reported demographic.",
             "note": g["note"],
         })
 

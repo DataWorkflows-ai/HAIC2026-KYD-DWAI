@@ -143,4 +143,4 @@ get_tanf_underenrollment("senate", 1)
 
 Example: if Native Hawaiians are 33% of statewide TANF recipients but 40% of a district's poverty population, under-enrollment is +7 percentage points.
 
-This is an indirect comparison. DHS demographics are statewide, not by district. DHS and Census race categories do not match exactly (Hawaiian/part-Hawaiian vs NHPI alone). The result includes both the combined NHPI comparison and the 33% Hawaiian-only comparison. Show it as its own card.
+This is an indirect comparison. DHS demographics are statewide, not by district. DHS and Census race categories do not match exactly (Hawaiian/part-Hawaiian vs Native Hawaiian / Pacific Islander). The result includes both the combined NHPI comparison and the 33% Hawaiian-only comparison. Show it as its own card.
