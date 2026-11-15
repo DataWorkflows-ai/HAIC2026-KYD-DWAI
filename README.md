@@ -180,3 +180,18 @@ get_aabd("senate", 1)                           # disability and 65+
 ```
 
 Statewide snapshot from DHS Databook 2025, page 4: 754 average monthly clients. 65% female. 72% are 65-79. 51% Other Pacific Islander. Not district enrollment and not a gap.
+
+## Med-QUEST (standalone)
+
+Its own card, separate from other programs. Enrollment by island from DHS Databook 2025, page 27. SFY 2015-2025.
+
+```python
+from scripts.medquest import get_medquest, get_medquest_trend
+get_medquest(2025)                    # all islands, latest year
+get_medquest(2025, island="oahu")     # one island
+get_medquest_trend("statewide")       # 2015-2025 series
+```
+
+SFY 2025: 404,922 statewide. Oahu 244,167 (60.3%), Hawaii 85,322 (21.1%), Maui 47,691 (11.8%), Kauai 22,964 (5.7%), Molokai 3,881, Lanai 897.
+
+Island enrollment only. Not by legislative district. Not a gap.
