@@ -1,0 +1,53 @@
+{
+  "source": "DHS Databook 2025",
+  "source_url": "https://humanservices.hawaii.gov/wp-content/uploads/2026/03/DHS-Databook-2025.pdf",
+  "program": "SNAP",
+  "snapshot": "June 2025",
+  "geography": "Statewide",
+  "note": "Administrative counts. Use to validate Census S2201 estimates. Statewide only — not by district. Due to different selection criteria, figures may not match other reports exactly.",
+  "sfy_2025_caseload": {
+    "avg_monthly_clients": 158516,
+    "avg_monthly_cases": 83041,
+    "total_benefits": 694942213
+  },
+  "demographics_june_2025": {
+    "sex": [
+      {"category": "Female", "percent": 54},
+      {"category": "Male", "percent": 46}
+    ],
+    "age": [
+      {"category": "Below 18", "percent": 38},
+      {"category": "18 - 39", "percent": 23},
+      {"category": "40 - 64", "percent": 24},
+      {"category": "65 and above", "percent": 15}
+    ],
+    "race_ethnicity": [
+      {"category": "Hawaiian/part-Hawaiian", "percent": 28},
+      {"category": "Caucasian", "percent": 28},
+      {"category": "Other Pacific Islander", "percent": 17},
+      {"category": "Filipino", "percent": 14},
+      {"category": "Other Asian", "percent": 11},
+      {"category": "Black", "percent": 2},
+      {"category": "American Indian / Alaskan", "percent": "< 1"},
+      {"category": "Other / Unknown", "percent": "< .1"}
+    ],
+    "citizenship": [
+      {"category": "US Citizen", "percent": 92},
+      {"category": "Non-US / Unspecified", "percent": 8}
+    ]
+  },
+  "caseload_history": [
+    {"sfy": 2014, "avg_monthly_clients": 193565, "avg_monthly_cases": 98440, "total_benefits": 520648348},
+    {"sfy": 2015, "avg_monthly_clients": 191916, "avg_monthly_cases": 97500, "total_benefits": 554840775},
+    {"sfy": 2016, "avg_monthly_clients": 179138, "avg_monthly_cases": 90241, "total_benefits": 490295653},
+    {"sfy": 2017, "avg_monthly_clients": 170850, "avg_monthly_cases": 85491, "total_benefits": 483043918},
+    {"sfy": 2018, "avg_monthly_clients": 164788, "avg_monthly_cases": 84297, "total_benefits": 474364127},
+    {"sfy": 2019, "avg_monthly_clients": 158628, "avg_monthly_cases": 81649, "total_benefits": 456620451},
+    {"sfy": 2020, "avg_monthly_clients": 159734, "avg_monthly_cases": 83414, "total_benefits": 503446260},
+    {"sfy": 2021, "avg_monthly_clients": 190791, "avg_monthly_cases": 103257, "total_benefits": 841198722},
+    {"sfy": 2022, "avg_monthly_clients": 178486, "avg_monthly_cases": 100706, "total_benefits": 956336209},
+    {"sfy": 2023, "avg_monthly_clients": 156967, "avg_monthly_cases": 87471, "total_benefits": 890755418},
+    {"sfy": 2024, "avg_monthly_clients": 162733, "avg_monthly_cases": 87296, "total_benefits": 753064986},
+    {"sfy": 2025, "avg_monthly_clients": 158516, "avg_monthly_cases": 83041, "total_benefits": 694942213}
+  ]
+}
