@@ -70,17 +70,36 @@ gap = S1701 people below 200% FPL (C01_042E)
 
 The residual is the estimated eligible-but-not-enrolled figure. It mixes people and households, so it is an estimate, not a measured caseload. Always return that caveat with the number.
 
-### 3b. Person-level approximation (for comparison with S1701)
+### 3b. Person-level approximation (district average)
 
-S2201 is households; S1701 is people. To compare in the same unit:
+S2201 is households; S1701 is people. To compare in the same unit with data we have now:
 
 1. Take the district average household size from DP02 (`DP02_0016E`).
 2. Estimate SNAP persons = SNAP household count (`C03_001E`) × average household size.
 3. Person-level gap = people below 200% FPL (`C01_042E`) − estimated SNAP persons.
 
-DP02/DP05 publish average household size for the district as a whole, not by race or age of householder. Group-specific sizes are not available at this geography, so the same district average is used for every group.
+This uses one size for the whole district. SNAP households are often larger than average, so this can understate SNAP persons.
 
-Limitation: SNAP households are often larger than the district average, so this can understate SNAP persons and overstate the gap. The household-count gap remains the primary figure. The person-level figure is an approximation for same-unit comparison only.
+### 3c. Group-level gap (target method)
+
+When group-specific average household size is available, compute the gap inside each demographic group:
+
+```
+SNAP persons in group = SNAP households in group (S2201 C03) × avg household size for that group
+gap in group         = eligible persons in group (S1701 count) − SNAP persons in group
+```
+
+**Worked example (hypothetical):**
+
+| Group | SNAP households | Avg HH size | Est. SNAP persons | Eligible persons (S1701) | Gap |
+|-------|-----------------|-------------|-------------------|--------------------------|-----|
+| White | 1,500 | 2.5 | 3,750 | 3,750 | 0 |
+| Native Hawaiian | 1,125 | 3.2 | 3,600 | 5,000 | 1,400 |
+| Asian | 750 | 2.8 | 2,100 | 2,500 | 400 |
+| Other | 375 | 2.0 | 750 | 1,250 | 500 |
+| **Total** | **3,750** | — | **10,200** | **12,500** | **2,300** |
+
+**Data constraint:** DP02 publishes average household size for the district as a whole, not by race or age of householder, at legislative-district geography. The group sizes in the example are assumed. Until a district-level source for group-specific size is added, the code uses the district-wide average, and the household-count gap remains the primary figure.
 
 ### 4. Compare demographics
 
