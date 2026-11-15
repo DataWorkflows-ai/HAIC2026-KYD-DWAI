@@ -14,7 +14,15 @@ def list_programs() -> dict[str, Any]:
     """Return the five programs and their filters, ready for a front end."""
     return {
         "title": "Know Your District — program eligibility",
-        "note": "Each program is its own capability. Filters are the controls inside it. Except for SNAP, these are eligibility proxies, not district enrollment and not a district gap.",
+        "note": "Each program is its own capability. Filters are the controls inside it.",
+        "method_for_tanf_ga_aabd_medquest": {
+            "ui_text": "TANF, GA, AABD, and Med-QUEST characterize who is enrolled using DHS statewide demographic snapshots. They characterize where need is concentrated using Census district-level poverty, disability, age, and insurance data. They compare the statewide enrolled profile to the district-level need profile. They do not directly measure the eligible-but-not-enrolled gap at the district level.",
+            "enrolled": "DHS statewide demographic snapshots (sex, age, race/ethnicity, citizenship).",
+            "need": "Census district-level poverty, disability, age, and insurance data.",
+            "comparison": "Statewide enrolled demographics compared to district-level need demographics.",
+            "does_not": "Does not directly measure the eligible-but-not-enrolled gap at the district level.",
+            "how_to_display": "Show ui_text on the program screen for TANF, GA, AABD, and Med-QUEST.",
+        },
         "programs": [
             {
                 "id": "snap",

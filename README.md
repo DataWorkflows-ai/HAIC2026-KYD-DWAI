@@ -19,6 +19,9 @@ list_programs()
 | **AABD** | Where aged, blind, or disabled residents may be eligible. | Disability prevalence, 65+ (Senate only), foreign-born / Oceania / year of entry |
 | **Med-QUEST** | Island enrollment, where the uninsured are, and where income-eligible people are concentrated. | Enrollment by island (2015-2025), uninsured rate by district, poverty at 125/150/185/200% FPL, enrollment-to-need ratio by island (lower = thinner enrollment relative to poverty; higher does not mean more eligible) |
 
+
+**How TANF, GA, AABD, and Med-QUEST work.** These four programs characterize who is enrolled using DHS statewide demographic snapshots. They characterize where need is concentrated using Census district-level poverty, disability, age, and insurance data. They compare the statewide enrolled profile to the district-level need profile. They do not directly measure the eligible-but-not-enrolled gap at the district level. SNAP is the exception: it has district-level enrollment and a district gap. This explanation is in `list_programs()` as `method_for_tanf_ga_aabd_medquest.ui_text` so a front end can show it on screen.
+
 Except for SNAP, these are eligibility proxies. They are not district enrollment and not a district gap. Each program is separate. A user can open one, or layer several.
 
 ## District boundaries
