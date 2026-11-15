@@ -48,25 +48,29 @@ Always retain the corresponding margins of error (`M` suffix).
 
 For each district, pull from S1701:
 
-- Counts of people below 130% of the federal poverty level
+- Counts of people below 200% of the federal poverty level (Hawaii SNAP gross-income limit per the DHS Databook; use `C01_042E`)
 - Broken down by race/ethnicity, age, education, employment status, and other available characteristics
 - Retain margins of error
 
 This is the eligibility proxy. It overcounts true eligibility because SNAP also has asset tests, citizenship/immigration rules, and categorical eligibility, but it is the best public approximation available at district level.
 
-### 3. Compute the gap
+### 3. Compute the gap (counts only)
 
-For each district and for each demographic group that can be aligned:
+**Use counts. Do not use percent columns.**
+
+| Source | Count column to use | Do not use |
+|--------|---------------------|------------|
+| S2201 | `C03_001E` — households receiving SNAP | `C04` — percent (composition of SNAP households, or overall receipt rate on the total row) |
+| S1701 | `C01_042E` — people below 200% of poverty (Hawaii SNAP gross-income limit per DHS Databook) | `C03` — percent below poverty |
 
 ```
-Eligible-but-not-enrolled estimate
-  = Income-eligible population (S1701, <130% FPL)
-  − SNAP-receiving households (S2201)
+gap = S1701 people below 200% FPL (C01_042E)
+    − S2201 SNAP households (C03_001E)
 ```
 
-The residual is the estimated number of people (or households) who appear income-eligible but are not in a SNAP-receiving household.
+The residual is the estimated eligible-but-not-enrolled figure. It mixes people and households, so it is an estimate, not a measured caseload. Always return that caveat with the number.
 
-Report the estimate with a combined margin of error and a clear caveat that it is an approximation, not a measured caseload.
+`scripts/snap_gap.py` implements this. `get_snap_gap()` reads only the count columns and records the percent columns under `not_used`.
 
 ### 4. Compare demographics
 
