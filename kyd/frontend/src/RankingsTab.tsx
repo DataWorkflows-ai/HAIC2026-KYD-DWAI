@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowDown, ArrowUp } from 'lucide-react';
 import { api, fmt, type Rankings } from './api';
 import { Card, Empty, ExportButtons, Figure, Pill } from './ui';
+import { RankMap } from './RankMap';
 
 /** All districts of a chamber ranked on comparable measures. Every cell is a cited figure. */
 export function RankingsTab({ onOpen }: { onOpen: (geo: string) => void }) {
@@ -10,6 +11,15 @@ export function RankingsTab({ onOpen }: { onOpen: (geo: string) => void }) {
   const [sort, setSort] = useState<{ key: string; desc: boolean }>({ key: 'pct_below_fpl', desc: true });
   useEffect(() => { setData(null); api.rankings(chamber).then(setData); }, [chamber]);
   const tbl = useRef<HTMLTableElement>(null);
+  const [active, setActive] = useState<string | null>(null);
+  const [pinned, setPinned] = useState<string | null>(null);
+  const focus = active ?? pinned;
+  const mapKey = sort.key === 'name' ? data?.columns[0]?.indicator : sort.key;
+  const mapValues = useMemo(() => Object.fromEntries((data?.rows ?? []).map(r => [r.geo_id, mapKey ? r.cells[mapKey]?.obs.value ?? null : null])), [data, mapKey]);
+  const pickOnMap = (g: string) => {
+    setPinned(g);
+    document.getElementById(`rank-${g}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  };
 
   const rows = useMemo(() => {
     if (!data) return [];
@@ -39,6 +49,10 @@ export function RankingsTab({ onOpen }: { onOpen: (geo: string) => void }) {
         <button key={c} onClick={() => setChamber(c)} aria-pressed={chamber === c}
           className={`px-2 py-0.5 rounded text-xs border ${chamber === c ? 'border-cyan-700 text-cyan-300' : 'border-premium-700 text-slate-400'}`}>
           {c === 'sldl' ? 'House (51)' : 'Senate (25)'}</button>))}</div>}>
+      {mapKey && (() => { const col = data.columns.find(c => c.indicator === mapKey)!; return (
+        <RankMap chamber={chamber} values={mapValues} unit={data.rows.find(r => r.cells[mapKey])?.cells[mapKey]?.obs.unit ?? 'pct'}
+          label={col.label} active={focus} onHover={setActive} onPick={pickOnMap} />); })()}
+      <p className="no-print text-xs text-slate-500 mb-2">Sort by any column to map it. Hover or click a district on the map or in the table to highlight it in both.</p>
       <div className="overflow-x-auto">
         <table ref={tbl} className="w-full text-sm">
           <thead className="text-xs text-slate-400 border-b border-premium-700">
@@ -52,7 +66,9 @@ export function RankingsTab({ onOpen }: { onOpen: (geo: string) => void }) {
           </thead>
           <tbody>
             {rows.map(r => (
-              <tr key={r.geo_id} className="border-b border-premium-800 hover:bg-white/5">
+              <tr key={r.geo_id} id={`rank-${r.geo_id}`} onMouseEnter={() => setActive(r.geo_id)} onMouseLeave={() => setActive(null)}
+                onClick={() => setPinned(p => p === r.geo_id ? null : r.geo_id)}
+                className={`border-b border-premium-800 cursor-pointer ${focus === r.geo_id ? 'bg-cyan-950/60' : 'hover:bg-white/5'}`}>
                 <td className="px-2 py-1.5 whitespace-nowrap">
                   <button onClick={() => onOpen(r.geo_id)} className="text-slate-100 hover:text-cyan-300 hover:underline">{r.name}</button>
                   <div className="text-[10px] text-slate-500">{r.counties.join(', ')}</div></td>
