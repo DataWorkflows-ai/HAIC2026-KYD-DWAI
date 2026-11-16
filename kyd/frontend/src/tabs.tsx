@@ -86,9 +86,16 @@ export function CompareTab({ geos, geo }: { geos: Geo[]; geo: string }) {
   useEffect(() => setA(geo), [geo]);
   useEffect(() => { api.compare(a, b).then(d => setRows(d.rows)); }, [a, b]);
   return (
-    <Card title="Compare" right={<div className="flex gap-3"><GeoPicker geos={geos} value={a} onChange={setA} label="A" /><GeoPicker geos={geos} value={b} onChange={setB} label="B" /></div>}>
+    <Card title="Compare">
       <table className="w-full text-sm">
-        <thead className="text-xs text-slate-500 text-left"><tr><th className="py-1">Indicator</th><th>A</th><th>B</th><th>Difference</th></tr></thead>
+        <thead className="text-xs text-slate-500 text-left align-bottom">
+          <tr>
+            <th className="py-1 w-[34%]">Indicator</th>
+            <th className="py-1 pr-3"><GeoPicker geos={geos} value={a} onChange={setA} label="A" /></th>
+            <th className="py-1 pr-3"><GeoPicker geos={geos} value={b} onChange={setB} label="B" /></th>
+            <th className="py-1">Difference</th>
+          </tr>
+        </thead>
         <tbody>
           {rows.map(r => (
             <tr key={r.indicator} className="border-t border-premium-800">

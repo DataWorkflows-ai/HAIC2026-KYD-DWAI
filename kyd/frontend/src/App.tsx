@@ -7,14 +7,23 @@ import { MapTab } from './MapTab';
 import { RankingsTab } from './RankingsTab';
 
 const TABS = [
-  { id: 'overview', label: 'Overview', Icon: LayoutDashboard },
-  { id: 'map', label: 'Map', Icon: Map },
-  { id: 'compare', label: 'Compare', Icon: GitCompare },
-  { id: 'rankings', label: 'Rankings', Icon: ListOrdered },
-  { id: 'programs', label: 'Programs', Icon: HandHeart },
-  { id: 'ask', label: 'Ask the Agent', Icon: MessageSquare },
-  { id: 'sources', label: 'Sources & Methods', Icon: BookOpen },
+  { id: 'overview', label: 'Overview', short: 'Overview', Icon: LayoutDashboard },
+  { id: 'map', label: 'Map', short: 'Map', Icon: Map },
+  { id: 'compare', label: 'Compare', short: 'Compare', Icon: GitCompare },
+  { id: 'rankings', label: 'Rankings', short: 'Rankings', Icon: ListOrdered },
+  { id: 'programs', label: 'Programs', short: 'Programs', Icon: HandHeart },
+  { id: 'ask', label: 'Ask the Agent', short: 'Ask', Icon: MessageSquare },
+  { id: 'sources', label: 'Sources & Methods', short: 'Sources', Icon: BookOpen },
 ] as const;
+const TAB_IDS: string[] = TABS.map(t => t.id);
+const GEO_RE = /^(HD|SD)-\d{2}$|^HI$|^CNTY-\d{5}$/;
+
+/** Shareable links: #/HD-22/map opens House District 22 on the Map tab. */
+function readHash(): { geo?: string; tab?: string } {
+  const [g, t] = decodeURIComponent(window.location.hash.replace(/^#\/?/, '')).split('/');
+  const geo = g?.toUpperCase();
+  return { geo: geo && GEO_RE.test(geo) ? geo : undefined, tab: t && TAB_IDS.includes(t) ? t : undefined };
+}
 
 export default function App() {
   const [tab, setTab] = usePersistentState<string>('kyd_tab', 'overview');
@@ -25,6 +34,17 @@ export default function App() {
   const [pending, setPending] = useState<string | null>(null);
 
   useEffect(() => { api.geographies().then(setGeos); api.health().then(setHealth).catch(() => setHealth(null)); }, []);
+  // URL hash <-> district and tab, so a link opens the same view
+  useEffect(() => {
+    const apply = () => { const h = readHash(); if (h.geo) setGeo(h.geo); if (h.tab) setTab(h.tab); };
+    apply();
+    window.addEventListener('hashchange', apply);
+    return () => window.removeEventListener('hashchange', apply);
+  }, []);
+  useEffect(() => {
+    const want = `#/${geo}/${tab}`;
+    if (window.location.hash !== want) window.history.replaceState(null, '', want);
+  }, [geo, tab]);
   const ask = (q: string) => { setPending(q); setTab('ask'); };
   const districtControl = (
     <div className="flex items-center gap-2">
@@ -46,28 +66,30 @@ export default function App() {
           DEMO MODE: figures are synthetic placeholders and are not real Census data.
         </div>
       )}
-      <header className="h-16 border-b border-premium-800 flex items-center justify-between px-6 bg-premium-900 shadow-md gap-4">
+      <header className="h-16 border-b border-premium-800 flex items-center px-4 lg:px-6 bg-premium-900 shadow-md gap-4">
         <div className="flex items-center gap-3 min-w-max">
           <div className="w-9 h-9 rounded-lg bg-gradient-to-tr from-cyan-500 to-emerald-500 flex items-center justify-center shadow-lg">
             <MapPinned className="w-5 h-5 text-white" />
           </div>
           <div>
             <h1 className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-emerald-400">KNOW YOUR DISTRICT</h1>
-            <p className="text-xs text-slate-400">Hawaiʻi legislative district profiles</p>
+            <p className="text-xs text-slate-400 hidden xl:block">Hawaiʻi legislative district profiles</p>
           </div>
         </div>
 
-        <nav aria-label="Sections" className="flex gap-1 bg-premium-950 p-1 rounded-lg border border-premium-800 overflow-x-auto">
-          {TABS.map(({ id, label, Icon }) => (
-            <button key={id} onClick={() => setTab(id)} aria-current={tab === id ? 'page' : undefined}
-              className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium whitespace-nowrap transition ${tab === id ? 'bg-premium-800 text-cyan-400 border border-premium-700' : 'text-slate-400 hover:text-slate-200'}`}>
-              <Icon className="w-4 h-4" />{label}
+        {/* On Overview the district picker sits in the page header next to the district name; elsewhere it sits here, next to the title. */}
+        <div className="flex items-center gap-2 min-w-[1px]">{tab !== 'overview' && districtControl}</div>
+
+        <nav aria-label="Sections" className="ml-auto flex gap-1 bg-premium-950 p-1 rounded-lg border border-premium-800 overflow-x-auto min-w-0">
+          {TABS.map(({ id, label, short, Icon }) => (
+            <button key={id} onClick={() => setTab(id)} aria-current={tab === id ? 'page' : undefined} title={label} aria-label={label}
+              className={`flex items-center gap-2 px-2.5 py-1.5 rounded-md text-sm font-medium whitespace-nowrap transition ${tab === id ? 'bg-premium-800 text-cyan-400 border border-premium-700' : 'text-slate-400 hover:text-slate-200'}`}>
+              <Icon className="w-4 h-4 shrink-0" />
+              <span className="hidden xl:inline 2xl:hidden">{short}</span>
+              <span className="hidden 2xl:inline">{label}</span>
             </button>
           ))}
         </nav>
-
-        {/* On Overview the district picker sits in the page header next to the district name; elsewhere it stays here. */}
-        <div className="flex items-center gap-2 min-w-[1px]">{tab !== 'overview' && districtControl}</div>
       </header>
 
       <main className="flex-grow overflow-y-auto p-4 lg:p-6">
