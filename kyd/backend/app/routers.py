@@ -9,7 +9,7 @@ from .config import settings
 from .models import AgentAnswer, AskRequest
 from .services.graph import graph
 from .services.repo import repo
-from .services import crosswalk, program_context, representation as rep
+from .services import breakdowns, crosswalk, program_context, representation as rep
 from .services.cache import cached
 
 api = APIRouter(prefix="/api")
@@ -70,6 +70,18 @@ def district_cross_program(geo_id: str, who: Principal = Who):
     except KeyError:
         raise HTTPException(404, f"unknown geography {geo_id}")
     audit.record(who.user, who.role, "estimate_cross_program", geo_ids=[geo_id])
+    return out
+
+
+@api.get("/districts/{geo_id}/unemployment")
+def district_unemployment(geo_id: str, dimension: str = "all", who: Principal = Who):
+    try:
+        out = breakdowns.unemployment(geo_id, dimension)
+    except KeyError:
+        raise HTTPException(404, f"unknown geography {geo_id}")
+    except ValueError as e:
+        raise HTTPException(400, str(e))
+    audit.record(who.user, who.role, "unemployment_breakdown", geo_ids=[geo_id])
     return out
 
 
