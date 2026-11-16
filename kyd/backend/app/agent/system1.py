@@ -110,6 +110,8 @@ def resolve_districts(text: str, context_geo: str | None, places: list[dict] | N
         if (chamber == "SD" and 1 <= n <= 25) or (chamber == "HD" and 1 <= n <= 51):
             out.append(f"{chamber}-{n:02d}")
     t = normalize(text)
+    if re.search(r"\b(the state|statewide|state of hawai\w*|hawai\w* state|state average|vs\.? hi|with hi|and hi)\b", t):
+        out.append("HI")                                                # "compare HD 44 with the state"
     out.extend(p["dominant"] for p in places or [] if p["dominant"])
     if not out and not places and context_geo and re.search(r"\b(this|my|the) district\b|^\W*$", t + " this district"):
         out.append(context_geo)

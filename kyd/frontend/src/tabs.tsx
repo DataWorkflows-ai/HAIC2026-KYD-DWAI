@@ -142,6 +142,21 @@ export function ProgramsTab({ geo }: { geo: string }) {
 
 // ── Ask (agent) ─────────────────────────────────────────────────────────────
 type Msg = { role: 'user' | 'agent'; text: string; a?: Answer };
+/** Starter questions for the selected district; each maps to a tool the agent answers without guessing. */
+function suggestions(geo: string): string[] {
+  const n = geo === 'HI' ? 'the state' : geo.startsWith('HD') ? `House District ${parseInt(geo.slice(3), 10)}`
+    : geo.startsWith('SD') ? `Senate District ${parseInt(geo.slice(3), 10)}` : 'this district';
+  const other = geo.startsWith('SD') ? 'Senate District 12' : 'House District 22';
+  return [
+    `Give me a profile of ${n}`,
+    `Which programs fit ${n}?`,
+    `Who in ${n} may be eligible for other programs?`,
+    `Unemployment by age and race in ${n}`,
+    `Compare ${n} with the state`,
+    ...(geo === 'HI' ? [] : [`Compare ${n} with ${other}`]),
+  ];
+}
+
 export function AskTab({ geo, pending, clearPending }: { geo: string; pending: string | null; clearPending: () => void }) {
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [input, setInput] = useState('');
@@ -168,7 +183,16 @@ export function AskTab({ geo, pending, clearPending }: { geo: string; pending: s
   return (
     <Card className="flex flex-col h-full" title="Ask the agent" right={<span className="text-xs text-slate-500">Context: {geo}</span>}>
       <div className="flex-1 overflow-y-auto space-y-3 pr-1 min-h-[50vh]" aria-live="polite">
-        {!msgs.length && <Empty>Try “Which programs fit House District 22?” or “Compare SD 9 vs SD 14”.</Empty>}
+        {!msgs.length && (
+          <div className="space-y-3">
+            <p className="text-sm text-slate-400">Ask in plain English. Every number in an answer comes from a tool and is cited. Try one of these:</p>
+            <div className="flex flex-wrap gap-2">
+              {suggestions(geo).map(q => (
+                <button key={q} onClick={() => send(q)} disabled={busy}
+                  className="px-2.5 py-1.5 rounded-md border border-cyan-900 text-xs text-cyan-300 hover:bg-cyan-950 text-left">{q}</button>))}
+            </div>
+          </div>
+        )}
         {msgs.map((m, i) => (
           <div key={i} className={m.role === 'user' ? 'text-right' : ''}>
             <div className={`inline-block max-w-[85%] text-left whitespace-pre-wrap rounded-lg px-3 py-2 text-sm ${m.role === 'user' ? 'bg-premium-700' : 'bg-premium-800 border border-premium-700'}`}>
