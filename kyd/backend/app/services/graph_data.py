@@ -49,7 +49,7 @@ CAPABILITIES = {
               "census.DP02.senate", "dhs.databook2025"]),
     "medquest": ("Med-QUEST enrollment and uninsured filter", "med_quest",
                  ["census.S2701.house", "census.S2701.senate", "dhs.databook2025"]),
-    "county_snap": ("County SNAP participation", "snap", ["dhs.testimony_2025_10"]),
+    "county_snap": ("County SNAP participation", "snap", ["dhs.bessd_sfy2026", "processed.bessd_csv"]),
 }
 
 
