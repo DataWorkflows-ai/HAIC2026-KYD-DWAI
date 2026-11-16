@@ -146,7 +146,8 @@ type Msg = { role: 'user' | 'agent'; text: string; a?: Answer };
 function suggestions(geo: string): string[] {
   const n = geo === 'HI' ? 'the state' : geo.startsWith('HD') ? `House District ${parseInt(geo.slice(3), 10)}`
     : geo.startsWith('SD') ? `Senate District ${parseInt(geo.slice(3), 10)}` : 'this district';
-  const other = geo.startsWith('SD') ? 'Senate District 12' : 'House District 22';
+  const other = geo.startsWith('SD') ? (geo === 'SD-12' ? 'Senate District 13' : 'Senate District 12')
+    : (geo === 'HD-22' ? 'House District 23' : 'House District 22');
   return [
     `Give me a profile of ${n}`,
     `Which programs fit ${n}?`,
