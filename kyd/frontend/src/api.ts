@@ -92,6 +92,7 @@ export const api = {
   profile: (g: string) => j<Profile>(`/api/districts/${g}`),
   programs: (g: string) => j<ProgramMatch[]>(`/api/districts/${g}/programs`),
   crossProgram: (g: string) => j<CrossProgram>(`/api/districts/${g}/cross-program`),
+  uptakePeers: (g: string) => j<UptakePeers>(`/api/districts/${g}/uptake-peers`),
   rankings: (t: string) => j<Rankings>(`/api/rankings?geo_type=${t}`),
   unemployment: (g: string) => j<Unemployment>(`/api/districts/${g}/unemployment`),
   programContext: (g: string) => j<ProgramContext>(`/api/districts/${g}/program-context`),
@@ -114,3 +115,6 @@ export function fmt(o: Pick<Obs, 'value' | 'unit'>): string {
   if (o.unit === 'per_1000') return o.value.toFixed(1) + ' per 1,000';
   return String(o.value);
 }
+
+export type UptakePeers = { geo_id: string; name?: string; need?: Obs; gap?: Obs; people_below_200fpl?: Obs; not_reached?: Obs | null;
+  peers: { geo_id: string; name: string; need: Obs; gap: Obs; more_reached: Obs }[]; note: string };

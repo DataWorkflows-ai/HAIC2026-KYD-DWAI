@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { Send, ExternalLink, Bot, Zap, ShieldAlert } from 'lucide-react';
 import { api, fmt, type Answer, type Geo, type Obs, type Profile, type ProgramMatch, type Verification } from './api';
 import { Card, Empty, ExportButtons, Figure, GeoPicker, Pill, usePersistentState } from './ui';
-import { CrossProgramCard, ProgramContextCards } from './programExtras';
+import { CrossProgramCard, ProgramContextCards, UptakePeersCard } from './programExtras';
 
 const HEADLINE = ['total_pop', 'median_hh_income', 'pct_below_fpl', 'pct_65plus', 'pct_rent_burden_30', 'pct_uninsured'];
 const by = (xs: Obs[] | undefined) => Object.fromEntries((xs ?? []).map(o => [o.indicator, o]));
@@ -110,12 +110,13 @@ export function OverviewTab({ geo, geos, onAsk, onPick, picker }: { geo: string;
         </Card>
         <Card title="Ask about this district" className="no-print">
           <div className="flex flex-wrap gap-2">
-            {['Which programs fit this district?', `Compare this district with ${p.peers[0] ?? 'HI'}`, 'Give me a profile of this district'].map(q => (
+            {suggestions(geo).slice(1, 7).map(q => (
               <button key={q} onClick={() => onAsk(q)} className="px-2 py-1 rounded-md border border-cyan-900 text-xs text-cyan-300 hover:bg-cyan-950">{q}</button>
             ))}
           </div>
         </Card>
       </div>
+      <div className="col-span-12"><UptakePeersCard geo={geo} onPick={onPick} /></div>
     </div>
   );
 }
@@ -170,6 +171,7 @@ export function ProgramsTab({ geo }: { geo: string }) {
         </Card>
       ))}
       <CrossProgramCard geo={geo} />
+      <UptakePeersCard geo={geo} />
       <ProgramContextCards geo={geo} />
       <p className="col-span-full text-xs text-slate-500">Rankings compare district need indicators with the state. Eligibility information is informational only. The administering agency makes all determinations.</p>
     </div>
@@ -190,7 +192,9 @@ function suggestions(geo: string): string[] {
     `Who in ${n} may be eligible for other programs?`,
     `Unemployment by age and race in ${n}`,
     `Compare ${n} with the state`,
-    ...(geo === 'HI' ? [] : [`Compare ${n} with ${other}`]),
+    ...(geo === 'HI' ? [] : [`Which districts with similar need reach more people with SNAP than ${n}?`,
+                            `How do test scores in ${n} compare with the state?`,
+                            `Compare ${n} with ${other}`]),
   ];
 }
 

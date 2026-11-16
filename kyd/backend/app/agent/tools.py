@@ -172,6 +172,12 @@ def unemployment_breakdown(geo_id: str, dimension: str = "all") -> dict:
     return unemployment(geo_id, dimension)
 
 
+def uptake_peers(geo_id: str) -> dict:
+    """Districts with similar need (share below 200% of poverty) that reach more of it with SNAP (services/uptake.py)."""
+    from ..services.uptake import uptake_peers as f
+    return f(geo_id)
+
+
 def get_map_layer(indicator: str, geo_type: str = "sldl") -> dict:
     r = repo()
     ids = [g.geo_id for g in r.geographies(geo_type)]
@@ -231,6 +237,11 @@ TOOL_SPECS = [  # JSON-schema descriptions handed to System 2
                     "dimension": {"type": "string", "enum": ["all", "overall", "sex", "age_collapsed",
                                                              "race_ethnicity", "education"]}},
                     "required": ["geo_id"]}},
+    {"name": "uptake_peers",
+     "description": "SNAP uptake peers: districts in the same chamber with similar need (share of residents below 200% "
+                    "of poverty) whose SNAP reach gap is smaller, and an estimate of how many more people this district "
+                    "would reach at each peer's rate. All values are estimates from ACS counts, not enrollment records.",
+     "parameters": {"type": "object", "properties": {"geo_id": {"type": "string"}}, "required": ["geo_id"]}},
     {"name": "district_connections",
      "description": "Relationships from the knowledge graph. With only `a`: the district's county, neighborhoods, "
                     "overlapping House/Senate districts, neighborhood boards, council districts and most similar peer "
@@ -243,4 +254,4 @@ TOOLS = {"get_district_profile": get_district_profile, "compare_district": compa
          "find_programs": find_programs, "estimate_eligible": estimate_eligible,
          "get_map_layer": get_map_layer, "export_summary": export_summary,
          "district_connections": district_connections, "estimate_cross_program": estimate_cross_program,
-         "unemployment_breakdown": unemployment_breakdown}
+         "unemployment_breakdown": unemployment_breakdown, "uptake_peers": uptake_peers}
