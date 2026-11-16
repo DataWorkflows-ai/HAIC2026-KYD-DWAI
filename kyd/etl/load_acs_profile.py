@@ -199,3 +199,5 @@ if __name__ == "__main__":
     load_programs.build()
     import load_hud       # HUD subsidized housing by district (needs kyd/data/tract_district_crosswalk.csv)
     load_hud.build()
+    import load_school_meals  # HCNP free/reduced meals by district (research rollup, charters excluded)
+    load_school_meals.build()
