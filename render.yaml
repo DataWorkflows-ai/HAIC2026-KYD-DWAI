@@ -7,7 +7,7 @@ services:
   - type: web
     name: know-your-district
     runtime: python
-    plan: free
+    plan: starter   # paid instance: stays awake. "free" sleeps after 15 idle minutes and takes about a minute to wake.
     region: oregon
     rootDir: kyd/backend
     buildCommand: pip install -r requirements.txt

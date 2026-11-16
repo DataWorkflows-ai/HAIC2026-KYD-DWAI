@@ -1,7 +1,6 @@
 # Know Your District (HAIC 2026, Challenge 1)
 
 **Live app:** https://know-your-district-zio4.onrender.com — no login, no setup. Shareable links work, e.g. https://know-your-district-zio4.onrender.com/house-44/map
-(The free host sleeps when idle; the first load after a quiet spell can take 30–60 seconds.)
 
 A nonpartisan, cited profile of every Hawaiʻi State House and Senate district (2022 plan) for legislators and staff:
 who lives there, how they are doing, which assistance programs fit, and where people who look eligible are not being reached.
@@ -43,6 +42,12 @@ Estimates are labelled as estimates on screen, with the method and caveats besid
   and independent sources against each other (`python kyd/verify/run.py`).
 
 Architecture details: [kyd/ARCHITECTURE.md](kyd/ARCHITECTURE.md).
+
+## License
+
+The code is released under the [MIT License](LICENSE). The data files keep the terms of their publishers: federal data is public
+domain, and state, county and HIDOE figures are cited to their source (see [SOURCES.md](SOURCES.md) and
+[data/raw/research/LICENSING.md](data/raw/research/LICENSING.md)). Nothing here implies endorsement by any agency.
 
 ## Run it locally
 
