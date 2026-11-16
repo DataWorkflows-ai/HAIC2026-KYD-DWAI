@@ -88,7 +88,7 @@ export function ExportButtons({ table, name }: { table: React.RefObject<HTMLTabl
     if (!t) return;
     const esc = (v: string) => `"${v.replace(/\s+/g, ' ').trim().replace(/"/g, '""')}"`;
     const lines = Array.from(t.querySelectorAll('tr')).map(tr =>
-      Array.from(tr.querySelectorAll('th,td')).map(c => {
+      Array.from(tr.querySelectorAll('th,td')).filter(c => !c.classList.contains('no-print')).map(c => {
         const sel = c.querySelector('select') as HTMLSelectElement | null;
         return esc(sel ? sel.options[sel.selectedIndex]?.text ?? '' : (c as HTMLElement).innerText);
       }).join(','));

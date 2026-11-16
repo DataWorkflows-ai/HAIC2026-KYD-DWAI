@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import { Send, ExternalLink, Bot, Zap, ShieldAlert } from 'lucide-react';
+import { Send, ExternalLink, Bot, Zap, ShieldAlert, GripVertical } from 'lucide-react';
 import { api, fmt, type Answer, type Geo, type Obs, type Profile, type ProgramMatch, type Verification } from './api';
 import { Card, Empty, ExportButtons, Figure, GeoPicker, Pill, usePersistentState } from './ui';
 import { CrossProgramCard, ProgramContextCards, UptakePeersCard } from './programExtras';
@@ -17,6 +17,12 @@ export function OverviewTab({ geo, geos, onAsk, onPick, picker }: { geo: string;
   const indTable = useRef<HTMLTableElement>(null);
   const [layout, setLayout] = usePersistentState<Layout>('kyd_indicator_rows', { rows: DEFAULT_ROWS });
   const [editing, setEditing] = useState(false);
+  const [dragKey, setDragKey] = useState<string | null>(null);
+  const moveRow = (shownKeys: string[], key: string, to: number) => {
+    const r = shownKeys.filter(k => k !== key);
+    r.splice(Math.max(0, Math.min(to, r.length)), 0, key);
+    setLayout({ rows: [...r, ...layout.rows.filter(k => !shownKeys.includes(k))] });   // keep rows this geography lacks
+  };
   const [p, setP] = useState<Profile | null>(null);
   const [progs, setProgs] = useState<ProgramMatch[]>([]);
   useEffect(() => {
@@ -61,31 +67,44 @@ export function OverviewTab({ geo, geos, onAsk, onPick, picker }: { geo: string;
             </select>
             <button onClick={() => setLayout({ rows: p.observations.map(o => o.indicator) })} className="px-2 py-1 rounded border border-premium-700 text-slate-300 hover:text-cyan-300">Show all</button>
             <button onClick={() => setLayout({ rows: DEFAULT_ROWS })} className="px-2 py-1 rounded border border-premium-700 text-slate-300 hover:text-cyan-300">Reset</button>
-            <span className="text-slate-500">Use ↑ ↓ to reorder and × to hide. Saved in this browser.</span>
+            <span className="text-slate-500">Drag ⋮⋮ to reorder, × to hide. Saved in this browser.</span>
           </div>
         )}
         <table ref={indTable} className="w-full text-sm">
-          <thead className="text-xs text-slate-500 text-left"><tr><th className="py-1">Indicator</th><th>District</th><th>County</th><th>State</th>{editing && <th className="no-print" />}</tr></thead>
+          <thead className="text-xs text-slate-500 text-left"><tr><th className="no-print w-6" /><th className="py-1">Indicator</th><th>District</th><th>County</th><th>State</th>{editing && <th className="no-print" />}</tr></thead>
           <tbody>
             {layout.rows.map(k => me[k]).filter(Boolean).map((o, i, shown) => (
-              <tr key={o.obs_id} className="border-t border-premium-800">
+              <tr key={o.obs_id}
+                onDragOver={e => { if (!dragKey) return; e.preventDefault(); if (dragKey !== o.indicator) moveRow(shown.map(x => x.indicator), dragKey, i); }}
+                onDrop={e => { e.preventDefault(); setDragKey(null); }}
+                className={`border-t border-premium-800 ${dragKey === o.indicator ? 'opacity-50 bg-cyan-950/40' : ''}`}>
+                <td className="no-print w-6 align-middle">
+                  <button draggable aria-label={`Reorder ${o.label}: drag, or focus and use the arrow keys`} title="Drag to reorder"
+                    onDragStart={e => { setDragKey(o.indicator); e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', o.indicator); }}
+                    onDragEnd={() => setDragKey(null)}
+                    onKeyDown={e => {
+                      if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return;
+                      e.preventDefault();
+                      moveRow(shown.map(x => x.indicator), o.indicator, i + (e.key === 'ArrowUp' ? -1 : 1));
+                      const k = o.indicator;
+                      setTimeout(() => (document.querySelector(`[data-grip="${k}"]`) as HTMLElement | null)?.focus(), 0);
+                    }}
+                    data-grip={o.indicator}
+                    className="cursor-grab active:cursor-grabbing text-slate-600 hover:text-cyan-300 px-1 py-1"><GripVertical className="w-4 h-4" /></button>
+                </td>
                 <td className="py-1.5 text-slate-300">{o.label}</td>
                 <td><Figure o={o} /></td>
                 <td className="text-slate-400 font-mono text-xs">{co[o.indicator] ? fmt(co[o.indicator]) : '—'}</td>
                 <td className="text-slate-400 font-mono text-xs">{st[o.indicator] ? fmt(st[o.indicator]) : '—'}</td>
                 {editing && (
                   <td className="no-print whitespace-nowrap text-right">
-                    {[['↑', -1], ['↓', 1]].map(([lab, d]) => (
-                      <button key={lab as string} disabled={(d === -1 && i === 0) || (d === 1 && i === shown.length - 1)}
-                        onClick={() => { const r = shown.map(x => x.indicator); const j = i + (d as number); [r[i], r[j]] = [r[j], r[i]]; setLayout({ rows: r }); }}
-                        aria-label={`Move ${o.label} ${d === -1 ? 'up' : 'down'}`} className="px-1.5 text-slate-400 hover:text-cyan-300 disabled:opacity-30">{lab}</button>))}
                     <button onClick={() => setLayout({ rows: layout.rows.filter(x => x !== o.indicator) })} aria-label={`Hide ${o.label}`}
                       className="px-1.5 text-slate-400 hover:text-red-400">×</button>
                   </td>
                 )}
               </tr>
             ))}
-            {!layout.rows.some(k => me[k]) && <tr><td colSpan={4} className="py-3 text-xs text-slate-500">No indicators shown. Click Customize to add some.</td></tr>}
+            {!layout.rows.some(k => me[k]) && <tr><td colSpan={5} className="py-3 text-xs text-slate-500">No indicators shown. Click Customize to add some.</td></tr>}
           </tbody>
         </table>
       </Card>
