@@ -64,7 +64,9 @@ def collect_obs(payload) -> list[dict]:
 
 NUM = re.compile(r"(?<![\w-])\$?\d[\d,]*(?:\.\d+)?%?")
 # Spans that hold numbers we never check: citation ids, district ids/names, years and year ranges.
-_SKIP = re.compile(r"\[obs:[^\]]+\]|\b(?:SD|HD)-\d+\b|\bDistrict \d+\b|\b(?:19|20)\d{2}(?:[–-](?:19|20)\d{2})?\b")
+_SKIP = re.compile(r"\[obs:[^\]]+\]|\b(?:SD|HD)-\d+\b|\bDistrict \d+\b|\b(?:19|20)\d{2}(?:[–-](?:19|20)\d{2})?\b"
+                   # program thresholds are rules, not data: "200% of poverty", "138% FPL"
+                   r"|\b(?:100|125|130|135|138|150|185|200|250|300|400)%(?=\s*(?:of\s+(?:the\s+)?(?:federal\s+)?poverty|FPL|of\s+FPL))")
 REDACTED = "[figure removed: not from a cited source]"
 
 
