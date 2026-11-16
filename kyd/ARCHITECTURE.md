@@ -142,6 +142,11 @@ poverty ladder (125/138/150/185/200% FPL) plus SNAP households with children, 60
   districts, counties (Kalawao excluded) and state, with 90% MOEs. `high_moe` rows carry `suppressed_cv` and are
   greyed. Education covers ages 25–64. Each row has an obs_id, so the System-2 number check accepts it.
 
+- **LIDAC** (`kyd/etl/load_lidac.py`): Hawaiʻi CAP Low-Income and Disadvantaged Communities layer (2026, 2020 block
+  groups; `data/raw/gis/lidac_bg_flags.csv`) × 2020 block-group population split by area
+  (`kyd/data/bg_district_crosswalk.csv`, written by `build_tract_crosswalk.py`). Indicators `pct_pop_lidac`
+  (flag 1 or 2), `pct_pop_lidac_most` (flag 2), `pop_lidac`; on the map and the district profile.
+
 ## Source verification
 
 `python kyd/verify/run.py` checks every source behind Crystal's program scripts and writes
