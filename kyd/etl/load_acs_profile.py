@@ -205,3 +205,5 @@ if __name__ == "__main__":
     load_laus.build()
     import load_unemp_demographics  # ACS unemployment by sex/age/race/education (breakdown table)
     load_unemp_demographics.build()
+    import load_lidac       # share of residents in LIDAC block groups (needs kyd/data/bg_district_crosswalk.csv)
+    load_lidac.build()

@@ -13,6 +13,8 @@ CORE = ["total_pop", "median_age", "households", "median_hh_income", "per_capita
         "pct_under5", "pct_under18", "pct_65plus", "pct_renter", "pct_rent_burden_30", "median_gross_rent",
         "median_home_value", "pct_no_vehicle", "pct_uninsured", "pct_disability", "pct_veterans",
         "pct_foreign_born", "pct_limited_english", "pct_bachelors_plus", "pct_broadband", "unemployment_rate"]
+# Non-ACS indicators shown on the district profile after the ACS core set
+PROFILE_EXTRA = ["pct_pop_lidac", "pct_pop_lidac_most"]
 # Program-analysis indicators (etl/load_programs.py, from Crystal's scripts/ analyses)
 PROGRAM_IND = ["pct_below_200fpl", "pct_snap_gap", "snap_gap_persons", "pop_below_200fpl", "snap_hh_count",
                "snap_persons_est", "pct_children_below_fpl", "children_below_fpl", "pct_adults_18_64_below_fpl",
@@ -30,14 +32,15 @@ def get_district_profile(geo_id: str, indicators: list[str] | None = None) -> Di
     g = r.geography(geo_id)
     if not g:
         raise KeyError(geo_id)
-    inds = indicators or CORE
+    inds = indicators or CORE + PROFILE_EXTRA
     order = {k: i for i, k in enumerate(inds)}
     obs = sorted(r.observations([geo_id], inds), key=lambda o: order.get(o.indicator, 99))
+    acs = [o for o in obs if o.source_id.startswith("acs")]
     comps = {"state": r.observations(["HI"], inds)}
     if g.counties:
         comps["county"] = r.observations([g.counties[0]], inds)
     return DistrictProfile(geography=g, observations=obs, comparisons=comps,
-                           peers=peer_districts(geo_id), data_as_of=max((o.vintage for o in obs), default=""))
+                           peers=peer_districts(geo_id), data_as_of=max((o.vintage for o in acs or obs), default=""))
 
 
 def compare_district(a: str, b: str, indicators: list[str] | None = None) -> dict:

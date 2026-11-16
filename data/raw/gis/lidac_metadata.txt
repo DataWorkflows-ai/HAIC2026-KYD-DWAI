@@ -1,0 +1,140 @@
+Project: Hawai'i LIDAC Analysis – CAP Support
+Date: 2026-03-19
+Prepared by: Brook Tessema / SSG / brook@ssg.coop
+
+--------------------------------------------------
+1. Overview
+--------------------------------------------------
+This layer contains the geospatial data used to identify Low-Income and Disadvantaged Communities (LIDAC) across Hawaiʻi for the Climate Action Plan (CAP) and LIDAC Benefits Analysis. The analysis combines local vulnerability indices (Oʻahu and Kauaʻi), statewide ALICE data, statewide social vulnerability indicators (SVI), and Hawaiian Home Lands data at the Census Block Group level.
+
+The analysis distinguishes between:
+- Non-LIDAC Communities (Value: 0)
+- LIDAC communities (baseline level; Value 1)
+- Most vulnerable LIDAC communities (higher screening thresholds; Value 2)
+
+All levels are documented in the final output layers.
+
+--------------------------------------------------
+2. Coordinate Reference System (CRS)
+--------------------------------------------------
+All final outputs are provided in:
+- CRS name: NAD 1983 UTM Zone 4N
+- EPSG: 3750
+
+Input datasets may have been provided in other CRS and were reprojected for consistency.
+
+--------------------------------------------------
+3. Folder Structure provided to GIS Program
+--------------------------------------------------
+Hawaii_LIDAC_Analysis/
+  1_LIDAC_layers/  - Final LIDAC GIS layers (block group level, overlays)
+  2_maps/          - Final map layouts used in the CAP / LIDAC analysis
+
+--------------------------------------------------
+4. Key Input Datasets
+--------------------------------------------------
+- ALICE Subcounty Data (United for ALICE, 2025)
+  Description: CCD, CDP, and ZIP-level data on Poverty and ALICE households.
+  Use: Identify communities where ≥50% (and ≥70% for most vulnerable) of households are ALICE + 
+  Poverty.
+  url: https://www.unitedforalice.org/introducing-ALICE/Hawai'i 
+
+- CZMP Social Vulnerability Indicators for Coastal Hazards (2020, Block Group)
+  Description: Block group–level social, demographic, and economic indicators relevant to sea level 
+  rise and coastal hazards.
+  Use: Identify vulnerable communities using indicator counts (>6 for baseline LIDAC; ≥8 for most 
+  vulnerable).
+  url: https://planning.hawaii.gov/gis/download-gis-data-expanded/ 
+
+- Oʻahu Social Vulnerability Index
+  Description: Tract-level vulnerability index from the City and County of Honolulu (Very Low to Very 
+  High).
+  Use: High and Very High tracts converted to block groups and used as the primary vulnerability 
+  source for Oʻahu.
+  url: //https://services.arcgis.com/tNJpAOha4mODLkXz/arcgis/rest/services/Oahu_Social_Vulnerability_Index/FeatureServer
+
+- Kauaʻi CAP Vulnerability & Equity Analysis
+  Description: Local vulnerability assessment used to identify High and Most Vulnerable communities.
+  Use: High and Most Vulnerable tracts converted to block groups and used as the primary vulnerability    
+  source for Kauaʻi.
+  url: https://www.arcgis.com/apps/mapviewer/index.html?webmap=0d7578899a1f46f0a9408fd8ff94c43e 
+
+- Census Block Groups (2020) & Designated Places (CDPs)
+  Description: Statewide Census boundaries used as the common spatial unit.
+
+--------------------------------------------------
+5. Output Layers (1_LIDAC_layers/)
+--------------------------------------------------
+- HI_LIDAC_Unified.gpkg 
+  Description: Final statewide LIDAC layer at the Census Block Group level. Includes Unified LIDAC  
+  field with three levels of LIDAC designation:
+      * 2 = Highest vulnerablility
+      * 1 = Baseline LIDAC Communities
+      * 0 = Non LIDAC
+
+  Administrative & Ranking Fields:
+    - bg_geoid         : 12-character Block Group ID
+    - county           : County name
+    - cdp_name         : Census Designated Place (community name)
+    - unified_LIDAC    : Unified Final LIDAC (Max rank across all sources)
+    - lidac_statewide  : Statewide rank based on ALICE & SVI
+    - lidac_oahu       : Oʻahu LIDAC Rank (0, 1, 2)
+    - lidac_kauai      : Kauaʻi LIDAC Rank (0, 1, 2)
+  
+  County-Specific Vulnerability Scores:
+    - oahu_sovi_rank   : Oʻahu Social Vulnerability Rank (1-5)
+    - oahu_sovi_pct    : Oʻahu Raw SVI Z-Score/Percentile
+    - kauai_svi_pct    : Kauaʻi Local Equity Percentile
+      
+  Economic & Household Indicators (ALICE):
+    - hh_total         : Total Count of Households
+    - hh_poverty       : Households below Federal Poverty Level
+    - hh_alice         : ALICE Households (Above Poverty; Below ALICE)
+    - hh_above_alice   : Financially stable households
+    - hh_poverty+alice : Combined ALICE and Poverty households
+
+  Vulnerability Drivers/Indicators (Statewide SVI):
+
+  Theme 1: Socioeconomic Status
+    - Education    : % Pop. (25+) with no high-school diploma
+    - Poverty      : % Pop. for whom poverty status is determined
+    - Income_Def   : Aggregate income deficit (dollars)
+    - Industry_A   : % Employed in nature-based or service industries
+
+  Theme 2: Household Composition & Disability
+    - Over_65      : % Population over the age of 65
+    - Under_5      : % Population under the age of 5
+    - Single_Par   : % Single Parent Households with children <18
+    - Househol_1   : % Population of female householders
+    - Disability   : % Population with a disability
+
+  Theme 3: Minority Status & Language
+    - Race         : % Native Hawaiian or Pacific Islander
+    - Hispanic_L   : % Population identifying as Hispanic or Latino
+    - Limited_En   : % Households that speak "limited English"
+
+  Theme 4: Housing & Transportation
+    - Vehicles     : % Households with no access to a vehicle
+    - Household    : % No/limited internet or computer access
+    - Built_befo   : % Households built before 1970
+    - Housing_Te   : % Households that are renter-occupied
+    - svi_ind_count: Number of SVI indicators met
+
+--------------------------------------------------
+6. Method Summary
+--------------------------------------------------
+1) Established Census Block Groups (2020) as the common spatial unit.
+2) Applied local vulnerability indices for Oʻahu and Kauaʻi as primary sources for both counties.
+3) Applied ALICE and statewide SVI as supplemental screening for Oʻahu and Kauaʻi but primary source for other counties.
+4) Defined baseline LIDAC (1) using ALICE ≥50% or SVI >6.
+5) Defined most vulnerable LIDAC (2) using: Very High local vulnerability, SVI ≥8, ALICE ≥70%, or Hawaiian Home Lands.
+6) Created a categorical unified_LIDAC field by taking the highest LIDAC ranking identified across the three datasets (Statewide, Oʻahu, Kauaʻi).
+7) Assigned CDP names to block groups for community-level summaries.
+
+--------------------------------------------------
+7. Notes and Limitations
+--------------------------------------------------
+- LIDAC classification is a screening tool and does not replace community engagement or local knowledge.
+- Vulnerability varies within CDPs; block groups remain the analytical unit.
+- The most vulnerable designation supports prioritization and does not imply exclusion of other LIDAC communities.
+- The unified lidac will differ from the statewide lidac for some of the Oahu and Kauai fields because their localized vulnerability analyses (SVI) was incorporated into the unified lidac score. For example, if a community is highly vulnerable on the Oahu or Kauai SVI but low on the statewide lidac, the unified lidac would show a higher score (different values).
