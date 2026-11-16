@@ -19,11 +19,24 @@ const TABS = [
 const TAB_IDS: string[] = TABS.map(t => t.id);
 const GEO_RE = /^(HD|SD)-\d{2}$|^HI$|^CNTY-\d{5}$/;
 
-/** Shareable links: #/HD-22/map opens House District 22 on the Map tab. */
+/** Shareable links: /house-22/map opens House District 22 on the Map tab (also /senate-12, /state;
+ *  older #/HD-22/map links still work). */
+const toSlug = (geo: string) => geo === 'HI' ? 'state' : geo.startsWith('HD') ? `house-${parseInt(geo.slice(3), 10)}`
+  : geo.startsWith('SD') ? `senate-${parseInt(geo.slice(3), 10)}` : geo.toLowerCase();
+function fromSlug(s: string | undefined): string | undefined {
+  if (!s) return undefined;
+  const t = s.toLowerCase(), m = t.match(/^(house|senate|hd|sd)-?(\d{1,2})$/);
+  if (m) {
+    const g = `${m[1].startsWith('s') ? 'SD' : 'HD'}-${m[2].padStart(2, '0')}`;
+    return GEO_RE.test(g) ? g : undefined;
+  }
+  if (t === 'state' || t === 'hi') return 'HI';
+  return GEO_RE.test(s.toUpperCase()) ? s.toUpperCase() : undefined;
+}
 function readHash(): { geo?: string; tab?: string } {
-  const [g, t] = decodeURIComponent(window.location.hash.replace(/^#\/?/, '')).split('/');
-  const geo = g?.toUpperCase();
-  return { geo: geo && GEO_RE.test(geo) ? geo : undefined, tab: t && TAB_IDS.includes(t) ? t : undefined };
+  const raw = window.location.hash ? window.location.hash.replace(/^#\/?/, '') : window.location.pathname.replace(/^\/+/, '');
+  const [g, t] = decodeURIComponent(raw).split('/');
+  return { geo: fromSlug(g), tab: t && TAB_IDS.includes(t) ? t : undefined };
 }
 
 // A shared link wins over the last-visited district and tab, from the very first render.
@@ -49,11 +62,12 @@ export default function App() {
     const apply = () => { const h = readHash(); if (h.geo) setGeo(h.geo); if (h.tab) setTab(h.tab); };
     apply();
     window.addEventListener('hashchange', apply);
-    return () => window.removeEventListener('hashchange', apply);
+    window.addEventListener('popstate', apply);
+    return () => { window.removeEventListener('hashchange', apply); window.removeEventListener('popstate', apply); };
   }, []);
   useEffect(() => {
-    const want = `#/${geo}/${tab}`;
-    if (window.location.hash !== want) window.history.replaceState(null, '', want);
+    const want = `/${toSlug(geo)}/${tab}`;
+    if (window.location.pathname !== want || window.location.hash) window.history.replaceState(null, '', want);
   }, [geo, tab]);
   const ask = (q: string) => { setPending(q); setTab('ask'); };
   const districtControl = (
