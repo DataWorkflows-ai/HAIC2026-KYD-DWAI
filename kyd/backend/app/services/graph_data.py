@@ -36,15 +36,15 @@ CAPABILITIES = {
     "snap_gap": ("SNAP eligible-vs-enrolled gap", "snap",
                  ["census.S1701.house", "census.S1701.senate", "census.S2201.house", "census.S2201.senate",
                   "census.DP02.house", "census.DP02.senate", "processed.snap_demographics"]),
-    "tanf_proxy": ("TANF/TAONF eligibility proxy", None, ["census.S1701.house", "census.S1701.senate"]),
-    "tanf_by_island": ("TANF caseload by island", None,
+    "tanf_proxy": ("TANF/TAONF eligibility proxy", "tanf", ["census.S1701.house", "census.S1701.senate"]),
+    "tanf_by_island": ("TANF caseload by island", "tanf",
                        ["dhs.bessd_sfy2026", "processed.bessd_csv", "processed.poverty_estimates", "dhs.databook2025"]),
-    "tanf_underenrollment": ("TANF demographic under-enrollment", None,
+    "tanf_underenrollment": ("TANF demographic under-enrollment", "tanf",
                              ["census.S1701.house", "census.S1701.senate", "dhs.databook2025"]),
-    "ga_proxy": ("General Assistance need lenses", None,
+    "ga_proxy": ("General Assistance need lenses", "ga",
                  ["census.S1810.house", "census.S1810.senate", "census.S1701.house", "census.S1701.senate",
                   "census.DP05.house", "census.DP05.senate", "dhs.databook2025"]),
-    "aabd": ("AABD need lenses", None,
+    "aabd": ("AABD need lenses", "aabd",
              ["census.S1810.house", "census.S1810.senate", "census.S0103.senate", "census.DP02.house",
               "census.DP02.senate", "dhs.databook2025"]),
     "medquest": ("Med-QUEST enrollment and uninsured filter", "med_quest",
@@ -129,14 +129,16 @@ def build() -> dict:
     srcs = {s.source_id: s for s in r.sources()}
     for s in srcs.values():
         node("Source", s.source_id, publisher=s.publisher, title=s.title, url=s.url, release_date=s.release_date)
-    default_src = next(iter(srcs), None)
+    default_src = "acs5_2024_dp_sld" if "acs5_2024_dp_sld" in srcs else next(iter(srcs), None)
     for i in r.indicators():
         node("Indicator", i["indicator"], label=i.get("label"), unit=i.get("unit"), topic=i.get("topic"))
         if i.get("acs"):
             node("SourceTable", i["acs"], table=str(i["acs"]).split("_")[0])
             rel("DERIVED_FROM", "Indicator", i["indicator"], "SourceTable", i["acs"])
-            if default_src:
-                rel("PUBLISHED_BY", "SourceTable", i["acs"], "Source", default_src)
+            tbl = str(i["acs"]).split("_")[0].lower()
+            src = next((s for s in srcs if f"_{tbl}_" in s), default_src)   # e.g. acs5_2024_s1701_sld
+            if src:
+                rel("PUBLISHED_BY", "SourceTable", i["acs"], "Source", src)
 
     # verification: datasets, their latest check results, the run that produced them
     rp = d / "verification_report.json"

@@ -195,3 +195,5 @@ def build() -> None:
 
 if __name__ == "__main__":
     build()
+    import load_programs  # program-analysis indicators live in the same database; rebuild them too
+    load_programs.build()

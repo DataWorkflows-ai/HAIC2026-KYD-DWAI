@@ -10,8 +10,61 @@
    "low_income_households"
   ],
   "proxy_indicators": [
+   "pct_below_200fpl",
    "pct_below_fpl",
    "pct_snap_hh"
+  ],
+  "url_verified": false
+ },
+ {
+  "program_id": "tanf",
+  "name": "TANF / TAONF (Financial Assistance)",
+  "agency": "DHS / BESSD",
+  "level": "federal",
+  "summary": "Monthly cash assistance and work supports for low-income families with children.",
+  "official_url": "https://humanservices.hawaii.gov/bessd/",
+  "populations": [
+   "families_with_children",
+   "low_income_households"
+  ],
+  "proxy_indicators": [
+   "pct_children_below_fpl",
+   "pct_child_poverty"
+  ],
+  "url_verified": false
+ },
+ {
+  "program_id": "ga",
+  "name": "General Assistance",
+  "agency": "DHS / BESSD",
+  "level": "state",
+  "summary": "Cash assistance for adults 18–64 without dependent children who are temporarily disabled and unable to work.",
+  "official_url": "https://humanservices.hawaii.gov/bessd/",
+  "populations": [
+   "people_with_disabilities",
+   "low_income_adults"
+  ],
+  "proxy_indicators": [
+   "pct_adults_18_64_below_fpl",
+   "pct_disability"
+  ],
+  "url_verified": false
+ },
+ {
+  "program_id": "aabd",
+  "name": "AABD (Aid to the Aged, Blind and Disabled)",
+  "agency": "DHS / BESSD",
+  "level": "state",
+  "summary": "Cash assistance for aged, blind or disabled people who do not qualify for, or are awaiting, SSI.",
+  "official_url": "https://humanservices.hawaii.gov/bessd/",
+  "populations": [
+   "older_adults",
+   "people_with_disabilities"
+  ],
+  "proxy_indicators": [
+   "pct_disability",
+   "pct_65plus_poverty",
+   "pct_foreign_born"
   ],
   "url_verified": false
  },
