@@ -26,6 +26,18 @@ export default function App() {
 
   useEffect(() => { api.geographies().then(setGeos); api.health().then(setHealth).catch(() => setHealth(null)); }, []);
   const ask = (q: string) => { setPending(q); setTab('ask'); };
+  const districtControl = (
+    <div className="flex items-center gap-2">
+      <GeoPicker geos={geos} value={geo} onChange={setGeo} />
+      {(geo.startsWith('HD') || geo.startsWith('SD')) && (
+        <button onClick={() => setOffice(office === geo ? null : geo)} aria-pressed={office === geo}
+          title={office === geo ? 'This is your office (click to clear)' : 'Set as my office: the map and agent default to it'}
+          className={`p-1.5 rounded-md border ${office === geo ? 'border-amber-600 text-amber-300' : 'border-premium-700 text-slate-500 hover:text-amber-300'}`}>
+          <Star className="w-4 h-4" fill={office === geo ? 'currentColor' : 'none'} />
+        </button>
+      )}
+    </div>
+  );
 
   return (
     <div className="flex flex-col h-screen overflow-hidden">
@@ -54,20 +66,12 @@ export default function App() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
-          <GeoPicker geos={geos} value={geo} onChange={setGeo} />
-          {(geo.startsWith('HD') || geo.startsWith('SD')) && (
-            <button onClick={() => setOffice(office === geo ? null : geo)} aria-pressed={office === geo}
-              title={office === geo ? 'This is your office (click to clear)' : 'Set as my office: the map and agent default to it'}
-              className={`p-1.5 rounded-md border ${office === geo ? 'border-amber-600 text-amber-300' : 'border-premium-700 text-slate-500 hover:text-amber-300'}`}>
-              <Star className="w-4 h-4" fill={office === geo ? 'currentColor' : 'none'} />
-            </button>
-          )}
-        </div>
+        {/* On Overview the district picker sits in the page header next to the district name; elsewhere it stays here. */}
+        <div className="flex items-center gap-2 min-w-[1px]">{tab !== 'overview' && districtControl}</div>
       </header>
 
       <main className="flex-grow overflow-y-auto p-4 lg:p-6">
-        {tab === 'overview' && <OverviewTab geo={geo} geos={geos} onAsk={ask} onPick={setGeo} />}
+        {tab === 'overview' && <OverviewTab geo={geo} geos={geos} onAsk={ask} onPick={setGeo} picker={districtControl} />}
         {tab === 'map' && <MapTab geos={geos} geo={geo} office={office} onPick={setGeo} onOpen={g => { setGeo(g); setTab('overview'); }} />}
         {tab === 'compare' && <CompareTab geos={geos} geo={geo} />}
         {tab === 'rankings' && <RankingsTab onOpen={g => { setGeo(g); setTab('overview'); }} />}
