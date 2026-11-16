@@ -6,7 +6,7 @@ from fastapi.staticfiles import StaticFiles
 from .config import settings
 from .routers import api
 
-app = FastAPI(title="Know Your District API", version="0.1.0",
+app = FastAPI(title="Know Your District API", version="1.0.0",
               description="HAIC 2026 Challenge 1. Every figure is an Observation with a citation.")
 app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:5173"], allow_methods=["*"], allow_headers=["*"])
 app.include_router(api)
