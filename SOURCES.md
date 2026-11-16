@@ -1,6 +1,6 @@
 # Sources
 
-Every source Know Your District draws on (27 in all). Generated from `kyd/data/sources.csv` by `kyd/etl/make_sources_md.py`; the app's Sources tab shows the same list. Figure-level citations (source, vintage, method, margin of error) travel with every number through the API.
+Every source Know Your District draws on (28 in all). Generated from `kyd/data/sources.csv` by `kyd/etl/make_sources_md.py`; the app's Sources tab shows the same list. Figure-level citations (source, vintage, method, margin of error) travel with every number through the API.
 
 ## Demographics
 
@@ -78,3 +78,9 @@ Every source Know Your District draws on (27 in all). Generated from `kyd/data/s
 | Source | Publisher | What it provides | Vintage | Used in | Accessed |
 |---|---|---|---|---|---|
 | [World Imagery and ArcGIS Maps SDK](https://www.arcgis.com/home/item.html?id=10df2279f9684e4a9f6a7f08febac2a9) | Esri | Satellite basemap tiles and map rendering | current | Map | 2026-11 |
+
+## Health
+
+| Source | Publisher | What it provides | Vintage | Used in | Accessed |
+|---|---|---|---|---|---|
+| [Births and deaths by community of residence (Hawaiʻi-IBIS), allocated to districts (ESTIMATE)](https://hhdw.org/report/) | Hawaiʻi Department of Health, Hawaii Health Data Warehouse | Live births and all-cause deaths 2000–2024, allocated to 2022 districts by 2020 Census block population; 2020–2024 averages and crude rates | 2000–2024 (updated 2026-01-05) | Programs (Births and deaths), Overview (add indicator), Agent | 2026-11-15 |

@@ -16,7 +16,7 @@ Every number on screen traces to a named source, vintage and method, with margin
 4. **Rankings** — all 51 House or 25 Senate districts on poverty, SNAP gap, unemployment, LIDAC share and violent crime (Oʻahu), sortable, printable, CSV; the sorted column also colors the map above the table, and hovering either one highlights the district in both.
 5. **Programs** — SNAP uptake peers (districts with similar need that reach more people, and how many more this district would reach at their rate), 15 programs scored for fit, cross-program eligibility estimates (school meals, Lifeline, LIHEAP, WIC, Med-QUEST), unemployment by group, test scores, school meals, HUD housing, crime (Oʻahu, estimate), island Med-QUEST/TANF/SNAP context.
 6. **Ask** — suggested questions for the selected district, or plain-English questions ("Which programs fit HD 44?", "Compare SD 12 with the state", "Unemployment by age in HD 5"). Answers only use figures returned by tools and cite each one.
-7. **Sources** — a 27-source library (also in [SOURCES.md](SOURCES.md)) and the build-time verification report (344 checks pass, 0 fail).
+7. **Sources** — a 28-source library (also in [SOURCES.md](SOURCES.md)) and the build-time verification report (344 checks pass, 0 fail).
 
 ## What the data covers
 
