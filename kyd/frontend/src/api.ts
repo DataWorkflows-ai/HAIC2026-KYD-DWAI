@@ -63,6 +63,10 @@ export type ProgramContext = {
       statewide_tanf_share_percent: number; under_enrollment_pp: number | null; note: string }[] };
 };
 
+export type BRow = { obs_id: string; label: string; group: string; sex: string; value: number | null; moe: number | null; flags: string[]; source_table: string };
+export type Unemployment = { geo_id: string; county_geo_id: string | null; dimensions: Record<string, string>;
+  rows: Record<string, BRow[]>; county: Record<string, BRow[]>; state: Record<string, BRow[]>; notes: string[]; source: string };
+
 // Bearer token from the login flow (see backend/app/auth.py). Stored per tab; absent = anonymous viewer.
 function authHeader(): Record<string, string> {
   try { const t = sessionStorage.getItem('kyd_token'); return t ? { Authorization: `Bearer ${t}` } : {}; }
@@ -81,6 +85,7 @@ export const api = {
   profile: (g: string) => j<Profile>(`/api/districts/${g}`),
   programs: (g: string) => j<ProgramMatch[]>(`/api/districts/${g}/programs`),
   crossProgram: (g: string) => j<CrossProgram>(`/api/districts/${g}/cross-program`),
+  unemployment: (g: string) => j<Unemployment>(`/api/districts/${g}/unemployment`),
   programContext: (g: string) => j<ProgramContext>(`/api/districts/${g}/program-context`),
   compare: (a: string, b: string) => j<{ a: string; b: string; rows: { indicator: string; a: Obs; b: Obs; significant: boolean }[] }>(`/api/compare?a=${a}&b=${b}`),
   mapSummary: (t: string) => j<MapSummary>(`/api/map-summary?geo_type=${t}`),

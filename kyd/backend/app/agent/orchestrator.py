@@ -4,7 +4,7 @@ import logging
 from ..models import AgentAnswer, Observation, ProgramMatch
 from ..services.repo import repo
 from . import system1, system2
-from .tools import compare_district, estimate_cross_program, find_programs, get_district_profile
+from .tools import compare_district, estimate_cross_program, unemployment_breakdown, find_programs, get_district_profile
 
 log = logging.getLogger("kyd.agent")
 HEADLINE = ["total_pop", "median_hh_income", "pct_below_fpl", "pct_65plus", "pct_rent_burden_30", "pct_uninsured"]
@@ -42,6 +42,25 @@ def answer_s1(rt: system1.Route) -> AgentAnswer:
         return AgentAnswer(text=f"Programs most relevant to {name(g)}, ranked by indicated need relative to the state:\n"
                            + "\n".join(lines) + "\n\nEligibility is determined by each administering agency.",
                            route="S1", intent="programs", geo_ids=[g], observations=obs, programs=pm, trace=trace)
+    if rt.intent == "unemployment":
+        try:
+            ub = unemployment_breakdown(g)
+        except KeyError:
+            ub = None
+        if ub:
+            def fmt(r):
+                v = f"{r['value']:g}% ±{r['moe']:g}" if r["value"] is not None else "n/a"
+                return f"{r['label']}: {v}" + (" (unreliable)" if r["flags"] else "") + f" [obs:{r['obs_id']}]"
+            lines = []
+            for d, title in ub["dimensions"].items():
+                rows = ub["rows"].get(d, [])
+                if rows:
+                    lines.append(f"{title}: " + "; ".join(fmt(r) for r in rows))
+            ov = (ub["county"].get("overall") or [None])[0], (ub["state"].get("overall") or [None])[0]
+            ref = ", ".join(f"{n} {r['value']:g}% [obs:{r['obs_id']}]" for n, r in zip(("county", "state"), ov) if r)
+            return AgentAnswer(text=f"Unemployment in {name(g)} (ACS 2020–2024, 90% margins):\n- " + "\n- ".join(lines)
+                               + (f"\nFor comparison: {ref}." if ref else "") + "\n\n" + " ".join(ub["notes"][:3]),
+                               route="S1", intent="unemployment", geo_ids=[g], trace=trace)
     if rt.intent == "cross_program":
         cp = estimate_cross_program(g)
         ids = {i for e in cp["estimates"] for i in e["input_obs_ids"]}

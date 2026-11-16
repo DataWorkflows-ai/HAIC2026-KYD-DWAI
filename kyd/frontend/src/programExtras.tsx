@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ExternalLink } from 'lucide-react';
-import { api, type CrossProgram, type Obs, type ProgramContext } from './api';
+import { api, type BRow, type CrossProgram, type Obs, type ProgramContext, type Unemployment } from './api';
 import { Card, Empty, Figure, Pill } from './ui';
 
 const n = (v: number | null | undefined) => (v === null || v === undefined ? 'n/a' : Math.round(v).toLocaleString());
@@ -59,6 +59,7 @@ export function ProgramContextCards({ geo }: { geo: string }) {
   return (
     <>
       {c.employment.district.length > 0 && <EmploymentCard e={c.employment} county={c.county} />}
+      <UnemploymentBreakdown geo={geo} county={c.county} />
       {c.school_meals.observations.length > 0 && (
         <Card title={<span className="normal-case">{c.school_meals.title}</span>} right={<Pill>schools in district</Pill>}>
           <div className="space-y-2">
@@ -215,6 +216,46 @@ function EmploymentCard({ e, county }: { e: ProgramContext['employment']; county
       <div className="flex justify-between text-[10px] text-slate-500 font-mono"><span>{e.trend[0]?.year}</span><span>2020 peak {e.trend.find(t => t.year === 2020)?.state ?? ''}%</span><span>{e.trend[e.trend.length - 1]?.year}</span></div>
       <ul className="mt-2 text-xs text-slate-500 list-disc ml-4">{e.notes.map(n => <li key={n}>{n}</li>)}</ul>
       <div className="text-xs text-slate-500">{e.source}</div>
+    </Card>
+  );
+}
+
+/** Who is unemployed: district vs county vs state by sex, age, race/ethnicity, education (ACS 2020–2024). */
+function UnemploymentBreakdown({ geo, county }: { geo: string; county: string }) {
+  const [u, setU] = useState<Unemployment | null>(null);
+  const [dim, setDim] = useState('sex');
+  useEffect(() => { setU(null); api.unemployment(geo).then(setU).catch(() => setU(null)); }, [geo]);
+  if (!u) return null;
+  const cell = (r?: BRow) => {
+    if (!r || r.value === null) return <span className="text-slate-600">n/a</span>;
+    const weak = r.flags.includes('suppressed_cv');
+    return <span className={`font-mono ${weak ? 'text-slate-500 italic' : 'text-cyan-300'}`} title={weak ? 'High uncertainty (CV ≥ 30%)' : `${r.source_table} · obs:${r.obs_id}`}>
+      {r.value.toFixed(1)}%<span className="text-[10px] text-slate-500"> ±{r.moe?.toFixed(1)}</span>{weak && ' ⚠'}</span>;
+  };
+  const key = (r: BRow) => `${r.group}|${r.sex}`;
+  const byKey = (xs?: BRow[]) => Object.fromEntries((xs ?? []).map(r => [key(r), r]));
+  const ct = byKey(u.county[dim]), st = byKey(u.state[dim]);
+  const overall = (x: Record<string, BRow[]>) => x.overall?.[0];
+  return (
+    <Card title={<span className="normal-case">Who is unemployed (ACS 2020–2024)</span>} right={<Pill>90% margins</Pill>}>
+      <div className="flex flex-wrap gap-1 mb-2">
+        {Object.entries(u.dimensions).filter(([d]) => d !== 'overall').map(([d, t]) => (
+          <button key={d} onClick={() => setDim(d)} aria-pressed={dim === d}
+            className={`px-2 py-0.5 rounded text-xs border ${dim === d ? 'border-cyan-700 text-cyan-300' : 'border-premium-700 text-slate-400'}`}>{t.replace('By ', '')}</button>))}
+      </div>
+      <table className="w-full text-xs">
+        <thead><tr className="text-slate-500"><th className="text-left font-normal">Group</th><th className="text-right font-normal">District</th>
+          <th className="text-right font-normal">{county} Co.</th><th className="text-right font-normal">State</th></tr></thead>
+        <tbody>
+          <tr className="border-b border-premium-800"><td className="py-1 text-slate-300">All workers 16+</td>
+            <td className="text-right whitespace-nowrap pl-2">{cell(overall(u.rows))}</td><td className="text-right whitespace-nowrap pl-2">{cell(overall(u.county))}</td><td className="text-right whitespace-nowrap pl-2">{cell(overall(u.state))}</td></tr>
+          {(u.rows[dim] ?? []).map(r => (
+            <tr key={key(r)} className="border-b border-premium-800">
+              <td className="py-1 text-slate-300">{r.label}</td><td className="text-right whitespace-nowrap pl-2">{cell(r)}</td>
+              <td className="text-right whitespace-nowrap pl-2">{cell(ct[key(r)])}</td><td className="text-right whitespace-nowrap pl-2">{cell(st[key(r)])}</td></tr>))}
+        </tbody>
+      </table>
+      <ul className="mt-2 text-[11px] text-slate-500 list-disc ml-4">{u.notes.map(n => <li key={n}>{n}</li>)}</ul>
     </Card>
   );
 }

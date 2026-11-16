@@ -162,6 +162,12 @@ def estimate_cross_program(geo_id: str) -> dict:
     return estimate(geo_id)
 
 
+def unemployment_breakdown(geo_id: str, dimension: str = "all") -> dict:
+    """Unemployment rate by sex, age, race/ethnicity or education (ACS 2020–2024), with county and state rows."""
+    from ..services.breakdowns import unemployment
+    return unemployment(geo_id, dimension)
+
+
 def get_map_layer(indicator: str, geo_type: str = "sldl") -> dict:
     r = repo()
     ids = [g.geo_id for g in r.geographies(geo_type)]
@@ -213,6 +219,14 @@ TOOL_SPECS = [  # JSON-schema descriptions handed to System 2
                     "a district likely meet the eligibility rules of other programs (free school meals, Lifeline, "
                     "LIHEAP, WIC, Med-QUEST income test). Each estimate has its rule, citation, range and confidence.",
      "parameters": {"type": "object", "properties": {"geo_id": {"type": "string"}}, "required": ["geo_id"]}},
+    {"name": "unemployment_breakdown",
+     "description": "Unemployment rate (%, with 90% MOE) for a district by sex, age group, race/ethnicity or "
+                    "education (ages 25-64), with the district's county and the state for comparison. ACS 2020-2024. "
+                    "Rows flagged suppressed_cv are unreliable; say so if you use them.",
+     "parameters": {"type": "object", "properties": {"geo_id": {"type": "string"},
+                    "dimension": {"type": "string", "enum": ["all", "overall", "sex", "age_collapsed",
+                                                             "race_ethnicity", "education"]}},
+                    "required": ["geo_id"]}},
     {"name": "district_connections",
      "description": "Relationships from the knowledge graph. With only `a`: the district's county, neighborhoods, "
                     "overlapping House/Senate districts, neighborhood boards, council districts and most similar peer "
@@ -224,4 +238,5 @@ TOOL_SPECS = [  # JSON-schema descriptions handed to System 2
 TOOLS = {"get_district_profile": get_district_profile, "compare_district": compare_district,
          "find_programs": find_programs, "estimate_eligible": estimate_eligible,
          "get_map_layer": get_map_layer, "export_summary": export_summary,
-         "district_connections": district_connections, "estimate_cross_program": estimate_cross_program}
+         "district_connections": district_connections, "estimate_cross_program": estimate_cross_program,
+         "unemployment_breakdown": unemployment_breakdown}

@@ -34,6 +34,7 @@ INTENTS = {
     "cross_program": [r"\balso (be )?(eligible|qualif\w*)\b", r"\bother programs?\b", r"\bcross[- ]program\w*\b",
                       r"\b(snap|food stamp\w*)\b.{0,60}\b(also|other|qualif\w*|eligib\w*)\b",
                       r"\bautomatically (eligible|qualif\w*|enrolled)\b", r"\bcategorical\w*\b", r"\badjunctive\w*\b"],
+    "unemployment": [r"\bunemploy\w*", r"\bjobless\w*", r"\blabor force\b", r"\bout of work\b"],
     "compare": [r"\bcompar\w*", r"\bvs\.?\b", r"\bversus\b", r"\bdifference between\b"],
     "programs": [r"\bprogram\w*", r"\bassistance\b", r"\bbenefit\w*", r"\beligib\w*", r"\boutreach\b",
                  r"\bunderserved\b", r"\buptake\b", r"\bgap\b"],
@@ -118,6 +119,9 @@ def resolve_districts(text: str, context_geo: str | None, places: list[dict] | N
 def classify(text: str) -> tuple[str | None, float, list[str]]:
     t = normalize(text)
     hits = {k: sum(bool(re.search(p, t)) for p in ps) for k, ps in INTENTS.items()}
+    if hits["unemployment"]:          # "unemployment by race in HD 5" also hits profile words; it is the narrower intent
+        hits["unemployment"] += hits["profile"]
+        hits["profile"] = 0
     if hits["cross_program"]:          # a cross-program question also mentions programs/eligibility; it is the narrower intent
         hits["cross_program"] += hits.pop("programs")
     ranked = sorted(hits.items(), key=lambda kv: kv[1], reverse=True)
