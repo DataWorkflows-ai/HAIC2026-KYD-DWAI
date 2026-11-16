@@ -76,6 +76,22 @@ export function ProgramContextCards({ geo }: { geo: string }) {
             {c.school_meals.source} <ExternalLink className="w-3 h-3" /></a>
         </Card>
       )}
+      {c.test_scores && c.test_scores.observations.length > 0 && (
+        <Card title={<span className="normal-case">{c.test_scores.title}</span>} right={<Pill>schools in district</Pill>}>
+          <div className="space-y-2">
+            {c.test_scores.observations.map(o => (
+              <div key={o.indicator} className="flex items-baseline justify-between gap-2">
+                <span className="text-xs text-slate-400">{o.label}</span>
+                <span className="flex items-baseline gap-2"><Figure o={o} />
+                  {c.test_scores.state[o.indicator] != null && <span className="text-xs text-slate-500">State {c.test_scores.state[o.indicator]}%</span>}</span>
+              </div>
+            ))}
+          </div>
+          <p className="mt-2 text-xs text-slate-500">{c.test_scores.note}</p>
+          <a href={c.test_scores.url} target="_blank" rel="noreferrer" className="mt-1 flex items-center gap-1 text-xs text-cyan-400 hover:underline">
+            {c.test_scores.source} <ExternalLink className="w-3 h-3" /></a>
+        </Card>
+      )}
       {c.hud.observations.length > 0 && (
         <Card title={<span className="normal-case">{c.hud.title}</span>} right={<Pill>as of {c.hud.as_of}</Pill>} className="col-span-full">
           <div className="grid sm:grid-cols-3 lg:grid-cols-7 gap-3">
