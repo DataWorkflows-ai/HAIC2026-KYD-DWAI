@@ -4,6 +4,7 @@ from __future__ import annotations
 import math
 from ..models import DistrictProfile, Observation, ProgramMatch
 from ..services.graph import graph
+from ..services.cache import cached
 from ..services.repo import repo
 from ..services.quality import significantly_different
 
@@ -51,6 +52,7 @@ def compare_district(a: str, b: str, indicators: list[str] | None = None) -> dic
     return {"a": a, "b": b, "rows": rows}
 
 
+@cached
 def peer_districts(geo_id: str, k: int = 4) -> list[str]:
     """kNN on standardized features among districts of the same chamber (§4.1–4.2)."""
     r = repo()
@@ -77,6 +79,7 @@ def peer_districts(geo_id: str, k: int = 4) -> list[str]:
     return [gid for _, gid in d[:k]]
 
 
+@cached
 def chamber_medians(geo_id: str) -> dict[str, float]:
     """Median across districts of the same chamber; the reference when no state value exists."""
     r = repo()
@@ -93,6 +96,11 @@ def chamber_medians(geo_id: str) -> dict[str, float]:
 
 def find_programs(geo_id: str, limit: int = 6) -> list[ProgramMatch]:
     """Rank programs by relevance × gap. The score is transparent and the rationale is returned (§2.5)."""
+    return list(_rank_programs(geo_id)[:limit])
+
+
+@cached
+def _rank_programs(geo_id: str) -> tuple[ProgramMatch, ...]:
     r, gr = repo(), graph()
     obs = _by_ind(r.observations([geo_id], CORE + PROGRAM_IND))
     state = _by_ind(r.observations(["HI"], CORE + PROGRAM_IND))
@@ -135,7 +143,7 @@ def find_programs(geo_id: str, limit: int = 6) -> list[ProgramMatch]:
         out.append(ProgramMatch(program=p, score=round(score, 3), eligible_proxy=need[0],
                                 uptake_proxy=obs.get("pct_snap_hh") if p.program_id == "snap" else None,
                                 gap_note=gap, rationale=why))
-    return sorted(out, key=lambda m: m.score, reverse=True)[:limit]
+    return tuple(sorted(out, key=lambda m: m.score, reverse=True))
 
 
 def estimate_eligible(geo_id: str, program_id: str) -> dict:
@@ -146,6 +154,12 @@ def estimate_eligible(geo_id: str, program_id: str) -> dict:
     obs = repo().observations([geo_id], p.proxy_indicators + ["total_pop"])
     return {"program": p, "observations": obs,
             "note": "Informational population estimate. The administering agency determines eligibility."}
+
+
+def estimate_cross_program(geo_id: str) -> dict:
+    """Likely-eligible counts for other programs, from SNAP participation and income ladders (services/crosswalk.py)."""
+    from ..services.crosswalk import estimate
+    return estimate(geo_id)
 
 
 def get_map_layer(indicator: str, geo_type: str = "sldl") -> dict:
@@ -194,6 +208,11 @@ TOOL_SPECS = [  # JSON-schema descriptions handed to System 2
     {"name": "estimate_eligible", "description": "Population proxy for a program in a district.",
      "parameters": {"type": "object", "properties": {"geo_id": {"type": "string"}, "program_id": {"type": "string"}},
                     "required": ["geo_id", "program_id"]}},
+    {"name": "estimate_cross_program",
+     "description": "From SNAP participation and income-to-poverty counts, estimate how many households or people in "
+                    "a district likely meet the eligibility rules of other programs (free school meals, Lifeline, "
+                    "LIHEAP, WIC, Med-QUEST income test). Each estimate has its rule, citation, range and confidence.",
+     "parameters": {"type": "object", "properties": {"geo_id": {"type": "string"}}, "required": ["geo_id"]}},
     {"name": "district_connections",
      "description": "Relationships from the knowledge graph. With only `a`: the district's county, neighborhoods, "
                     "overlapping House/Senate districts, neighborhood boards, council districts and most similar peer "
@@ -205,4 +224,4 @@ TOOL_SPECS = [  # JSON-schema descriptions handed to System 2
 TOOLS = {"get_district_profile": get_district_profile, "compare_district": compare_district,
          "find_programs": find_programs, "estimate_eligible": estimate_eligible,
          "get_map_layer": get_map_layer, "export_summary": export_summary,
-         "district_connections": district_connections}
+         "district_connections": district_connections, "estimate_cross_program": estimate_cross_program}

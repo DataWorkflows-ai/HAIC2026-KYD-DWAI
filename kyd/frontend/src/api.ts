@@ -40,6 +40,25 @@ export type Verification = {
   capabilities: { capability: string; name: string; program_id: string | null; status: string; datasets: { id: string; status: string; verified_at: string | null }[] }[];
 };
 
+export type CrossEstimate = {
+  program_id: string; name: string; rule: string; source: { title: string; url: string }; unit: string;
+  estimate: number | null; low: number | null; high: number | null; formula: string; input_obs_ids: string[];
+  confidence: 'high' | 'medium' | 'low'; assumptions: string[];
+};
+export type CrossProgram = { geo_id: string; estimates: CrossEstimate[]; note: string };
+export type ProgramContext = {
+  geo_id: string; county: string;
+  medquest: { title: string; sfy: number; statewide: number; source: string; caveats: string[];
+    islands: { island: string; recipients: number; share_of_state_percent: number; enrollment_to_need_ratio: number | null }[];
+    trend: { sfy: number; recipients: number }[] };
+  tanf_island: { title: string; month: string; island?: string; county?: string; tanf_persons?: number; population?: number;
+    tanf_per_1000?: number; poverty_rate_percent?: number; source: string; note: string };
+  county_snap: { title: string; month: string; source: string; rows: { area: string; households: number; persons: number }[] };
+  tanf_underenrollment: { title: string; available: boolean; poverty_population: number | null; caveats: string[];
+    groups: { label: string; poverty_count: number | null; district_poverty_share_percent: number | null;
+      statewide_tanf_share_percent: number; under_enrollment_pp: number | null; note: string }[] };
+};
+
 // Bearer token from the login flow (see backend/app/auth.py). Stored per tab; absent = anonymous viewer.
 function authHeader(): Record<string, string> {
   try { const t = sessionStorage.getItem('kyd_token'); return t ? { Authorization: `Bearer ${t}` } : {}; }
@@ -57,6 +76,8 @@ export const api = {
   geographies: () => j<Geo[]>('/api/geographies'),
   profile: (g: string) => j<Profile>(`/api/districts/${g}`),
   programs: (g: string) => j<ProgramMatch[]>(`/api/districts/${g}/programs`),
+  crossProgram: (g: string) => j<CrossProgram>(`/api/districts/${g}/cross-program`),
+  programContext: (g: string) => j<ProgramContext>(`/api/districts/${g}/program-context`),
   compare: (a: string, b: string) => j<{ a: string; b: string; rows: { indicator: string; a: Obs; b: Obs; significant: boolean }[] }>(`/api/compare?a=${a}&b=${b}`),
   mapSummary: (t: string) => j<MapSummary>(`/api/map-summary?geo_type=${t}`),
   mapLayer: (ind: string, t: string) => j<{ features: Obs[] }>(`/api/map/${ind}?geo_type=${t}`),

@@ -42,8 +42,13 @@ class FixtureRepo:
         return self._geos.get(geo_id)
 
     def observations(self, geo_ids, indicators=None):
-        gs, ins = set(geo_ids), set(indicators or [])
-        return [o for o in self._obs.values() if o.geo_id in gs and (not ins or o.indicator in ins)]
+        idx = getattr(self, "_by_geo", None)
+        if idx is None:   # built once: geo_id → observations, so lookups don't scan every row
+            idx = self._by_geo = {}
+            for o in self._obs.values():
+                idx.setdefault(o.geo_id, []).append(o)
+        ins = set(indicators or [])
+        return [o for g in dict.fromkeys(geo_ids) for o in idx.get(g, ()) if not ins or o.indicator in ins]
 
     def observation(self, obs_id):
         return self._obs.get(obs_id)
@@ -95,14 +100,20 @@ class PostgresRepo:
     demo = False
 
     def __init__(self) -> None:
-        import psycopg
         from psycopg.rows import dict_row
-        self._conn = psycopg.connect(settings().database_url, row_factory=dict_row, autocommit=True)
+        from psycopg_pool import ConnectionPool
+        # A pool, not one shared connection: FastAPI serves requests on a thread pool, and a single psycopg
+        # connection serializes (and can interleave) concurrent queries.
+        self._pool = ConnectionPool(settings().database_url, min_size=1, max_size=settings().pg_pool_max,
+                                    kwargs={"row_factory": dict_row, "autocommit": True}, open=True)
 
     def _q(self, sql, *args):
-        with self._conn.cursor() as cur:
+        with self._pool.connection() as conn, conn.cursor() as cur:
             cur.execute(sql, args)
             return cur.fetchall()
+
+    def close(self) -> None:
+        self._pool.close()
 
     def geographies(self, geo_type=None):
         rows = self._q("""SELECT geo_id, geo_type, name, coalesce(county_fips, '{}') AS counties

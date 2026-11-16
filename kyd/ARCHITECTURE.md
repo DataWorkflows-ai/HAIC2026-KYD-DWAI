@@ -96,6 +96,26 @@ Two backends answer from that same document:
 API: `/api/districts/{id}/context`, `/api/connections?a=&b=`, `/api/verification`. Agent tool:
 `district_connections` (relationships only, worded without numbers so the figure check stays strict).
 
+## Program data in the app
+
+`kyd/etl/load_programs.py` (run by `load_acs_profile.py`) writes Crystal's district-level analyses into
+`kyd.sqlite` from ACS S1701/S2201: SNAP gap (`snap_gap_persons`, `pct_snap_gap`), TANF and GA proxies, and the
+poverty ladder (125/138/150/185/200% FPL) plus SNAP households with children, 60+ and disability.
+`tests/test_programs_etl.py` asserts the database equals `scripts/` output for all 76 districts.
+
+- **Cross-program estimates** (`app/services/crosswalk.py`, `/api/districts/{id}/cross-program`, agent tool
+  `estimate_cross_program`, S1 intent `cross_program`): one published rule per program applied to district
+  counts. Categorical/adjunctive SNAP rules: free school meals (direct certification), Lifeline (47 CFR 54.409),
+  Hawaiʻi LIHEAP (DHS model plan §1.4a), WIC (7 CFR 246.7(d)(2)(vi)). Income rule: Med-QUEST 138% FPL.
+  Each estimate returns rule, citation, formula, input observation ids, range and confidence. ACS poverty
+  ratios use national Census thresholds, lower than Hawaiʻi guidelines, so income-based counts understate.
+- **Island/statewide context** (`app/services/program_context.py`, `/api/districts/{id}/program-context`):
+  Med-QUEST island enrollment and trend, TANF by island, BESSD county SNAP, and the district TANF-by-race
+  comparison, taken directly from `scripts/` for the district's county.
+- **Caching** (`app/services/cache.py`): ranking, peers, medians, map summary, cross-program and context are
+  cached in-process; no expiry for bundled data, `KYD_CACHE_TTL_SECONDS` (default 300) in live mode.
+  Live mode uses a psycopg connection pool (`KYD_PG_POOL_MAX`, default 10).
+
 ## Source verification
 
 `python kyd/verify/run.py` checks every source behind Crystal's program scripts and writes
@@ -106,7 +126,7 @@ API: `/api/districts/{id}/context`, `/api/connections?a=&b=`, `/api/verification
 | Census API extracts (`data/raw/*_districts.json`) | table and vintage, one row per district, every used variable present and numeric; **identities that pin each variable's meaning**: percent = count / total, subject-table rate = Data Profile rate, poverty-threshold ladder ordered, DP values = DBEDT workbook values, House sum = Senate sum |
 | DHS Databook 2025 PDF | each table's heading is on the page the code cites; every hand-typed figure in `scripts/*.py` and `data/processed/*databook*` is re-read from the PDF; distributions add to 100; islands add to statewide |
 | BESSD SFY 2026 workbook (`.numbers`) | blocks and header row found by name; the processed CSV equals the workbook cell by cell; columns add to TOTAL; Maui + Molokaʻi + Lānaʻi = Maui Branch; branches add to STATE |
-| Cross-source | DHS testimony vs BESSD (same month); Databook vs BESSD caseloads; ACS poverty ladder and county rates vs Databook; ACS vs administrative SNAP (info) |
+| Cross-source | county SNAP loader vs BESSD CSV (exact); Databook vs BESSD caseloads; ACS poverty ladder and county rates vs Databook; ACS vs administrative SNAP (info) |
 
 Status: **fail** = format change, transcription error or internal inconsistency (exit 1, CI fails);
 **warn** = for review; **info** = shown, not judged. `--accept` records file hashes in `kyd/verify/manifest.json`

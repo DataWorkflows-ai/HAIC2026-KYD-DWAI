@@ -51,7 +51,20 @@ INDICATORS = {
                                "S1701_C02_005/C01_005", S1701),
     "adults_18_64_below_fpl": ("Adults 18–64 below poverty (GA proxy)", "count", "program", "S1701_C02_006", S1701),
     "pct_adults_18_64_below_fpl": ("Adults 18–64 below poverty (GA proxy)", "pct", "program", "S1701_C02_006/C01_006", S1701),
+    # inputs for cross-program estimates (app/services/crosswalk.py)
+    "snap_hh_children": ("SNAP households with children under 18", "count", "program", "S2201_C03_009", S2201),
+    "snap_hh_60plus": ("SNAP households with someone 60+", "count", "program", "S2201_C03_002", S2201),
+    "snap_hh_disability": ("SNAP households with someone with a disability", "count", "program", "S2201_C03_023", S2201),
+    "pop_below_125fpl": ("People below 125% of poverty", "count", "program", "S1701_C01_039", S1701),
+    "pop_below_150fpl": ("People below 150% of poverty", "count", "program", "S1701_C01_040", S1701),
+    "pop_below_185fpl": ("People below 185% of poverty", "count", "program", "S1701_C01_041", S1701),
+    "pop_below_138fpl": ("People below 138% of poverty (est.)", "count", "program", "S1701_C01_039..040 interpolated", S1701),
+    "pct_below_138fpl": ("People below 138% of poverty (Med-QUEST adult limit, est.)", "pct", "program",
+                         "S1701_C01_039..040 interpolated / C01_001", S1701),
 }
+NOTE_138 = ("Linear interpolation between the 125% and 150% poverty-ratio counts (S1701 has no 138% line); "
+            "MOE taken from the 150% line. Census poverty thresholds are national, not the higher Hawaiʻi guidelines "
+            "Med-QUEST uses, so this likely understates the income-eligible pool.")
 NOTE_PERSONS = ("SNAP households × district average household size (DP02_0016), as in scripts/snap_gap.py; "
                 "MOE approximated from both MOEs. SNAP households are often larger than average, so this may understate.")
 NOTE_GAP = ("People below 200% FPL minus estimated SNAP persons (scripts/snap_gap.py person-level gap). "
@@ -101,6 +114,18 @@ def district_values(chamber: str) -> dict[int, dict[str, tuple]]:
         adults = _em(r, "S1701_C02_006")
         v["adults_18_64_below_fpl"] = adults
         v["pct_adults_18_64_below_fpl"] = _pct(adults, _em(r, "S1701_C01_006"))
+        for k, col in (("pop_below_125fpl", "S1701_C01_039"), ("pop_below_150fpl", "S1701_C01_040"),
+                       ("pop_below_185fpl", "S1701_C01_041")):
+            v[k] = _em(r, col)
+        a, b = v["pop_below_125fpl"][0], v["pop_below_150fpl"][0]
+        if a is not None and b is not None:
+            est = round(a + (b - a) * (138 - 125) / (150 - 125))
+            v["pop_below_138fpl"] = (est, v["pop_below_150fpl"][1])
+            v["pct_below_138fpl"] = (_pct((est, None), univ)[0], None)
+        if n in s2201:
+            for k, col in (("snap_hh_children", "S2201_C03_009"), ("snap_hh_60plus", "S2201_C03_002"),
+                           ("snap_hh_disability", "S2201_C03_023")):
+                v[k] = _em(s2201[n], col)
         if n in s2201 and n in dp02:
             hh, hhm = _em(s2201[n], "S2201_C03_001")
             size, sizem = _em(dp02[n], "DP02_0016")
@@ -127,7 +152,10 @@ def state_values(house: dict[int, dict[str, tuple]]) -> dict[str, tuple]:
         return sum(_num(r.get(col + "E")) or 0 for r in s1701.values()), None
 
     out = {k: tot(k) for k in ("pop_below_200fpl", "snap_hh_count", "snap_persons_est", "snap_gap_persons",
-                               "children_below_fpl", "adults_18_64_below_fpl")}
+                               "children_below_fpl", "adults_18_64_below_fpl", "snap_hh_children", "snap_hh_60plus",
+                               "snap_hh_disability", "pop_below_125fpl", "pop_below_150fpl", "pop_below_185fpl",
+                               "pop_below_138fpl")}
+    out["pct_below_138fpl"] = (_pct((out["pop_below_138fpl"][0], None), utot("S1701_C01_001"))[0], None)
     out["pct_below_200fpl"] = (_pct((out["pop_below_200fpl"][0], None), utot("S1701_C01_001"))[0], None)
     out["pct_children_below_fpl"] = (_pct((out["children_below_fpl"][0], None), utot("S1701_C01_005"))[0], None)
     out["pct_adults_18_64_below_fpl"] = (_pct((out["adults_18_64_below_fpl"][0], None), utot("S1701_C01_006"))[0], None)
@@ -144,6 +172,8 @@ def _method(key: str, geo: str) -> tuple[str, str | None]:
         return "derived", NOTE_GAP
     if key == "pct_snap_gap":
         return "derived", NOTE_GAP_PCT
+    if key in ("pop_below_138fpl", "pct_below_138fpl"):
+        return "derived", NOTE_138
     if key.startswith("pct_"):
         return "derived", "Count ÷ universe from the same table; MOE by the Census proportion formula"
     return "direct", None
