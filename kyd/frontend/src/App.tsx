@@ -136,7 +136,7 @@ export default function App() {
         <span className="hidden sm:inline">Nonpartisan · population-level only · every figure cited</span>
         <div className="flex gap-3">
           {health ? <>
-            <Pill tone={health.demo ? 'amber' : 'emerald'}>data: {health.mode}</Pill>
+            <Pill tone={health.demo ? 'amber' : 'emerald'}>Data: {health.demo ? 'Demo' : 'Read-Only'}</Pill>
             <Pill tone={health.llm === 'none' ? 'slate' : 'cyan'}>S2: {health.llm}</Pill>
             <Pill>{health.geographies} geos · {health.programs} programs</Pill>
           </> : <Pill tone="red">API offline</Pill>}
