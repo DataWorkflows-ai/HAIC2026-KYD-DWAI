@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowDown, ArrowUp } from 'lucide-react';
 import { api, fmt, type Rankings } from './api';
-import { Card, Empty, Figure, Pill } from './ui';
+import { Card, Empty, ExportButtons, Figure, Pill } from './ui';
 
 /** All districts of a chamber ranked on comparable measures. Every cell is a cited figure. */
 export function RankingsTab({ onOpen }: { onOpen: (geo: string) => void }) {
@@ -9,6 +9,7 @@ export function RankingsTab({ onOpen }: { onOpen: (geo: string) => void }) {
   const [data, setData] = useState<Rankings | null>(null);
   const [sort, setSort] = useState<{ key: string; desc: boolean }>({ key: 'pct_below_fpl', desc: true });
   useEffect(() => { setData(null); api.rankings(chamber).then(setData); }, [chamber]);
+  const tbl = useRef<HTMLTableElement>(null);
 
   const rows = useMemo(() => {
     if (!data) return [];
@@ -34,12 +35,12 @@ export function RankingsTab({ onOpen }: { onOpen: (geo: string) => void }) {
   );
   return (
     <Card title="District rankings" right={
-      <div className="flex gap-1">{(['sldl', 'sldu'] as const).map(c => (
+      <div className="flex gap-1 items-center"><ExportButtons table={tbl} name={`kyd_rankings_${chamber === 'sldl' ? 'house' : 'senate'}`} />{(['sldl', 'sldu'] as const).map(c => (
         <button key={c} onClick={() => setChamber(c)} aria-pressed={chamber === c}
           className={`px-2 py-0.5 rounded text-xs border ${chamber === c ? 'border-cyan-700 text-cyan-300' : 'border-premium-700 text-slate-400'}`}>
           {c === 'sldl' ? 'House (51)' : 'Senate (25)'}</button>))}</div>}>
       <div className="overflow-x-auto">
-        <table className="w-full text-sm">
+        <table ref={tbl} className="w-full text-sm">
           <thead className="text-xs text-slate-400 border-b border-premium-700">
             <tr>
               {head('name', 'District')}

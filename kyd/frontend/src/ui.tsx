@@ -1,5 +1,5 @@
-import { useEffect, useState, type ReactNode } from 'react';
-import { Info, AlertTriangle } from 'lucide-react';
+import React, { useEffect, useState, type ReactNode } from 'react';
+import { Info, AlertTriangle, Printer, Download } from 'lucide-react';
 import { api, fmt, type Obs, type Geo } from './api';
 
 export function usePersistentState<T>(key: string, def: T): [T, (v: T) => void] {
@@ -79,4 +79,29 @@ export function Pill({ children, tone = 'slate' }: { children: ReactNode; tone?:
 
 export function Empty({ children }: { children: ReactNode }) {
   return <div className="flex items-center gap-2 text-sm text-slate-500"><Info className="w-4 h-4" />{children}</div>;
+}
+
+/** Print and CSV export for the table inside a card. CSV is built from the table on screen (no server call). */
+export function ExportButtons({ table, name }: { table: React.RefObject<HTMLTableElement | null>; name: string }) {
+  const csv = () => {
+    const t = table.current;
+    if (!t) return;
+    const esc = (v: string) => `"${v.replace(/\s+/g, ' ').trim().replace(/"/g, '""')}"`;
+    const lines = Array.from(t.querySelectorAll('tr')).map(tr =>
+      Array.from(tr.querySelectorAll('th,td')).map(c => {
+        const sel = c.querySelector('select') as HTMLSelectElement | null;
+        return esc(sel ? sel.options[sel.selectedIndex]?.text ?? '' : (c as HTMLElement).innerText);
+      }).join(','));
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob(['\ufeff' + lines.join('\n')], { type: 'text/csv;charset=utf-8' }));
+    a.download = `${name}.csv`;
+    a.click();
+  };
+  const btn = 'text-xs px-2 py-1 rounded border border-premium-700 text-slate-300 hover:text-cyan-300 inline-flex items-center gap-1';
+  return (
+    <div className="no-print flex gap-1.5">
+      <button onClick={() => window.print()} className={btn} title="Print or save as PDF"><Printer className="w-3.5 h-3.5" />Print</button>
+      <button onClick={csv} className={btn} title="Download this table as CSV"><Download className="w-3.5 h-3.5" />CSV</button>
+    </div>
+  );
 }

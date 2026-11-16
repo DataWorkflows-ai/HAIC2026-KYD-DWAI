@@ -25,6 +25,15 @@ function readHash(): { geo?: string; tab?: string } {
   return { geo: geo && GEO_RE.test(geo) ? geo : undefined, tab: t && TAB_IDS.includes(t) ? t : undefined };
 }
 
+// A shared link wins over the last-visited district and tab, from the very first render.
+{
+  const h = readHash();
+  try {
+    if (h.geo) localStorage.setItem('kyd_geo', JSON.stringify(h.geo));
+    if (h.tab) localStorage.setItem('kyd_tab', JSON.stringify(h.tab));
+  } catch { /* storage unavailable: the hash effect below still applies it */ }
+}
+
 export default function App() {
   const [tab, setTab] = usePersistentState<string>('kyd_tab', 'overview');
   const [office, setOffice] = usePersistentState<string | null>('kyd_office', null);
@@ -93,6 +102,10 @@ export default function App() {
       </header>
 
       <main className="flex-grow overflow-y-auto p-4 lg:p-6">
+        <div className="print-only text-xs mb-2">
+          Know Your District · {geos.find(g => g.geo_id === geo)?.name ?? geo} · printed {new Date().toLocaleDateString()} ·
+          Sources: ACS 2020–2024 and the agencies listed on the Sources tab · {window.location.href}
+        </div>
         {tab === 'overview' && <OverviewTab geo={geo} geos={geos} onAsk={ask} onPick={setGeo} picker={districtControl} />}
         {tab === 'map' && <MapTab geos={geos} geo={geo} office={office} onPick={setGeo} onOpen={g => { setGeo(g); setTab('overview'); }} />}
         {tab === 'compare' && <CompareTab geos={geos} geo={geo} />}
