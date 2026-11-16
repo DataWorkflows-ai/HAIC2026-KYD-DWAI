@@ -238,6 +238,7 @@
    "job_seekers"
   ],
   "proxy_indicators": [
+   "laus_unemp_rate",
    "unemployment_rate"
   ],
   "url_verified": false

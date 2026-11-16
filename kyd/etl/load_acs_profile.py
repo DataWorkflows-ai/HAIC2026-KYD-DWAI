@@ -201,3 +201,5 @@ if __name__ == "__main__":
     load_hud.build()
     import load_school_meals  # HCNP free/reduced meals by district (research rollup, charters excluded)
     load_school_meals.build()
+    import load_laus          # DBEDT LAUS unemployment 2025 by district/county + 2014–2025 county trend
+    load_laus.build()

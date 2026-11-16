@@ -16,7 +16,7 @@ CORE = ["total_pop", "median_age", "households", "median_hh_income", "per_capita
 # Program-analysis indicators (etl/load_programs.py, from Crystal's scripts/ analyses)
 PROGRAM_IND = ["pct_below_200fpl", "pct_snap_gap", "snap_gap_persons", "pop_below_200fpl", "snap_hh_count",
                "snap_persons_est", "pct_children_below_fpl", "children_below_fpl", "pct_adults_18_64_below_fpl",
-               "adults_18_64_below_fpl"]
+               "adults_18_64_below_fpl", "laus_unemp_rate", "laus_labor_force"]
 PEER_FEATURES = ["median_hh_income", "pct_below_fpl", "pct_65plus", "pct_under18", "pct_renter",
                  "pct_rent_burden_30", "pct_uninsured", "unemployment_rate", "pct_limited_english"]
 

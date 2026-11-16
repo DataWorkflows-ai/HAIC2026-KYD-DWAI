@@ -74,8 +74,28 @@ def context(geo_id: str) -> dict:
     meals = {o.indicator: o for o in repo().observations([geo_id],
              ["pct_free_reduced_meals", "free_reduced_students", "public_school_enrolled"])}
     meals_state = {o.indicator: o.value for o in repo().observations(["HI"], ["pct_free_reduced_meals"])}
+    cfips = {"Oahu": "15003", "Hawaii": "15001", "Maui": "15009", "Kauai": "15007"}[county]
+    emp_keys = ["laus_unemp_rate", "laus_labor_force", "laus_unemployed", "unemployment_rate"]
+    emp = {o.indicator: o for o in repo().observations([geo_id], emp_keys)}
+    cty = {o.indicator: o for o in repo().observations([f"CNTY-{cfips}"], emp_keys)}
+    sta = {o.indicator: o for o in repo().observations(["HI"], emp_keys)}
+    years = range(2014, 2026)
+    trend_keys = [f"laus_unemp_rate_{y}" for y in years if y != 2025] + ["laus_unemp_rate"]
+    tr = {(o.geo_id, o.indicator): o.value for o in repo().observations([f"CNTY-{cfips}", "HI"], trend_keys)}
+    def ty(y):
+        return "laus_unemp_rate" if y == 2025 else f"laus_unemp_rate_{y}"
     return {
         "geo_id": geo_id, "county": county,
+        "employment": {
+            "title": "Unemployment", "district": [emp[k] for k in emp_keys if k in emp],
+            "county": [cty[k] for k in ("laus_unemp_rate", "laus_labor_force") if k in cty],
+            "state": [sta[k] for k in ("laus_unemp_rate", "laus_labor_force") if k in sta],
+            "trend": [{"year": y, "county": tr.get((f"CNTY-{cfips}", ty(y))), "state": tr.get(("HI", ty(y)))} for y in years],
+            "source": "DBEDT/DLIR LAUS annual averages (tract and county); ACS 2020–2024 for comparison",
+            "notes": ["2025 district rates are DBEDT tract estimates (current county totals split by ACS 2020–2024 shares) "
+                      "allocated to districts by population; the county figures are official LAUS totals.",
+                      "The ACS 2020–2024 rate is a five-year survey average that includes the 2020–21 pandemic "
+                      "years and uses a different definition, so it runs higher than the 2025 LAUS rate."]},
         "school_meals": {"title": "Free/reduced-price school meals (SY2025-26)",
                          "observations": list(meals.values()), "state_pct": meals_state.get("pct_free_reduced_meals"),
                          "source": "Hawaiʻi Child Nutrition Programs, October Data SY2025-26",
