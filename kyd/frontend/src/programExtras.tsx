@@ -10,7 +10,7 @@ const tone = { high: 'emerald', medium: 'cyan', low: 'amber' } as const;
 export function CrossProgramCard({ geo }: { geo: string }) {
   const [d, setD] = useState<CrossProgram | null>(null);
   const [open, setOpen] = useState<string | null>(null);
-  useEffect(() => { setD(null); api.crossProgram(geo).then(setD).catch(() => setD({ geo_id: geo, estimates: [], note: '' })); }, [geo]);
+  useEffect(() => { let live = true; setD(null); api.crossProgram(geo).then(x => live && setD(x)).catch(() => live && setD({ geo_id: geo, estimates: [], note: '' })); return () => { live = false; }; }, [geo]);
   if (!d) return <Card title="Likely eligible for other programs"><Empty>Loading…</Empty></Card>;
   return (
     <Card title="Likely eligible for other programs" right={<Pill>from SNAP + income counts</Pill>} className="col-span-full">
@@ -52,7 +52,7 @@ export function CrossProgramCard({ geo }: { geo: string }) {
 /** Figures DHS publishes by island or county, not by district: shown as context for this district's island. */
 export function ProgramContextCards({ geo }: { geo: string }) {
   const [c, setC] = useState<ProgramContext | null>(null);
-  useEffect(() => { setC(null); api.programContext(geo).then(setC).catch(() => setC(null)); }, [geo]);
+  useEffect(() => { let live = true; setC(null); api.programContext(geo).then(x => live && setC(x)).catch(() => live && setC(null)); return () => { live = false; }; }, [geo]);
   if (!c) return null;
   const mq = c.medquest, t = c.tanf_island, s = c.county_snap, u = c.tanf_underenrollment;
   const maxTrend = Math.max(...mq.trend.map(x => x.recipients));
@@ -241,7 +241,7 @@ function EmploymentCard({ e, county }: { e: ProgramContext['employment']; county
 function UnemploymentBreakdown({ geo, county }: { geo: string; county: string }) {
   const [u, setU] = useState<Unemployment | null>(null);
   const [dim, setDim] = useState('sex');
-  useEffect(() => { setU(null); api.unemployment(geo).then(setU).catch(() => setU(null)); }, [geo]);
+  useEffect(() => { let live = true; setU(null); api.unemployment(geo).then(x => live && setU(x)).catch(() => live && setU(null)); return () => { live = false; }; }, [geo]);
   if (!u) return null;
   const cell = (r?: BRow) => {
     if (!r || r.value === null) return <span className="text-slate-600">n/a</span>;

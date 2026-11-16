@@ -12,3 +12,22 @@
 }
 .kyd-card:hover { border-color: rgba(0, 200, 255, 0.25); }
 :focus-visible { outline: 2px solid #06b6d4; outline-offset: 2px; }
+
+/* Print: one clean page per view — no tabs, chat or controls; white paper, dark ink. */
+.print-only { display: none; }
+@media print {
+  @page { margin: 12mm; }
+  html, body, #root { background: #fff !important; height: auto !important; }
+  .h-screen, .h-\[calc\(100vh-11rem\)\] { height: auto !important; }
+  .overflow-hidden, .overflow-y-auto, .overflow-x-auto { overflow: visible !important; }
+  header nav, header button, button[aria-pressed], footer, .no-print, input[type=checkbox] { display: none !important; }
+  button { border: none !important; padding: 0 !important; }
+  .print-only { display: block !important; }
+  * { color: #111 !important; -webkit-text-fill-color: #111 !important; box-shadow: none !important; text-shadow: none !important; }
+  .kyd-card { background: #fff !important; border: 1px solid #bbb !important; break-inside: avoid; }
+  [class*="bg-"] { background: transparent !important; }
+  select { border: none !important; appearance: none; background: transparent !important; font-weight: 600; }
+  a { text-decoration: none !important; }
+  table { font-size: 10px; }
+  tr { break-inside: avoid; }
+}

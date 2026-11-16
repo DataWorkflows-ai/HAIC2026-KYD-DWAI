@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { Send, ExternalLink, Bot, Zap, ShieldAlert } from 'lucide-react';
 import { api, fmt, type Answer, type Geo, type Obs, type Profile, type ProgramMatch, type Verification } from './api';
-import { Card, Empty, Figure, GeoPicker, Pill } from './ui';
+import { Card, Empty, ExportButtons, Figure, GeoPicker, Pill } from './ui';
 import { CrossProgramCard, ProgramContextCards } from './programExtras';
 
 const HEADLINE = ['total_pop', 'median_hh_income', 'pct_below_fpl', 'pct_65plus', 'pct_rent_burden_30', 'pct_uninsured'];
@@ -9,9 +9,15 @@ const by = (xs: Obs[] | undefined) => Object.fromEntries((xs ?? []).map(o => [o.
 
 // ── Overview ────────────────────────────────────────────────────────────────
 export function OverviewTab({ geo, geos, onAsk, onPick, picker }: { geo: string; geos: Geo[]; onAsk: (q: string) => void; onPick: (g: string) => void; picker?: ReactNode }) {
+  const indTable = useRef<HTMLTableElement>(null);
   const [p, setP] = useState<Profile | null>(null);
   const [progs, setProgs] = useState<ProgramMatch[]>([]);
-  useEffect(() => { setP(null); api.profile(geo).then(setP); api.programs(geo).then(setProgs); }, [geo]);
+  useEffect(() => {
+    let live = true;   // ignore a slow reply for a district the user has already left
+    setP(null);
+    api.profile(geo).then(x => live && setP(x)); api.programs(geo).then(x => live && setProgs(x));
+    return () => { live = false; };
+  }, [geo]);
   if (!p) return <Empty>Loading…</Empty>;
   const me = by(p.observations), st = by(p.comparisons.state), co = by(p.comparisons.county);
   const name = (g: string) => geos.find(x => x.geo_id === g)?.name ?? g;
@@ -32,8 +38,8 @@ export function OverviewTab({ geo, geos, onAsk, onPick, picker }: { geo: string;
         </div>
       </Card>
 
-      <Card className="col-span-12 lg:col-span-7" title="All indicators">
-        <table className="w-full text-sm">
+      <Card className="col-span-12 lg:col-span-7" title="All indicators" right={<ExportButtons table={indTable} name={`kyd_${p.geography.geo_id}_indicators`} />}>
+        <table ref={indTable} className="w-full text-sm">
           <thead className="text-xs text-slate-500 text-left"><tr><th className="py-1">Indicator</th><th>District</th><th>County</th><th>State</th></tr></thead>
           <tbody>
             {p.observations.map(o => (
@@ -66,7 +72,7 @@ export function OverviewTab({ geo, geos, onAsk, onPick, picker }: { geo: string;
             {!p.peers.length && <Empty>Not applicable</Empty>}
           </div>
         </Card>
-        <Card title="Ask about this district">
+        <Card title="Ask about this district" className="no-print">
           <div className="flex flex-wrap gap-2">
             {['Which programs fit this district?', `Compare this district with ${p.peers[0] ?? 'HI'}`, 'Give me a profile of this district'].map(q => (
               <button key={q} onClick={() => onAsk(q)} className="px-2 py-1 rounded-md border border-cyan-900 text-xs text-cyan-300 hover:bg-cyan-950">{q}</button>
@@ -80,14 +86,15 @@ export function OverviewTab({ geo, geos, onAsk, onPick, picker }: { geo: string;
 
 // ── Compare ─────────────────────────────────────────────────────────────────
 export function CompareTab({ geos, geo }: { geos: Geo[]; geo: string }) {
+  const cmpTable = useRef<HTMLTableElement>(null);
   const [a, setA] = useState(geo);
   const [b, setB] = useState('HI');
   const [rows, setRows] = useState<{ indicator: string; a: Obs; b: Obs; significant: boolean }[]>([]);
   useEffect(() => setA(geo), [geo]);
-  useEffect(() => { api.compare(a, b).then(d => setRows(d.rows)); }, [a, b]);
+  useEffect(() => { let live = true; api.compare(a, b).then(d => live && setRows(d.rows)); return () => { live = false; }; }, [a, b]);
   return (
-    <Card title="Compare">
-      <table className="w-full text-sm">
+    <Card title="Compare" right={<ExportButtons table={cmpTable} name={`kyd_compare_${a}_${b}`} />}>
+      <table ref={cmpTable} className="w-full text-sm">
         <thead className="text-xs text-slate-500 text-left align-bottom">
           <tr>
             <th className="py-1 w-[34%]">Indicator</th>
@@ -113,7 +120,7 @@ export function CompareTab({ geos, geo }: { geos: Geo[]; geo: string }) {
 // ── Programs ────────────────────────────────────────────────────────────────
 export function ProgramsTab({ geo }: { geo: string }) {
   const [ms, setMs] = useState<ProgramMatch[]>([]);
-  useEffect(() => { api.programs(geo).then(setMs); }, [geo]);
+  useEffect(() => { let live = true; api.programs(geo).then(x => live && setMs(x)); return () => { live = false; }; }, [geo]);
   return (
     <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
       {ms.map((m, i) => (
@@ -233,18 +240,58 @@ function VerificationCard() {
   );
 }
 
+type LibRow = { group: string; name: string; publisher: string; provides: string; vintage: string; url: string; accessed: string; used_in: string };
+function SourceLibrary() {
+  const [rows, setRows] = useState<LibRow[]>([]);
+  const [q, setQ] = useState('');
+  useEffect(() => { fetch('/api/source-library').then(r => r.json()).then(setRows).catch(() => setRows([])); }, []);
+  const shown = rows.filter(r => !q || Object.values(r).join(' ').toLowerCase().includes(q.toLowerCase()));
+  const csv = () => {
+    const cols = ['group', 'name', 'publisher', 'provides', 'vintage', 'url', 'accessed', 'used_in'] as const;
+    const esc = (v: string) => `"${v.replace(/"/g, '""')}"`;
+    const body = [cols.join(','), ...rows.map(r => cols.map(c => esc(r[c] ?? '')).join(','))].join('\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([body], { type: 'text/csv' })); a.download = 'kyd_sources.csv'; a.click();
+  };
+  return (
+    <Card title={`Source library (${rows.length})`} right={
+      <div className="flex items-center gap-2">
+        <input value={q} onChange={e => setQ(e.target.value)} placeholder="Filter sources" aria-label="Filter sources"
+          className="bg-premium-950 border border-premium-700 rounded-md px-2 py-1 text-xs text-slate-200 w-44" />
+        <button onClick={csv} className="text-xs px-2 py-1 rounded border border-premium-700 text-slate-300 hover:text-cyan-300">Download CSV</button>
+      </div>}>
+      <div className="overflow-x-auto">
+        <table className="w-full text-sm">
+          <thead className="text-xs text-slate-500 text-left">
+            <tr><th className="py-1 pr-3">Source</th><th className="pr-3">What it provides</th><th className="pr-3">Vintage</th><th className="pr-3">Used in</th><th>Accessed</th></tr>
+          </thead>
+          <tbody>
+            {shown.map(r => (
+              <tr key={r.name} className="border-t border-premium-800 align-top">
+                <td className="py-1.5 pr-3 min-w-[16rem]">
+                  <a href={r.url} target="_blank" rel="noreferrer" className="text-cyan-300 hover:underline inline-flex items-start gap-1">{r.name} <ExternalLink className="w-3 h-3 mt-1 shrink-0" /></a>
+                  <div className="text-xs text-slate-500">{r.publisher} · {r.group}</div>
+                </td>
+                <td className="pr-3 text-xs text-slate-300">{r.provides}</td>
+                <td className="pr-3 text-xs text-slate-400 whitespace-nowrap">{r.vintage}</td>
+                <td className="pr-3 text-xs text-slate-400">{r.used_in}</td>
+                <td className="text-xs text-slate-500 whitespace-nowrap">{r.accessed}</td>
+              </tr>))}
+          </tbody>
+        </table>
+      </div>
+      <p className="text-xs text-slate-500 mt-2">Each source's name, publisher and description are kept here, so the trail survives if a link moves. The same list is in SOURCES.md in the code repository.</p>
+    </Card>
+  );
+}
+
 export function SourcesTab() {
   const [src, setSrc] = useState<any[]>([]);
   useEffect(() => { api.sources().then(setSrc); }, []);
   return (
     <div className="grid lg:grid-cols-2 gap-4">
       <div className="lg:col-span-2"><VerificationCard /></div>
-      <Card title="Data sources">
-        <ul className="space-y-2 text-sm">{src.map(s => (
-          <li key={s.source_id}><div className="text-slate-100">{s.title}</div>
-            <div className="text-xs text-slate-500">{s.publisher} · released {s.release_date ?? '—'} · <span className="font-mono">{s.source_id}</span></div></li>))}
-        </ul>
-      </Card>
+      <div className="lg:col-span-2"><SourceLibrary /></div>
       <Card title="Methods">
         <ul className="text-sm text-slate-300 space-y-2 list-disc ml-4">
           <li>Figures come from a precomputed fact table. The AI never generates numbers. It retrieves them through tools and cites each one.</li>

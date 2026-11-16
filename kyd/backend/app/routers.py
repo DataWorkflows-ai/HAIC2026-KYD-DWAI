@@ -193,6 +193,15 @@ def sources():
     return repo().sources()
 
 
+@api.get("/source-library")
+def source_library():
+    """Every source the app draws on (kyd/data/sources.csv; SOURCES.md is generated from it)."""
+    import csv
+    path = settings().data_dir / "sources.csv"
+    with path.open(encoding="utf-8") as f:
+        return list(csv.DictReader(f))
+
+
 @api.get("/sources/observation/{obs_id}")
 def cite(obs_id: str):
     o = repo().observation(obs_id)
