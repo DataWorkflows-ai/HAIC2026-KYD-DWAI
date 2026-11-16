@@ -93,6 +93,22 @@ export function ProgramContextCards({ geo }: { geo: string }) {
         </Card>
       )}
       {c.vital && c.vital.observations.length > 0 && <VitalCard v={c.vital} />}
+      {c.hpha && (
+        <Card title={<span className="normal-case">HPHA public housing in this district</span>} right={<Pill>{c.hpha.properties.length} properties · {c.hpha.units.toLocaleString()} units</Pill>}>
+          {c.hpha.properties.length === 0 ? <p className="text-sm text-slate-400">No HPHA public housing property is located in this district.</p> : (
+            <ul className="text-sm divide-y divide-premium-800 max-h-64 overflow-y-auto">
+              {c.hpha.properties.map(p => (
+                <li key={p.name + p.address} className="py-1.5 flex justify-between gap-3">
+                  <span><span className="text-slate-100">{p.name}</span>
+                    <span className="block text-xs text-slate-500">{p.address}, {p.city} · {p.funding}{p.elderly ? ', elderly' : ''}</span></span>
+                  <span className="font-mono text-cyan-300 whitespace-nowrap">{p.units} units</span>
+                </li>))}
+            </ul>)}
+          {c.hpha.state_units > 0 && <p className="mt-2 text-xs text-slate-400">{c.hpha.state_units} of these units are state-funded and do not appear in HUD's figures.</p>}
+          <ul className="mt-1 text-xs text-slate-500 list-disc ml-4 space-y-0.5">{c.hpha.caveats.map(t => <li key={t}>{t}</li>)}</ul>
+          <a href={c.hpha.url} target="_blank" rel="noreferrer" className="mt-1 flex items-center gap-1 text-xs text-cyan-400 hover:underline">{c.hpha.source} <ExternalLink className="w-3 h-3" /></a>
+        </Card>
+      )}
       {c.hud.observations.length > 0 && (
         <Card title={<span className="normal-case">{c.hud.title}</span>} right={<Pill>as of {c.hud.as_of}</Pill>} className="col-span-full">
           <div className="grid sm:grid-cols-3 lg:grid-cols-7 gap-3">
