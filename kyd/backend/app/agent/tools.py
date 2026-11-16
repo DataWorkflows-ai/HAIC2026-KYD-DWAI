@@ -12,6 +12,10 @@ CORE = ["total_pop", "median_age", "households", "median_hh_income", "per_capita
         "pct_under5", "pct_under18", "pct_65plus", "pct_renter", "pct_rent_burden_30", "median_gross_rent",
         "median_home_value", "pct_no_vehicle", "pct_uninsured", "pct_disability", "pct_veterans",
         "pct_foreign_born", "pct_limited_english", "pct_bachelors_plus", "pct_broadband", "unemployment_rate"]
+# Program-analysis indicators (etl/load_programs.py, from Crystal's scripts/ analyses)
+PROGRAM_IND = ["pct_below_200fpl", "pct_snap_gap", "snap_gap_persons", "pop_below_200fpl", "snap_hh_count",
+               "snap_persons_est", "pct_children_below_fpl", "children_below_fpl", "pct_adults_18_64_below_fpl",
+               "adults_18_64_below_fpl"]
 PEER_FEATURES = ["median_hh_income", "pct_below_fpl", "pct_65plus", "pct_under18", "pct_renter",
                  "pct_rent_burden_30", "pct_uninsured", "unemployment_rate", "pct_limited_english"]
 
@@ -90,8 +94,8 @@ def chamber_medians(geo_id: str) -> dict[str, float]:
 def find_programs(geo_id: str, limit: int = 6) -> list[ProgramMatch]:
     """Rank programs by relevance × gap. The score is transparent and the rationale is returned (§2.5)."""
     r, gr = repo(), graph()
-    obs = _by_ind(r.observations([geo_id], CORE))
-    state = _by_ind(r.observations(["HI"], CORE))
+    obs = _by_ind(r.observations([geo_id], CORE + PROGRAM_IND))
+    state = _by_ind(r.observations(["HI"], CORE + PROGRAM_IND))
     base = chamber_medians(geo_id)
     out = []
     for p in gr.programs():
@@ -115,9 +119,15 @@ def find_programs(geo_id: str, limit: int = 6) -> list[ProgramMatch]:
             continue
         score = sum(ratios) / len(ratios)
         gap = None
-        if p.program_id == "snap" and "pct_below_fpl" in obs and "pct_snap_hh" in obs:
-            e, u = obs["pct_below_fpl"], obs["pct_snap_hh"]
-            if e.value and u.value is not None:
+        if p.program_id == "snap":
+            g, gs = obs.get("pct_snap_gap"), state.get("pct_snap_gap")
+            e, u = obs.get("pct_below_fpl"), obs.get("pct_snap_hh")
+            if g and g.value is not None and gs and gs.value is not None:
+                gap = (f"Estimated {g.value:g}% of people below 200% of poverty are not in SNAP households "
+                       f"(state {gs.value:g}%). Counts-based proxy: SNAP households x average household size "
+                       f"vs people below 200% FPL; eligibility also depends on assets and household makeup.")
+                score *= 1 + max(0, (g.value - gs.value) / 100)
+            elif e and u and e.value and u.value is not None:
                 gap = (f"Uptake proxy: {u.value:g}% of households get SNAP; {e.value:g}% of people are below "
                        f"the poverty level. Different universes (households vs people), so this signals a "
                        f"possible gap only. SNAP's gross income limit is above the poverty line.")

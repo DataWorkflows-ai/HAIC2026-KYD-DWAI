@@ -6,6 +6,8 @@ Pipeline: detect → fetch and archive → validate → stage → promote or hol
 
 | Script | Status | Target |
 |---|---|---|
+| `load_acs_profile.py` | done | DP02–DP05 → kyd.sqlite (rebuilds it, then runs load_programs) |
+| `load_programs.py` | done | S1701/S2201 program indicators (SNAP gap, TANF, GA proxies) → kyd.sqlite, matching scripts/ |
 | `seed_graph.py` | done | Neo4j: programs, agencies, populations, rules, indicators |
 | `load_acs.py` | TODO | Census API, ACS5 `state legislative district (upper|lower)`, HI = 15 → facts.observation |
 | `load_boundaries.py` | TODO | 2022 SLDU/SLDL TIGER shapes → ref.geography.geom |
