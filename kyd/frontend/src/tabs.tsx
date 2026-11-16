@@ -210,11 +210,38 @@ export function AskTab({ geo, pending, clearPending }: { geo: string; pending: s
   useEffect(() => { end.current?.scrollIntoView({ behavior: 'smooth' }); }, [msgs]);
   const obsMap = useMemo(() => Object.fromEntries(msgs.flatMap(m => m.a?.observations ?? []).map(o => [o.obs_id, o])), [msgs]);
 
-  const render = (t: string) => t.split(/(\[obs:[^\]]+\])/g).map((part, i) => {
+  // inline: citations, **bold**, links
+  const inline = (t: string, k: string) => t.split(/(\[obs:[^\]]+\]|\*\*[^*]+\*\*|https?:\/\/[^\s)]+)/g).map((part, i) => {
     const m = part.match(/^\[obs:([^\]]+)\]$/);
-    if (!m) return <span key={i}>{part}</span>;
-    const o = obsMap[m[1]];
-    return <sup key={i} className="text-cyan-500 ml-0.5" title={o ? `${o.label}: ${fmt(o)} · ACS ${o.vintage}` : m[1]}>[{o ? o.indicator : 'src'}]</sup>;
+    if (m) {
+      const o = obsMap[m[1]];
+      return <sup key={k + i} className="text-cyan-500 ml-0.5" title={o ? `${o.label}: ${fmt(o)} · ${o.vintage}` : m[1]}>[{o ? o.indicator : 'src'}]</sup>;
+    }
+    if (/^\*\*[^*]+\*\*$/.test(part)) return <strong key={k + i} className="text-slate-100">{part.slice(2, -2)}</strong>;
+    if (/^https?:\/\//.test(part)) return <a key={k + i} href={part} target="_blank" rel="noreferrer" className="text-cyan-400 underline break-all">{part}</a>;
+    return <span key={k + i}>{part}</span>;
+  });
+  // blocks: tables, bullet lists, headings, paragraphs (a small Markdown subset the agent uses)
+  const render = (t: string) => t.split(/\n{2,}/).map((block, bi) => {
+    const lines = block.split('\n').filter(l => l.trim());
+    if (lines.length >= 2 && lines.every(l => l.trim().startsWith('|'))) {
+      const cells = (l: string) => l.trim().replace(/^\||\|$/g, '').split('|').map(c => c.trim());
+      const body = lines.filter((_, i) => i !== 1 || !/^[\s|:-]+$/.test(lines[1]));
+      return (
+        <table key={bi} className="my-2 text-xs border-collapse">
+          <thead><tr>{cells(body[0]).map((c, i) => <th key={i} className="border-b border-premium-600 px-2 py-1 text-left text-slate-400 font-normal">{inline(c, `h${bi}${i}`)}</th>)}</tr></thead>
+          <tbody>{body.slice(1).map((r, ri) => <tr key={ri}>{cells(r).map((c, i) => <td key={i} className="border-b border-premium-800 px-2 py-1">{inline(c, `c${bi}${ri}${i}`)}</td>)}</tr>)}</tbody>
+        </table>);
+    }
+    if (lines.every(l => /^\s*[-*•]\s+/.test(l)))
+      return <ul key={bi} className="my-1 list-disc ml-5 space-y-0.5">{lines.map((l, i) => <li key={i}>{inline(l.replace(/^\s*[-*•]\s+/, ''), `l${bi}${i}`)}</li>)}</ul>;
+    if (lines.every(l => /^\s*\d+\.\s+/.test(l)))
+      return <ol key={bi} className="my-1 list-decimal ml-5 space-y-0.5">{lines.map((l, i) => <li key={i}>{inline(l.replace(/^\s*\d+\.\s+/, ''), `o${bi}${i}`)}</li>)}</ol>;
+    return <p key={bi} className="my-1">{lines.map((l, i) => {
+      const h = l.match(/^#{1,4}\s+(.*)$/), li = l.match(/^\s*[-*•]\s+(.*)$/);
+      if (li) return <span key={i} className="block pl-4 -indent-3">• {inline(li[1], `p${bi}${i}`)}</span>;
+      return <span key={i} className="block">{h ? <strong className="text-slate-100">{inline(h[1], `p${bi}${i}`)}</strong> : inline(l, `p${bi}${i}`)}</span>;
+    })}</p>;
   });
 
   return (
@@ -232,7 +259,7 @@ export function AskTab({ geo, pending, clearPending }: { geo: string; pending: s
         )}
         {msgs.map((m, i) => (
           <div key={i} className={m.role === 'user' ? 'text-right' : ''}>
-            <div className={`inline-block max-w-[85%] text-left whitespace-pre-wrap rounded-lg px-3 py-2 text-sm ${m.role === 'user' ? 'bg-premium-700' : 'bg-premium-800 border border-premium-700'}`}>
+            <div className={`inline-block max-w-[85%] text-left rounded-lg px-3 py-2 text-sm ${m.role === 'user' ? 'bg-premium-700 whitespace-pre-wrap' : 'bg-premium-800 border border-premium-700'}`}>
               {m.role === 'agent' ? render(m.text) : m.text}
             </div>
             {m.a && (

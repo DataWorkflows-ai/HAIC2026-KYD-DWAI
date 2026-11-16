@@ -149,3 +149,10 @@ def test_hd19_is_inside_honolulu_council_district_4():
 def test_neighborhood_names_resolve():
     assert system1.route("Profile of Kaimukī").geo_ids == ["HD-20"]
     assert system1.route("Kaunakakai demographics").geo_ids == ["HD-13"]
+
+
+def test_program_thresholds_are_not_redacted():
+    from app.agent.system2 import unsupported_numbers
+    obs = [{"obs_id": "x", "value": 41.1}]
+    assert unsupported_numbers("41.1% are below 200% of poverty; adults under 138% FPL", obs) == []
+    assert unsupported_numbers("47.5% statewide", obs) == ["47.5%"]
