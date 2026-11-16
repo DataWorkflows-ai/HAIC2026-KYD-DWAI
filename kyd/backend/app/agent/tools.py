@@ -14,7 +14,8 @@ CORE = ["total_pop", "median_age", "households", "median_hh_income", "per_capita
         "median_home_value", "pct_no_vehicle", "pct_uninsured", "pct_disability", "pct_veterans",
         "pct_foreign_born", "pct_limited_english", "pct_bachelors_plus", "pct_broadband", "unemployment_rate"]
 # Non-ACS indicators shown on the district profile after the ACS core set
-PROFILE_EXTRA = ["pct_pop_lidac", "pct_pop_lidac_most"]
+PROFILE_EXTRA = ["pct_pop_lidac", "pct_pop_lidac_most", "pct_sba_ela_proficient", "pct_sba_math_proficient",
+                 "pct_hsa_science_proficient"]
 # Program-analysis indicators (etl/load_programs.py, from Crystal's scripts/ analyses)
 PROGRAM_IND = ["pct_below_200fpl", "pct_snap_gap", "snap_gap_persons", "pop_below_200fpl", "snap_hh_count",
                "snap_persons_est", "pct_children_below_fpl", "children_below_fpl", "pct_adults_18_64_below_fpl",

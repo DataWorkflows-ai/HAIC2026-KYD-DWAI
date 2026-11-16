@@ -74,6 +74,9 @@ def context(geo_id: str) -> dict:
     meals = {o.indicator: o for o in repo().observations([geo_id],
              ["pct_free_reduced_meals", "free_reduced_students", "public_school_enrolled"])}
     meals_state = {o.indicator: o.value for o in repo().observations(["HI"], ["pct_free_reduced_meals"])}
+    score_keys = ["pct_sba_ela_proficient", "pct_sba_math_proficient", "pct_hsa_science_proficient", "sba_tested"]
+    tests = {o.indicator: o for o in repo().observations([geo_id], score_keys)}
+    tests_state = {o.indicator: o.value for o in repo().observations(["HI"], score_keys)}
     cfips = {"Oahu": "15003", "Hawaii": "15001", "Maui": "15009", "Kauai": "15007"}[county]
     emp_keys = ["laus_unemp_rate", "laus_labor_force", "laus_unemployed", "unemployment_rate"]
     emp = {o.indicator: o for o in repo().observations([geo_id], emp_keys)}
@@ -128,6 +131,14 @@ def context(geo_id: str) -> dict:
                          "url": "https://hcnp.hawaii.gov/wp-content/uploads/2026/01/October-Data-2026-SY25-26.pdf",
                          "note": "* Excludes public charter schools, which enroll students statewide regardless of "
                                  "district. Counted by school location, not where students live."},
+        "test_scores": {"title": "Test scores (2025 Smarter Balanced and HSA Science)",
+                        "observations": [tests[k] for k in score_keys if k in tests],
+                        "state": {k: tests_state.get(k) for k in score_keys[:3]},
+                        "source": "Hawaiʻi State Department of Education, 2025 results by school",
+                        "url": "https://hawaiipublicschools.org/academics/types-of-testing/",
+                        "note": "* Public schools located in the district; excludes public charter schools, which "
+                                "enroll statewide. Counted by school location, not where students live. Results "
+                                "HIDOE suppresses for student privacy are left out."},
         "facts": _facts(),
         "hud": {"title": "HUD-subsidized housing (district)", "as_of": "2025-12-31",
                 "observations": [hud[k] for k in hud_keys if k in hud],
