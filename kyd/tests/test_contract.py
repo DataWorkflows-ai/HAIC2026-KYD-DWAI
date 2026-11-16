@@ -92,3 +92,9 @@ def test_map_summary_shape():
     d = c.get("/api/map-summary?geo_type=sldl").json()
     assert len(d["districts"]) == 51
     assert all(x["figures"] and x["counterparts"] for x in d["districts"])
+
+
+def test_health_names_the_frontend_build_being_served():
+    """/api/health reports which built frontend is live, so a deploy can be checked without opening the page."""
+    served = re.search(r"assets/(index-[\w-]+\.js)", c.get("/").text).group(1)
+    assert c.get("/api/health").json()["frontend"] == served

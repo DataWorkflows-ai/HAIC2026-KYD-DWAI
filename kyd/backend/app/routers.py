@@ -1,5 +1,6 @@
 from __future__ import annotations
 import json
+import re
 from fastapi import APIRouter, Depends, HTTPException
 from . import audit
 from .auth import Principal, current_principal
@@ -23,11 +24,21 @@ def me(who: Principal = Who):
     return {"user": who.user, "role": who.role}
 
 
+def _frontend_build() -> str | None:
+    """File name of the built frontend bundle being served (kyd/frontend/dist), or None if it is not built.
+    Render only redeploys when files under kyd/backend change, so this is how to tell which frontend is live."""
+    try:
+        m = re.search(r"assets/(index-[\w-]+\.js)", (settings().frontend_dist / "index.html").read_text(encoding="utf-8"))
+        return m.group(1) if m else None
+    except OSError:
+        return None
+
+
 @api.get("/health")
 def health():
     r = repo()
     return {"ok": True, "mode": settings().data_mode, "demo": r.demo, "llm": settings().llm_provider,
-            "graph": graph().backend, "verification": _verification_summary(),
+            "graph": graph().backend, "verification": _verification_summary(), "frontend": _frontend_build(),
             "geographies": len(r.geographies()), "programs": len(graph().programs())}
 
 
