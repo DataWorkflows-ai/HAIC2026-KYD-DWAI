@@ -9,7 +9,7 @@ from .config import settings
 from .models import AgentAnswer, AskRequest
 from .services.graph import graph
 from .services.repo import repo
-from .services import breakdowns, crosswalk, program_context, rankings, representation as rep
+from .services import breakdowns, crosswalk, program_context, rankings, representation as rep, uptake
 from .services.cache import cached
 
 api = APIRouter(prefix="/api")
@@ -191,6 +191,12 @@ def related(program_id: str):
 @api.get("/sources")
 def sources():
     return repo().sources()
+
+
+@api.get("/districts/{geo_id}/uptake-peers")
+def uptake_peers(geo_id: str, who: Principal = Depends(current_principal)):
+    audit.record(who.user, who.role, "uptake_peers", geo_ids=[geo_id])
+    return uptake.uptake_peers(geo_id)
 
 
 @api.get("/finder-index")

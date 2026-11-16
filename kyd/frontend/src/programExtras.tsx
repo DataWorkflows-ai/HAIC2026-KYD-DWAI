@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ExternalLink } from 'lucide-react';
-import { api, type BRow, type CrossProgram, type Obs, type ProgramContext, type Unemployment } from './api';
+import { api, type BRow, type CrossProgram, type Obs, type ProgramContext, type Unemployment, type UptakePeers } from './api';
 import { Card, Empty, Figure, Pill } from './ui';
 
 const n = (v: number | null | undefined) => (v === null || v === undefined ? 'n/a' : Math.round(v).toLocaleString());
@@ -298,6 +298,36 @@ function CrimeCard({ k }: { k: NonNullable<ProgramContext['crime']> }) {
       <div className="flex justify-between text-[10px] text-slate-500 font-mono"><span>{k.trend[0]?.year}</span><span>{k.trend[k.trend.length - 1]?.year}</span></div>
       <ul className="mt-2 text-[11px] text-slate-500 list-disc ml-4">{k.caveats.map(c => <li key={c}>{c}</li>)}</ul>
       <div className="text-[11px] text-slate-500">Source: {k.credit}.</div>
+    </Card>
+  );
+}
+
+/** Districts with similar need that reach more of it with SNAP (estimate). */
+export function UptakePeersCard({ geo, onPick }: { geo: string; onPick?: (g: string) => void }) {
+  const [d, setD] = useState<UptakePeers | null>(null);
+  useEffect(() => { let live = true; setD(null); api.uptakePeers(geo).then(x => live && setD(x)).catch(() => live && setD(null)); return () => { live = false; }; }, [geo]);
+  if (!d || !d.need || !d.gap) return null;
+  return (
+    <Card title={<span className="normal-case">SNAP uptake: similar districts that reach more</span>} right={<Pill tone="amber">ESTIMATE</Pill>} className="col-span-full">
+      <p className="text-sm text-slate-300">
+        In {d.name}, <Figure o={d.need} /> of residents are below 200% of poverty, and about <Figure o={d.gap} /> of them are not in SNAP households.
+      </p>
+      {d.peers.length === 0 ? (
+        <p className="mt-2 text-sm text-slate-400">No district with similar need reaches noticeably more of it, so this district is already at or near the top of its peer group.</p>
+      ) : (
+        <table className="mt-3 w-full text-sm">
+          <thead className="text-xs text-slate-500 text-left"><tr><th className="py-1">Peer district</th><th>Below 200% of poverty</th><th>Not in SNAP</th><th>More people reached at the peer's rate</th></tr></thead>
+          <tbody>
+            {d.peers.map(p => (
+              <tr key={p.geo_id} className="border-t border-premium-800">
+                <td className="py-1.5">{onPick ? <button onClick={() => onPick(p.geo_id)} className="text-slate-100 hover:text-cyan-300 hover:underline">{p.name}</button> : p.name}</td>
+                <td><Figure o={p.need} /></td><td><Figure o={p.gap} /></td>
+                <td><Figure o={p.more_reached} /></td>
+              </tr>))}
+          </tbody>
+        </table>
+      )}
+      <p className="mt-2 text-xs text-slate-500">{d.note} Differences can reflect household makeup and survey error as well as outreach, so treat these as leads to ask about, not proof.</p>
     </Card>
   );
 }
