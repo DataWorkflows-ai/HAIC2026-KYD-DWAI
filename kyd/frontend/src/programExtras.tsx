@@ -369,7 +369,7 @@ function VitalCard({ v }: { v: ProgramContext['vital'] }) {
       {pts.length > 1 && (
         <div className="mt-3">
           <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-24" role="img" aria-label="Births and deaths per year, 2000 to 2024">
-            <path d={line('births')} fill="none" stroke="#22d3ee" strokeWidth={2} />
+            <path d={line('births')} fill="none" stroke="#00bcff" strokeWidth={2} />
             <path d={line('deaths')} fill="none" stroke="#f97316" strokeWidth={2} />
           </svg>
           <div className="flex justify-between text-[10px] text-slate-500 font-mono"><span>{pts[0].year}</span>
