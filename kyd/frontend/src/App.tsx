@@ -5,6 +5,7 @@ import { GeoPicker, Pill, usePersistentState } from './ui';
 import { AskTab, CompareTab, OverviewTab, ProgramsTab, SourcesTab } from './tabs';
 import { MapTab } from './MapTab';
 import { RankingsTab } from './RankingsTab';
+import { Finder } from './Finder';
 
 const TABS = [
   { id: 'overview', label: 'Overview', short: 'Overview', Icon: LayoutDashboard },
@@ -76,7 +77,7 @@ export default function App() {
         </div>
       )}
       <header className="h-16 border-b border-premium-800 flex items-center px-4 lg:px-6 bg-premium-900 shadow-md gap-4">
-        <div className="flex items-center gap-3 min-w-max">
+        <div className="flex items-center gap-3 min-w-max shrink-0">
           <div className="w-9 h-9 rounded-lg bg-gradient-to-tr from-cyan-500 to-emerald-500 flex items-center justify-center shadow-lg">
             <MapPinned className="w-5 h-5 text-white" />
           </div>
@@ -87,15 +88,15 @@ export default function App() {
         </div>
 
         {/* On Overview the district picker sits in the page header next to the district name; elsewhere it sits here, next to the title. */}
-        <div className="flex items-center gap-2 min-w-[1px]">{tab !== 'overview' && districtControl}</div>
+        <div className="flex items-center gap-2 min-w-[1px] shrink-0">{tab !== 'overview' && districtControl}</div>
+        <div className="hidden md:block shrink-0"><Finder onPick={setGeo} /></div>
 
         <nav aria-label="Sections" className="ml-auto flex gap-1 bg-premium-950 p-1 rounded-lg border border-premium-800 overflow-x-auto min-w-0">
           {TABS.map(({ id, label, short, Icon }) => (
             <button key={id} onClick={() => setTab(id)} aria-current={tab === id ? 'page' : undefined} title={label} aria-label={label}
               className={`flex items-center gap-2 px-2.5 py-1.5 rounded-md text-sm font-medium whitespace-nowrap transition ${tab === id ? 'bg-premium-800 text-cyan-400 border border-premium-700' : 'text-slate-400 hover:text-slate-200'}`}>
               <Icon className="w-4 h-4 shrink-0" />
-              <span className="hidden xl:inline 2xl:hidden">{short}</span>
-              <span className="hidden 2xl:inline">{label}</span>
+              <span className="hidden min-[1600px]:inline">{short}</span>
             </button>
           ))}
         </nav>

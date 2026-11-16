@@ -193,6 +193,31 @@ def sources():
     return repo().sources()
 
 
+@api.get("/finder-index")
+@cached
+def finder_index():
+    """Everything the header search can jump to: districts, legislators, places, neighborhoods and ZIP codes.
+    Places and ZIPs list each district they touch with its area share (slivers under 5% dropped)."""
+    import csv
+    out = [{"label": g.name, "kind": "district", "targets": [[g.geo_id, 1.0]], "keys": [g.geo_id.lower(), g.geo_id.replace("-", " ").lower()]}
+           for g in repo().geographies() if g.geo_id[:2] in ("HD", "SD") or g.geo_id == "HI"]
+    with (settings().data_dir / "legislators.csv").open(encoding="utf-8") as f:
+        for r in csv.DictReader(f):
+            if r["name"]:
+                role = "Senator" if r["geo_id"].startswith("SD") else "Representative"
+                out.append({"label": f"{r['name']} ({role}, {r['geo_id']})", "kind": "legislator", "targets": [[r["geo_id"], 1.0]], "keys": []})
+    p = settings().data_dir / "place_aliases.json"
+    if p.exists():
+        seen = set()
+        for alias, a in json.loads(p.read_text(encoding="utf-8"))["aliases"].items():
+            if a["name"] in seen:
+                continue
+            seen.add(a["name"])
+            out.append({"label": a["name"], "kind": a.get("kind", "place"), "keys": [alias],
+                        "targets": [[g, round(s, 3)] for g, s in (a.get("HD") or []) + (a.get("SD") or [])]})
+    return out
+
+
 @api.get("/source-library")
 def source_library():
     """Every source the app draws on (kyd/data/sources.csv; SOURCES.md is generated from it)."""
