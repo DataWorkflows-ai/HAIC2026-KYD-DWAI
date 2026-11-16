@@ -1,15 +1,22 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { Send, ExternalLink, Bot, Zap, ShieldAlert } from 'lucide-react';
 import { api, fmt, type Answer, type Geo, type Obs, type Profile, type ProgramMatch, type Verification } from './api';
-import { Card, Empty, ExportButtons, Figure, GeoPicker, Pill } from './ui';
+import { Card, Empty, ExportButtons, Figure, GeoPicker, Pill, usePersistentState } from './ui';
 import { CrossProgramCard, ProgramContextCards } from './programExtras';
 
 const HEADLINE = ['total_pop', 'median_hh_income', 'pct_below_fpl', 'pct_65plus', 'pct_rent_burden_30', 'pct_uninsured'];
 const by = (xs: Obs[] | undefined) => Object.fromEntries((xs ?? []).map(o => [o.indicator, o]));
 
 // ── Overview ────────────────────────────────────────────────────────────────
+// Starting set for the All indicators table; everything else is one click away under "Add indicator".
+const DEFAULT_ROWS = ['total_pop', 'median_hh_income', 'pct_below_fpl', 'pct_child_poverty', 'pct_65plus_poverty', 'pct_snap_hh',
+  'pct_ssi_hh', 'pct_cash_assist_hh', 'pct_rent_burden_30', 'pct_uninsured', 'pct_disability', 'unemployment_rate', 'pct_pop_lidac',
+  'pct_65plus', 'pct_limited_english'];
+type Layout = { rows: string[] };
 export function OverviewTab({ geo, geos, onAsk, onPick, picker }: { geo: string; geos: Geo[]; onAsk: (q: string) => void; onPick: (g: string) => void; picker?: ReactNode }) {
   const indTable = useRef<HTMLTableElement>(null);
+  const [layout, setLayout] = usePersistentState<Layout>('kyd_indicator_rows', { rows: DEFAULT_ROWS });
+  const [editing, setEditing] = useState(false);
   const [p, setP] = useState<Profile | null>(null);
   const [progs, setProgs] = useState<ProgramMatch[]>([]);
   useEffect(() => {
@@ -38,18 +45,47 @@ export function OverviewTab({ geo, geos, onAsk, onPick, picker }: { geo: string;
         </div>
       </Card>
 
-      <Card className="col-span-12 lg:col-span-7" title="All indicators" right={<ExportButtons table={indTable} name={`kyd_${p.geography.geo_id}_indicators`} />}>
+      <Card className="col-span-12 lg:col-span-7" title="Indicators" right={
+        <div className="flex items-center gap-1.5">
+          <button onClick={() => setEditing(e => !e)} aria-pressed={editing}
+            className={`no-print text-xs px-2 py-1 rounded border ${editing ? 'border-cyan-700 text-cyan-300' : 'border-premium-700 text-slate-300 hover:text-cyan-300'}`}>
+            {editing ? 'Done' : 'Customize'}</button>
+          <ExportButtons table={indTable} name={`kyd_${p.geography.geo_id}_indicators`} />
+        </div>}>
+        {editing && (
+          <div className="no-print mb-2 flex flex-wrap items-center gap-2 text-xs">
+            <select value="" onChange={e => e.target.value && setLayout({ rows: [...layout.rows, e.target.value] })} aria-label="Add indicator"
+              className="bg-premium-950 border border-premium-700 rounded-md px-2 py-1 text-slate-200">
+              <option value="">+ Add indicator…</option>
+              {p.observations.filter(o => !layout.rows.includes(o.indicator)).map(o => <option key={o.indicator} value={o.indicator}>{o.label}</option>)}
+            </select>
+            <button onClick={() => setLayout({ rows: p.observations.map(o => o.indicator) })} className="px-2 py-1 rounded border border-premium-700 text-slate-300 hover:text-cyan-300">Show all</button>
+            <button onClick={() => setLayout({ rows: DEFAULT_ROWS })} className="px-2 py-1 rounded border border-premium-700 text-slate-300 hover:text-cyan-300">Reset</button>
+            <span className="text-slate-500">Use ↑ ↓ to reorder and × to hide. Saved in this browser.</span>
+          </div>
+        )}
         <table ref={indTable} className="w-full text-sm">
-          <thead className="text-xs text-slate-500 text-left"><tr><th className="py-1">Indicator</th><th>District</th><th>County</th><th>State</th></tr></thead>
+          <thead className="text-xs text-slate-500 text-left"><tr><th className="py-1">Indicator</th><th>District</th><th>County</th><th>State</th>{editing && <th className="no-print" />}</tr></thead>
           <tbody>
-            {p.observations.map(o => (
+            {layout.rows.map(k => me[k]).filter(Boolean).map((o, i, shown) => (
               <tr key={o.obs_id} className="border-t border-premium-800">
                 <td className="py-1.5 text-slate-300">{o.label}</td>
                 <td><Figure o={o} /></td>
                 <td className="text-slate-400 font-mono text-xs">{co[o.indicator] ? fmt(co[o.indicator]) : '—'}</td>
                 <td className="text-slate-400 font-mono text-xs">{st[o.indicator] ? fmt(st[o.indicator]) : '—'}</td>
+                {editing && (
+                  <td className="no-print whitespace-nowrap text-right">
+                    {[['↑', -1], ['↓', 1]].map(([lab, d]) => (
+                      <button key={lab as string} disabled={(d === -1 && i === 0) || (d === 1 && i === shown.length - 1)}
+                        onClick={() => { const r = shown.map(x => x.indicator); const j = i + (d as number); [r[i], r[j]] = [r[j], r[i]]; setLayout({ rows: r }); }}
+                        aria-label={`Move ${o.label} ${d === -1 ? 'up' : 'down'}`} className="px-1.5 text-slate-400 hover:text-cyan-300 disabled:opacity-30">{lab}</button>))}
+                    <button onClick={() => setLayout({ rows: layout.rows.filter(x => x !== o.indicator) })} aria-label={`Hide ${o.label}`}
+                      className="px-1.5 text-slate-400 hover:text-red-400">×</button>
+                  </td>
+                )}
               </tr>
             ))}
+            {!layout.rows.some(k => me[k]) && <tr><td colSpan={4} className="py-3 text-xs text-slate-500">No indicators shown. Click Customize to add some.</td></tr>}
           </tbody>
         </table>
       </Card>
