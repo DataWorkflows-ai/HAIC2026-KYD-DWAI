@@ -136,6 +136,12 @@ poverty ladder (125/138/150/185/200% FPL) plus SNAP households with children, 60
   (`CNTY-15001/3/7/9`) and state are official LAUS totals; county/state trend 2014–2025. Shown on the Programs
   tab next to the ACS 2020–2024 rate; `ui_workforce` ranking now leads with `laus_unemp_rate`.
 
+- **Unemployment by demographic group** (`kyd/etl/load_unemp_demographics.py` → table `breakdown`;
+  `app/services/breakdowns.py`; `/api/districts/{id}/unemployment`; agent tool `unemployment_breakdown`; S1 intent
+  `unemployment`): ACS 2020–2024 rates rebuilt from B23025/B23001/C23002A–I/B23006 by the research agent, for
+  districts, counties (Kalawao excluded) and state, with 90% MOEs. `high_moe` rows carry `suppressed_cv` and are
+  greyed. Education covers ages 25–64. Each row has an obs_id, so the System-2 number check accepts it.
+
 ## Source verification
 
 `python kyd/verify/run.py` checks every source behind Crystal's program scripts and writes

@@ -203,3 +203,5 @@ if __name__ == "__main__":
     load_school_meals.build()
     import load_laus          # DBEDT LAUS unemployment 2025 by district/county + 2014–2025 county trend
     load_laus.build()
+    import load_unemp_demographics  # ACS unemployment by sex/age/race/education (breakdown table)
+    load_unemp_demographics.build()
