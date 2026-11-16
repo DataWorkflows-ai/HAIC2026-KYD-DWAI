@@ -167,7 +167,7 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
   const ctx = useRef<any>({});            // ArcGIS objects: view, modules, layers, highlight handles
 
   // data
-  useEffect(() => { api.indicators().then(xs => setIndicators(xs.filter(i => (i.unit !== 'count' || i.indicator === 'total_pop') && i.topic !== 'employment_trend'))); }, []);
+  useEffect(() => { api.indicators().then(xs => setIndicators(xs.filter(i => (i.unit !== 'count' || i.indicator === 'total_pop') && i.topic !== 'employment_trend' && i.topic !== 'crime_trend'))); }, []);
   useEffect(() => {
     (['sldl', 'sldu'] as Chamber[]).forEach(c => api.mapSummary(c).then(s => setSummary(p => ({ ...p, [c]: s }))));
   }, []);

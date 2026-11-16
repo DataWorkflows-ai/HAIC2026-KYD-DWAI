@@ -58,6 +58,7 @@ export function ProgramContextCards({ geo }: { geo: string }) {
   const maxTrend = Math.max(...mq.trend.map(x => x.recipients));
   return (
     <>
+      {c.crime && c.crime.district.length > 0 && <CrimeCard k={c.crime} />}
       {c.employment.district.length > 0 && <EmploymentCard e={c.employment} county={c.county} />}
       <UnemploymentBreakdown geo={geo} county={c.county} />
       {c.school_meals.observations.length > 0 && (
@@ -256,6 +257,31 @@ function UnemploymentBreakdown({ geo, county }: { geo: string; county: string })
         </tbody>
       </table>
       <ul className="mt-2 text-[11px] text-slate-500 list-disc ml-4">{u.notes.map(n => <li key={n}>{n}</li>)}</ul>
+    </Card>
+  );
+}
+
+/** Oʻahu crime by district, ESTIMATE from HPD beat counts × traced beat→district shares. */
+function CrimeCard({ k }: { k: NonNullable<ProgramContext['crime']> }) {
+  const get = (xs: Obs[], id: string) => xs.find(o => o.indicator === id);
+  const max = Math.max(...k.trend.map(t => t.district ?? 0), 1);
+  return (
+    <Card title={<span className="normal-case">{k.title}</span>} right={<Pill tone="amber">ESTIMATE</Pill>} className="md:col-span-2">
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+        {k.district.map(o => (
+          <div key={o.indicator}><div className="text-xs text-slate-400 min-h-[2rem]">{o.label.replace(` (ESTIMATE, Oʻahu)`, '').replace(', 2025', '')}</div><Figure o={o} /></div>
+        ))}
+      </div>
+      {k.oahu_median_per_1k !== null && <p className="mt-2 text-xs text-slate-400">Median Oʻahu district: {k.oahu_median_per_1k.toFixed(1)} offenses per 1,000 residents.
+        {' '}City &amp; County official 2025 (HPD Table 1): {get(k.honolulu_official, 'crime_total_est') && <Figure o={get(k.honolulu_official, 'crime_total_est')!} />} index offenses.</p>}
+      <div className="mt-3 text-xs text-slate-400">District index offenses, {k.trend[0]?.year}–{k.trend[k.trend.length - 1]?.year} (estimate)</div>
+      <div className="flex items-end gap-1 h-14 mt-1" aria-label="Estimated index offenses by year">
+        {k.trend.map(t => <div key={t.year} title={`${t.year}: ${t.district ?? 'n/a'}`} className="flex-1 h-full flex items-end">
+          <div className="w-full bg-amber-700/70 rounded-sm" style={{ height: `${((t.district ?? 0) / max) * 100}%` }} /></div>)}
+      </div>
+      <div className="flex justify-between text-[10px] text-slate-500 font-mono"><span>{k.trend[0]?.year}</span><span>{k.trend[k.trend.length - 1]?.year}</span></div>
+      <ul className="mt-2 text-[11px] text-slate-500 list-disc ml-4">{k.caveats.map(c => <li key={c}>{c}</li>)}</ul>
+      <div className="text-[11px] text-slate-500">Source: {k.credit}.</div>
     </Card>
   );
 }
