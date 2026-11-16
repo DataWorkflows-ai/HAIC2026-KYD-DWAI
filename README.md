@@ -1,6 +1,8 @@
 # Know Your District (HAIC 2026, Challenge 1)
 
-**Live app:** https://know-your-district-zio4.onrender.com — no login, no setup.
+**Team:** DataWorkflows.ai · **Project:** Know Your District · **Solution type:** custom-coded web application
+
+**Live app:** https://know-your-district-zio4.onrender.com — no login, no setup, no credentials needed.
 Shareable links work, for example https://know-your-district-zio4.onrender.com/house-44/map
 
 A nonpartisan, cited profile of every Hawaiʻi State House and Senate district (2022 plan) for legislators and staff:
@@ -9,8 +11,8 @@ Every number on screen traces to a named source, vintage and method, with margin
 
 **Contents:** [Try it](#try-it-in-two-minutes) · [Run it locally](#run-it-locally) · [AI tier](#turn-on-the-ai-tier-optional) ·
 [Checks](#run-the-checks) · [Frontend](#change-the-frontend) · [Data](#rebuild-the-data) · [Deploy](#deploy) ·
-[Settings](#settings) · [What the data covers](#what-the-data-covers) · [How it works](#how-it-works-and-why-it-is-safe-to-put-in-front-of-the-public) ·
-[Layout](#repository-layout) · [Roadmap](#roadmap) · [License](#license)
+[Settings](#settings) · [Third-party services](#third-party-services-and-data) · [What the data covers](#what-the-data-covers) · [How it works](#how-it-works-and-why-it-is-safe-to-put-in-front-of-the-public) ·
+[Security and privacy](#security-and-privacy) · [Layout](#repository-layout) · [Known limitations](#known-limitations) · [Roadmap](#roadmap) · [License](#license)
 
 ## Try it in two minutes
 
@@ -88,7 +90,7 @@ Never commit a key. On a host, set these three values in the host's environment 
 From `kyd/backend`, with the virtual environment active:
 
 ```bash
-python -m pytest -q ../tests          # expect: 98 passed, 1 skipped
+python -m pytest -q ../tests          # expect: 99 passed, 1 skipped
 ```
 
 From the repository root:
@@ -156,6 +158,22 @@ All settings are environment variables, or lines in `kyd/backend/.env`. The defa
 | `KYD_DATABASE_URL`, `KYD_NEO4J_URI`, `KYD_NEO4J_PASSWORD` | local dev values | Used only in `live` mode. Start both with `docker compose -f kyd/docker-compose.yml up -d`. |
 | `KYD_AUTH_SECRET` | empty | HMAC key for signed role tokens. Empty means every visitor is an anonymous, read-only viewer. |
 
+## Third-party services and data
+
+The app runs with none of these except where noted; each is reachable without an account on the reviewer's side.
+
+| Service | Used for | If it is unavailable |
+|---|---|---|
+| [Render](https://render.com) | Hosts the public app | Run it locally (steps above) |
+| Anthropic API (model set by `KYD_LLM_MODEL`) | The AI tier of the Ask tab. The key is held in the host's settings | Ask answers with the built-in rule-based tier; every other tab is unaffected |
+| Esri ArcGIS Maps SDK for JavaScript (`js.arcgis.com`) and Esri World Imagery (`services.arcgisonline.com`) | The Map tab and its basemap, loaded by the browser | The Map tab does not draw; the Rankings map and all figures still work |
+| Hawaiʻi Statewide GIS Program (`geodata.hawaii.gov`) | The official 2022 boundary lines drawn over the map | The map still shades districts from the bundled boundary files |
+| Neo4j (optional) | Program and district relationships in `live` mode | The in-memory graph gives identical answers (checked in CI) |
+
+**Data.** No dataset is fetched at run time. All 29 sources are loaded ahead of time into `kyd/data/kyd.sqlite` and listed,
+with URL, vintage and access date, in [SOURCES.md](SOURCES.md) and on the Sources tab. The Python and JavaScript packages
+are listed in `kyd/backend/requirements.txt` and `kyd/frontend/package.json`.
+
 ## What the data covers
 
 - **Census ACS 2020–2024** district profiles (DP02–DP05, S1701 poverty ladder, S2201 SNAP, unemployment by sex, age, race and education)
@@ -185,6 +203,30 @@ Program-by-program notes and the source files behind them are in [docs/DATA_NOTE
 
 Architecture details: [kyd/ARCHITECTURE.md](kyd/ARCHITECTURE.md).
 
+## Security and privacy
+
+What would need to be addressed to run this in production. The same text is on the Project Submission Form.
+
+Know Your District publishes only public, aggregated statistics. In production the main risks are integrity (a wrong or
+invented number reaching a legislator), privacy (small groups, and what users type) and access to the AI tier.
+
+- **Data tier.** Numbers come from a precomputed fact table. Today it is a read-only SQLite file; production should
+  use Postgres through a SELECT-only role, with loaders run offline and every source re-verified before release (344 checks
+  today). Estimates with a coefficient of variation above 30% are flagged, and cells a source suppresses are left out, never
+  estimated, so small groups cannot be singled out. There are no individual records and no address lookup; keep it that way.
+- **AI tier.** The model can only call fixed, parameterized tools and never writes SQL. Every number in an answer is checked
+  against tool results and removed if it cannot be traced. Questions about individuals and partisan advice are refused. Today
+  questions go to a commercial API; production should use a State-approved or locally hosted model with no retention.
+- **Access.** The demo is anonymous and read-only. Production needs State single sign-on in front of the app. The app
+  already ignores client-supplied identity headers and accepts only HMAC-signed role tokens. Add per-user rate limits
+  (none today) to protect the model budget.
+- **Audit.** Every data and agent request goes to a hash-chained, append-only log, with personal information scrubbed from
+  stored questions. It must move from a local file to the database, with retention set by records policy.
+- **Secrets and supply chain.** The model key lives only in host settings and the repository history is scanned for
+  secrets. Pin dependency versions, keep CORS restricted to the production origin, and serve only over TLS.
+- **Third parties.** The map loads Esri and State GIS services from the browser; review their terms and the exposure of
+  user IP addresses.
+
 ## Repository layout
 
 | Path | What it holds |
@@ -200,6 +242,25 @@ Architecture details: [kyd/ARCHITECTURE.md](kyd/ARCHITECTURE.md).
 | `docs/` | Challenge rules and [data notes](docs/DATA_NOTES.md) |
 | `render.yaml` | Render Blueprint for the public deployment |
 | `app.py` | The earlier Streamlit prototype, kept for reference |
+
+## Known limitations
+
+- **Only SNAP has a district-level eligible-but-not-enrolled estimate.** For other programs (Med-QUEST, TANF, GA, AABD, WIC,
+  LIHEAP, Lifeline, school meals) the app estimates who looks eligible; agencies do not publish enrollment by district.
+- **Estimates are estimates.** Figures apportioned to districts from tracts, school locations, police beats or communities
+  (unemployment, HUD housing, school figures, crime, births and deaths, LIDAC) are labelled as estimates. Small districts
+  have wide margins of error, and values with a coefficient of variation above 30% are flagged.
+- **Crime covers Oʻahu only**, from HPD annual reports; beat boundaries were traced from report maps and are approximate.
+- **School figures** are by school location, not where students live, and exclude charter schools.
+- **The data is a snapshot** (ACS 2020–2024 and the vintages listed in SOURCES.md). Updating means rerunning the loaders;
+  there is no automatic source watcher yet.
+- **The legislator roster** is as of 13 November 2026, and a few seats are still to be confirmed against the final report.
+- **The AI tier needs the model API.** If it is unreachable, Ask falls back to rule-based answers.
+- **The Map tab needs internet access** to Esri and the State GIS service, even when the app runs locally.
+- **Public demo:** no login and no rate limiting, and the audit log on the host is a local file that does not survive a redeploy.
+- **Layout:** on the Map tab at window widths of about 800–1200px the island buttons overlap the layer toggles. Print has
+  been checked in Chromium only.
+- **Not included:** county council district profiles (council lines are on the map).
 
 ## Roadmap
 
