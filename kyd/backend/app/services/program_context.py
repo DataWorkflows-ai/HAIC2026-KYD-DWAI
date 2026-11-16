@@ -43,6 +43,14 @@ def _static() -> dict:
             "county_snap": {"month": month, "rows": {c: {"households": h, "persons": p} for c, h, p, _ in snap_rows}}}
 
 
+@lru_cache(maxsize=1)
+def _facts() -> list[dict]:
+    """Statewide program facts (income limits, latest enrollment, source link) from the research package."""
+    import csv
+    p = settings().data_dir / "program_facts.csv"
+    return list(csv.DictReader(p.open(encoding="utf-8"))) if p.exists() else []
+
+
 @cached
 def context(geo_id: str) -> dict:
     counties = json.loads((settings().data_dir / "district_counties.json").read_text())
@@ -63,8 +71,18 @@ def context(geo_id: str) -> dict:
                 "hud_units_elderly_disabled", "hud_people_total", "hud_units_per_1k_hh"]
     hud = {o.indicator: o for o in repo().observations([geo_id], hud_keys)}
     hud_state = {o.indicator: o for o in repo().observations(["HI"], ["hud_units_per_1k_hh"])}
+    meals = {o.indicator: o for o in repo().observations([geo_id],
+             ["pct_free_reduced_meals", "free_reduced_students", "public_school_enrolled"])}
+    meals_state = {o.indicator: o.value for o in repo().observations(["HI"], ["pct_free_reduced_meals"])}
     return {
         "geo_id": geo_id, "county": county,
+        "school_meals": {"title": "Free/reduced-price school meals (SY2025-26)",
+                         "observations": list(meals.values()), "state_pct": meals_state.get("pct_free_reduced_meals"),
+                         "source": "Hawaiʻi Child Nutrition Programs, October Data SY2025-26",
+                         "url": "https://hcnp.hawaii.gov/wp-content/uploads/2026/01/October-Data-2026-SY25-26.pdf",
+                         "note": "* Excludes public charter schools, which enroll students statewide regardless of "
+                                 "district. Counted by school location, not where students live."},
+        "facts": _facts(),
         "hud": {"title": "HUD-subsidized housing (district)", "as_of": "2025-12-31",
                 "observations": [hud[k] for k in hud_keys if k in hud],
                 "state_per_1k_hh": hud_state["hud_units_per_1k_hh"].value if hud_state else None,

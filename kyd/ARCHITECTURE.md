@@ -124,6 +124,13 @@ poverty ladder (125/138/150/185/200% FPL) plus SNAP households with children, 60
   tract appear in the state total only. Crosswalk district populations match ACS within 3.9% at the median
   (HD-39 +22%, worth a look).
 
+- **School meals** (`kyd/etl/load_school_meals.py`): HCNP October Data SY2025-26 free/reduced eligibility,
+  rolled up to districts by school location by the research team (`data/raw/research/`), public charter schools
+  excluded per Mitchell (2026-11-15). Indicators `pct_free_reduced_meals`, `free_reduced_students`,
+  `public_school_enrolled`. HIDOE content is non-commercial; figures are cited (see `data/raw/research/LICENSING.md`).
+- **Program facts** (`kyd/data/program_facts.csv`): 24 programs' income rules, limits and latest statewide
+  enrollment with a source link per row, from the research package; shown on the Programs tab.
+
 ## Source verification
 
 `python kyd/verify/run.py` checks every source behind Crystal's program scripts and writes

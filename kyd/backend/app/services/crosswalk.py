@@ -14,7 +14,7 @@ from __future__ import annotations
 from .cache import cached
 from .repo import repo
 
-INPUTS = ["snap_hh_count", "snap_hh_children", "snap_persons_est", "households", "pct_ssi_hh", "pct_under5",
+INPUTS = ["pct_free_reduced_meals", "free_reduced_students", "snap_hh_count", "snap_hh_children", "snap_persons_est", "households", "pct_ssi_hh", "pct_under5",
           "pop_below_125fpl", "pop_below_138fpl", "pop_below_150fpl", "pop_below_185fpl"]
 
 ACS_THRESHOLD_CAVEAT = ("Income figures use Census poverty thresholds, which are national. Hawaiʻi programs use the "
@@ -81,7 +81,10 @@ def estimate(geo_id: str) -> dict:
     if "snap_hh_children" in v:
         add("school_meals", "households", v["snap_hh_children"], None, None,
             "SNAP households with children under 18 (S2201_C03_009)", _ids(obs, "snap_hh_children"), "high",
-            ["Counts households, not children; a household may have several school-age children.", SNAP_ACS_CAVEAT])
+            ["Counts households, not children; a household may have several school-age children.", SNAP_ACS_CAVEAT]
+            + ([f"Actual: {v['free_reduced_students']:,.0f} students ({v['pct_free_reduced_meals']:g}%) at public schools "
+                "in this district are eligible for free/reduced-price meals (HCNP October SY2025-26, by school location, "
+                "charter schools excluded)."] if "pct_free_reduced_meals" in v else []))
 
     if "snap_hh_count" in v:
         income = None

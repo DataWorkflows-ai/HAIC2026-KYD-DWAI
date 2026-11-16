@@ -58,6 +58,21 @@ export function ProgramContextCards({ geo }: { geo: string }) {
   const maxTrend = Math.max(...mq.trend.map(x => x.recipients));
   return (
     <>
+      {c.school_meals.observations.length > 0 && (
+        <Card title={<span className="normal-case">{c.school_meals.title}</span>} right={<Pill>schools in district</Pill>}>
+          <div className="space-y-2">
+            {c.school_meals.observations.map(o => (
+              <div key={o.indicator} className="flex items-baseline justify-between gap-2">
+                <span className="text-xs text-slate-400">{o.label}</span><Figure o={o} />
+              </div>
+            ))}
+          </div>
+          {c.school_meals.state_pct !== null && <p className="mt-2 text-xs text-slate-400">State: {c.school_meals.state_pct}% of public-school students.</p>}
+          <p className="mt-1 text-xs text-slate-500">{c.school_meals.note}</p>
+          <a href={c.school_meals.url} target="_blank" rel="noreferrer" className="mt-1 flex items-center gap-1 text-xs text-cyan-400 hover:underline">
+            {c.school_meals.source} <ExternalLink className="w-3 h-3" /></a>
+        </Card>
+      )}
       {c.hud.observations.length > 0 && (
         <Card title={<span className="normal-case">{c.hud.title}</span>} right={<Pill>as of {c.hud.as_of}</Pill>} className="col-span-full">
           <div className="grid sm:grid-cols-3 lg:grid-cols-7 gap-3">
@@ -117,6 +132,7 @@ export function ProgramContextCards({ geo }: { geo: string }) {
         </table>
         <p className="mt-2 text-xs text-slate-500">{s.source}</p>
       </Card>
+      {c.facts.length > 0 && <ProgramFacts facts={c.facts} />}
       {u.available && (
         <Card title={<span className="normal-case">{u.title}</span>} className="md:col-span-2 xl:col-span-3">
           <p className="text-xs text-slate-400 mb-2">Share of this district's people below poverty in each group, compared with that group's share of TANF
@@ -138,5 +154,34 @@ export function ProgramContextCards({ geo }: { geo: string }) {
         </Card>
       )}
     </>
+  );
+}
+
+/** Statewide income limits and latest enrollment for each program, with the source for each row. */
+function ProgramFacts({ facts }: { facts: ProgramContext['facts'] }) {
+  const [open, setOpen] = useState(false);
+  const shown = open ? facts : facts.slice(0, 6);
+  return (
+    <Card title="Program facts (statewide)" right={<Pill>{facts.length} programs</Pill>} className="col-span-full">
+      <div className="overflow-x-auto">
+        <table className="w-full text-xs">
+          <thead><tr className="text-slate-500 text-left">
+            <th className="font-normal py-1 pr-3">Program</th><th className="font-normal pr-3">Income rule</th>
+            <th className="font-normal pr-3">Limit, 1 person</th><th className="font-normal pr-3">Limit, 4 people</th>
+            <th className="font-normal pr-3">Latest enrollment</th><th className="font-normal">Source</th></tr></thead>
+          <tbody>{shown.map(f => (
+            <tr key={f.program} className="border-b border-premium-800 align-top">
+              <td className="py-1 pr-3 text-slate-200">{f.program}<div className="text-slate-500">{f.agency}</div></td>
+              <td className="pr-3 text-slate-300">{f.income_rule}</td>
+              <td className="pr-3 font-mono text-slate-300">{f.limit_1_person}</td>
+              <td className="pr-3 font-mono text-slate-300">{f.limit_4_person}</td>
+              <td className="pr-3 text-cyan-300">{f.enrollment_latest}</td>
+              <td>{f.link && <a href={f.link} target="_blank" rel="noreferrer" className="text-cyan-400 hover:underline inline-flex items-center gap-1">link <ExternalLink className="w-3 h-3" /></a>}</td>
+            </tr>))}</tbody>
+        </table>
+      </div>
+      {facts.length > 6 && <button onClick={() => setOpen(!open)} className="mt-2 text-xs text-cyan-400 hover:underline">{open ? 'Show fewer' : `Show all ${facts.length}`}</button>}
+      <p className="mt-2 text-xs text-slate-500">Compiled by the team's research agents from each agency's published charts and reports; every row links to its source. Statewide figures, not district enrollment.</p>
+    </Card>
   );
 }
