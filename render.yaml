@@ -1,0 +1,25 @@
+# Render Blueprint: public, read-only demo of Know Your District.
+# Runs on the bundled SQLite database (kyd/data/kyd.sqlite, opened read-only) and the committed
+# frontend build (kyd/frontend/dist). No database server and no secrets are needed.
+# Optional: add KYD_LLM_PROVIDER=anthropic and KYD_LLM_API_KEY in the Render dashboard to turn on the
+# LLM tier (System 2); without them the agent answers with the rule-based tier (System 1) only.
+services:
+  - type: web
+    name: know-your-district
+    runtime: python
+    plan: free
+    region: oregon
+    rootDir: kyd/backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT --proxy-headers
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.7"
+      - key: KYD_DATA_MODE
+        value: sqlite
+      - key: KYD_GRAPH_MODE
+        value: auto
+      - key: KYD_LLM_PROVIDER
+        value: none
