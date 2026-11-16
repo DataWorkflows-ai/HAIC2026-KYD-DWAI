@@ -223,3 +223,7 @@ __marimo__/
 data/raw/gis/cdp20.geojson
 data/raw/gis/zcta20.geojson
 data/raw/gis/local/*.geojson
+
+# 2020 tract/block-group boundaries; re-fetched by kyd/etl/build_tract_crosswalk.py (.sha256 files are committed)
+data/raw/gis/tracts20.geojson
+data/raw/gis/bg20.geojson

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ExternalLink } from 'lucide-react';
 import { api, type CrossProgram, type ProgramContext } from './api';
-import { Card, Empty, Pill } from './ui';
+import { Card, Empty, Figure, Pill } from './ui';
 
 const n = (v: number | null | undefined) => (v === null || v === undefined ? 'n/a' : Math.round(v).toLocaleString());
 const tone = { high: 'emerald', medium: 'cyan', low: 'amber' } as const;
@@ -58,6 +58,20 @@ export function ProgramContextCards({ geo }: { geo: string }) {
   const maxTrend = Math.max(...mq.trend.map(x => x.recipients));
   return (
     <>
+      {c.hud.observations.length > 0 && (
+        <Card title={<span className="normal-case">{c.hud.title}</span>} right={<Pill>as of {c.hud.as_of}</Pill>} className="col-span-full">
+          <div className="grid sm:grid-cols-3 lg:grid-cols-7 gap-3">
+            {c.hud.observations.map(o => (
+              <div key={o.indicator}>
+                <div className="text-xs text-slate-400 min-h-[2rem]">{o.label}</div>
+                <Figure o={o} />
+              </div>
+            ))}
+          </div>
+          {c.hud.state_per_1k_hh !== null && <p className="mt-2 text-xs text-slate-400">State: {c.hud.state_per_1k_hh.toFixed(1)} subsidized units per 1,000 households.</p>}
+          <p className="mt-1 text-xs text-slate-500">{c.hud.source}. {c.hud.caveats.join(' ')}</p>
+        </Card>
+      )}
       <h3 className="col-span-full mt-2 text-xs font-semibold text-slate-400 uppercase tracking-wide">Island & statewide context · {c.county} County</h3>
       <Card title={<span className="normal-case">{mq.title}</span>} right={<Pill>SFY {mq.sfy}</Pill>}>
         <table className="w-full text-sm">

@@ -45,7 +45,7 @@ export function Figure({ o, big = false }: { o: Obs; big?: boolean }) {
           <div>Value <b>{fmt(o)}</b>{o.moe !== null && <> ± {fmt({ value: o.moe, unit: o.unit })} (90% MOE)</>}</div>
           {o.cv !== null && <div>Coefficient of variation: {(o.cv * 100).toFixed(1)}%{weak && ' (above the 30% reliability threshold)'}</div>}
           <div>Method: {o.method}{o.method_note ? ` · ${o.method_note}` : ''}</div>
-          <div>Vintage: ACS {o.vintage}</div>
+          <div>Vintage: {o.source_id.startsWith('acs') ? 'ACS ' : ''}{o.vintage}</div>
           {cite?.source && <div>Source: {cite.source.publisher}, {cite.source.title}{cite.source.url && <> · <a className="text-cyan-400 underline" href={cite.source.url} target="_blank" rel="noreferrer">link</a></>}</div>}
           <div className="text-slate-500 font-mono">obs:{o.obs_id} · {o.flags.join(', ') || 'no flags'}</div>
         </div>
