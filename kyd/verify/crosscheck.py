@@ -27,23 +27,17 @@ def run(rep: Report) -> None:
     import load_county_snap, tanf_by_island  # noqa: E401
     b = _bessd()
 
-    # 1. DHS testimony (Sept 2025) vs BESSD workbook (Sept 2025): same administrative system, same month
-    rep.add("dhs.testimony_2025_10.archived", "dhs.testimony_2025_10", "provenance", "warn",
-            "County SNAP figures in scripts/load_county_snap.py cite a capitol.hawaii.gov testimony PDF that is not "
-            "archived in data/raw, so they cannot be re-read; they are checked against the BESSD workbook instead")
-    code = {"Honolulu": "OB", "Hawaii": "HB", "Kauai": "KB", "Maui": "Maui", "Molokai": "Molokai", "Lanai": "Lanai"}
-    for county, hh, persons, _ in load_county_snap.COUNTY_SNAP:
-        bh = b.get(("2025-09", "households", code[county]))
-        bp = b.get(("2025-09", "persons", code[county]))
-        if not bh or not bp:
-            rep.add(f"cross.snap_county.{county}", "dhs.testimony_2025_10", "cross_source", "warn",
-                    f"no BESSD Sept 2025 row for {county}")
-            continue
-        got = (float(bh["total"]), float(bp["total"]))
-        ok = rel_close(hh, got[0], 0.03) and rel_close(persons, got[1], 0.03)
-        rep.add(f"cross.snap_county.{county}", "dhs.testimony_2025_10", "cross_source", "pass" if ok else "warn",
-                f"{county} SNAP Sept 2025 households/persons: testimony vs BESSD workbook (±3%)",
-                expected=list(got), actual=[hh, persons])
+    # 1. County SNAP loader reads the BESSD CSV (itself re-verified against the workbook in bessd.py);
+    #    confirm the loader's output is exactly the CSV totals for its month.
+    month, snap = load_county_snap.county_snap()
+    code = {c: k for c, k, _ in load_county_snap.COUNTIES}
+    for county, hh, persons, _ in snap:
+        bh, bp = b.get((month, "households", code[county])), b.get((month, "persons", code[county]))
+        got = (float(bh["total"]), float(bp["total"])) if bh and bp else None
+        ok = got is not None and got == (hh, persons)
+        rep.add(f"cross.snap_county.{county}", "dhs.bessd_sfy2026", "provenance", "pass" if ok else "fail",
+                f"{county} SNAP {month} households/persons: load_county_snap.py vs BESSD CSV (exact)",
+                expected=list(got) if got else None, actual=[hh, persons])
 
     # 2. Databook SFY 2025 average monthly SNAP cases vs BESSD SFY 2026 statewide households (adjacent years)
     sj = json.loads((PROCESSED / "dhs_snap_demographics_june2025.json").read_text())

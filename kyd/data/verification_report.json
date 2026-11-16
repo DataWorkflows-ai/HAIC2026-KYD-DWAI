@@ -1,9 +1,9 @@
 {
- "generated_at": "2026-11-16T00:06:48+00:00",
- "git_sha": "c8c0f4d",
+ "generated_at": "2026-11-16T00:52:52+00:00",
+ "git_sha": "b6ac021",
  "summary": {
   "fail": 0,
-  "warn": 6,
+  "warn": 5,
   "info": 4,
   "pass": 344
  },
@@ -20,16 +20,9 @@
    "path": "data/raw/SFY-2026-SUMMARY.numbers",
    "publisher": "Hawaiʻi DHS BESSD",
    "url": null,
-   "used_by": "tanf_by_island.py (via data/processed CSV)",
+   "used_by": "tanf_by_island.py, load_county_snap.py (via data/processed CSV)",
    "sha256": "077c2320cbc833b5e71afa13e07f0f2d093a1f846fc4e591edb0062c081d2651",
    "verified_at": "2026-11-16T00:06:35+00:00"
-  },
-  "dhs.testimony_2025_10": {
-   "path": null,
-   "publisher": "Hawaiʻi DHS (legislative testimony)",
-   "url": "https://www.capitol.hawaii.gov/sessions/session2025/testimony/INFO_TESTIMONY_HHS_10-28-25_DHS.pdf",
-   "used_by": "load_county_snap.py",
-   "sha256": null
   },
   "processed.snap_demographics": {
    "path": "data/processed/dhs_snap_demographics_june2025.json",
@@ -51,7 +44,7 @@
    "path": "data/processed/bessd_sfy2026_caseload_by_island.csv",
    "publisher": "derived from BESSD workbook",
    "url": null,
-   "used_by": "tanf_by_island.py",
+   "used_by": "tanf_by_island.py, load_county_snap.py",
    "sha256": "8e2d73cc1629137b1a8b2b73690ffd77580badb4c51b96a047f3dfbb0d3c3f65",
    "verified_at": "2026-11-16T00:06:35+00:00"
   },
@@ -226,16 +219,6 @@
    "expected": 345231,
    "actual": 345233,
    "location": "p27"
-  },
-  {
-   "id": "dhs.testimony_2025_10.archived",
-   "source": "dhs.testimony_2025_10",
-   "kind": "provenance",
-   "status": "warn",
-   "detail": "County SNAP figures in scripts/load_county_snap.py cite a capitol.hawaii.gov testimony PDF that is not archived in data/raw, so they cannot be re-read; they are checked against the BESSD workbook instead",
-   "expected": null,
-   "actual": null,
-   "location": null
   },
   {
    "id": "cross.snap_acs_vs_admin.Hawaii",
@@ -1799,97 +1782,97 @@
   },
   {
    "id": "cross.snap_county.Hawaii",
-   "source": "dhs.testimony_2025_10",
-   "kind": "cross_source",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "provenance",
    "status": "pass",
-   "detail": "Hawaii SNAP Sept 2025 households/persons: testimony vs BESSD workbook (±3%)",
+   "detail": "Hawaii SNAP 2026-02 households/persons: load_county_snap.py vs BESSD CSV (exact)",
    "expected": [
-    21654.0,
-    41673.0
+    19671.0,
+    38892.0
    ],
    "actual": [
-    21654,
-    41673
+    19671,
+    38892
    ],
    "location": null
   },
   {
    "id": "cross.snap_county.Honolulu",
-   "source": "dhs.testimony_2025_10",
-   "kind": "cross_source",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "provenance",
    "status": "pass",
-   "detail": "Honolulu SNAP Sept 2025 households/persons: testimony vs BESSD workbook (±3%)",
+   "detail": "Honolulu SNAP 2026-02 households/persons: load_county_snap.py vs BESSD CSV (exact)",
    "expected": [
-    50729.0,
-    100064.0
+    47468.0,
+    94655.0
    ],
    "actual": [
-    50729,
-    100064
+    47468,
+    94655
    ],
    "location": null
   },
   {
    "id": "cross.snap_county.Kauai",
-   "source": "dhs.testimony_2025_10",
-   "kind": "cross_source",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "provenance",
    "status": "pass",
-   "detail": "Kauai SNAP Sept 2025 households/persons: testimony vs BESSD workbook (±3%)",
+   "detail": "Kauai SNAP 2026-02 households/persons: load_county_snap.py vs BESSD CSV (exact)",
    "expected": [
-    4438.0,
-    8599.0
+    3984.0,
+    7977.0
    ],
    "actual": [
-    4438,
-    8599
+    3984,
+    7977
    ],
    "location": null
   },
   {
    "id": "cross.snap_county.Lanai",
-   "source": "dhs.testimony_2025_10",
-   "kind": "cross_source",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "provenance",
    "status": "pass",
-   "detail": "Lanai SNAP Sept 2025 households/persons: testimony vs BESSD workbook (±3%)",
+   "detail": "Lanai SNAP 2026-02 households/persons: load_county_snap.py vs BESSD CSV (exact)",
    "expected": [
-    160.0,
-    386.0
+    147.0,
+    364.0
    ],
    "actual": [
-    160,
-    386
+    147,
+    364
    ],
    "location": null
   },
   {
    "id": "cross.snap_county.Maui",
-   "source": "dhs.testimony_2025_10",
-   "kind": "cross_source",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "provenance",
    "status": "pass",
-   "detail": "Maui SNAP Sept 2025 households/persons: testimony vs BESSD workbook (±3%)",
+   "detail": "Maui SNAP 2026-02 households/persons: load_county_snap.py vs BESSD CSV (exact)",
    "expected": [
-    8112.0,
-    15845.0
+    7466.0,
+    14697.0
    ],
    "actual": [
-    8112,
-    15845
+    7466,
+    14697
    ],
    "location": null
   },
   {
    "id": "cross.snap_county.Molokai",
-   "source": "dhs.testimony_2025_10",
-   "kind": "cross_source",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "provenance",
    "status": "pass",
-   "detail": "Molokai SNAP Sept 2025 households/persons: testimony vs BESSD workbook (±3%)",
+   "detail": "Molokai SNAP 2026-02 households/persons: load_county_snap.py vs BESSD CSV (exact)",
    "expected": [
-    1136.0,
-    2380.0
+    1050.0,
+    2237.0
    ],
    "actual": [
-    1136,
-    2380
+    1050,
+    2237
    ],
    "location": null
   },
