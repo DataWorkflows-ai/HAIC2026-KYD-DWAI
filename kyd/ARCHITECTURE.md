@@ -20,7 +20,6 @@ document refer to that file.
 │ services/  repo.py      FactRepo  → PostgresRepo | FixtureRepo (numbers)                       │
 │            graph.py     ProgramGraph → Neo4jGraph | FixtureGraph (relationships, lineage)      │
 │            quality.py   CV>30% suppression, MOE handling, staleness flags (§9.2, §6.4)         │
-│            anomaly.py   peer-district residual flags (§4)                                      │
 │ audit/     hash-chained, append-only access log (§8.1–8.2)                                     │
 │ privacy/   Presidio scrub (optional dependency, regex fallback) (§8.3)                         │
 └───────────────────────────────────────────────┬────────────────────────────────────────────────┘
@@ -78,6 +77,45 @@ The frontend sends `sessionStorage.kyd_token` as the bearer token when present.
   (`s2_error`) instead of returning a 500.
 - Numbers in an S2 answer that do not match a returned observation are replaced in the text
   (`unsupported_numbers_removed`); they never reach the user.
+
+## Knowledge graph (Neo4j)
+
+`app/services/graph_data.py` builds one graph document from the committed data files: districts, counties,
+House↔Senate overlaps, peer districts, legislators, neighborhoods, neighborhood boards, council districts,
+programs, indicator lineage, and the datasets behind each program capability with their verification status.
+Two backends answer from that same document:
+
+- **Neo4j** (`KYD_GRAPH_MODE=neo4j`, or `auto` when Neo4j is reachable). Load it with
+  `docker compose -f kyd/docker-compose.yml up -d graph` then `python kyd/etl/build_graph.py`.
+  The loader stamps every node with a build id, prunes leftovers from earlier builds, then reads the graph back:
+  node and relationship counts must equal the document, and `district_context()` must equal the in-memory answer
+  for all 76 districts. Any mismatch exits non-zero.
+- **In memory** (`KYD_GRAPH_MODE=fixture`, or `auto` when Neo4j is not running), so the app still runs with
+  no database.
+
+API: `/api/districts/{id}/context`, `/api/connections?a=&b=`, `/api/verification`. Agent tool:
+`district_connections` (relationships only, worded without numbers so the figure check stays strict).
+
+## Source verification
+
+`python kyd/verify/run.py` checks every source behind Crystal's program scripts and writes
+`kyd/data/verification_report.json` (shown in Sources & Methods and loaded into the graph).
+
+| Source | What is checked |
+|---|---|
+| Census API extracts (`data/raw/*_districts.json`) | table and vintage, one row per district, every used variable present and numeric; **identities that pin each variable's meaning**: percent = count / total, subject-table rate = Data Profile rate, poverty-threshold ladder ordered, DP values = DBEDT workbook values, House sum = Senate sum |
+| DHS Databook 2025 PDF | each table's heading is on the page the code cites; every hand-typed figure in `scripts/*.py` and `data/processed/*databook*` is re-read from the PDF; distributions add to 100; islands add to statewide |
+| BESSD SFY 2026 workbook (`.numbers`) | blocks and header row found by name; the processed CSV equals the workbook cell by cell; columns add to TOTAL; Maui + Molokaʻi + Lānaʻi = Maui Branch; branches add to STATE |
+| Cross-source | DHS testimony vs BESSD (same month); Databook vs BESSD caseloads; ACS poverty ladder and county rates vs Databook; ACS vs administrative SNAP (info) |
+
+Status: **fail** = format change, transcription error or internal inconsistency (exit 1, CI fails);
+**warn** = for review; **info** = shown, not judged. `--accept` records file hashes in `kyd/verify/manifest.json`
+after review, so a replaced source file shows up as changed on the next run. `kyd/tests/test_verification.py`
+corrupts copies of each source (swapped Census columns, a page inserted into the Databook, a typo in code, an
+edited CSV cell) and asserts each one fails.
+
+CI (`.github/workflows/kyd-ci.yml`) runs the verification, the tests, a real Neo4j load with read-back, and the
+frontend build on every push and pull request that touches `kyd/`, `scripts/` or the source data.
 
 ## Modes
 

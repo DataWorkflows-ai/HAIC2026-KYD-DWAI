@@ -1,4 +1,5 @@
 from __future__ import annotations
+import json
 from fastapi import APIRouter, Depends, HTTPException
 from . import audit
 from .auth import Principal, current_principal
@@ -25,6 +26,7 @@ def me(who: Principal = Who):
 def health():
     r = repo()
     return {"ok": True, "mode": settings().data_mode, "demo": r.demo, "llm": settings().llm_provider,
+            "graph": graph().backend, "verification": _verification_summary(),
             "geographies": len(r.geographies()), "programs": len(graph().programs())}
 
 
@@ -94,6 +96,41 @@ def map_summary(geo_type: str = "sldl"):
         {"geo_id": g.geo_id, "name": g.name, "counties": g.counties, "member": rep.member(g.geo_id),
          "counterparts": rep.counterparts(g.geo_id), **rep.local_areas(g.geo_id), "top_program": top[g.geo_id],
          "figures": sorted(by.get(g.geo_id, []), key=lambda o: order[o.indicator])} for g in geos]}
+
+
+@api.get("/districts/{geo_id}/context")
+def district_context(geo_id: str):
+    """Relationships for one district from the graph: overlaps, peers, neighborhoods, boards, council."""
+    c = graph().district_context(geo_id)
+    if not c:
+        raise HTTPException(404, f"unknown district {geo_id}")
+    return c
+
+
+@api.get("/connections")
+def connections(a: str, b: str):
+    """How two districts are connected: overlap, peer, shared neighborhoods, boards, council, graph path."""
+    return graph().connections(a, b)
+
+
+def _verification_summary() -> dict | None:
+    p = settings().data_dir / "verification_report.json"
+    if not p.exists():
+        return None
+    r = json.loads(p.read_text(encoding="utf-8"))
+    return {"generated_at": r["generated_at"], "git_sha": r.get("git_sha"), **r["summary"]}
+
+
+@api.get("/verification")
+def verification(status: str | None = None):
+    """Source verification report (kyd/verify/run.py) and which program capabilities it covers."""
+    p = settings().data_dir / "verification_report.json"
+    if not p.exists():
+        raise HTTPException(404, "no verification report; run python kyd/verify/run.py")
+    r = json.loads(p.read_text(encoding="utf-8"))
+    checks = [c for c in r["checks"] if status is None or c["status"] == status]
+    return {"summary": _verification_summary(), "sources": r["sources"], "capabilities": graph().capabilities(),
+            "checks": checks}
 
 
 @api.get("/programs")

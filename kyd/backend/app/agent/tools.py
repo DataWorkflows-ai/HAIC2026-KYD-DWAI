@@ -149,6 +149,29 @@ def export_summary(geo_id: str) -> dict:
     return {"profile": prof, "programs": find_programs(geo_id), "format": "pdf-pending"}
 
 
+def district_connections(a: str, b: str | None = None) -> dict:
+    """Relationships from the graph, worded without numbers so S2's figure check stays strict:
+    one district's context, or how two districts connect."""
+    def cover(s: float) -> str:
+        return "all" if s >= 0.95 else "most" if s >= 0.5 else "part"
+    gr = graph()
+    if b:
+        c = gr.connections(a, b)
+        if "error" in c:
+            raise KeyError(c["error"])
+        return {**{k: v for k, v in c.items() if k != "overlap"},
+                "overlap": None if c["overlap"] is None else f"{cover(c['overlap'])} of {a} lies in {b}"}
+    c = gr.district_context(a)
+    if not c:
+        raise KeyError(a)
+    return {"geo_id": a, "name": c["name"], "county": c["county"], "peers_by_profile": c["peers"],
+            "neighborhoods": c["neighborhoods"],
+            "overlapping_districts": [f"{x['geo_id']} ({cover(x['share_of_this'])})" for x in c["counterparts"]],
+            "neighborhood_boards": [f"No. {x['number']} {x['name']} ({cover(x['share'])})" for x in c["boards"]],
+            "council_districts": [f"{x['body']} {x['name'] if x['number'] is None else 'District ' + str(x['number'])} "
+                                  f"({cover(x['share'])})" for x in c["council"]]}
+
+
 TOOL_SPECS = [  # JSON-schema descriptions handed to System 2
     {"name": "get_district_profile", "description": "Core indicators for one district, with county and state comparisons.",
      "parameters": {"type": "object", "properties": {"geo_id": {"type": "string"},
@@ -161,7 +184,15 @@ TOOL_SPECS = [  # JSON-schema descriptions handed to System 2
     {"name": "estimate_eligible", "description": "Population proxy for a program in a district.",
      "parameters": {"type": "object", "properties": {"geo_id": {"type": "string"}, "program_id": {"type": "string"}},
                     "required": ["geo_id", "program_id"]}},
+    {"name": "district_connections",
+     "description": "Relationships from the knowledge graph. With only `a`: the district's county, neighborhoods, "
+                    "overlapping House/Senate districts, neighborhood boards, council districts and most similar peer "
+                    "districts. With `a` and `b`: how the two districts connect (overlap, peers, shared neighborhoods, "
+                    "boards, council, shortest graph path). Contains no statistics.",
+     "parameters": {"type": "object", "properties": {"a": {"type": "string"}, "b": {"type": "string"}},
+                    "required": ["a"]}},
 ]
 TOOLS = {"get_district_profile": get_district_profile, "compare_district": compare_district,
          "find_programs": find_programs, "estimate_eligible": estimate_eligible,
-         "get_map_layer": get_map_layer, "export_summary": export_summary}
+         "get_map_layer": get_map_layer, "export_summary": export_summary,
+         "district_connections": district_connections}
