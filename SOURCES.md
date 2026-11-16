@@ -1,6 +1,6 @@
 # Sources
 
-Every source Know Your District draws on (28 in all). Generated from `kyd/data/sources.csv` by `kyd/etl/make_sources_md.py`; the app's Sources tab shows the same list. Figure-level citations (source, vintage, method, margin of error) travel with every number through the API.
+Every source Know Your District draws on (29 in all). Generated from `kyd/data/sources.csv` by `kyd/etl/make_sources_md.py`; the app's Sources tab shows the same list. Figure-level citations (source, vintage, method, margin of error) travel with every number through the API.
 
 ## Demographics
 
@@ -37,6 +37,7 @@ Every source Know Your District draws on (28 in all). Generated from `kyd/data/s
 | Source | Publisher | What it provides | Vintage | Used in | Accessed |
 |---|---|---|---|---|---|
 | [Picture of Subsidized Households](https://www.huduser.gov/portal/datasets/assthsg.html) | U.S. Department of Housing and Urban Development | Subsidized units and residents by program (vouchers, public housing, project-based Section 8, 202/811) by census tract | 2025 (as of 2025-12-31) | Programs (HUD housing), Map | 2026-11 |
+| [HPHA public housing inventory and property map](https://hpha.hawaii.gov/programs-and-resources/public-housing) | Hawaiʻi Public Housing Authority | 85 federal and state public housing properties with unit counts, placed in districts from HPHA's map pins | 2026 | Programs (HPHA public housing) | 2026-11-15 |
 
 ## Equity
 

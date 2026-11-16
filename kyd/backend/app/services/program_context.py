@@ -52,6 +52,11 @@ def _facts() -> list[dict]:
 
 
 @cached
+def _hpha(geo_id: str) -> dict:
+    from .hpha import properties
+    return properties(geo_id)
+
+
 def context(geo_id: str) -> dict:
     counties = json.loads((settings().data_dir / "district_counties.json").read_text())
     county = counties.get(geo_id)
@@ -157,6 +162,7 @@ def context(geo_id: str) -> dict:
                               "within about 1% of the DBEDT/DOH state totals for 2024.",
                               "Death rates are crude (not age-adjusted), so districts with older residents show higher rates.",
                               "Single-year values for small districts are unstable; the headline uses the 2020–2024 average."]},
+        "hpha": _hpha(geo_id),
         "facts": _facts(),
         "hud": {"title": "HUD-subsidized housing (district)", "as_of": "2025-12-31",
                 "observations": [hud[k] for k in hud_keys if k in hud],

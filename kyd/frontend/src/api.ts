@@ -52,6 +52,8 @@ export type ProgramContext = {
     trend: { year: number; district: number | null; honolulu_official: number | null }[]; credit: string; caveats: string[] };
   employment: { title: string; district: Obs[]; county: Obs[]; state: Obs[]; trend: { year: number; county: number | null; state: number | null }[]; source: string; notes: string[] };
   school_meals: { title: string; observations: Obs[]; state_pct: number | null; source: string; url: string; note: string };
+  hpha: { properties: { name: string; address: string; city: string; island: string; type: string; funding: string; elderly: boolean; units: number }[];
+    units: number; state_units: number; source: string; url: string; caveats: string[] };
   vital: { title: string; observations: Obs[]; state: Record<string, number | null>; trend: { year: number; births: number | null; deaths: number | null }[];
     source: string; url: string; caveats: string[] };
   test_scores: { title: string; observations: Obs[]; state: Record<string, number | null>; source: string; url: string; note: string };
