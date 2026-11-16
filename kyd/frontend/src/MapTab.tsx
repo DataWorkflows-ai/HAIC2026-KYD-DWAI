@@ -29,6 +29,18 @@ const ISLANDS: [string, number[]][] = [
   ['Maui Nui', [-157.35, 20.5, -155.95, 21.25]], ['Hawaiʻi', [-156.1, 18.9, -154.75, 20.3]], ['State', [-160.3, 18.9, -154.75, 22.25]],
 ];
 type Chamber = 'sldl' | 'sldu';
+// Indicators most offices ask about first; everything else follows, grouped by topic.
+const PRIORITY = ['pct_below_fpl', 'pct_snap_hh', 'snap_hh_count', 'pct_snap_gap', 'snap_gap_persons', 'pct_below_200fpl',
+  'median_hh_income', 'pct_child_poverty', 'pct_65plus_poverty', 'pct_rent_burden_30', 'pct_uninsured', 'laus_unemp_rate',
+  'pct_pop_lidac', 'pct_pop_lidac_most', 'pct_free_reduced_meals', 'pct_sba_ela_proficient', 'pct_sba_math_proficient',
+  'hud_units_per_1k_hh', 'crime_violent_per_1k_est', 'total_pop'];
+const TOPIC_LABEL: Record<string, string> = {
+  program: 'Programs', income: 'Income & poverty', assistance: 'Public assistance', housing: 'Housing', health: 'Health',
+  employment: 'Employment', education: 'Education', equity: 'Low-income areas (LIDAC)', crime: 'Crime (Oʻahu, estimate)',
+  age: 'Age', population: 'Population', households: 'Households', connectivity: 'Connectivity', language: 'Language',
+};
+const districtNo = (id: string) => String(parseInt(id.slice(3), 10));
+type Metric = { label: string; text: string; rank: number | null; of: number };
 
 let sdkPromise: Promise<any> | null = null;
 function loadSdk(): Promise<any> {
@@ -98,7 +110,7 @@ function StatusBadge({ m }: { m: Member | null }) {
 }
 
 /** Hover card and side-panel body: one district's people, overlaps and key figures. */
-function DistrictCard({ d, chamber, compact = false }: { d: MapDistrict; chamber: Chamber; compact?: boolean }) {
+function DistrictCard({ d, chamber, compact = false, metric }: { d: MapDistrict; chamber: Chamber; compact?: boolean; metric?: Metric }) {
   const otherTitle = chamber === 'sldl' ? 'Senator' : 'Representative';
   const major = d.counterparts.filter(c => c.share_of_this >= 0.05);
   const minor = d.counterparts.filter(c => c.share_of_this < 0.05);
@@ -107,7 +119,20 @@ function DistrictCard({ d, chamber, compact = false }: { d: MapDistrict; chamber
       <div>
         <div className="font-semibold text-slate-100">{d.name}</div>
         <div className="text-xs text-slate-400">{d.counties.join(', ')}</div>
+        <div className="text-xs text-slate-300 mt-0.5">
+          <span className="text-slate-500">{chamber === 'sldl' ? 'Senate' : 'House'}: </span>
+          {major.map(c => `${c.geo_id}${major.length > 1 ? ` (${Math.round(c.share_of_this * 100)}%)` : ''}`).join(', ')}
+        </div>
       </div>
+      {metric && (
+        <div className="rounded-md bg-premium-800/80 border border-premium-700 px-2 py-1.5">
+          <div className="text-[11px] text-slate-400 leading-tight">{metric.label}</div>
+          <div className="flex items-baseline justify-between">
+            <span className="font-mono text-lg text-cyan-300">{metric.text}</span>
+            {metric.rank !== null && <span className="text-[11px] text-slate-500">#{metric.rank} of {metric.of} (high to low)</span>}
+          </div>
+        </div>
+      )}
       <LocalAreas d={d} compact={compact} />
       <div>
         <div className="text-[11px] uppercase tracking-wide text-slate-500">{d.member?.title ?? (chamber === 'sldl' ? 'Representative' : 'Senator')}</div>
@@ -151,7 +176,7 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
   const defaultChamber: Chamber = (office ?? geo).startsWith('SD') ? 'sldu' : 'sldl';
   const [chamber, setChamber] = useState<Chamber>(defaultChamber);
   const [indicator, setIndicator] = useState('pct_below_fpl');
-  const [indicators, setIndicators] = useState<{ indicator: string; label: string; unit: string }[]>([]);
+  const [indicators, setIndicators] = useState<{ indicator: string; label: string; unit: string; topic: string }[]>([]);
   const [summary, setSummary] = useState<Record<Chamber, MapSummary | null>>({ sldl: null, sldu: null });
   const [values, setValues] = useState<Record<string, number | null>>({});
   const [hover, setHover] = useState<{ id: string; x: number; y: number } | null>(null);
@@ -161,19 +186,29 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
   const [error, setError] = useState('');
   const [layersVersion, setLayersVersion] = useState(0);
+  const [showLabels, setShowLabels] = useState(true);
+  const pendingZoom = useRef<string | null>(geo);   // fly to the picked district once its shape is loaded
+  const clickedOnMap = useRef<string | null>(null); // picks made by clicking the map don't re-zoom
 
   const el = useRef<HTMLDivElement>(null);
   const tooltipHost = useRef<HTMLDivElement>(null);
   const ctx = useRef<any>({});            // ArcGIS objects: view, modules, layers, highlight handles
 
   // data
-  useEffect(() => { api.indicators().then(xs => setIndicators(xs.filter(i => (i.unit !== 'count' || i.indicator === 'total_pop') && i.topic !== 'employment_trend' && i.topic !== 'crime_trend'))); }, []);
+  useEffect(() => { api.indicators().then(xs => setIndicators(xs.filter(i => !['employment_trend', 'crime_trend'].includes(i.topic) && i.unit !== 'years' && i.unit !== 'persons'))); }, []);
   useEffect(() => {
     (['sldl', 'sldu'] as Chamber[]).forEach(c => api.mapSummary(c).then(s => setSummary(p => ({ ...p, [c]: s }))));
   }, []);
   useEffect(() => {
     api.mapLayer(indicator, chamber).then(d => setValues(Object.fromEntries(d.features.map(f => [f.geo_id, f.value]))));
   }, [indicator, chamber]);
+  // follow the district picked anywhere in the app (header picker, Overview, Rankings…)
+  useEffect(() => {
+    const want: Chamber = geo.startsWith('SD') ? 'sldu' : 'sldl';
+    if (!geo.startsWith('HD') && !geo.startsWith('SD')) return;
+    setChamber(want); setSelected(geo);
+    if (clickedOnMap.current === geo) clickedOnMap.current = null; else pendingZoom.current = geo;
+  }, [geo]);
   const byId = useMemo(() => Object.fromEntries((summary[chamber]?.districts ?? []).map(d => [d.geo_id, d])), [summary, chamber]);
   const unit = indicators.find(i => i.indicator === indicator)?.unit ?? 'pct';
   const breaks = useMemo(() => {
@@ -223,12 +258,21 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
     let cancelled = false;
     (async () => {
       const gj = await (await fetch(`/geo/${chamber}.geojson`)).json();
-      gj.features.forEach((f: any) => { f.properties.value = values[f.properties.geo_id] ?? null; });
+      gj.features.forEach((f: any) => {
+        const v = values[f.properties.geo_id] ?? null;
+        f.properties.value = v;
+        f.properties.lbl = `${districtNo(f.properties.geo_id)}${v === null ? '' : '\n' + fmt({ value: v, unit })}`;
+      });
       const url = URL.createObjectURL(new Blob([JSON.stringify(gj)], { type: 'application/json' }));
       const sym = (color: string) => ({ type: 'simple-fill', color: color + 'b3', outline: { color: [0, 0, 0, 0], width: 0 } });
       const edges = [-Infinity, ...breaks, Infinity];
       const data = new c.GeoJSONLayer({
-        url, title: 'District data', outFields: ['*'],
+        url, title: 'District data', outFields: ['*'], labelsVisible: showLabels,
+        labelingInfo: [{
+          labelExpressionInfo: { expression: '$feature.lbl' }, labelPlacement: 'always-horizontal',
+          symbol: { type: 'text', color: 'white', haloColor: [2, 6, 23, 0.95], haloSize: 1.5,
+                    font: { size: 10, weight: 'bold', family: 'sans-serif' } },
+        }],
         renderer: {
           type: 'class-breaks', field: 'value',
           defaultSymbol: { type: 'simple-fill', color: [100, 116, 139, 0.4], outline: { color: [255, 255, 255, 0.5], width: 0.6 } },
@@ -256,6 +300,12 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
   }, [status, chamber, values, breaks]);
 
   useEffect(() => { const l = ctx.current.layers?.official; if (l) l.visible = showOfficial; }, [showOfficial]);
+  useEffect(() => { const l = ctx.current.layers?.data; if (l) l.labelsVisible = showLabels; }, [showLabels, layersVersion]);
+  // fly to a district picked elsewhere, once the layer holding it is ready
+  useEffect(() => {
+    const id = pendingZoom.current, g = id ? ctx.current.graphics?.[id] : null;
+    if (g) { pendingZoom.current = null; ctx.current.view.goTo(g.geometry.extent.expand(1.8), { duration: 1200 }).catch(() => {}); }
+  }, [layersVersion, geo]);
 
   // hover + click
   useEffect(() => {
@@ -279,7 +329,7 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
       else { setHover(null); el.current!.style.cursor = ''; }
     });
     const leave = c.view.on('pointer-leave', () => { c.hoverHL?.remove(); c.hoverHL = null; setHover(null); });
-    const click = c.view.on('click', async (e: any) => { const id = await hit(e); if (id) { setSelected(id); onPick(id); } });
+    const click = c.view.on('click', async (e: any) => { const id = await hit(e); if (id) { clickedOnMap.current = id; setSelected(id); onPick(id); } });
     const dbl = c.view.on('double-click', async (e: any) => { const id = await hit(e); if (id) { e.stopPropagation(); onOpen(id); } });
     return () => { move.remove(); leave.remove(); click.remove(); dbl.remove(); };
   }, [status]);
@@ -299,6 +349,7 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
     const cur = selected ? byId[selected] : undefined;
     const nextSel = cur?.counterparts[0]?.geo_id ?? null;
     setChamber(next); setSelected(nextSel); setHover(null);
+    if (nextSel) { clickedOnMap.current = nextSel; onPick(nextSel); }
   };
 
   const zoomExtent = ([xmin, ymin, xmax, ymax]: number[]) =>
@@ -308,6 +359,23 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
   const sel = selected ? byId[selected] : null;
   const hov = hover ? byId[hover.id] : null;
   const roster = summary[chamber]?.roster;
+  const indLabel = indicators.find(i => i.indicator === indicator)?.label ?? '';
+  const ranked = useMemo(() => Object.entries(values).filter(([, v]) => v !== null).sort((a, b) => (b[1] as number) - (a[1] as number)).map(([k]) => k), [values]);
+  const metricFor = (id: string): Metric => {
+    const v = values[id] ?? null, r = ranked.indexOf(id);
+    return { label: indLabel, text: v === null ? 'No data' : fmt({ value: v, unit }), rank: r >= 0 ? r + 1 : null, of: ranked.length };
+  };
+  const options = useMemo(() => {
+    const top = PRIORITY.map(k => indicators.find(i => i.indicator === k)).filter((x): x is NonNullable<typeof x> => !!x);
+    const rest = indicators.filter(i => !PRIORITY.includes(i.indicator));
+    const groups: Record<string, typeof rest> = {};
+    rest.forEach(i => { (groups[i.topic] ??= []).push(i); });
+    return { top, groups: Object.entries(groups).sort(([a], [b]) => (TOPIC_LABEL[a] ?? a).localeCompare(TOPIC_LABEL[b] ?? b)) };
+  }, [indicators]);
+  const legend = breaks.length ? [
+    `< ${fmt({ value: breaks[0], unit })}`,
+    ...[0, 1, 2].map(i => `${fmt({ value: breaks[i], unit })}–${fmt({ value: breaks[i + 1], unit })}`),
+    `≥ ${fmt({ value: breaks[3], unit })}`] : [];
 
   return (
     <div className="grid grid-cols-12 gap-4 h-[calc(100vh-11rem)] min-h-[520px]">
@@ -325,8 +393,14 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
             ))}
           </div>
           <select value={indicator} onChange={e => setIndicator(e.target.value)} aria-label="Indicator to map"
-            className="pointer-events-auto bg-premium-900/90 border border-premium-700 rounded-lg px-2 py-1 text-xs text-slate-200 max-w-[16rem]">
-            {indicators.map(i => <option key={i.indicator} value={i.indicator}>{i.label}</option>)}
+            className="pointer-events-auto bg-premium-900/90 border border-premium-700 rounded-lg px-2 py-1 text-xs text-slate-200 max-w-[20rem]">
+            <optgroup label="Most used">
+              {options.top.map(i => <option key={i.indicator} value={i.indicator}>{i.label}</option>)}
+            </optgroup>
+            {options.groups.map(([t, xs]) => (
+              <optgroup key={t} label={TOPIC_LABEL[t] ?? t}>
+                {xs.map(i => <option key={i.indicator} value={i.indicator}>{i.label}</option>)}
+              </optgroup>))}
           </select>
           <div className="pointer-events-auto flex items-center gap-1 bg-premium-900/90 border border-premium-700 rounded-lg px-2 py-1 text-xs">
             <Layers className="w-3.5 h-3.5 text-slate-400" />
@@ -335,6 +409,9 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
             </select>
             <label className="ml-2 flex items-center gap-1 text-slate-300">
               <input type="checkbox" checked={showOfficial} onChange={e => setShowOfficial(e.target.checked)} /> Official lines
+            </label>
+            <label className="ml-2 flex items-center gap-1 text-slate-300">
+              <input type="checkbox" checked={showLabels} onChange={e => setShowLabels(e.target.checked)} /> Labels
             </label>
           </div>
         </div>
@@ -347,22 +424,23 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
         </div>
 
         {/* legend */}
-        <div className="absolute bottom-8 left-3 bg-premium-900/90 border border-premium-700 rounded-lg px-3 py-2 text-xs">
-          <div className="text-slate-300 mb-1">{indicators.find(i => i.indicator === indicator)?.label}</div>
-          <div className="flex items-center gap-1">
-            {RAMP.map((c, i) => <span key={c} className="w-7 h-3 rounded-sm" style={{ background: c }} title={i === 0 ? `< ${fmt({ value: breaks[0], unit })}` : `≥ ${fmt({ value: breaks[i - 1], unit })}`} />)}
+        <div className="absolute bottom-8 left-3 w-[26rem] max-w-[calc(100%-1.5rem)] bg-premium-900/90 border border-premium-700 rounded-lg px-3 py-2 text-xs">
+          <div className="text-slate-300 mb-1">{indLabel}</div>
+          <div className="grid grid-cols-5 gap-1">
+            {RAMP.map((c, i) => (
+              <div key={c}>
+                <div className="h-3 rounded-sm" style={{ background: c }} />
+                <div className="text-[10px] text-slate-400 font-mono text-center mt-0.5 leading-tight">{legend[i] ?? ''}</div>
+              </div>))}
           </div>
-          <div className="flex justify-between text-slate-500 font-mono mt-0.5">
-            <span>{breaks.length ? fmt({ value: breaks[0], unit }) : ''}</span><span>{breaks.length ? fmt({ value: breaks[3], unit }) : ''}</span>
-          </div>
-          <div className="text-slate-500 mt-1">Quintiles across {chamber === 'sldl' ? 'House' : 'Senate'} districts · ACS 2020–2024</div>
+          <div className="text-slate-500 mt-1">Each color is one-fifth of the {chamber === 'sldl' ? 'House' : 'Senate'} districts · gray = no data</div>
         </div>
 
         {/* hover card (desktop) */}
         {hov && hover && (
           <div ref={tooltipHost} className="absolute z-10 w-72 p-3 rounded-lg bg-premium-900/95 border border-cyan-800 shadow-2xl pointer-events-none"
             style={{ left: Math.min(hover.x + 16, (el.current?.clientWidth ?? 800) - 300), top: Math.max(8, Math.min(hover.y + 16, (el.current?.clientHeight ?? 600) - 440)) }}>
-            <DistrictCard d={hov} chamber={chamber} compact />
+            <DistrictCard d={hov} chamber={chamber} compact metric={metricFor(hov.geo_id)} />
             <div className="text-[10px] text-slate-500 mt-2">Click to pin · double-click to open profile</div>
           </div>
         )}
@@ -383,25 +461,10 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
             <button onClick={() => zoomTo(sel.geo_id)} className="text-xs px-2 py-0.5 rounded border border-premium-700 hover:text-cyan-300" aria-label="Zoom to district"><MapPin className="w-3 h-3" /></button>
             <button onClick={() => onOpen(sel.geo_id)} className="text-xs px-2 py-0.5 rounded border border-cyan-800 text-cyan-300 hover:bg-cyan-950">Open profile</button>
           </div>)}>
-          {sel ? <DistrictCard d={sel} chamber={chamber} /> : (
+          {sel ? <DistrictCard d={sel} chamber={chamber} metric={metricFor(sel.geo_id)} /> : (
             <p className="text-sm text-slate-400">{isTouch() ? 'Tap' : 'Hover over'} a district to see who represents it. {isTouch() ? '' : 'Click to pin it here.'}</p>
           )}
           {office && office === sel?.geo_id && <div className="mt-2 text-xs text-amber-300 flex items-center gap-1"><Star className="w-3 h-3" /> Your office</div>}
-        </Card>
-        <Card title="About this map">
-          <ul className="text-xs text-slate-400 space-y-1.5 list-disc ml-4">
-            <li>Boundaries: 2022 reapportionment plan, from the Hawaiʻi Statewide GIS Program ArcGIS service (white lines).</li>
-            <li>House and Senate districts do not nest. Overlap shares are by land area until population weights are added.</li>
-            <li>District numbers are State Legislature districts. County council and Oʻahu neighborhood board numbers are different and are listed separately.</li>
-            {summary[chamber]?.local_method && <li>{summary[chamber]!.local_method}</li>}
-            <li>Legislators as of {roster?.as_of ?? '—'}, taken from Office of Elections final reports and the Legislature roster.
-              {roster && (roster.counts.secondary || roster.counts.pending || roster.counts.verify) ? (
-                <> {roster.counts.secondary ?? 0} seats are still to be confirmed against official records, {roster.counts.pending ?? 0} are pending and {roster.counts.verify ?? 0} need review.</>) : null}
-            </li>
-            <li>Party affiliation is intentionally not shown.</li>
-          </ul>
-          <a className="mt-2 inline-flex items-center gap-1 text-xs text-cyan-400 hover:underline" href={`${STATE_GIS}/${LAYER_ID[chamber]}`} target="_blank" rel="noreferrer">
-            Boundary service <ExternalLink className="w-3 h-3" /></a>
         </Card>
         <Card title="All districts">
           <ul className="text-xs max-h-64 overflow-y-auto divide-y divide-premium-800">
@@ -416,6 +479,24 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
             ))}
           </ul>
         </Card>
+        <details className="rounded-xl border border-premium-800 bg-premium-900/60 px-4 py-3">
+          <summary className="text-xs uppercase tracking-wide text-slate-400 cursor-pointer">About this map</summary>
+          <div className="mt-2">
+          <ul className="text-xs text-slate-400 space-y-1.5 list-disc ml-4">
+            <li>Boundaries: 2022 reapportionment plan, from the Hawaiʻi Statewide GIS Program ArcGIS service (white lines).</li>
+            <li>House and Senate districts do not nest. Overlap shares are by land area until population weights are added.</li>
+            <li>District numbers are State Legislature districts. County council and Oʻahu neighborhood board numbers are different and are listed separately.</li>
+            {summary[chamber]?.local_method && <li>{summary[chamber]!.local_method}</li>}
+            <li>Legislators as of {roster?.as_of ?? '—'}, taken from Office of Elections final reports and the Legislature roster.
+              {roster && (roster.counts.secondary || roster.counts.pending || roster.counts.verify) ? (
+                <> {roster.counts.secondary ?? 0} seats are still to be confirmed against official records, {roster.counts.pending ?? 0} are pending and {roster.counts.verify ?? 0} need review.</>) : null}
+            </li>
+            <li>Party affiliation is intentionally not shown.</li>
+          </ul>
+          <a className="mt-2 inline-flex items-center gap-1 text-xs text-cyan-400 hover:underline" href={`${STATE_GIS}/${LAYER_ID[chamber]}`} target="_blank" rel="noreferrer">
+            Boundary service <ExternalLink className="w-3 h-3" /></a>
+          </div>
+        </details>
         <Pill>Esri ArcGIS Maps SDK · Hawaiʻi Statewide GIS</Pill>
       </div>
     </div>
