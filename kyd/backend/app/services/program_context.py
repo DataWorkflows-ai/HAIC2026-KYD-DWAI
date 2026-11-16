@@ -77,6 +77,12 @@ def context(geo_id: str) -> dict:
     score_keys = ["pct_sba_ela_proficient", "pct_sba_math_proficient", "pct_hsa_science_proficient", "sba_tested"]
     tests = {o.indicator: o for o in repo().observations([geo_id], score_keys)}
     tests_state = {o.indicator: o.value for o in repo().observations(["HI"], score_keys)}
+    vkeys = ["births_avg_est", "deaths_avg_est", "birth_rate_per_1k_est", "death_rate_per_1k_est"]
+    vital = {o.indicator: o for o in repo().observations([geo_id], vkeys)}
+    vital_state = {o.indicator: o.value for o in repo().observations(["HI"], vkeys)}
+    vyears = range(2000, 2025)
+    vtr = {(o.geo_id, o.indicator): o.value for o in repo().observations(
+        [geo_id], [f"{k}_est_{y}" for k in ("births", "deaths") for y in vyears])}
     cfips = {"Oahu": "15003", "Hawaii": "15001", "Maui": "15009", "Kauai": "15007"}[county]
     emp_keys = ["laus_unemp_rate", "laus_labor_force", "laus_unemployed", "unemployment_rate"]
     emp = {o.indicator: o for o in repo().observations([geo_id], emp_keys)}
@@ -139,6 +145,18 @@ def context(geo_id: str) -> dict:
                         "note": "* Public schools located in the district; excludes public charter schools, which "
                                 "enroll statewide. Counted by school location, not where students live. Results "
                                 "HIDOE suppresses for student privacy are left out."},
+        "vital": {"title": "Births and deaths — ESTIMATE",
+                  "observations": [vital[k] for k in vkeys if k in vital],
+                  "state": {k: vital_state.get(k) for k in vkeys},
+                  "trend": [{"year": y, "births": vtr.get((geo_id, f"births_est_{y}")),
+                             "deaths": vtr.get((geo_id, f"deaths_est_{y}"))} for y in vyears],
+                  "source": "Hawaiʻi DOH, Hawaii Health Data Warehouse (Hawaiʻi-IBIS), births and deaths by community of residence",
+                  "url": "https://hhdw.org/report/",
+                  "caveats": ["ESTIMATE: no agency publishes births or deaths by legislative district. Community counts were "
+                              "allocated to 2022 districts by 2020 Census block population; district totals match IBIS and are "
+                              "within about 1% of the DBEDT/DOH state totals for 2024.",
+                              "Death rates are crude (not age-adjusted), so districts with older residents show higher rates.",
+                              "Single-year values for small districts are unstable; the headline uses the 2020–2024 average."]},
         "facts": _facts(),
         "hud": {"title": "HUD-subsidized housing (district)", "as_of": "2025-12-31",
                 "observations": [hud[k] for k in hud_keys if k in hud],

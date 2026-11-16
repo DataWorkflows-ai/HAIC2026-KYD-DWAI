@@ -92,6 +92,7 @@ export function ProgramContextCards({ geo }: { geo: string }) {
             {c.test_scores.source} <ExternalLink className="w-3 h-3" /></a>
         </Card>
       )}
+      {c.vital && c.vital.observations.length > 0 && <VitalCard v={c.vital} />}
       {c.hud.observations.length > 0 && (
         <Card title={<span className="normal-case">{c.hud.title}</span>} right={<Pill>as of {c.hud.as_of}</Pill>} className="col-span-full">
           <div className="grid sm:grid-cols-3 lg:grid-cols-7 gap-3">
@@ -328,6 +329,39 @@ export function UptakePeersCard({ geo, onPick }: { geo: string; onPick?: (g: str
         </table>
       )}
       <p className="mt-2 text-xs text-slate-500">{d.note} Differences can reflect household makeup and survey error as well as outreach, so treat these as leads to ask about, not proof.</p>
+    </Card>
+  );
+}
+
+/** Births and deaths by district (ESTIMATE): 2020–2024 averages, crude rates vs state, and the 2000–2024 series. */
+function VitalCard({ v }: { v: ProgramContext['vital'] }) {
+  const pts = v.trend.filter(t => t.births !== null && t.deaths !== null) as { year: number; births: number; deaths: number }[];
+  const max = Math.max(1, ...pts.flatMap(t => [t.births, t.deaths]));
+  const W = 300, H = 90, x = (i: number) => (i / Math.max(1, pts.length - 1)) * W, y = (n: number) => H - (n / max) * (H - 6);
+  const line = (k: 'births' | 'deaths') => pts.map((t, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)},${y(t[k]).toFixed(1)}`).join('');
+  const rate = (k: string) => v.state[k];
+  return (
+    <Card title={<span className="normal-case">{v.title}</span>} right={<Pill tone="amber">ESTIMATE</Pill>}>
+      <div className="space-y-2">
+        {v.observations.map(o => (
+          <div key={o.indicator} className="flex items-baseline justify-between gap-2">
+            <span className="text-xs text-slate-400">{o.label.replace(/\s*\(ESTIMATE[^)]*\)/, '')}</span>
+            <span className="flex items-baseline gap-2 whitespace-nowrap"><Figure o={o} />
+              {rate(o.indicator) != null && o.unit === 'per_1000' && <span className="text-xs text-slate-500">State {rate(o.indicator)}</span>}</span>
+          </div>))}
+      </div>
+      {pts.length > 1 && (
+        <div className="mt-3">
+          <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-24" role="img" aria-label="Births and deaths per year, 2000 to 2024">
+            <path d={line('births')} fill="none" stroke="#22d3ee" strokeWidth={2} />
+            <path d={line('deaths')} fill="none" stroke="#f97316" strokeWidth={2} />
+          </svg>
+          <div className="flex justify-between text-[10px] text-slate-500 font-mono"><span>{pts[0].year}</span>
+            <span><span className="text-cyan-400">— births</span> · <span className="text-orange-400">— deaths</span></span><span>{pts[pts.length - 1].year}</span></div>
+        </div>
+      )}
+      <ul className="mt-2 text-xs text-slate-500 list-disc ml-4 space-y-0.5">{v.caveats.map(t => <li key={t}>{t}</li>)}</ul>
+      <a href={v.url} target="_blank" rel="noreferrer" className="mt-1 flex items-center gap-1 text-xs text-cyan-400 hover:underline">{v.source} <ExternalLink className="w-3 h-3" /></a>
     </Card>
   );
 }

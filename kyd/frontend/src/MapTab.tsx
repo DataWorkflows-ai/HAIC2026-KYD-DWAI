@@ -203,7 +203,7 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
   const ctx = useRef<any>({});            // ArcGIS objects: view, modules, layers, highlight handles
 
   // data
-  useEffect(() => { api.indicators().then(xs => setIndicators(xs.filter(i => !['employment_trend', 'crime_trend'].includes(i.topic) && i.unit !== 'years' && i.unit !== 'persons'))); }, []);
+  useEffect(() => { api.indicators().then(xs => setIndicators(xs.filter(i => !['employment_trend', 'crime_trend', 'vital_trend'].includes(i.topic) && i.unit !== 'years' && i.unit !== 'persons'))); }, []);
   useEffect(() => {
     (['sldl', 'sldu'] as Chamber[]).forEach(c => api.mapSummary(c).then(s => setSummary(p => ({ ...p, [c]: s }))));
   }, []);

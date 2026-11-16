@@ -205,6 +205,8 @@ if __name__ == "__main__":
     load_school_meals.build()
     import load_test_scores   # HIDOE 2025 Smarter Balanced / HSA Science by district (school location, charters excluded)
     load_test_scores.build()
+    import load_vital_stats   # births and deaths by district, 2000–2024 (ESTIMATE from Hawaiʻi-IBIS)
+    load_vital_stats.build()
     import load_laus          # DBEDT LAUS unemployment 2025 by district/county + 2014–2025 county trend
     load_laus.build()
     import load_unemp_demographics  # ACS unemployment by sex/age/race/education (breakdown table)
