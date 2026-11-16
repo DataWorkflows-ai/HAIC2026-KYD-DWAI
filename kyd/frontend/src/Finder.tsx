@@ -50,7 +50,7 @@ export function Finder({ onPick }: { onPick: (geo: string) => void }) {
           placeholder="Find district, legislator, place, ZIP" title="Find a district, legislator, place, neighborhood or ZIP" className="bg-transparent text-sm text-slate-200 w-40 xl:w-52 focus:outline-none" />
       </label>
       {open && results.length > 0 && (
-        <ul role="listbox" className="absolute z-50 mt-1 w-[26rem] max-h-[70vh] overflow-y-auto rounded-lg border border-premium-700 bg-premium-900 shadow-2xl divide-y divide-premium-800">
+        <ul role="listbox" className="absolute z-50 mt-1 w-[26rem] max-w-[calc(100vw-2rem)] max-h-[70vh] overflow-y-auto rounded-lg border border-premium-700 bg-premium-900 shadow-2xl divide-y divide-premium-800">
           {results.map(r => (
             <li key={r.kind + r.label} className="px-3 py-2">
               <div className="flex items-center justify-between gap-2">
