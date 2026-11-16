@@ -21,6 +21,13 @@ import { Card, Pill } from './ui';
 const SDK = 'https://js.arcgis.com/4.33/';
 const STATE_GIS = 'https://geodata.hawaii.gov/arcgis/rest/services/AdminBnd/MapServer';
 const LAYER_ID: Record<Chamber, number> = { sldl: 33, sldu: 34 };
+// County council districts (state GIS AdminBnd): Honolulu 2021 plan, Hawaiʻi County 2022, Maui residency areas 2022.
+// Kauaʻi elects its council at large, so it has no districts.
+const COUNCIL: { id: number; expr: string }[] = [
+  { id: 11, expr: '"Honolulu Council " + $feature.distnumber' },
+  { id: 10, expr: '"Hawaiʻi Co. Council " + Right($feature.distname, 1)' },
+  { id: 35, expr: '"Maui Council " + $feature.districtnumber' },
+];
 const IMAGERY = 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer';
 const API_KEY = (import.meta as any).env?.VITE_ARCGIS_API_KEY as string | undefined;
 const RAMP = ['#1e3a8a', '#2563eb', '#a855f7', '#ec4899', '#f97316'];
@@ -187,6 +194,7 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
   const [error, setError] = useState('');
   const [layersVersion, setLayersVersion] = useState(0);
   const [showLabels, setShowLabels] = useState(true);
+  const [showCouncil, setShowCouncil] = useState(false);
   const pendingZoom = useRef<string | null>(geo);   // fly to the picked district once its shape is loaded
   const clickedOnMap = useRef<string | null>(null); // picks made by clicking the map don't re-zoom
 
@@ -238,7 +246,14 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
           popupEnabled: false, ui: { components: ['zoom', 'attribution'] },
         });
         try { view.highlightOptions = { color: '#22d3ee', fillOpacity: 0.25, haloOpacity: 1 }; } catch { /* newer SDKs use view.highlights */ }
-        ctx.current = { $a, view, map, GeoJSONLayer, FeatureLayer, Extent, basemaps, layers: {} };
+        const council = COUNCIL.map(c => new FeatureLayer({
+          url: `${STATE_GIS}/${c.id}`, title: 'County council districts', visible: false, popupEnabled: false, outFields: ['*'],
+          renderer: { type: 'simple', symbol: { type: 'simple-fill', color: [0, 0, 0, 0], outline: { color: [251, 191, 36, 1], width: 2, style: 'dash' } } },
+          labelingInfo: [{ labelExpressionInfo: { expression: c.expr }, labelPlacement: 'always-horizontal',
+            symbol: { type: 'text', color: [251, 191, 36, 1], haloColor: [2, 6, 23, 0.95], haloSize: 1.5, font: { size: 10, weight: 'bold', family: 'sans-serif' } } }],
+        }));
+        map.addMany(council);
+        ctx.current = { $a, view, map, GeoJSONLayer, FeatureLayer, Extent, basemaps, layers: {}, council };
         await view.when();
         if (!destroyed) setStatus('ready');
       } catch (e: any) {
@@ -288,6 +303,7 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
       c.hoverHL?.remove(); c.selHL?.remove(); c.hoverHL = c.selHL = null; c.dataView = null; c.graphics = null;
       c.map.removeMany(Object.values(c.layers));
       c.map.addMany([data, official]);
+      (c.council ?? []).forEach((l: any) => c.map.reorder(l, c.map.layers.length - 1));
       c.layers = { data, official };
       c.dataView = await c.view.whenLayerView(data);
       // Index graphics by geo_id for highlighting
@@ -301,6 +317,7 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
 
   useEffect(() => { const l = ctx.current.layers?.official; if (l) l.visible = showOfficial; }, [showOfficial]);
   useEffect(() => { const l = ctx.current.layers?.data; if (l) l.labelsVisible = showLabels; }, [showLabels, layersVersion]);
+  useEffect(() => { (ctx.current.council ?? []).forEach((l: any) => { l.visible = showCouncil; }); }, [showCouncil, status]);
   // fly to a district picked elsewhere, once the layer holding it is ready
   useEffect(() => {
     const id = pendingZoom.current, g = id ? ctx.current.graphics?.[id] : null;
@@ -412,6 +429,9 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
             </label>
             <label className="ml-2 flex items-center gap-1 text-slate-300">
               <input type="checkbox" checked={showLabels} onChange={e => setShowLabels(e.target.checked)} /> Labels
+            </label>
+            <label className="ml-2 flex items-center gap-1 text-amber-300" title="County council district lines (Honolulu, Hawaiʻi County, Maui residency areas; Kauaʻi elects at large)">
+              <input type="checkbox" checked={showCouncil} onChange={e => setShowCouncil(e.target.checked)} /> Council
             </label>
           </div>
         </div>
