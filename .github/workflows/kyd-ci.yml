@@ -22,7 +22,7 @@ jobs:
       - name: Backend tests (in-memory graph)
         working-directory: kyd/backend
         env: { KYD_GRAPH_MODE: fixture }
-        run: pytest -q ../tests
+        run: python -m pytest -q ../tests
 
   neo4j:
     runs-on: ubuntu-latest
@@ -59,7 +59,7 @@ jobs:
       - name: Neo4j and in-memory graph give identical answers
         working-directory: kyd/backend
         env: { KYD_GRAPH_MODE: neo4j, KYD_TEST_NEO4J: "1" }
-        run: pytest -q ../tests/test_graph.py
+        run: python -m pytest -q ../tests/test_graph.py
 
   frontend:
     runs-on: ubuntu-latest

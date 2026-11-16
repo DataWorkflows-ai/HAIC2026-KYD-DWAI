@@ -30,10 +30,11 @@ BATCH = 1000
 
 
 def apply_schema(drv) -> None:
-    for stmt in (KYD / "db" / "neo4j" / "schema.cypher").read_text().split(";"):
-        body = "\n".join(l for l in stmt.splitlines() if not l.strip().startswith("//")).strip()
-        if body:
-            drv.execute_query(body)
+    text = "\n".join(l for l in (KYD / "db" / "neo4j" / "schema.cypher").read_text().splitlines()
+                     if not l.strip().startswith("//"))           # drop comments first: they may contain ';'
+    for stmt in text.split(";"):
+        if stmt.strip():
+            drv.execute_query(stmt.strip())
 
 
 def main() -> int:
