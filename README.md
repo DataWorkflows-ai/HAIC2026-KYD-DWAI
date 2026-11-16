@@ -165,7 +165,7 @@ The app runs with none of these except where noted; each is reachable without an
 | Service | Used for | If it is unavailable |
 |---|---|---|
 | [Render](https://render.com) | Hosts the public app | Run it locally (steps above) |
-| Anthropic API (model set by `KYD_LLM_MODEL`) | The AI tier of the Ask tab. The key is held in the host's settings | Ask answers with the built-in rule-based tier; every other tab is unaffected |
+| Anthropic API, Claude Sonnet 5.5 (set by `KYD_LLM_MODEL`) | The AI tier of the Ask tab. The key is held in the host's settings | Ask answers with the built-in rule-based tier; every other tab is unaffected |
 | Esri ArcGIS Maps SDK for JavaScript (`js.arcgis.com`) and Esri World Imagery (`services.arcgisonline.com`) | The Map tab and its basemap, loaded by the browser | The Map tab does not draw; the Rankings map and all figures still work |
 | Hawaiʻi Statewide GIS Program (`geodata.hawaii.gov`) | The official 2022 boundary lines drawn over the map | The map still shades districts from the bundled boundary files |
 | Neo4j (optional) | Program and district relationships in `live` mode | The in-memory graph gives identical answers (checked in CI) |
