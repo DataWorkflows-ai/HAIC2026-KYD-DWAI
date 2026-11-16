@@ -116,6 +116,14 @@ poverty ladder (125/138/150/185/200% FPL) plus SNAP households with children, 60
   cached in-process; no expiry for bundled data, `KYD_CACHE_TTL_SECONDS` (default 300) in live mode.
   Live mode uses a psycopg connection pool (`KYD_PG_POOL_MAX`, default 10).
 
+- **HUD subsidized housing** (`kyd/etl/load_hud.py`): HUD Picture of Subsidized Households 2025 (tract level,
+  as of 31 Dec 2025; Hawaiʻi rows in `data/raw/hud/hi_tract_hud_2025.csv`) allocated to districts with
+  `kyd/data/tract_district_crosswalk.csv`, built by `kyd/etl/build_tract_crosswalk.py` from 2020 block-group
+  populations split across districts by area (state GIS Census layers 26 and 31). Indicators `hud_units_*`,
+  `hud_people_total`, `hud_units_per_1k_hh`. Suppressed cells count as 0; ~2,358 units HUD could not place in a
+  tract appear in the state total only. Crosswalk district populations match ACS within 3.9% at the median
+  (HD-39 +22%, worth a look).
+
 ## Source verification
 
 `python kyd/verify/run.py` checks every source behind Crystal's program scripts and writes

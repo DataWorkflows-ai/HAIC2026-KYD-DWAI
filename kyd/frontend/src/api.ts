@@ -48,6 +48,7 @@ export type CrossEstimate = {
 export type CrossProgram = { geo_id: string; estimates: CrossEstimate[]; note: string };
 export type ProgramContext = {
   geo_id: string; county: string;
+  hud: { title: string; as_of: string; observations: Obs[]; state_per_1k_hh: number | null; source: string; caveats: string[] };
   medquest: { title: string; sfy: number; statewide: number; source: string; caveats: string[];
     islands: { island: string; recipients: number; share_of_state_percent: number; enrollment_to_need_ratio: number | null }[];
     trend: { sfy: number; recipients: number }[] };
@@ -94,5 +95,6 @@ export function fmt(o: Pick<Obs, 'value' | 'unit'>): string {
   if (o.unit === 'usd') return '$' + Math.round(o.value).toLocaleString();
   if (o.unit === 'pct') return o.value.toFixed(1) + '%';
   if (o.unit === 'count') return Math.round(o.value).toLocaleString();
+  if (o.unit === 'per_1000') return o.value.toFixed(1) + ' per 1,000';
   return String(o.value);
 }

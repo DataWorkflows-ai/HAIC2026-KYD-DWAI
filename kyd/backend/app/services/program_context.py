@@ -58,8 +58,19 @@ def context(geo_id: str) -> dict:
     ratio = {x["island"]: x for x in s["medquest_ratio"]["islands"]}
     tanf = next((x for x in s["tanf_island"]["islands"] if x["island"] == tanf_key), None)
     ue = under.get_tanf_underenrollment(chamber, int(geo_id[3:]))
+    from .repo import repo
+    hud_keys = ["hud_units_total", "hud_units_hcv", "hud_units_public_housing", "hud_units_pbs8",
+                "hud_units_elderly_disabled", "hud_people_total", "hud_units_per_1k_hh"]
+    hud = {o.indicator: o for o in repo().observations([geo_id], hud_keys)}
+    hud_state = {o.indicator: o for o in repo().observations(["HI"], ["hud_units_per_1k_hh"])}
     return {
         "geo_id": geo_id, "county": county,
+        "hud": {"title": "HUD-subsidized housing (district)", "as_of": "2025-12-31",
+                "observations": [hud[k] for k in hud_keys if k in hud],
+                "state_per_1k_hh": hud_state["hud_units_per_1k_hh"].value if hud_state else None,
+                "source": "HUD Picture of Subsidized Households 2025, census tracts allocated to districts by 2020 population",
+                "caveats": ["Suppressed small cells count as 0, so district figures are a floor.",
+                            "About 2,400 statewide units HUD could not place in a tract are excluded from districts."]},
         "medquest": {
             "title": "Med-QUEST enrollment (island)", "sfy": mq["sfy"], "statewide": mq["statewide"],
             "islands": [{"island": ISLAND_LABEL[k], **mq["islands"][k],
