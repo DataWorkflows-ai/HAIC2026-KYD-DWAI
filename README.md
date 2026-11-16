@@ -1,6 +1,73 @@
-# HAIC2026-KYD-DWAI
-HAIC 2026 Challenge: Know Your District
+# Know Your District (HAIC 2026, Challenge 1)
 
+**Live app:** https://know-your-district-zio4.onrender.com — no login, no setup. Shareable links work, e.g. https://know-your-district-zio4.onrender.com/#/HD-44/map
+(The free host sleeps when idle; the first load after a quiet spell can take 30–60 seconds.)
+
+A nonpartisan, cited profile of every Hawaiʻi State House and Senate district (2022 plan) for legislators and staff:
+who lives there, how they are doing, which assistance programs fit, and where people who look eligible are not being reached.
+Every number on screen traces to a named source, vintage and method, with margins of error where the source publishes them.
+
+## Try it in two minutes
+
+1. **Overview** — pick a district next to its name: headline figures with county and state comparisons, all indicators with Print and CSV, top program matches, peer districts.
+2. **Map** — pick any indicator ("Most used" first). Each district shows its number and value; hover for the value and rank; picking a district anywhere flies the map to it.
+3. **Compare** — any two districts (or a district and the state), with the Census significance test on every row.
+4. **Rankings** — all 51 House or 25 Senate districts on poverty, SNAP gap, unemployment, LIDAC share and violent crime (Oʻahu), sortable, printable, CSV.
+5. **Programs** — 15 programs scored for fit, cross-program eligibility estimates (school meals, Lifeline, LIHEAP, WIC, Med-QUEST), unemployment by group, test scores, school meals, HUD housing, crime (Oʻahu, estimate), island Med-QUEST/TANF/SNAP context.
+6. **Ask** — plain-English questions ("Which programs fit HD 44?", "Compare SD 12 with the state", "Unemployment by age in HD 5"). Answers only use figures returned by tools and cite each one.
+7. **Sources** — a 27-source library (also in [SOURCES.md](SOURCES.md)) and the build-time verification report (344 checks pass, 0 fail).
+
+## What the data covers
+
+- **Census ACS 2020–2024** district profiles (DP02–DP05, S1701 poverty ladder, S2201 SNAP, unemployment by sex/age/race/education)
+- **SNAP gap**: people below 200% of poverty (Hawaiʻi's SNAP limit) not in SNAP households, by district (estimate)
+- **2025 unemployment** (DBEDT/LAUS, tract estimates rolled to districts; county trend 2014–2025)
+- **Low-income and disadvantaged communities (LIDAC 2026)** share of residents
+- **HUD subsidized housing** (2025), **free/reduced school meals** (SY2025-26) and **2025 Smarter Balanced / HSA Science** results (by school location; charter schools excluded)
+- **HPD crime 2017–2025** for Oʻahu (estimate; beat lines traced from report maps)
+- Island-level **Med-QUEST, TANF and SNAP** caseloads from the DHS Databook and BESSD
+
+Estimates are labelled as estimates on screen, with the method and caveats beside them.
+
+## How it works (and why it is safe to put in front of the public)
+
+- **Two tiers.** The numbers tier is plain code over a precomputed, read-only fact table — no AI writes or alters a number.
+  The language tier only chooses which tool to call and with what arguments; it never writes SQL, and any number in its reply
+  that cannot be traced to a tool result is removed before the answer is shown.
+- **Read-only by design.** The public deployment opens the bundled SQLite database read-only; the Postgres mode uses a
+  SELECT-only role. Every data and agent request is written to a hash-chained, append-only audit log
+  (a local file here, a Postgres table in live mode), so tampering is detectable.
+- **Population-level only.** No individual records, no address lookup; questions about individuals and partisan/electoral advice are refused.
+- **Verified at build time.** Hand-entered report figures are re-checked against their PDFs and workbooks, Census variables against published totals,
+  and independent sources against each other (`python kyd/verify/run.py`).
+
+Architecture details: [kyd/ARCHITECTURE.md](kyd/ARCHITECTURE.md).
+
+## Run it locally
+
+```bash
+pip install -r kyd/backend/requirements.txt
+cd kyd/backend && uvicorn app.main:app --port 8060     # open http://localhost:8060
+cd kyd/backend && python -m pytest -q ../tests           # tests
+```
+The database (`kyd/data/kyd.sqlite`) and the built frontend (`kyd/frontend/dist`) are committed, so no build step is needed.
+Rebuild the data with `python kyd/etl/load_acs_profile.py` (chains every loader). Deploy: `render.yaml` (Render Blueprint).
+
+## Additional features / roadmap
+
+Designed and scoped, not in this release:
+
+- **County council districts** as a third district type, with boundaries and labels on the map
+- **Customizable indicator table**: show/hide, reorder and "add indicator", remembered per browser
+- **Finder**: search by district, legislator, neighborhood or ZIP (the place/ZIP lookup already powers the agent)
+- **Map over ranked table** (one indicator drives both; click either to highlight the other)
+- **Program uptake-gap finder**: districts with similar need but lower program use, from the Neo4j program/population graph
+- **Postgres (Neon) deployment** with the audit log and per-user activity history; local-model option for offices that cannot send data off-site
+- Chat docked beside the profile; WIC clinic locations; births and deaths by district (estimate files prepared)
+
+---
+
+# Data and program notes
 
 ## What a legislator can query
 
