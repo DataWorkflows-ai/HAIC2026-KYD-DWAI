@@ -9,12 +9,13 @@ Every number on screen traces to a named source, vintage and method, with margin
 
 ## Try it in two minutes
 
-1. **Overview** — pick a district next to its name: headline figures with county and state comparisons, all indicators with Print and CSV, top program matches, peer districts.
-2. **Map** — pick any indicator ("Most used" first). Each district shows its number and value; hover for the value and rank; picking a district anywhere flies the map to it.
+0. **Find** — the header search takes a district number, a legislator, a place, a neighborhood or a ZIP code and lists every district it touches.
+1. **Overview** — pick a district next to its name: headline figures with county and state comparisons, an indicator table you can customize (add, hide, reorder; remembered in your browser) with Print and CSV, top program matches, peer districts.
+2. **Map** — pick any indicator ("Most used" first). Each district shows its number and value; hover for the value and rank; picking a district anywhere flies the map to it. Toggle county council district lines.
 3. **Compare** — any two districts (or a district and the state), with the Census significance test on every row.
 4. **Rankings** — all 51 House or 25 Senate districts on poverty, SNAP gap, unemployment, LIDAC share and violent crime (Oʻahu), sortable, printable, CSV.
 5. **Programs** — 15 programs scored for fit, cross-program eligibility estimates (school meals, Lifeline, LIHEAP, WIC, Med-QUEST), unemployment by group, test scores, school meals, HUD housing, crime (Oʻahu, estimate), island Med-QUEST/TANF/SNAP context.
-6. **Ask** — plain-English questions ("Which programs fit HD 44?", "Compare SD 12 with the state", "Unemployment by age in HD 5"). Answers only use figures returned by tools and cite each one.
+6. **Ask** — suggested questions for the selected district, or plain-English questions ("Which programs fit HD 44?", "Compare SD 12 with the state", "Unemployment by age in HD 5"). Answers only use figures returned by tools and cite each one.
 7. **Sources** — a 27-source library (also in [SOURCES.md](SOURCES.md)) and the build-time verification report (344 checks pass, 0 fail).
 
 ## What the data covers
@@ -57,9 +58,7 @@ Rebuild the data with `python kyd/etl/load_acs_profile.py` (chains every loader)
 
 Designed and scoped, not in this release:
 
-- **County council districts** as a third district type, with boundaries and labels on the map
-- **Customizable indicator table**: show/hide, reorder and "add indicator", remembered per browser
-- **Finder**: search by district, legislator, neighborhood or ZIP (the place/ZIP lookup already powers the agent)
+- **County council district profiles** (council lines are on the map today; full council-level figures are next)
 - **Map over ranked table** (one indicator drives both; click either to highlight the other)
 - **Program uptake-gap finder**: districts with similar need but lower program use, from the Neo4j program/population graph
 - **Postgres (Neon) deployment** with the audit log and per-user activity history; local-model option for offices that cannot send data off-site
