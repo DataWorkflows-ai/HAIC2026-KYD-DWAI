@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
-import { LayoutDashboard, Map, GitCompare, HandHeart, MessageSquare, BookOpen, MapPinned, Star } from 'lucide-react';
+import { LayoutDashboard, Map, GitCompare, ListOrdered, HandHeart, MessageSquare, BookOpen, MapPinned, Star } from 'lucide-react';
 import { api, type Geo, type Health } from './api';
 import { GeoPicker, Pill, usePersistentState } from './ui';
 import { AskTab, CompareTab, OverviewTab, ProgramsTab, SourcesTab } from './tabs';
 import { MapTab } from './MapTab';
+import { RankingsTab } from './RankingsTab';
 
 const TABS = [
   { id: 'overview', label: 'Overview', Icon: LayoutDashboard },
   { id: 'map', label: 'Map', Icon: Map },
   { id: 'compare', label: 'Compare', Icon: GitCompare },
+  { id: 'rankings', label: 'Rankings', Icon: ListOrdered },
   { id: 'programs', label: 'Programs', Icon: HandHeart },
   { id: 'ask', label: 'Ask the Agent', Icon: MessageSquare },
   { id: 'sources', label: 'Sources & Methods', Icon: BookOpen },
@@ -68,6 +70,7 @@ export default function App() {
         {tab === 'overview' && <OverviewTab geo={geo} geos={geos} onAsk={ask} onPick={setGeo} />}
         {tab === 'map' && <MapTab geos={geos} geo={geo} office={office} onPick={setGeo} onOpen={g => { setGeo(g); setTab('overview'); }} />}
         {tab === 'compare' && <CompareTab geos={geos} geo={geo} />}
+        {tab === 'rankings' && <RankingsTab onOpen={g => { setGeo(g); setTab('overview'); }} />}
         {tab === 'programs' && <ProgramsTab geo={geo} />}
         {tab === 'ask' && <AskTab geo={geo} pending={pending} clearPending={() => setPending(null)} />}
         {tab === 'sources' && <SourcesTab />}

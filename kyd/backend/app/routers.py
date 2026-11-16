@@ -9,7 +9,7 @@ from .config import settings
 from .models import AgentAnswer, AskRequest
 from .services.graph import graph
 from .services.repo import repo
-from .services import breakdowns, crosswalk, program_context, representation as rep
+from .services import breakdowns, crosswalk, program_context, rankings, representation as rep
 from .services.cache import cached
 
 api = APIRouter(prefix="/api")
@@ -93,6 +93,13 @@ def district_program_context(geo_id: str, who: Principal = Who):
         raise HTTPException(404, f"unknown geography {geo_id}")
     audit.record(who.user, who.role, "program_context", geo_ids=[geo_id])
     return out
+
+
+@api.get("/rankings")
+def district_rankings(geo_type: str = "sldl"):
+    if geo_type not in ("sldl", "sldu"):
+        raise HTTPException(400, "geo_type must be sldl (House) or sldu (Senate)")
+    return rankings.rankings(geo_type)
 
 
 @api.get("/map/{indicator}")
