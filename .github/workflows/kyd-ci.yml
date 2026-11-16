@@ -1,0 +1,72 @@
+name: KYD CI
+
+on:
+  push:
+    branches: [main]
+    paths: ["kyd/**", "scripts/**", "data/raw/*.json", "data/raw/*.pdf", "data/raw/*.numbers", "data/processed/**", ".github/workflows/kyd-ci.yml"]
+  pull_request:
+    paths: ["kyd/**", "scripts/**", "data/raw/*.json", "data/raw/*.pdf", "data/raw/*.numbers", "data/processed/**", ".github/workflows/kyd-ci.yml"]
+  workflow_dispatch:
+
+jobs:
+  verify-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { lfs: false }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12", cache: pip, cache-dependency-path: kyd/backend/requirements.txt }
+      - run: pip install -r kyd/backend/requirements.txt
+      - name: Verify program data sources
+        run: python kyd/verify/run.py
+      - name: Backend tests (in-memory graph)
+        working-directory: kyd/backend
+        env: { KYD_GRAPH_MODE: fixture }
+        run: pytest -q ../tests
+
+  neo4j:
+    runs-on: ubuntu-latest
+    services:
+      neo4j:
+        image: neo4j:5-community
+        env:
+          NEO4J_AUTH: neo4j/kyd_ci_password
+        ports: ["7687:7687"]
+    env:
+      KYD_NEO4J_URI: bolt://localhost:7687
+      KYD_NEO4J_PASSWORD: kyd_ci_password
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12", cache: pip, cache-dependency-path: kyd/backend/requirements.txt }
+      - run: pip install -r kyd/backend/requirements.txt
+      - name: Wait for Neo4j
+        run: |
+          python - <<'PY'
+          import time
+          from neo4j import GraphDatabase
+          for i in range(60):
+              try:
+                  GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", "kyd_ci_password")).verify_connectivity()
+                  print("neo4j up after", i * 3, "s"); break
+              except Exception:
+                  time.sleep(3)
+          else:
+              raise SystemExit("neo4j did not start")
+          PY
+      - name: Load graph into Neo4j and verify it against the source files
+        run: python kyd/etl/build_graph.py
+      - name: Neo4j and in-memory graph give identical answers
+        working-directory: kyd/backend
+        env: { KYD_GRAPH_MODE: neo4j, KYD_TEST_NEO4J: "1" }
+        run: pytest -q ../tests/test_graph.py
+
+  frontend:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: kyd/frontend } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: npm, cache-dependency-path: kyd/frontend/package-lock.json }
+      - run: npm ci
+      - run: npm run build

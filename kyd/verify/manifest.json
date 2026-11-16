@@ -1,0 +1,82 @@
+{
+ "data/processed/bessd_sfy2026_caseload_by_island.csv": {
+  "sha256": "8e2d73cc1629137b1a8b2b73690ffd77580badb4c51b96a047f3dfbb0d3c3f65",
+  "verified_at": "2026-11-16T00:06:35+00:00"
+ },
+ "data/processed/dhs_databook_census_poverty_estimates.json": {
+  "sha256": "70de511dc5a6b579052fcdf9aceb1fe516cdc058be95bb5fea0020b62a138b1c",
+  "verified_at": "2026-11-16T00:06:35+00:00"
+ },
+ "data/processed/dhs_snap_demographics_june2025.json": {
+  "sha256": "de6605300fd99ec699358b5fad44a414ba68227c65a9d2ed682784439bd4bab8",
+  "verified_at": "2026-11-16T00:06:35+00:00"
+ },
+ "data/raw/DHS-Databook-2025.pdf": {
+  "sha256": "fcfed1cfa59dc4ba1a1d813fa46b1780793acb9166bbd2d0627fc0870782e17d",
+  "verified_at": "2026-11-16T00:06:35+00:00"
+ },
+ "data/raw/DP02_house_districts.json": {
+  "sha256": "530bf3b072c9df7cdfc607a684fc0f8445d8d4553f3fe96fb9ff9edea6244d2f",
+  "verified_at": "2026-11-16T00:06:35+00:00"
+ },
+ "data/raw/DP02_senate_districts.json": {
+  "sha256": "c337b5813c87900fae324c9069bbaad17488aee17e0635c90100d303121c5c51",
+  "verified_at": "2026-11-16T00:06:35+00:00"
+ },
+ "data/raw/DP03_house_districts.json": {
+  "sha256": "ab6f2e26a4fdb25ac2ac7cafe95eb53d43170f07522f26296d7013d1781126a4",
+  "verified_at": "2026-11-16T00:06:35+00:00"
+ },
+ "data/raw/DP03_senate_districts.json": {
+  "sha256": "b769f727eced7b76923a665b367748fcf617ef67a8658ea6e5146cef12dd3c1d",
+  "verified_at": "2026-11-16T00:06:35+00:00"
+ },
+ "data/raw/DP05_house_districts.json": {
+  "sha256": "7d2203d1cace902ab4252b7af56d92ca26a6df894c4a7893b3dcbc2fc86f63f7",
+  "verified_at": "2026-11-16T00:06:35+00:00"
+ },
+ "data/raw/DP05_senate_districts.json": {
+  "sha256": "c449d8cb16ca0a3794c91b68c3c9d744cbbef5677cc6deb469109f613b906ca8",
+  "verified_at": "2026-11-16T00:06:35+00:00"
+ },
+ "data/raw/S0103_senate_districts.json": {
+  "sha256": "a3c4db78bddb2a3698c5d128a191b0b24ad41730bea76f50a6c2e650abce26b9",
+  "verified_at": "2026-11-16T00:06:35+00:00"
+ },
+ "data/raw/S1701_house_districts.json": {
+  "sha256": "1d88d553e5671457a140e5992d5329746cc5266aacf5a165f13e5fb1e6e26e51",
+  "verified_at": "2026-11-16T00:06:35+00:00"
+ },
+ "data/raw/S1701_senate_districts.json": {
+  "sha256": "57f6b5cf29fe27e53587314edeb15cee86eb57c5b7c3011057123e735922b856",
+  "verified_at": "2026-11-16T00:06:35+00:00"
+ },
+ "data/raw/S1810_house_districts.json": {
+  "sha256": "e98bed510e0ce25183a5532148dc31a3279aecc5dae77b1cd66b4b38560fd041",
+  "verified_at": "2026-11-16T00:06:35+00:00"
+ },
+ "data/raw/S1810_senate_districts.json": {
+  "sha256": "130b4b4574d856b7cfdb675b567c595e51a832838a76801d726c0faac425798c",
+  "verified_at": "2026-11-16T00:06:35+00:00"
+ },
+ "data/raw/S2201_house_districts.json": {
+  "sha256": "91143d4bb888b3f9357dc6c044fb97720cdbf03b2b589c44819629049a9f3117",
+  "verified_at": "2026-11-16T00:06:35+00:00"
+ },
+ "data/raw/S2201_senate_districts.json": {
+  "sha256": "b053138b15522108aadb182216fe47a213dc5e0a54faa6e3255e730837007c7c",
+  "verified_at": "2026-11-16T00:06:35+00:00"
+ },
+ "data/raw/S2701_house_districts.json": {
+  "sha256": "0b45d6d517c2f6df9bd3b2c284df71c1491731b2b5291fd0626646c2a7461d7b",
+  "verified_at": "2026-11-16T00:06:35+00:00"
+ },
+ "data/raw/S2701_senate_districts.json": {
+  "sha256": "56b5dcfb12e75f2b7f02dc00c18644d6344c3081298b94aac95b6039c8372ee5",
+  "verified_at": "2026-11-16T00:06:35+00:00"
+ },
+ "data/raw/SFY-2026-SUMMARY.numbers": {
+  "sha256": "077c2320cbc833b5e71afa13e07f0f2d093a1f846fc4e591edb0062c081d2651",
+  "verified_at": "2026-11-16T00:06:35+00:00"
+ }
+}

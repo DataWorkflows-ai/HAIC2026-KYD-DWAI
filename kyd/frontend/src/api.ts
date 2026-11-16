@@ -32,7 +32,13 @@ export type MapDistrict = {
   top_program: string | null; figures: Obs[];
 };
 export type MapSummary = { roster: { as_of: string; counts: Record<string, number> }; overlap_method: string; local_method: string; districts: MapDistrict[] };
-export type Health = { ok: boolean; mode: string; demo: boolean; llm: string; geographies: number; programs: number };
+export type VerifySummary = { generated_at: string; git_sha: string | null; pass: number; info: number; warn: number; fail: number };
+export type Health = { ok: boolean; mode: string; demo: boolean; llm: string; graph: string; verification: VerifySummary | null; geographies: number; programs: number };
+export type VCheck = { id: string; source: string; kind: string; status: 'pass' | 'info' | 'warn' | 'fail'; detail: string; expected: any; actual: any; location: string | null };
+export type Verification = {
+  summary: VerifySummary; checks: VCheck[];
+  capabilities: { capability: string; name: string; program_id: string | null; status: string; datasets: { id: string; status: string; verified_at: string | null }[] }[];
+};
 
 // Bearer token from the login flow (see backend/app/auth.py). Stored per tab; absent = anonymous viewer.
 function authHeader(): Record<string, string> {
@@ -57,6 +63,7 @@ export const api = {
   indicators: () => j<{ indicator: string; label: string; unit: string; topic: string }[]>('/api/indicators'),
   sources: () => j<any[]>('/api/sources'),
   cite: (id: string) => j<any>(`/api/sources/observation/${id}`),
+  verification: () => j<Verification>('/api/verification'),
   ask: (question: string, geo_id: string | null) =>
     j<Answer>('/api/agent/ask', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ question, geo_id }) }),
 };

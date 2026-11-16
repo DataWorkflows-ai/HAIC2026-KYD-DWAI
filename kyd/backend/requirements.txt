@@ -7,6 +7,10 @@ psycopg[binary]>=3.2
 neo4j>=5.25
 duckdb>=1.1
 # optional: presidio-analyzer presidio-anonymizer (PII scrubbing, §8.3)
+# source verification (kyd/verify)
+pypdf>=4
+numbers-parser>=4.10
+protobuf>=5
 # dev
 pytest>=8
 # etl

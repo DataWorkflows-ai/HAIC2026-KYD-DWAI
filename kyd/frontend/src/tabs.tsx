@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Send, ExternalLink, Bot, Zap, ShieldAlert } from 'lucide-react';
-import { api, fmt, type Answer, type Geo, type Obs, type Profile, type ProgramMatch } from './api';
+import { api, fmt, type Answer, type Geo, type Obs, type Profile, type ProgramMatch, type Verification } from './api';
 import { Card, Empty, Figure, GeoPicker, Pill } from './ui';
 
 const HEADLINE = ['total_pop', 'median_hh_income', 'pct_below_fpl', 'pct_65plus', 'pct_rent_burden_30', 'pct_uninsured'];
@@ -181,11 +181,54 @@ export function AskTab({ geo, pending, clearPending }: { geo: string; pending: s
 }
 
 // ── Sources & methods ───────────────────────────────────────────────────────
+const STATUS_STYLE: Record<string, string> = {
+  pass: 'text-emerald-300 border-emerald-800', info: 'text-sky-300 border-sky-800',
+  warn: 'text-amber-300 border-amber-800', fail: 'text-rose-300 border-rose-800',
+};
+const Badge = ({ s }: { s: string }) => <span className={`text-[10px] px-1.5 rounded border uppercase ${STATUS_STYLE[s] ?? ''}`}>{s}</span>;
+
+function VerificationCard() {
+  const [v, setV] = useState<Verification | null>(null);
+  const [err, setErr] = useState('');
+  const [open, setOpen] = useState(false);
+  useEffect(() => { api.verification().then(setV).catch(e => setErr(String(e.message ?? e))); }, []);
+  if (err) return <Card title="Data verification"><p className="text-sm text-slate-400">No verification report yet.</p></Card>;
+  if (!v) return <Card title="Data verification"><p className="text-sm text-slate-500">Loading…</p></Card>;
+  const flagged = v.checks.filter(c => c.status === 'fail' || c.status === 'warn');
+  return (
+    <Card title="Data verification" right={<span className="text-xs text-slate-500">{v.summary.generated_at.slice(0, 10)}</span>}>
+      <div className="flex gap-2 text-xs mb-3">
+        {(['pass', 'info', 'warn', 'fail'] as const).map(k => <span key={k} className="flex items-center gap-1"><Badge s={k} />{v.summary[k]}</span>)}
+      </div>
+      <p className="text-xs text-slate-400 mb-2">Every program source is re-read and checked on each build: hand-typed DHS Databook figures against the PDF,
+        the BESSD CSV against its workbook, Census variables against their published totals and Data Profiles, and independent
+        sources against each other. A changed report format fails the build instead of producing wrong numbers.</p>
+      <ul className="text-sm divide-y divide-premium-800">
+        {v.capabilities.map(c => (
+          <li key={c.capability} className="py-1.5 flex justify-between gap-2">
+            <span className="text-slate-200">{c.name}</span><Badge s={c.status} />
+          </li>))}
+      </ul>
+      {flagged.length > 0 && (
+        <div className="mt-3">
+          <button onClick={() => setOpen(o => !o)} className="text-xs text-cyan-400 hover:underline">
+            {open ? 'Hide' : 'Show'} {flagged.length} item{flagged.length > 1 ? 's' : ''} to review</button>
+          {open && <ul className="mt-2 space-y-1.5">{flagged.map(c => (
+            <li key={c.id} className="text-xs"><Badge s={c.status} /> <span className="text-slate-300">{c.detail}</span>
+              {(c.expected !== null || c.actual !== null) && <span className="text-slate-500 font-mono"> · source {JSON.stringify(c.expected)} · ours {JSON.stringify(c.actual)}</span>}</li>))}
+          </ul>}
+        </div>
+      )}
+    </Card>
+  );
+}
+
 export function SourcesTab() {
   const [src, setSrc] = useState<any[]>([]);
   useEffect(() => { api.sources().then(setSrc); }, []);
   return (
     <div className="grid lg:grid-cols-2 gap-4">
+      <div className="lg:col-span-2"><VerificationCard /></div>
       <Card title="Data sources">
         <ul className="space-y-2 text-sm">{src.map(s => (
           <li key={s.source_id}><div className="text-slate-100">{s.title}</div>

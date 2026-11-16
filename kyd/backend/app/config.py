@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     neo4j_uri: str = "bolt://127.0.0.1:7688"
     neo4j_user: str = "neo4j"
     neo4j_password: str = "kyd_dev_pw"
+    graph_mode: str = "auto"                        # auto (Neo4j if reachable, else in-memory) | neo4j | fixture
 
     llm_provider: str = "none"                      # none | anthropic | openai | local
     llm_model: str = ""

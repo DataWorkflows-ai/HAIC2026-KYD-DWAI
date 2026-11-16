@@ -1,0 +1,4618 @@
+{
+ "generated_at": "2026-11-16T00:06:48+00:00",
+ "git_sha": "c8c0f4d",
+ "summary": {
+  "fail": 0,
+  "warn": 6,
+  "info": 4,
+  "pass": 344
+ },
+ "sources": {
+  "dhs.databook2025": {
+   "path": "data/raw/DHS-Databook-2025.pdf",
+   "publisher": "Hawaiʻi DHS",
+   "url": "https://humanservices.hawaii.gov/wp-content/uploads/2026/03/DHS-Databook-2025.pdf",
+   "used_by": "aabd.py, ga_proxy.py, tanf_underenrollment.py, medquest.py, tanf_by_island.py",
+   "sha256": "fcfed1cfa59dc4ba1a1d813fa46b1780793acb9166bbd2d0627fc0870782e17d",
+   "verified_at": "2026-11-16T00:06:35+00:00"
+  },
+  "dhs.bessd_sfy2026": {
+   "path": "data/raw/SFY-2026-SUMMARY.numbers",
+   "publisher": "Hawaiʻi DHS BESSD",
+   "url": null,
+   "used_by": "tanf_by_island.py (via data/processed CSV)",
+   "sha256": "077c2320cbc833b5e71afa13e07f0f2d093a1f846fc4e591edb0062c081d2651",
+   "verified_at": "2026-11-16T00:06:35+00:00"
+  },
+  "dhs.testimony_2025_10": {
+   "path": null,
+   "publisher": "Hawaiʻi DHS (legislative testimony)",
+   "url": "https://www.capitol.hawaii.gov/sessions/session2025/testimony/INFO_TESTIMONY_HHS_10-28-25_DHS.pdf",
+   "used_by": "load_county_snap.py",
+   "sha256": null
+  },
+  "processed.snap_demographics": {
+   "path": "data/processed/dhs_snap_demographics_june2025.json",
+   "publisher": "derived from Databook p6",
+   "url": null,
+   "used_by": "map_data.py, app.py",
+   "sha256": "de6605300fd99ec699358b5fad44a414ba68227c65a9d2ed682784439bd4bab8",
+   "verified_at": "2026-11-16T00:06:35+00:00"
+  },
+  "processed.poverty_estimates": {
+   "path": "data/processed/dhs_databook_census_poverty_estimates.json",
+   "publisher": "derived from Databook p12–13",
+   "url": null,
+   "used_by": "tanf_by_island.py",
+   "sha256": "70de511dc5a6b579052fcdf9aceb1fe516cdc058be95bb5fea0020b62a138b1c",
+   "verified_at": "2026-11-16T00:06:35+00:00"
+  },
+  "processed.bessd_csv": {
+   "path": "data/processed/bessd_sfy2026_caseload_by_island.csv",
+   "publisher": "derived from BESSD workbook",
+   "url": null,
+   "used_by": "tanf_by_island.py",
+   "sha256": "8e2d73cc1629137b1a8b2b73690ffd77580badb4c51b96a047f3dfbb0d3c3f65",
+   "verified_at": "2026-11-16T00:06:35+00:00"
+  },
+  "census.S1701.house": {
+   "path": "data/raw/S1701_house_districts.json",
+   "publisher": "U.S. Census Bureau, ACS 2020–2024 5-year",
+   "url": "https://data.census.gov/table/ACSST5Y2024.S1701",
+   "used_by": "scripts/*.py",
+   "sha256": "1d88d553e5671457a140e5992d5329746cc5266aacf5a165f13e5fb1e6e26e51",
+   "verified_at": "2026-11-16T00:06:35+00:00"
+  },
+  "census.S1701.senate": {
+   "path": "data/raw/S1701_senate_districts.json",
+   "publisher": "U.S. Census Bureau, ACS 2020–2024 5-year",
+   "url": "https://data.census.gov/table/ACSST5Y2024.S1701",
+   "used_by": "scripts/*.py",
+   "sha256": "57f6b5cf29fe27e53587314edeb15cee86eb57c5b7c3011057123e735922b856",
+   "verified_at": "2026-11-16T00:06:35+00:00"
+  },
+  "census.S2201.house": {
+   "path": "data/raw/S2201_house_districts.json",
+   "publisher": "U.S. Census Bureau, ACS 2020–2024 5-year",
+   "url": "https://data.census.gov/table/ACSST5Y2024.S2201",
+   "used_by": "scripts/*.py",
+   "sha256": "91143d4bb888b3f9357dc6c044fb97720cdbf03b2b589c44819629049a9f3117",
+   "verified_at": "2026-11-16T00:06:35+00:00"
+  },
+  "census.S2201.senate": {
+   "path": "data/raw/S2201_senate_districts.json",
+   "publisher": "U.S. Census Bureau, ACS 2020–2024 5-year",
+   "url": "https://data.census.gov/table/ACSST5Y2024.S2201",
+   "used_by": "scripts/*.py",
+   "sha256": "b053138b15522108aadb182216fe47a213dc5e0a54faa6e3255e730837007c7c",
+   "verified_at": "2026-11-16T00:06:35+00:00"
+  },
+  "census.S1810.house": {
+   "path": "data/raw/S1810_house_districts.json",
+   "publisher": "U.S. Census Bureau, ACS 2020–2024 5-year",
+   "url": "https://data.census.gov/table/ACSST5Y2024.S1810",
+   "used_by": "scripts/*.py",
+   "sha256": "e98bed510e0ce25183a5532148dc31a3279aecc5dae77b1cd66b4b38560fd041",
+   "verified_at": "2026-11-16T00:06:35+00:00"
+  },
+  "census.S1810.senate": {
+   "path": "data/raw/S1810_senate_districts.json",
+   "publisher": "U.S. Census Bureau, ACS 2020–2024 5-year",
+   "url": "https://data.census.gov/table/ACSST5Y2024.S1810",
+   "used_by": "scripts/*.py",
+   "sha256": "130b4b4574d856b7cfdb675b567c595e51a832838a76801d726c0faac425798c",
+   "verified_at": "2026-11-16T00:06:35+00:00"
+  },
+  "census.S2701.house": {
+   "path": "data/raw/S2701_house_districts.json",
+   "publisher": "U.S. Census Bureau, ACS 2020–2024 5-year",
+   "url": "https://data.census.gov/table/ACSST5Y2024.S2701",
+   "used_by": "scripts/*.py",
+   "sha256": "0b45d6d517c2f6df9bd3b2c284df71c1491731b2b5291fd0626646c2a7461d7b",
+   "verified_at": "2026-11-16T00:06:35+00:00"
+  },
+  "census.S2701.senate": {
+   "path": "data/raw/S2701_senate_districts.json",
+   "publisher": "U.S. Census Bureau, ACS 2020–2024 5-year",
+   "url": "https://data.census.gov/table/ACSST5Y2024.S2701",
+   "used_by": "scripts/*.py",
+   "sha256": "56b5dcfb12e75f2b7f02dc00c18644d6344c3081298b94aac95b6039c8372ee5",
+   "verified_at": "2026-11-16T00:06:35+00:00"
+  },
+  "census.S0103.senate": {
+   "path": "data/raw/S0103_senate_districts.json",
+   "publisher": "U.S. Census Bureau, ACS 2020–2024 5-year",
+   "url": "https://data.census.gov/table/ACSST5Y2024.S0103",
+   "used_by": "scripts/*.py",
+   "sha256": "a3c4db78bddb2a3698c5d128a191b0b24ad41730bea76f50a6c2e650abce26b9",
+   "verified_at": "2026-11-16T00:06:35+00:00"
+  },
+  "census.DP02.house": {
+   "path": "data/raw/DP02_house_districts.json",
+   "publisher": "U.S. Census Bureau, ACS 2020–2024 5-year",
+   "url": "https://data.census.gov/table/ACSST5Y2024.DP02",
+   "used_by": "scripts/*.py",
+   "sha256": "530bf3b072c9df7cdfc607a684fc0f8445d8d4553f3fe96fb9ff9edea6244d2f",
+   "verified_at": "2026-11-16T00:06:35+00:00"
+  },
+  "census.DP02.senate": {
+   "path": "data/raw/DP02_senate_districts.json",
+   "publisher": "U.S. Census Bureau, ACS 2020–2024 5-year",
+   "url": "https://data.census.gov/table/ACSST5Y2024.DP02",
+   "used_by": "scripts/*.py",
+   "sha256": "c337b5813c87900fae324c9069bbaad17488aee17e0635c90100d303121c5c51",
+   "verified_at": "2026-11-16T00:06:35+00:00"
+  },
+  "census.DP03.house": {
+   "path": "data/raw/DP03_house_districts.json",
+   "publisher": "U.S. Census Bureau, ACS 2020–2024 5-year",
+   "url": "https://data.census.gov/table/ACSST5Y2024.DP03",
+   "used_by": "scripts/*.py",
+   "sha256": "ab6f2e26a4fdb25ac2ac7cafe95eb53d43170f07522f26296d7013d1781126a4",
+   "verified_at": "2026-11-16T00:06:35+00:00"
+  },
+  "census.DP03.senate": {
+   "path": "data/raw/DP03_senate_districts.json",
+   "publisher": "U.S. Census Bureau, ACS 2020–2024 5-year",
+   "url": "https://data.census.gov/table/ACSST5Y2024.DP03",
+   "used_by": "scripts/*.py",
+   "sha256": "b769f727eced7b76923a665b367748fcf617ef67a8658ea6e5146cef12dd3c1d",
+   "verified_at": "2026-11-16T00:06:35+00:00"
+  },
+  "census.DP05.house": {
+   "path": "data/raw/DP05_house_districts.json",
+   "publisher": "U.S. Census Bureau, ACS 2020–2024 5-year",
+   "url": "https://data.census.gov/table/ACSST5Y2024.DP05",
+   "used_by": "scripts/*.py",
+   "sha256": "7d2203d1cace902ab4252b7af56d92ca26a6df894c4a7893b3dcbc2fc86f63f7",
+   "verified_at": "2026-11-16T00:06:35+00:00"
+  },
+  "census.DP05.senate": {
+   "path": "data/raw/DP05_senate_districts.json",
+   "publisher": "U.S. Census Bureau, ACS 2020–2024 5-year",
+   "url": "https://data.census.gov/table/ACSST5Y2024.DP05",
+   "used_by": "scripts/*.py",
+   "sha256": "c449d8cb16ca0a3794c91b68c3c9d744cbbef5677cc6deb469109f613b906ca8",
+   "verified_at": "2026-11-16T00:06:35+00:00"
+  }
+ },
+ "checks": [
+  {
+   "id": "dhs.databook2025.ga.age.65_79_",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "warn",
+   "detail": "ga age “65-79+”: PDF says <1%, code uses 0",
+   "expected": "<1%",
+   "actual": 0,
+   "location": "p5"
+  },
+  {
+   "id": "dhs.databook2025.medquest.sfy2016.islands_sum",
+   "source": "dhs.databook2025",
+   "kind": "consistency",
+   "status": "warn",
+   "detail": "SFY 2016: islands add up to statewide (off by +1 in the Databook itself; the code matches the PDF)",
+   "expected": 346398,
+   "actual": 346399,
+   "location": "p27"
+  },
+  {
+   "id": "dhs.databook2025.medquest.sfy2017.islands_sum",
+   "source": "dhs.databook2025",
+   "kind": "consistency",
+   "status": "warn",
+   "detail": "SFY 2017: islands add up to statewide (off by +1 in the Databook itself; the code matches the PDF)",
+   "expected": 356787,
+   "actual": 356788,
+   "location": "p27"
+  },
+  {
+   "id": "dhs.databook2025.medquest.sfy2018.islands_sum",
+   "source": "dhs.databook2025",
+   "kind": "consistency",
+   "status": "warn",
+   "detail": "SFY 2018: islands add up to statewide (off by +1 in the Databook itself; the code matches the PDF)",
+   "expected": 359225,
+   "actual": 359226,
+   "location": "p27"
+  },
+  {
+   "id": "dhs.databook2025.medquest.sfy2019.islands_sum",
+   "source": "dhs.databook2025",
+   "kind": "consistency",
+   "status": "warn",
+   "detail": "SFY 2019: islands add up to statewide (off by +2 in the Databook itself; the code matches the PDF)",
+   "expected": 345231,
+   "actual": 345233,
+   "location": "p27"
+  },
+  {
+   "id": "dhs.testimony_2025_10.archived",
+   "source": "dhs.testimony_2025_10",
+   "kind": "provenance",
+   "status": "warn",
+   "detail": "County SNAP figures in scripts/load_county_snap.py cite a capitol.hawaii.gov testimony PDF that is not archived in data/raw, so they cannot be re-read; they are checked against the BESSD workbook instead",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "cross.snap_acs_vs_admin.Hawaii",
+   "source": "census.S2201",
+   "kind": "cross_source",
+   "status": "info",
+   "detail": "Hawaii: ACS 2020–24 SNAP households vs BESSD SFY 2026 average (survey/admin ratio 0.63; ACS typically undercounts SNAP receipt)",
+   "expected": 20790,
+   "actual": 13197,
+   "location": null
+  },
+  {
+   "id": "cross.snap_acs_vs_admin.Honolulu",
+   "source": "census.S2201",
+   "kind": "cross_source",
+   "status": "info",
+   "detail": "Honolulu: ACS 2020–24 SNAP households vs BESSD SFY 2026 average (survey/admin ratio 0.70; ACS typically undercounts SNAP receipt)",
+   "expected": 49429,
+   "actual": 34575,
+   "location": null
+  },
+  {
+   "id": "cross.snap_acs_vs_admin.Kauai",
+   "source": "census.S2201",
+   "kind": "cross_source",
+   "status": "info",
+   "detail": "Kauai: ACS 2020–24 SNAP households vs BESSD SFY 2026 average (survey/admin ratio 0.63; ACS typically undercounts SNAP receipt)",
+   "expected": 4247,
+   "actual": 2680,
+   "location": null
+  },
+  {
+   "id": "cross.snap_acs_vs_admin.Maui",
+   "source": "census.S2201",
+   "kind": "cross_source",
+   "status": "info",
+   "detail": "Maui: ACS 2020–24 SNAP households vs BESSD SFY 2026 average (survey/admin ratio 0.64; ACS typically undercounts SNAP receipt)",
+   "expected": 9092,
+   "actual": 5784,
+   "location": null
+  },
+  {
+   "id": "census.DP02.house.codes",
+   "source": "census.DP02.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "every variable the scripts use is present",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP02.house.districts",
+   "source": "census.DP02.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "one row for each of the 51 house districts",
+   "expected": 51,
+   "actual": 51,
+   "location": null
+  },
+  {
+   "id": "census.DP02.house.present",
+   "source": "census.DP02.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "DP02_house_districts.json exists",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP02.house.table",
+   "source": "census.DP02.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "response is for the expected table",
+   "expected": "DP02",
+   "actual": "DP02",
+   "location": null
+  },
+  {
+   "id": "census.DP02.house.values",
+   "source": "census.DP02.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "used variables are numeric (no Census null codes)",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP02.house.vintage",
+   "source": "census.DP02.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "ACS 5-year 2020–2024 vintage",
+   "expected": "2024",
+   "actual": "2024",
+   "location": null
+  },
+  {
+   "id": "census.DP02.senate.codes",
+   "source": "census.DP02.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "every variable the scripts use is present",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP02.senate.districts",
+   "source": "census.DP02.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "one row for each of the 25 senate districts",
+   "expected": 25,
+   "actual": 25,
+   "location": null
+  },
+  {
+   "id": "census.DP02.senate.present",
+   "source": "census.DP02.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "DP02_senate_districts.json exists",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP02.senate.table",
+   "source": "census.DP02.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "response is for the expected table",
+   "expected": "DP02",
+   "actual": "DP02",
+   "location": null
+  },
+  {
+   "id": "census.DP02.senate.values",
+   "source": "census.DP02.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "used variables are numeric (no Census null codes)",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP02.senate.vintage",
+   "source": "census.DP02.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "ACS 5-year 2020–2024 vintage",
+   "expected": "2024",
+   "actual": "2024",
+   "location": null
+  },
+  {
+   "id": "census.DP02.vs_dbedt.avg_hh_size",
+   "source": "census.DP02",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "DP02_0016E (avg_hh_size) equals the DBEDT workbook value used by the app",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP02.vs_dbedt.households",
+   "source": "census.DP02",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "DP02_0001E (households) equals the DBEDT workbook value used by the app",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP02.vs_dbedt.pct_bachelors_plus",
+   "source": "census.DP02",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "DP02_0068PE (pct_bachelors_plus) equals the DBEDT workbook value used by the app",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP02.vs_dbedt.pct_broadband",
+   "source": "census.DP02",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "DP02_0154PE (pct_broadband) equals the DBEDT workbook value used by the app",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP02.vs_dbedt.pct_disability",
+   "source": "census.DP02",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "DP02_0072PE (pct_disability) equals the DBEDT workbook value used by the app",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP02.vs_dbedt.pct_foreign_born",
+   "source": "census.DP02",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "DP02_0094PE (pct_foreign_born) equals the DBEDT workbook value used by the app",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP02.vs_dbedt.pct_limited_english",
+   "source": "census.DP02",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "DP02_0115PE (pct_limited_english) equals the DBEDT workbook value used by the app",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP02.vs_dbedt.pct_veterans",
+   "source": "census.DP02",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "DP02_0070PE (pct_veterans) equals the DBEDT workbook value used by the app",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP03.house.codes",
+   "source": "census.DP03.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "every variable the scripts use is present",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP03.house.districts",
+   "source": "census.DP03.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "one row for each of the 51 house districts",
+   "expected": 51,
+   "actual": 51,
+   "location": null
+  },
+  {
+   "id": "census.DP03.house.present",
+   "source": "census.DP03.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "DP03_house_districts.json exists",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP03.house.table",
+   "source": "census.DP03.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "response is for the expected table",
+   "expected": "DP03",
+   "actual": "DP03",
+   "location": null
+  },
+  {
+   "id": "census.DP03.house.values",
+   "source": "census.DP03.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "used variables are numeric (no Census null codes)",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP03.house.vintage",
+   "source": "census.DP03.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "ACS 5-year 2020–2024 vintage",
+   "expected": "2024",
+   "actual": "2024",
+   "location": null
+  },
+  {
+   "id": "census.DP03.senate.codes",
+   "source": "census.DP03.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "every variable the scripts use is present",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP03.senate.districts",
+   "source": "census.DP03.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "one row for each of the 25 senate districts",
+   "expected": 25,
+   "actual": 25,
+   "location": null
+  },
+  {
+   "id": "census.DP03.senate.present",
+   "source": "census.DP03.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "DP03_senate_districts.json exists",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP03.senate.table",
+   "source": "census.DP03.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "response is for the expected table",
+   "expected": "DP03",
+   "actual": "DP03",
+   "location": null
+  },
+  {
+   "id": "census.DP03.senate.values",
+   "source": "census.DP03.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "used variables are numeric (no Census null codes)",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP03.senate.vintage",
+   "source": "census.DP03.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "ACS 5-year 2020–2024 vintage",
+   "expected": "2024",
+   "actual": "2024",
+   "location": null
+  },
+  {
+   "id": "census.DP03.vs_dbedt.median_hh_income",
+   "source": "census.DP03",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "DP03_0062E (median_hh_income) equals the DBEDT workbook value used by the app",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP03.vs_dbedt.pct_65plus_poverty",
+   "source": "census.DP03",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "DP03_0135PE (pct_65plus_poverty) equals the DBEDT workbook value used by the app",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP03.vs_dbedt.pct_below_fpl",
+   "source": "census.DP03",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "DP03_0128PE (pct_below_fpl) equals the DBEDT workbook value used by the app",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP03.vs_dbedt.pct_cash_assist_hh",
+   "source": "census.DP03",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "DP03_0072PE (pct_cash_assist_hh) equals the DBEDT workbook value used by the app",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP03.vs_dbedt.pct_child_poverty",
+   "source": "census.DP03",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "DP03_0129PE (pct_child_poverty) equals the DBEDT workbook value used by the app",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP03.vs_dbedt.pct_snap_hh",
+   "source": "census.DP03",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "DP03_0074PE (pct_snap_hh) equals the DBEDT workbook value used by the app",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP03.vs_dbedt.pct_ssi_hh",
+   "source": "census.DP03",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "DP03_0070PE (pct_ssi_hh) equals the DBEDT workbook value used by the app",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP03.vs_dbedt.pct_uninsured",
+   "source": "census.DP03",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "DP03_0099PE (pct_uninsured) equals the DBEDT workbook value used by the app",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP03.vs_dbedt.per_capita_income",
+   "source": "census.DP03",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "DP03_0088E (per_capita_income) equals the DBEDT workbook value used by the app",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP03.vs_dbedt.unemployment_rate",
+   "source": "census.DP03",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "DP03_0009PE (unemployment_rate) equals the DBEDT workbook value used by the app",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP05.DP05_0001E.house_eq_senate",
+   "source": "census.DP05",
+   "kind": "consistency",
+   "status": "pass",
+   "detail": "DP05_0001E summed over House districts ≈ over Senate districts (same state)",
+   "expected": 1445235,
+   "actual": 1445235,
+   "location": null
+  },
+  {
+   "id": "census.DP05.house.codes",
+   "source": "census.DP05.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "every variable the scripts use is present",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP05.house.districts",
+   "source": "census.DP05.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "one row for each of the 51 house districts",
+   "expected": 51,
+   "actual": 51,
+   "location": null
+  },
+  {
+   "id": "census.DP05.house.present",
+   "source": "census.DP05.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "DP05_house_districts.json exists",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP05.house.table",
+   "source": "census.DP05.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "response is for the expected table",
+   "expected": "DP05",
+   "actual": "DP05",
+   "location": null
+  },
+  {
+   "id": "census.DP05.house.values",
+   "source": "census.DP05.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "used variables are numeric (no Census null codes)",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP05.house.vintage",
+   "source": "census.DP05.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "ACS 5-year 2020–2024 vintage",
+   "expected": "2024",
+   "actual": "2024",
+   "location": null
+  },
+  {
+   "id": "census.DP05.senate.codes",
+   "source": "census.DP05.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "every variable the scripts use is present",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP05.senate.districts",
+   "source": "census.DP05.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "one row for each of the 25 senate districts",
+   "expected": 25,
+   "actual": 25,
+   "location": null
+  },
+  {
+   "id": "census.DP05.senate.present",
+   "source": "census.DP05.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "DP05_senate_districts.json exists",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP05.senate.table",
+   "source": "census.DP05.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "response is for the expected table",
+   "expected": "DP05",
+   "actual": "DP05",
+   "location": null
+  },
+  {
+   "id": "census.DP05.senate.values",
+   "source": "census.DP05.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "used variables are numeric (no Census null codes)",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP05.senate.vintage",
+   "source": "census.DP05.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "ACS 5-year 2020–2024 vintage",
+   "expected": "2024",
+   "actual": "2024",
+   "location": null
+  },
+  {
+   "id": "census.DP05.vs_dbedt.median_age",
+   "source": "census.DP05",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "DP05_0018E (median_age) equals the DBEDT workbook value used by the app",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP05.vs_dbedt.pct_65plus",
+   "source": "census.DP05",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "DP05_0024PE (pct_65plus) equals the DBEDT workbook value used by the app",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP05.vs_dbedt.pct_under18",
+   "source": "census.DP05",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "DP05_0019PE (pct_under18) equals the DBEDT workbook value used by the app",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP05.vs_dbedt.pct_under5",
+   "source": "census.DP05",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "DP05_0005PE (pct_under5) equals the DBEDT workbook value used by the app",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.DP05.vs_dbedt.total_pop",
+   "source": "census.DP05",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "DP05_0001E (total_pop) equals the DBEDT workbook value used by the app",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S0103.senate.codes",
+   "source": "census.S0103.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "every variable the scripts use is present",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S0103.senate.districts",
+   "source": "census.S0103.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "one row for each of the 25 senate districts",
+   "expected": 25,
+   "actual": 25,
+   "location": null
+  },
+  {
+   "id": "census.S0103.senate.present",
+   "source": "census.S0103.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "S0103_senate_districts.json exists",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S0103.senate.table",
+   "source": "census.S0103.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "response is for the expected table",
+   "expected": "S0103",
+   "actual": "S0103",
+   "location": null
+  },
+  {
+   "id": "census.S0103.senate.values",
+   "source": "census.S0103.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "used variables are numeric (no Census null codes)",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S0103.senate.vintage",
+   "source": "census.S0103.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "ACS 5-year 2020–2024 vintage",
+   "expected": "2024",
+   "actual": "2024",
+   "location": null
+  },
+  {
+   "id": "census.S0103.vs_DP05.65plus.senate",
+   "source": "census.S0103.senate",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "S0103 C02_001E (people 65+) matches DP05_0024E",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S1701.C01_001E.house_eq_senate",
+   "source": "census.S1701",
+   "kind": "consistency",
+   "status": "pass",
+   "detail": "C01_001E summed over House districts ≈ over Senate districts (same state)",
+   "expected": 1408357,
+   "actual": 1408357,
+   "location": null
+  },
+  {
+   "id": "census.S1701.C01_042E.house_eq_senate",
+   "source": "census.S1701",
+   "kind": "consistency",
+   "status": "pass",
+   "detail": "C01_042E summed over House districts ≈ over Senate districts (same state)",
+   "expected": 314200,
+   "actual": 314200,
+   "location": null
+  },
+  {
+   "id": "census.S1701.house.codes",
+   "source": "census.S1701.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "every variable the scripts use is present",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S1701.house.districts",
+   "source": "census.S1701.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "one row for each of the 51 house districts",
+   "expected": 51,
+   "actual": 51,
+   "location": null
+  },
+  {
+   "id": "census.S1701.house.present",
+   "source": "census.S1701.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "S1701_house_districts.json exists",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S1701.house.table",
+   "source": "census.S1701.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "response is for the expected table",
+   "expected": "S1701",
+   "actual": "S1701",
+   "location": null
+  },
+  {
+   "id": "census.S1701.house.values",
+   "source": "census.S1701.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "used variables are numeric (no Census null codes)",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S1701.house.vintage",
+   "source": "census.S1701.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "ACS 5-year 2020–2024 vintage",
+   "expected": "2024",
+   "actual": "2024",
+   "location": null
+  },
+  {
+   "id": "census.S1701.poverty_ladder.house",
+   "source": "census.S1701.house",
+   "kind": "consistency",
+   "status": "pass",
+   "detail": "people below 50% < 100% < 125% < 150% < 185% < 200% of poverty < all people",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S1701.poverty_ladder.senate",
+   "source": "census.S1701.senate",
+   "kind": "consistency",
+   "status": "pass",
+   "detail": "people below 50% < 100% < 125% < 150% < 185% < 200% of poverty < all people",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S1701.rate_identity.house",
+   "source": "census.S1701.house",
+   "kind": "consistency",
+   "status": "pass",
+   "detail": "C03_001E equals C02_001E / C01_001E × 100 (column roles unchanged)",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S1701.rate_identity.senate",
+   "source": "census.S1701.senate",
+   "kind": "consistency",
+   "status": "pass",
+   "detail": "C03_001E equals C02_001E / C01_001E × 100 (column roles unchanged)",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S1701.senate.codes",
+   "source": "census.S1701.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "every variable the scripts use is present",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S1701.senate.districts",
+   "source": "census.S1701.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "one row for each of the 25 senate districts",
+   "expected": 25,
+   "actual": 25,
+   "location": null
+  },
+  {
+   "id": "census.S1701.senate.present",
+   "source": "census.S1701.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "S1701_senate_districts.json exists",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S1701.senate.table",
+   "source": "census.S1701.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "response is for the expected table",
+   "expected": "S1701",
+   "actual": "S1701",
+   "location": null
+  },
+  {
+   "id": "census.S1701.senate.values",
+   "source": "census.S1701.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "used variables are numeric (no Census null codes)",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S1701.senate.vintage",
+   "source": "census.S1701.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "ACS 5-year 2020–2024 vintage",
+   "expected": "2024",
+   "actual": "2024",
+   "location": null
+  },
+  {
+   "id": "census.S1701.vs_DP03.C03_001E.house",
+   "source": "census.S1701.house",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "S1701 C03_001E (poverty rate) matches DP03_0128PE",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S1701.vs_DP03.C03_001E.senate",
+   "source": "census.S1701.senate",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "S1701 C03_001E (poverty rate) matches DP03_0128PE",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S1810.house.codes",
+   "source": "census.S1810.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "every variable the scripts use is present",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S1810.house.districts",
+   "source": "census.S1810.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "one row for each of the 51 house districts",
+   "expected": 51,
+   "actual": 51,
+   "location": null
+  },
+  {
+   "id": "census.S1810.house.present",
+   "source": "census.S1810.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "S1810_house_districts.json exists",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S1810.house.table",
+   "source": "census.S1810.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "response is for the expected table",
+   "expected": "S1810",
+   "actual": "S1810",
+   "location": null
+  },
+  {
+   "id": "census.S1810.house.values",
+   "source": "census.S1810.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "used variables are numeric (no Census null codes)",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S1810.house.vintage",
+   "source": "census.S1810.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "ACS 5-year 2020–2024 vintage",
+   "expected": "2024",
+   "actual": "2024",
+   "location": null
+  },
+  {
+   "id": "census.S1810.rate_identity.house",
+   "source": "census.S1810.house",
+   "kind": "consistency",
+   "status": "pass",
+   "detail": "C03_001E equals C02_001E / C01_001E × 100 (column roles unchanged)",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S1810.rate_identity.senate",
+   "source": "census.S1810.senate",
+   "kind": "consistency",
+   "status": "pass",
+   "detail": "C03_001E equals C02_001E / C01_001E × 100 (column roles unchanged)",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S1810.senate.codes",
+   "source": "census.S1810.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "every variable the scripts use is present",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S1810.senate.districts",
+   "source": "census.S1810.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "one row for each of the 25 senate districts",
+   "expected": 25,
+   "actual": 25,
+   "location": null
+  },
+  {
+   "id": "census.S1810.senate.present",
+   "source": "census.S1810.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "S1810_senate_districts.json exists",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S1810.senate.table",
+   "source": "census.S1810.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "response is for the expected table",
+   "expected": "S1810",
+   "actual": "S1810",
+   "location": null
+  },
+  {
+   "id": "census.S1810.senate.values",
+   "source": "census.S1810.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "used variables are numeric (no Census null codes)",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S1810.senate.vintage",
+   "source": "census.S1810.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "ACS 5-year 2020–2024 vintage",
+   "expected": "2024",
+   "actual": "2024",
+   "location": null
+  },
+  {
+   "id": "census.S1810.vs_DP02.C03_001E.house",
+   "source": "census.S1810.house",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "S1810 C03_001E (disability rate) matches DP02_0072PE",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S1810.vs_DP02.C03_001E.senate",
+   "source": "census.S1810.senate",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "S1810 C03_001E (disability rate) matches DP02_0072PE",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S2201.C03_001E.house_eq_senate",
+   "source": "census.S2201",
+   "kind": "consistency",
+   "status": "pass",
+   "detail": "C03_001E summed over House districts ≈ over Senate districts (same state)",
+   "expected": 56236,
+   "actual": 56236,
+   "location": null
+  },
+  {
+   "id": "census.S2201.house.codes",
+   "source": "census.S2201.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "every variable the scripts use is present",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S2201.house.districts",
+   "source": "census.S2201.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "one row for each of the 51 house districts",
+   "expected": 51,
+   "actual": 51,
+   "location": null
+  },
+  {
+   "id": "census.S2201.house.present",
+   "source": "census.S2201.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "S2201_house_districts.json exists",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S2201.house.table",
+   "source": "census.S2201.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "response is for the expected table",
+   "expected": "S2201",
+   "actual": "S2201",
+   "location": null
+  },
+  {
+   "id": "census.S2201.house.values",
+   "source": "census.S2201.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "used variables are numeric (no Census null codes)",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S2201.house.vintage",
+   "source": "census.S2201.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "ACS 5-year 2020–2024 vintage",
+   "expected": "2024",
+   "actual": "2024",
+   "location": null
+  },
+  {
+   "id": "census.S2201.rate_identity.house",
+   "source": "census.S2201.house",
+   "kind": "consistency",
+   "status": "pass",
+   "detail": "C04_001E equals C03_001E / C01_001E × 100 (column roles unchanged)",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S2201.rate_identity.senate",
+   "source": "census.S2201.senate",
+   "kind": "consistency",
+   "status": "pass",
+   "detail": "C04_001E equals C03_001E / C01_001E × 100 (column roles unchanged)",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S2201.senate.codes",
+   "source": "census.S2201.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "every variable the scripts use is present",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S2201.senate.districts",
+   "source": "census.S2201.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "one row for each of the 25 senate districts",
+   "expected": 25,
+   "actual": 25,
+   "location": null
+  },
+  {
+   "id": "census.S2201.senate.present",
+   "source": "census.S2201.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "S2201_senate_districts.json exists",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S2201.senate.table",
+   "source": "census.S2201.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "response is for the expected table",
+   "expected": "S2201",
+   "actual": "S2201",
+   "location": null
+  },
+  {
+   "id": "census.S2201.senate.values",
+   "source": "census.S2201.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "used variables are numeric (no Census null codes)",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S2201.senate.vintage",
+   "source": "census.S2201.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "ACS 5-year 2020–2024 vintage",
+   "expected": "2024",
+   "actual": "2024",
+   "location": null
+  },
+  {
+   "id": "census.S2201.vs_DP02.C01_001E.house",
+   "source": "census.S2201.house",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "S2201 C01_001E (total households) matches DP02_0001E",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S2201.vs_DP02.C01_001E.senate",
+   "source": "census.S2201.senate",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "S2201 C01_001E (total households) matches DP02_0001E",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S2201.vs_DP03.C04_001E.house",
+   "source": "census.S2201.house",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "S2201 C04_001E (SNAP receipt rate) matches DP03_0074PE",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S2201.vs_DP03.C04_001E.senate",
+   "source": "census.S2201.senate",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "S2201 C04_001E (SNAP receipt rate) matches DP03_0074PE",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S2701.house.codes",
+   "source": "census.S2701.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "every variable the scripts use is present",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S2701.house.districts",
+   "source": "census.S2701.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "one row for each of the 51 house districts",
+   "expected": 51,
+   "actual": 51,
+   "location": null
+  },
+  {
+   "id": "census.S2701.house.present",
+   "source": "census.S2701.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "S2701_house_districts.json exists",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S2701.house.table",
+   "source": "census.S2701.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "response is for the expected table",
+   "expected": "S2701",
+   "actual": "S2701",
+   "location": null
+  },
+  {
+   "id": "census.S2701.house.values",
+   "source": "census.S2701.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "used variables are numeric (no Census null codes)",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S2701.house.vintage",
+   "source": "census.S2701.house",
+   "kind": "format",
+   "status": "pass",
+   "detail": "ACS 5-year 2020–2024 vintage",
+   "expected": "2024",
+   "actual": "2024",
+   "location": null
+  },
+  {
+   "id": "census.S2701.rate_identity.house",
+   "source": "census.S2701.house",
+   "kind": "consistency",
+   "status": "pass",
+   "detail": "C05_001E equals C04_001E / C01_001E × 100 (column roles unchanged)",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S2701.rate_identity.senate",
+   "source": "census.S2701.senate",
+   "kind": "consistency",
+   "status": "pass",
+   "detail": "C05_001E equals C04_001E / C01_001E × 100 (column roles unchanged)",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S2701.senate.codes",
+   "source": "census.S2701.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "every variable the scripts use is present",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S2701.senate.districts",
+   "source": "census.S2701.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "one row for each of the 25 senate districts",
+   "expected": 25,
+   "actual": 25,
+   "location": null
+  },
+  {
+   "id": "census.S2701.senate.present",
+   "source": "census.S2701.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "S2701_senate_districts.json exists",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S2701.senate.table",
+   "source": "census.S2701.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "response is for the expected table",
+   "expected": "S2701",
+   "actual": "S2701",
+   "location": null
+  },
+  {
+   "id": "census.S2701.senate.values",
+   "source": "census.S2701.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "used variables are numeric (no Census null codes)",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S2701.senate.vintage",
+   "source": "census.S2701.senate",
+   "kind": "format",
+   "status": "pass",
+   "detail": "ACS 5-year 2020–2024 vintage",
+   "expected": "2024",
+   "actual": "2024",
+   "location": null
+  },
+  {
+   "id": "census.S2701.vs_DP03.C05_001E.house",
+   "source": "census.S2701.house",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "S2701 C05_001E (uninsured rate) matches DP03_0099PE",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "census.S2701.vs_DP03.C05_001E.senate",
+   "source": "census.S2701.senate",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "S2701 C05_001E (uninsured rate) matches DP03_0099PE",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "cross.population.HAWAII",
+   "source": "scripts.tanf_by_island",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "Hawaii population used for per-capita TANF vs ACS 2020–24 districts summed (±5%)",
+   "expected": 205769,
+   "actual": 210043,
+   "location": null
+  },
+  {
+   "id": "cross.population.KAUAI",
+   "source": "scripts.tanf_by_island",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "Kauai population used for per-capita TANF vs ACS 2020–24 districts summed (±5%)",
+   "expected": 73731,
+   "actual": 73400,
+   "location": null
+  },
+  {
+   "id": "cross.population.MAUI",
+   "source": "scripts.tanf_by_island",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "Maui population used for per-capita TANF vs ACS 2020–24 districts summed (±5%)",
+   "expected": 164589,
+   "actual": 160674,
+   "location": null
+  },
+  {
+   "id": "cross.population.OAHU",
+   "source": "scripts.tanf_by_island",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "Honolulu population used for per-capita TANF vs ACS 2020–24 districts summed (±5%)",
+   "expected": 1001146,
+   "actual": 988703,
+   "location": null
+  },
+  {
+   "id": "cross.poverty_ladder.pct_125",
+   "source": "census.S1701",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "S1701 C01_039E summed over House districts (5-yr) vs Databook people below 125% of poverty (1-yr 2024), ±15%: confirms C01_039E is the 125% line",
+   "expected": 176587,
+   "actual": 180523,
+   "location": null
+  },
+  {
+   "id": "cross.poverty_ladder.pct_150",
+   "source": "census.S1701",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "S1701 C01_040E summed over House districts (5-yr) vs Databook people below 150% of poverty (1-yr 2024), ±15%: confirms C01_040E is the 150% line",
+   "expected": 216581,
+   "actual": 221978,
+   "location": null
+  },
+  {
+   "id": "cross.poverty_ladder.pct_185",
+   "source": "census.S1701",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "S1701 C01_041E summed over House districts (5-yr) vs Databook people below 185% of poverty (1-yr 2024), ±15%: confirms C01_041E is the 185% line",
+   "expected": 281418,
+   "actual": 285021,
+   "location": null
+  },
+  {
+   "id": "cross.poverty_ladder.pct_200",
+   "source": "census.S1701",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "S1701 C01_042E summed over House districts (5-yr) vs Databook people below 200% of poverty (1-yr 2024), ±15%: confirms C01_042E is the 200% line",
+   "expected": 319667,
+   "actual": 314200,
+   "location": null
+  },
+  {
+   "id": "cross.poverty_ladder.pct_50",
+   "source": "census.S1701",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "S1701 C01_038E summed over House districts (5-yr) vs Databook people below 50% of poverty (1-yr 2024), ±15%: confirms C01_038E is the 50% line",
+   "expected": 85760,
+   "actual": 74494,
+   "location": null
+  },
+  {
+   "id": "cross.poverty_pct.Hawaii",
+   "source": "census.S1701",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "Hawaii poverty rate: districts summed (5-yr) vs Databook 2024 (1-yr), ±3 points",
+   "expected": 16.7,
+   "actual": 14.9,
+   "location": null
+  },
+  {
+   "id": "cross.poverty_pct.Honolulu",
+   "source": "census.S1701",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "Honolulu poverty rate: districts summed (5-yr) vs Databook 2024 (1-yr), ±3 points",
+   "expected": 8.8,
+   "actual": 9.2,
+   "location": null
+  },
+  {
+   "id": "cross.poverty_pct.Kauai",
+   "source": "census.S1701",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "Kauai poverty rate: districts summed (5-yr) vs Databook 2024 (1-yr), ±3 points",
+   "expected": 7.4,
+   "actual": 9.1,
+   "location": null
+  },
+  {
+   "id": "cross.poverty_pct.Maui",
+   "source": "census.S1701",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "Maui poverty rate: districts summed (5-yr) vs Databook 2024 (1-yr), ±3 points",
+   "expected": 9.7,
+   "actual": 9.2,
+   "location": null
+  },
+  {
+   "id": "cross.snap_cases_sfy25_vs_sfy26",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "Databook SFY 2025 average SNAP cases vs BESSD SFY 2026 average households (±10%, adjacent years)",
+   "expected": 83041,
+   "actual": 83558,
+   "location": null
+  },
+  {
+   "id": "cross.snap_county.Hawaii",
+   "source": "dhs.testimony_2025_10",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "Hawaii SNAP Sept 2025 households/persons: testimony vs BESSD workbook (±3%)",
+   "expected": [
+    21654.0,
+    41673.0
+   ],
+   "actual": [
+    21654,
+    41673
+   ],
+   "location": null
+  },
+  {
+   "id": "cross.snap_county.Honolulu",
+   "source": "dhs.testimony_2025_10",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "Honolulu SNAP Sept 2025 households/persons: testimony vs BESSD workbook (±3%)",
+   "expected": [
+    50729.0,
+    100064.0
+   ],
+   "actual": [
+    50729,
+    100064
+   ],
+   "location": null
+  },
+  {
+   "id": "cross.snap_county.Kauai",
+   "source": "dhs.testimony_2025_10",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "Kauai SNAP Sept 2025 households/persons: testimony vs BESSD workbook (±3%)",
+   "expected": [
+    4438.0,
+    8599.0
+   ],
+   "actual": [
+    4438,
+    8599
+   ],
+   "location": null
+  },
+  {
+   "id": "cross.snap_county.Lanai",
+   "source": "dhs.testimony_2025_10",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "Lanai SNAP Sept 2025 households/persons: testimony vs BESSD workbook (±3%)",
+   "expected": [
+    160.0,
+    386.0
+   ],
+   "actual": [
+    160,
+    386
+   ],
+   "location": null
+  },
+  {
+   "id": "cross.snap_county.Maui",
+   "source": "dhs.testimony_2025_10",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "Maui SNAP Sept 2025 households/persons: testimony vs BESSD workbook (±3%)",
+   "expected": [
+    8112.0,
+    15845.0
+   ],
+   "actual": [
+    8112,
+    15845
+   ],
+   "location": null
+  },
+  {
+   "id": "cross.snap_county.Molokai",
+   "source": "dhs.testimony_2025_10",
+   "kind": "cross_source",
+   "status": "pass",
+   "detail": "Molokai SNAP Sept 2025 households/persons: testimony vs BESSD workbook (±3%)",
+   "expected": [
+    1136.0,
+    2380.0
+   ],
+   "actual": [
+    1136,
+    2380
+   ],
+   "location": null
+  },
+  {
+   "id": "cross.tanf_population.HAWAII",
+   "source": "scripts.tanf_by_island",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "tanf_by_island.POPULATION[HAWAII] equals districts.db county_housing",
+   "expected": 210043,
+   "actual": 210043,
+   "location": null
+  },
+  {
+   "id": "cross.tanf_population.KAUAI",
+   "source": "scripts.tanf_by_island",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "tanf_by_island.POPULATION[KAUAI] equals districts.db county_housing",
+   "expected": 73400,
+   "actual": 73400,
+   "location": null
+  },
+  {
+   "id": "cross.tanf_population.MAUI",
+   "source": "scripts.tanf_by_island",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "tanf_by_island.POPULATION[MAUI] equals districts.db county_housing",
+   "expected": 160674,
+   "actual": 160674,
+   "location": null
+  },
+  {
+   "id": "cross.tanf_population.OAHU",
+   "source": "scripts.tanf_by_island",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "tanf_by_island.POPULATION[OAHU] equals districts.db county_housing",
+   "expected": 988703,
+   "actual": 988703,
+   "location": null
+  },
+  {
+   "id": "dhs.bessd_sfy2026.APR.households.header",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "format",
+   "status": "pass",
+   "detail": "APR “NUMBER OF HOUSEHOLDS” header is ISL/BR + TANF TAONF GA SSI ABD NPA TOTAL",
+   "expected": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "actual": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "location": "APR"
+  },
+  {
+   "id": "dhs.bessd_sfy2026.APR.persons.header",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "format",
+   "status": "pass",
+   "detail": "APR “NUMBER OF PERSONS” header is ISL/BR + TANF TAONF GA SSI ABD NPA TOTAL",
+   "expected": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "actual": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "location": "APR"
+  },
+  {
+   "id": "dhs.bessd_sfy2026.AUG.blocks",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "format",
+   "status": "pass",
+   "detail": "AUG: persons and households blocks found",
+   "expected": null,
+   "actual": [
+    "households",
+    "persons"
+   ],
+   "location": "AUG"
+  },
+  {
+   "id": "dhs.bessd_sfy2026.AUG.households.header",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "format",
+   "status": "pass",
+   "detail": "AUG “NUMBER OF HOUSEHOLDS” header is ISL/BR + TANF TAONF GA SSI ABD NPA TOTAL",
+   "expected": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "actual": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "location": "AUG"
+  },
+  {
+   "id": "dhs.bessd_sfy2026.AUG.persons.header",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "format",
+   "status": "pass",
+   "detail": "AUG “NUMBER OF PERSONS” header is ISL/BR + TANF TAONF GA SSI ABD NPA TOTAL",
+   "expected": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "actual": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "location": "AUG"
+  },
+  {
+   "id": "dhs.bessd_sfy2026.DEC.blocks",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "format",
+   "status": "pass",
+   "detail": "DEC: persons and households blocks found",
+   "expected": null,
+   "actual": [
+    "households",
+    "persons"
+   ],
+   "location": "DEC"
+  },
+  {
+   "id": "dhs.bessd_sfy2026.DEC.households.header",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "format",
+   "status": "pass",
+   "detail": "DEC “NUMBER OF HOUSEHOLDS” header is ISL/BR + TANF TAONF GA SSI ABD NPA TOTAL",
+   "expected": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "actual": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "location": "DEC"
+  },
+  {
+   "id": "dhs.bessd_sfy2026.DEC.persons.header",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "format",
+   "status": "pass",
+   "detail": "DEC “NUMBER OF PERSONS” header is ISL/BR + TANF TAONF GA SSI ABD NPA TOTAL",
+   "expected": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "actual": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "location": "DEC"
+  },
+  {
+   "id": "dhs.bessd_sfy2026.FEB.blocks",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "format",
+   "status": "pass",
+   "detail": "FEB: persons and households blocks found",
+   "expected": null,
+   "actual": [
+    "households",
+    "persons"
+   ],
+   "location": "FEB"
+  },
+  {
+   "id": "dhs.bessd_sfy2026.FEB.households.header",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "format",
+   "status": "pass",
+   "detail": "FEB “NUMBER OF HOUSEHOLDS” header is ISL/BR + TANF TAONF GA SSI ABD NPA TOTAL",
+   "expected": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "actual": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "location": "FEB"
+  },
+  {
+   "id": "dhs.bessd_sfy2026.FEB.persons.header",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "format",
+   "status": "pass",
+   "detail": "FEB “NUMBER OF PERSONS” header is ISL/BR + TANF TAONF GA SSI ABD NPA TOTAL",
+   "expected": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "actual": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "location": "FEB"
+  },
+  {
+   "id": "dhs.bessd_sfy2026.JAN.blocks",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "format",
+   "status": "pass",
+   "detail": "JAN: persons and households blocks found",
+   "expected": null,
+   "actual": [
+    "households",
+    "persons"
+   ],
+   "location": "JAN"
+  },
+  {
+   "id": "dhs.bessd_sfy2026.JAN.households.header",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "format",
+   "status": "pass",
+   "detail": "JAN “NUMBER OF HOUSEHOLDS” header is ISL/BR + TANF TAONF GA SSI ABD NPA TOTAL",
+   "expected": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "actual": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "location": "JAN"
+  },
+  {
+   "id": "dhs.bessd_sfy2026.JAN.persons.header",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "format",
+   "status": "pass",
+   "detail": "JAN “NUMBER OF PERSONS” header is ISL/BR + TANF TAONF GA SSI ABD NPA TOTAL",
+   "expected": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "actual": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "location": "JAN"
+  },
+  {
+   "id": "dhs.bessd_sfy2026.JUL.blocks",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "format",
+   "status": "pass",
+   "detail": "JUL: persons and households blocks found",
+   "expected": null,
+   "actual": [
+    "households",
+    "persons"
+   ],
+   "location": "JUL"
+  },
+  {
+   "id": "dhs.bessd_sfy2026.JUL.households.header",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "format",
+   "status": "pass",
+   "detail": "JUL “NUMBER OF HOUSEHOLDS” header is ISL/BR + TANF TAONF GA SSI ABD NPA TOTAL",
+   "expected": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "actual": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "location": "JUL"
+  },
+  {
+   "id": "dhs.bessd_sfy2026.JUL.persons.header",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "format",
+   "status": "pass",
+   "detail": "JUL “NUMBER OF PERSONS” header is ISL/BR + TANF TAONF GA SSI ABD NPA TOTAL",
+   "expected": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "actual": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "location": "JUL"
+  },
+  {
+   "id": "dhs.bessd_sfy2026.JUN.households.header",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "format",
+   "status": "pass",
+   "detail": "JUN “NUMBER OF HOUSEHOLDS” header is ISL/BR + TANF TAONF GA SSI ABD NPA TOTAL",
+   "expected": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "actual": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "location": "JUN"
+  },
+  {
+   "id": "dhs.bessd_sfy2026.JUN.persons.header",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "format",
+   "status": "pass",
+   "detail": "JUN “NUMBER OF PERSONS” header is ISL/BR + TANF TAONF GA SSI ABD NPA TOTAL",
+   "expected": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "actual": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "location": "JUN"
+  },
+  {
+   "id": "dhs.bessd_sfy2026.MAR.households.header",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "format",
+   "status": "pass",
+   "detail": "MAR “NUMBER OF HOUSEHOLDS” header is ISL/BR + TANF TAONF GA SSI ABD NPA TOTAL",
+   "expected": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "actual": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "location": "MAR"
+  },
+  {
+   "id": "dhs.bessd_sfy2026.MAR.persons.header",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "format",
+   "status": "pass",
+   "detail": "MAR “NUMBER OF PERSONS” header is ISL/BR + TANF TAONF GA SSI ABD NPA TOTAL",
+   "expected": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "actual": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "location": "MAR"
+  },
+  {
+   "id": "dhs.bessd_sfy2026.MAY.households.header",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "format",
+   "status": "pass",
+   "detail": "MAY “NUMBER OF HOUSEHOLDS” header is ISL/BR + TANF TAONF GA SSI ABD NPA TOTAL",
+   "expected": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "actual": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "location": "MAY"
+  },
+  {
+   "id": "dhs.bessd_sfy2026.MAY.persons.header",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "format",
+   "status": "pass",
+   "detail": "MAY “NUMBER OF PERSONS” header is ISL/BR + TANF TAONF GA SSI ABD NPA TOTAL",
+   "expected": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "actual": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "location": "MAY"
+  },
+  {
+   "id": "dhs.bessd_sfy2026.NOV.blocks",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "format",
+   "status": "pass",
+   "detail": "NOV: persons and households blocks found",
+   "expected": null,
+   "actual": [
+    "households",
+    "persons"
+   ],
+   "location": "NOV"
+  },
+  {
+   "id": "dhs.bessd_sfy2026.NOV.households.header",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "format",
+   "status": "pass",
+   "detail": "NOV “NUMBER OF HOUSEHOLDS” header is ISL/BR + TANF TAONF GA SSI ABD NPA TOTAL",
+   "expected": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "actual": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "location": "NOV"
+  },
+  {
+   "id": "dhs.bessd_sfy2026.NOV.persons.header",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "format",
+   "status": "pass",
+   "detail": "NOV “NUMBER OF PERSONS” header is ISL/BR + TANF TAONF GA SSI ABD NPA TOTAL",
+   "expected": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "actual": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "location": "NOV"
+  },
+  {
+   "id": "dhs.bessd_sfy2026.OCT.blocks",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "format",
+   "status": "pass",
+   "detail": "OCT: persons and households blocks found",
+   "expected": null,
+   "actual": [
+    "households",
+    "persons"
+   ],
+   "location": "OCT"
+  },
+  {
+   "id": "dhs.bessd_sfy2026.OCT.households.header",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "format",
+   "status": "pass",
+   "detail": "OCT “NUMBER OF HOUSEHOLDS” header is ISL/BR + TANF TAONF GA SSI ABD NPA TOTAL",
+   "expected": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "actual": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "location": "OCT"
+  },
+  {
+   "id": "dhs.bessd_sfy2026.OCT.persons.header",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "format",
+   "status": "pass",
+   "detail": "OCT “NUMBER OF PERSONS” header is ISL/BR + TANF TAONF GA SSI ABD NPA TOTAL",
+   "expected": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "actual": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "location": "OCT"
+  },
+  {
+   "id": "dhs.bessd_sfy2026.SEP.blocks",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "format",
+   "status": "pass",
+   "detail": "SEP: persons and households blocks found",
+   "expected": null,
+   "actual": [
+    "households",
+    "persons"
+   ],
+   "location": "SEP"
+  },
+  {
+   "id": "dhs.bessd_sfy2026.SEP.households.header",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "format",
+   "status": "pass",
+   "detail": "SEP “NUMBER OF HOUSEHOLDS” header is ISL/BR + TANF TAONF GA SSI ABD NPA TOTAL",
+   "expected": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "actual": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "location": "SEP"
+  },
+  {
+   "id": "dhs.bessd_sfy2026.SEP.persons.header",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "format",
+   "status": "pass",
+   "detail": "SEP “NUMBER OF PERSONS” header is ISL/BR + TANF TAONF GA SSI ABD NPA TOTAL",
+   "expected": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "actual": [
+    "ISL/BR",
+    "TANF",
+    "TAONF",
+    "GA",
+    "SSI",
+    "ABD",
+    "NPA",
+    "TOTAL"
+   ],
+   "location": "SEP"
+  },
+  {
+   "id": "dhs.bessd_sfy2026.csv_matches_workbook",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "every CSV row equals the workbook cell values",
+   "expected": null,
+   "actual": null,
+   "location": "128 rows"
+  },
+  {
+   "id": "dhs.bessd_sfy2026.csv_no_orphans",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "no CSV rows missing from the workbook",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "dhs.bessd_sfy2026.maui_branch_sum",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "consistency",
+   "status": "pass",
+   "detail": "Maui + Molokaʻi + Lānaʻi = Maui Branch",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "dhs.bessd_sfy2026.present",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "provenance",
+   "status": "pass",
+   "detail": "BESSD workbook archived in data/raw",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "dhs.bessd_sfy2026.row_totals",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "consistency",
+   "status": "pass",
+   "detail": "TANF+TAONF+GA+SSI+ABD+NPA = TOTAL on every row",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "dhs.bessd_sfy2026.state_sum",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "consistency",
+   "status": "pass",
+   "detail": "OB + HB + KB + MB = STATE",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "dhs.databook2025.aabd.age.0_64",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "aabd age “0-64” = 8% (page 4)",
+   "expected": 8.0,
+   "actual": 8,
+   "location": "p4"
+  },
+  {
+   "id": "dhs.databook2025.aabd.age.65_79",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "aabd age “65-79” = 72% (page 4)",
+   "expected": 72.0,
+   "actual": 72,
+   "location": "p4"
+  },
+  {
+   "id": "dhs.databook2025.aabd.age.80_",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "aabd age “80+” = 20% (page 4)",
+   "expected": 20.0,
+   "actual": 20,
+   "location": "p4"
+  },
+  {
+   "id": "dhs.databook2025.aabd.age.sums_to_100",
+   "source": "dhs.databook2025",
+   "kind": "consistency",
+   "status": "pass",
+   "detail": "aabd age percentages add to 100 ± 2 (rounding)",
+   "expected": null,
+   "actual": 100.0,
+   "location": null
+  },
+  {
+   "id": "dhs.databook2025.aabd.caseload_2025",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "AABD SFY 2025 clients, cases, benefits match page 4",
+   "expected": [
+    754.0,
+    677.0,
+    2823120.0
+   ],
+   "actual": [
+    754,
+    677,
+    2823120
+   ],
+   "location": "p4"
+  },
+  {
+   "id": "dhs.databook2025.aabd.citizenship.cofa",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "aabd citizenship “(COFA)” = 46% (page 4)",
+   "expected": 46.0,
+   "actual": 46,
+   "location": "p4"
+  },
+  {
+   "id": "dhs.databook2025.aabd.citizenship.non_us_unspecified",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "aabd citizenship “Non-US / Unspecified” = 24% (page 4)",
+   "expected": 24.0,
+   "actual": 24,
+   "location": "p4"
+  },
+  {
+   "id": "dhs.databook2025.aabd.citizenship.sums_to_100",
+   "source": "dhs.databook2025",
+   "kind": "consistency",
+   "status": "pass",
+   "detail": "aabd citizenship percentages add to 100 ± 2 (rounding)",
+   "expected": null,
+   "actual": 100.0,
+   "location": null
+  },
+  {
+   "id": "dhs.databook2025.aabd.citizenship.us_citizen",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "aabd citizenship “US Citizen” = 30% (page 4)",
+   "expected": 30.0,
+   "actual": 30,
+   "location": "p4"
+  },
+  {
+   "id": "dhs.databook2025.aabd.race_ethnicity.black",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "aabd race_ethnicity “Black” = 1% (page 4)",
+   "expected": 1.0,
+   "actual": 1,
+   "location": "p4"
+  },
+  {
+   "id": "dhs.databook2025.aabd.race_ethnicity.caucasian",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "aabd race_ethnicity “Caucasian” = 12% (page 4)",
+   "expected": 12.0,
+   "actual": 12,
+   "location": "p4"
+  },
+  {
+   "id": "dhs.databook2025.aabd.race_ethnicity.filipino",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "aabd race_ethnicity “Filipino” = 14% (page 4)",
+   "expected": 14.0,
+   "actual": 14,
+   "location": "p4"
+  },
+  {
+   "id": "dhs.databook2025.aabd.race_ethnicity.hawaiian_part_hawaiian",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "aabd race_ethnicity “Hawaiian/part-Hawaiian” = 6% (page 4)",
+   "expected": 6.0,
+   "actual": 6,
+   "location": "p4"
+  },
+  {
+   "id": "dhs.databook2025.aabd.race_ethnicity.other_asian",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "aabd race_ethnicity “Other Asian” = 15% (page 4)",
+   "expected": 15.0,
+   "actual": 15,
+   "location": "p4"
+  },
+  {
+   "id": "dhs.databook2025.aabd.race_ethnicity.other_pacific_islander",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "aabd race_ethnicity “Other Pacific Islander” = 51% (page 4)",
+   "expected": 51.0,
+   "actual": 51,
+   "location": "p4"
+  },
+  {
+   "id": "dhs.databook2025.aabd.race_ethnicity.sums_to_100",
+   "source": "dhs.databook2025",
+   "kind": "consistency",
+   "status": "pass",
+   "detail": "aabd race_ethnicity percentages add to 100 ± 2 (rounding)",
+   "expected": null,
+   "actual": 99.0,
+   "location": null
+  },
+  {
+   "id": "dhs.databook2025.aabd.sex.female",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "aabd sex “Female” = 65% (page 4)",
+   "expected": 65.0,
+   "actual": 65,
+   "location": "p4"
+  },
+  {
+   "id": "dhs.databook2025.aabd.sex.male",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "aabd sex “Male” = 35% (page 4)",
+   "expected": 35.0,
+   "actual": 35,
+   "location": "p4"
+  },
+  {
+   "id": "dhs.databook2025.aabd.sex.sums_to_100",
+   "source": "dhs.databook2025",
+   "kind": "consistency",
+   "status": "pass",
+   "detail": "aabd sex percentages add to 100 ± 2 (rounding)",
+   "expected": null,
+   "actual": 100.0,
+   "location": null
+  },
+  {
+   "id": "dhs.databook2025.anchor.p12.50_125_150_185_200_",
+   "source": "dhs.databook2025",
+   "kind": "format",
+   "status": "pass",
+   "detail": "“50% 125% 150% 185% 200%” is on page 12",
+   "expected": 12,
+   "actual": [
+    12
+   ],
+   "location": "p12"
+  },
+  {
+   "id": "dhs.databook2025.anchor.p12.federal_poverty_guidelines",
+   "source": "dhs.databook2025",
+   "kind": "format",
+   "status": "pass",
+   "detail": "“Federal Poverty Guidelines” is on page 12",
+   "expected": 12,
+   "actual": [
+    2,
+    12
+   ],
+   "location": "p12"
+  },
+  {
+   "id": "dhs.databook2025.anchor.p12.individuals_below_percentages_of_poverty",
+   "source": "dhs.databook2025",
+   "kind": "format",
+   "status": "pass",
+   "detail": "“Individuals Below Percentages of Poverty Level” is on page 12",
+   "expected": 12,
+   "actual": [
+    12
+   ],
+   "location": "p12"
+  },
+  {
+   "id": "dhs.databook2025.anchor.p12.population_in_poverty_percent_",
+   "source": "dhs.databook2025",
+   "kind": "format",
+   "status": "pass",
+   "detail": "“Population in Poverty (Percent)” is on page 12",
+   "expected": 12,
+   "actual": [
+    12
+   ],
+   "location": "p12"
+  },
+  {
+   "id": "dhs.databook2025.anchor.p13.children_and_youth_in_poverty",
+   "source": "dhs.databook2025",
+   "kind": "format",
+   "status": "pass",
+   "detail": "“Children and Youth in Poverty” is on page 13",
+   "expected": 13,
+   "actual": [
+    2,
+    13
+   ],
+   "location": "p13"
+  },
+  {
+   "id": "dhs.databook2025.anchor.p27.number_of_recipients",
+   "source": "dhs.databook2025",
+   "kind": "format",
+   "status": "pass",
+   "detail": "“NUMBER OF RECIPIENTS” is on page 27",
+   "expected": 27,
+   "actual": [
+    27
+   ],
+   "location": "p27"
+  },
+  {
+   "id": "dhs.databook2025.anchor.p27.sfy_statewide_oahu_hawaii_maui_kauai_mol",
+   "source": "dhs.databook2025",
+   "kind": "format",
+   "status": "pass",
+   "detail": "“SFY Statewide Oahu Hawaii Maui Kauai Molokai Lanai” is on page 27",
+   "expected": 27,
+   "actual": [
+    27
+   ],
+   "location": "p27"
+  },
+  {
+   "id": "dhs.databook2025.anchor.p4.aid_to_aged_blind_disabled_aabd_",
+   "source": "dhs.databook2025",
+   "kind": "format",
+   "status": "pass",
+   "detail": "“Aid to Aged, Blind & Disabled (AABD)” is on page 4",
+   "expected": 4,
+   "actual": [
+    4
+   ],
+   "location": "p4"
+  },
+  {
+   "id": "dhs.databook2025.anchor.p5.general_assistance_ga_",
+   "source": "dhs.databook2025",
+   "kind": "format",
+   "status": "pass",
+   "detail": "“General Assistance (GA)” is on page 5",
+   "expected": 5,
+   "actual": [
+    2,
+    5
+   ],
+   "location": "p5"
+  },
+  {
+   "id": "dhs.databook2025.anchor.p6.supplemental_nutrition_assistance_progra",
+   "source": "dhs.databook2025",
+   "kind": "format",
+   "status": "pass",
+   "detail": "“Supplemental Nutrition Assistance Program (SNAP)” is on page 6",
+   "expected": 6,
+   "actual": [
+    6
+   ],
+   "location": "p6"
+  },
+  {
+   "id": "dhs.databook2025.anchor.p8.temporary_assistance_for_needy_families_",
+   "source": "dhs.databook2025",
+   "kind": "format",
+   "status": "pass",
+   "detail": "“Temporary Assistance for Needy Families (TANF)” is on page 8",
+   "expected": 8,
+   "actual": [
+    8
+   ],
+   "location": "p8"
+  },
+  {
+   "id": "dhs.databook2025.child_poverty_pct.2019",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "child poverty % 2019 match page 13",
+   "expected": [
+    9.9,
+    19.4,
+    13.2,
+    17.6
+   ],
+   "actual": [
+    9.9,
+    19.4,
+    13.2,
+    17.6
+   ],
+   "location": "p13"
+  },
+  {
+   "id": "dhs.databook2025.child_poverty_pct.2020",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "child poverty % 2020 match page 13",
+   "expected": [
+    10.8,
+    18.1,
+    9.0,
+    10.1
+   ],
+   "actual": [
+    10.8,
+    18.1,
+    9.0,
+    10.1
+   ],
+   "location": "p13"
+  },
+  {
+   "id": "dhs.databook2025.child_poverty_pct.2021",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "child poverty % 2021 match page 13",
+   "expected": [
+    12.1,
+    18.8,
+    15.7,
+    15.7
+   ],
+   "actual": [
+    12.1,
+    18.8,
+    15.7,
+    15.7
+   ],
+   "location": "p13"
+  },
+  {
+   "id": "dhs.databook2025.child_poverty_pct.2022",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "child poverty % 2022 match page 13",
+   "expected": [
+    12.0,
+    19.3,
+    9.4,
+    9.6
+   ],
+   "actual": [
+    12.0,
+    19.3,
+    9.4,
+    9.6
+   ],
+   "location": "p13"
+  },
+  {
+   "id": "dhs.databook2025.child_poverty_pct.2023",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "child poverty % 2023 match page 13",
+   "expected": [
+    9.8,
+    22.2,
+    7.0,
+    9.1
+   ],
+   "actual": [
+    9.8,
+    22.2,
+    7.0,
+    9.1
+   ],
+   "location": "p13"
+  },
+  {
+   "id": "dhs.databook2025.child_poverty_pct.2024",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "child poverty % 2024 match page 13",
+   "expected": [
+    9.9,
+    21.2,
+    9.5,
+    10.1
+   ],
+   "actual": [
+    9.9,
+    21.2,
+    9.5,
+    10.1
+   ],
+   "location": "p13"
+  },
+  {
+   "id": "dhs.databook2025.fpl_hawaii.1",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "Hawaiʻi poverty guideline, household of 1",
+   "expected": 17990,
+   "actual": 17990,
+   "location": "p12"
+  },
+  {
+   "id": "dhs.databook2025.fpl_hawaii.2",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "Hawaiʻi poverty guideline, household of 2",
+   "expected": 24320,
+   "actual": 24320,
+   "location": "p12"
+  },
+  {
+   "id": "dhs.databook2025.fpl_hawaii.3",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "Hawaiʻi poverty guideline, household of 3",
+   "expected": 30650,
+   "actual": 30650,
+   "location": "p12"
+  },
+  {
+   "id": "dhs.databook2025.fpl_hawaii.4",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "Hawaiʻi poverty guideline, household of 4",
+   "expected": 36980,
+   "actual": 36980,
+   "location": "p12"
+  },
+  {
+   "id": "dhs.databook2025.fpl_hawaii.5",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "Hawaiʻi poverty guideline, household of 5",
+   "expected": 43310,
+   "actual": 43310,
+   "location": "p12"
+  },
+  {
+   "id": "dhs.databook2025.fpl_hawaii.6",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "Hawaiʻi poverty guideline, household of 6",
+   "expected": 49640,
+   "actual": 49640,
+   "location": "p12"
+  },
+  {
+   "id": "dhs.databook2025.fpl_hawaii.7",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "Hawaiʻi poverty guideline, household of 7",
+   "expected": 55970,
+   "actual": 55970,
+   "location": "p12"
+  },
+  {
+   "id": "dhs.databook2025.fpl_hawaii.8",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "Hawaiʻi poverty guideline, household of 8",
+   "expected": 62300,
+   "actual": 62300,
+   "location": "p12"
+  },
+  {
+   "id": "dhs.databook2025.ga.age.18_39",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "ga age “18-39” = 30% (page 5)",
+   "expected": 30.0,
+   "actual": 30,
+   "location": "p5"
+  },
+  {
+   "id": "dhs.databook2025.ga.age.40_64",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "ga age “40-64” = 69% (page 5)",
+   "expected": 69.0,
+   "actual": 69,
+   "location": "p5"
+  },
+  {
+   "id": "dhs.databook2025.ga.age.sums_to_100",
+   "source": "dhs.databook2025",
+   "kind": "consistency",
+   "status": "pass",
+   "detail": "ga age percentages add to 100 ± 2 (rounding)",
+   "expected": null,
+   "actual": 99.0,
+   "location": null
+  },
+  {
+   "id": "dhs.databook2025.ga.caseload_2025",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "GA SFY 2025 clients, cases, benefits match page 5",
+   "expected": [
+    4432.0,
+    4367.0,
+    20828507.0
+   ],
+   "actual": [
+    4432,
+    4367,
+    20828507
+   ],
+   "location": "p5"
+  },
+  {
+   "id": "dhs.databook2025.ga.citizenship.cofa",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "ga citizenship “(COFA)” = 7% (page 5)",
+   "expected": 7.0,
+   "actual": 7,
+   "location": "p5"
+  },
+  {
+   "id": "dhs.databook2025.ga.citizenship.non_us_unspecified",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "ga citizenship “Non-US / Unspecified” = 3% (page 5)",
+   "expected": 3.0,
+   "actual": 3,
+   "location": "p5"
+  },
+  {
+   "id": "dhs.databook2025.ga.citizenship.sums_to_100",
+   "source": "dhs.databook2025",
+   "kind": "consistency",
+   "status": "pass",
+   "detail": "ga citizenship percentages add to 100 ± 2 (rounding)",
+   "expected": null,
+   "actual": 100.0,
+   "location": null
+  },
+  {
+   "id": "dhs.databook2025.ga.citizenship.us_citizen",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "ga citizenship “US Citizen” = 90% (page 5)",
+   "expected": 90.0,
+   "actual": 90,
+   "location": "p5"
+  },
+  {
+   "id": "dhs.databook2025.ga.race_ethnicity.black",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "ga race_ethnicity “Black” = 4% (page 5)",
+   "expected": 4.0,
+   "actual": 4,
+   "location": "p5"
+  },
+  {
+   "id": "dhs.databook2025.ga.race_ethnicity.caucasian",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "ga race_ethnicity “Caucasian” = 35% (page 5)",
+   "expected": 35.0,
+   "actual": 35,
+   "location": "p5"
+  },
+  {
+   "id": "dhs.databook2025.ga.race_ethnicity.filipino",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "ga race_ethnicity “Filipino” = 11% (page 5)",
+   "expected": 11.0,
+   "actual": 11,
+   "location": "p5"
+  },
+  {
+   "id": "dhs.databook2025.ga.race_ethnicity.hawaiian_part_hawaiian",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "ga race_ethnicity “Hawaiian/part-Hawaiian” = 28% (page 5)",
+   "expected": 28.0,
+   "actual": 28,
+   "location": "p5"
+  },
+  {
+   "id": "dhs.databook2025.ga.race_ethnicity.other",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "ga race_ethnicity “Other” = 1% (page 5)",
+   "expected": 1.0,
+   "actual": 1,
+   "location": "p5"
+  },
+  {
+   "id": "dhs.databook2025.ga.race_ethnicity.other_asian",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "ga race_ethnicity “Other Asian” = 9% (page 5)",
+   "expected": 9.0,
+   "actual": 9,
+   "location": "p5"
+  },
+  {
+   "id": "dhs.databook2025.ga.race_ethnicity.other_pacific_islander",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "ga race_ethnicity “Other Pacific Islander” = 13% (page 5)",
+   "expected": 13.0,
+   "actual": 13,
+   "location": "p5"
+  },
+  {
+   "id": "dhs.databook2025.ga.race_ethnicity.sums_to_100",
+   "source": "dhs.databook2025",
+   "kind": "consistency",
+   "status": "pass",
+   "detail": "ga race_ethnicity percentages add to 100 ± 2 (rounding)",
+   "expected": null,
+   "actual": 101.0,
+   "location": null
+  },
+  {
+   "id": "dhs.databook2025.ga.sex.female",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "ga sex “Female” = 41% (page 5)",
+   "expected": 41.0,
+   "actual": 41,
+   "location": "p5"
+  },
+  {
+   "id": "dhs.databook2025.ga.sex.male",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "ga sex “Male” = 59% (page 5)",
+   "expected": 59.0,
+   "actual": 59,
+   "location": "p5"
+  },
+  {
+   "id": "dhs.databook2025.ga.sex.sums_to_100",
+   "source": "dhs.databook2025",
+   "kind": "consistency",
+   "status": "pass",
+   "detail": "ga sex percentages add to 100 ± 2 (rounding)",
+   "expected": null,
+   "actual": 100.0,
+   "location": null
+  },
+  {
+   "id": "dhs.databook2025.medquest.sfy2015",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "Med-QUEST SFY 2015 recipients by island match page 27",
+   "expected": [
+    332197.0,
+    201668.0,
+    69975.0,
+    36597.0,
+    19661.0,
+    3521.0,
+    775.0
+   ],
+   "actual": [
+    332197,
+    201668,
+    69975,
+    36597,
+    19661,
+    3521,
+    775
+   ],
+   "location": "p27"
+  },
+  {
+   "id": "dhs.databook2025.medquest.sfy2015.islands_sum",
+   "source": "dhs.databook2025",
+   "kind": "consistency",
+   "status": "pass",
+   "detail": "SFY 2015: islands add up to statewide",
+   "expected": 332197,
+   "actual": 332197,
+   "location": "p27"
+  },
+  {
+   "id": "dhs.databook2025.medquest.sfy2016",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "Med-QUEST SFY 2016 recipients by island match page 27",
+   "expected": [
+    346398.0,
+    210743.0,
+    72591.0,
+    38092.0,
+    20462.0,
+    3685.0,
+    826.0
+   ],
+   "actual": [
+    346398,
+    210743,
+    72591,
+    38092,
+    20462,
+    3685,
+    826
+   ],
+   "location": "p27"
+  },
+  {
+   "id": "dhs.databook2025.medquest.sfy2017",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "Med-QUEST SFY 2017 recipients by island match page 27",
+   "expected": [
+    356787.0,
+    217155.0,
+    74108.0,
+    39618.0,
+    21288.0,
+    3777.0,
+    842.0
+   ],
+   "actual": [
+    356787,
+    217155,
+    74108,
+    39618,
+    21288,
+    3777,
+    842
+   ],
+   "location": "p27"
+  },
+  {
+   "id": "dhs.databook2025.medquest.sfy2018",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "Med-QUEST SFY 2018 recipients by island match page 27",
+   "expected": [
+    359225.0,
+    217942.0,
+    75258.0,
+    39895.0,
+    21459.0,
+    3824.0,
+    848.0
+   ],
+   "actual": [
+    359225,
+    217942,
+    75258,
+    39895,
+    21459,
+    3824,
+    848
+   ],
+   "location": "p27"
+  },
+  {
+   "id": "dhs.databook2025.medquest.sfy2019",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "Med-QUEST SFY 2019 recipients by island match page 27",
+   "expected": [
+    345231.0,
+    208864.0,
+    73452.0,
+    37832.0,
+    20534.0,
+    3764.0,
+    787.0
+   ],
+   "actual": [
+    345231,
+    208864,
+    73452,
+    37832,
+    20534,
+    3764,
+    787
+   ],
+   "location": "p27"
+  },
+  {
+   "id": "dhs.databook2025.medquest.sfy2020",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "Med-QUEST SFY 2020 recipients by island match page 27",
+   "expected": [
+    361912.0,
+    218283.0,
+    76304.0,
+    40726.0,
+    21889.0,
+    3896.0,
+    814.0
+   ],
+   "actual": [
+    361912,
+    218283,
+    76304,
+    40726,
+    21889,
+    3896,
+    814
+   ],
+   "location": "p27"
+  },
+  {
+   "id": "dhs.databook2025.medquest.sfy2020.islands_sum",
+   "source": "dhs.databook2025",
+   "kind": "consistency",
+   "status": "pass",
+   "detail": "SFY 2020: islands add up to statewide",
+   "expected": 361912,
+   "actual": 361912,
+   "location": "p27"
+  },
+  {
+   "id": "dhs.databook2025.medquest.sfy2021",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "Med-QUEST SFY 2021 recipients by island match page 27",
+   "expected": [
+    428580.0,
+    259838.0,
+    87650.0,
+    49972.0,
+    26070.0,
+    4116.0,
+    934.0
+   ],
+   "actual": [
+    428580,
+    259838,
+    87650,
+    49972,
+    26070,
+    4116,
+    934
+   ],
+   "location": "p27"
+  },
+  {
+   "id": "dhs.databook2025.medquest.sfy2021.islands_sum",
+   "source": "dhs.databook2025",
+   "kind": "consistency",
+   "status": "pass",
+   "detail": "SFY 2021: islands add up to statewide",
+   "expected": 428580,
+   "actual": 428580,
+   "location": "p27"
+  },
+  {
+   "id": "dhs.databook2025.medquest.sfy2022",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "Med-QUEST SFY 2022 recipients by island match page 27",
+   "expected": [
+    460742.0,
+    280585.0,
+    94191.0,
+    53214.0,
+    27529.0,
+    4217.0,
+    1006.0
+   ],
+   "actual": [
+    460742,
+    280585,
+    94191,
+    53214,
+    27529,
+    4217,
+    1006
+   ],
+   "location": "p27"
+  },
+  {
+   "id": "dhs.databook2025.medquest.sfy2022.islands_sum",
+   "source": "dhs.databook2025",
+   "kind": "consistency",
+   "status": "pass",
+   "detail": "SFY 2022: islands add up to statewide",
+   "expected": 460742,
+   "actual": 460742,
+   "location": "p27"
+  },
+  {
+   "id": "dhs.databook2025.medquest.sfy2023",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "Med-QUEST SFY 2023 recipients by island match page 27",
+   "expected": [
+    464153.0,
+    283734.0,
+    94632.0,
+    53137.0,
+    27494.0,
+    4164.0,
+    992.0
+   ],
+   "actual": [
+    464153,
+    283734,
+    94632,
+    53137,
+    27494,
+    4164,
+    992
+   ],
+   "location": "p27"
+  },
+  {
+   "id": "dhs.databook2025.medquest.sfy2023.islands_sum",
+   "source": "dhs.databook2025",
+   "kind": "consistency",
+   "status": "pass",
+   "detail": "SFY 2023: islands add up to statewide",
+   "expected": 464153,
+   "actual": 464153,
+   "location": "p27"
+  },
+  {
+   "id": "dhs.databook2025.medquest.sfy2024",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "Med-QUEST SFY 2024 recipients by island match page 27",
+   "expected": [
+    442537.0,
+    265566.0,
+    91035.0,
+    55357.0,
+    25440.0,
+    4152.0,
+    987.0
+   ],
+   "actual": [
+    442537,
+    265566,
+    91035,
+    55357,
+    25440,
+    4152,
+    987
+   ],
+   "location": "p27"
+  },
+  {
+   "id": "dhs.databook2025.medquest.sfy2024.islands_sum",
+   "source": "dhs.databook2025",
+   "kind": "consistency",
+   "status": "pass",
+   "detail": "SFY 2024: islands add up to statewide",
+   "expected": 442537,
+   "actual": 442537,
+   "location": "p27"
+  },
+  {
+   "id": "dhs.databook2025.medquest.sfy2025",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "Med-QUEST SFY 2025 recipients by island match page 27",
+   "expected": [
+    404922.0,
+    244167.0,
+    85322.0,
+    47691.0,
+    22964.0,
+    3881.0,
+    897.0
+   ],
+   "actual": [
+    404922,
+    244167,
+    85322,
+    47691,
+    22964,
+    3881,
+    897
+   ],
+   "location": "p27"
+  },
+  {
+   "id": "dhs.databook2025.medquest.sfy2025.islands_sum",
+   "source": "dhs.databook2025",
+   "kind": "consistency",
+   "status": "pass",
+   "detail": "SFY 2025: islands add up to statewide",
+   "expected": 404922,
+   "actual": 404922,
+   "location": "p27"
+  },
+  {
+   "id": "dhs.databook2025.medquest.years_complete",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "every SFY on page 27 is in medquest.ENROLLMENT",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "dhs.databook2025.page_count",
+   "source": "dhs.databook2025",
+   "kind": "format",
+   "status": "pass",
+   "detail": "31 pages (2025 edition)",
+   "expected": 31,
+   "actual": 31,
+   "location": null
+  },
+  {
+   "id": "dhs.databook2025.poverty_ladder.2020",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "people below 50–200% of poverty 2020 match page 12",
+   "expected": [
+    63613.0,
+    165273.0,
+    206044.0,
+    272560.0,
+    299492.0
+   ],
+   "actual": [
+    63613,
+    165273,
+    206044,
+    272560,
+    299492
+   ],
+   "location": "p12"
+  },
+  {
+   "id": "dhs.databook2025.poverty_ladder.2021",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "people below 50–200% of poverty 2021 match page 12",
+   "expected": [
+    77766.0,
+    194807.0,
+    234586.0,
+    300684.0,
+    327894.0
+   ],
+   "actual": [
+    77766,
+    194807,
+    234586,
+    300684,
+    327894
+   ],
+   "location": "p12"
+  },
+  {
+   "id": "dhs.databook2025.poverty_ladder.2022",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "people below 50–200% of poverty 2022 match page 12",
+   "expected": [
+    75921.0,
+    187890.0,
+    232063.0,
+    300752.0,
+    324113.0
+   ],
+   "actual": [
+    75921,
+    187890,
+    232063,
+    300752,
+    324113
+   ],
+   "location": "p12"
+  },
+  {
+   "id": "dhs.databook2025.poverty_ladder.2023",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "people below 50–200% of poverty 2023 match page 12",
+   "expected": [
+    71029.0,
+    181863.0,
+    222340.0,
+    280968.0,
+    313312.0
+   ],
+   "actual": [
+    71029,
+    181863,
+    222340,
+    280968,
+    313312
+   ],
+   "location": "p12"
+  },
+  {
+   "id": "dhs.databook2025.poverty_ladder.2024",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "people below 50–200% of poverty 2024 match page 12",
+   "expected": [
+    85760.0,
+    176587.0,
+    216581.0,
+    281418.0,
+    319667.0
+   ],
+   "actual": [
+    85760,
+    176587,
+    216581,
+    281418,
+    319667
+   ],
+   "location": "p12"
+  },
+  {
+   "id": "dhs.databook2025.poverty_pct_county.2020",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "county poverty % 2020 match page 12",
+   "expected": [
+    8.4,
+    14.0,
+    7.9,
+    9.0
+   ],
+   "actual": [
+    8.4,
+    14.0,
+    7.9,
+    9.0
+   ],
+   "location": "p12"
+  },
+  {
+   "id": "dhs.databook2025.poverty_pct_county.2021",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "county poverty % 2021 match page 12",
+   "expected": [
+    10.2,
+    14.8,
+    11.7,
+    12.1
+   ],
+   "actual": [
+    10.2,
+    14.8,
+    11.7,
+    12.1
+   ],
+   "location": "p12"
+  },
+  {
+   "id": "dhs.databook2025.poverty_pct_county.2022",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "county poverty % 2022 match page 12",
+   "expected": [
+    9.7,
+    15.1,
+    6.6,
+    8.2
+   ],
+   "actual": [
+    9.7,
+    15.1,
+    6.6,
+    8.2
+   ],
+   "location": "p12"
+  },
+  {
+   "id": "dhs.databook2025.poverty_pct_county.2023",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "county poverty % 2023 match page 12",
+   "expected": [
+    9.0,
+    17.5,
+    7.6,
+    8.8
+   ],
+   "actual": [
+    9.0,
+    17.5,
+    7.6,
+    8.8
+   ],
+   "location": "p12"
+  },
+  {
+   "id": "dhs.databook2025.poverty_pct_county.2024",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "county poverty % 2024 match page 12",
+   "expected": [
+    8.8,
+    16.7,
+    7.4,
+    9.7
+   ],
+   "actual": [
+    8.8,
+    16.7,
+    7.4,
+    9.7
+   ],
+   "location": "p12"
+  },
+  {
+   "id": "dhs.databook2025.present",
+   "source": "dhs.databook2025",
+   "kind": "provenance",
+   "status": "pass",
+   "detail": "Databook PDF archived in data/raw",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "dhs.databook2025.snap.age.18_39",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "snap age “18 - 39” = 23% (page 6)",
+   "expected": 23.0,
+   "actual": 23,
+   "location": "p6"
+  },
+  {
+   "id": "dhs.databook2025.snap.age.40_64",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "snap age “40 - 64” = 24% (page 6)",
+   "expected": 24.0,
+   "actual": 24,
+   "location": "p6"
+  },
+  {
+   "id": "dhs.databook2025.snap.age.65_and_above",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "snap age “65 and above” = 15% (page 6)",
+   "expected": 15.0,
+   "actual": 15,
+   "location": "p6"
+  },
+  {
+   "id": "dhs.databook2025.snap.age.below_18",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "snap age “Below 18” = 38% (page 6)",
+   "expected": 38.0,
+   "actual": 38,
+   "location": "p6"
+  },
+  {
+   "id": "dhs.databook2025.snap.age.sums_to_100",
+   "source": "dhs.databook2025",
+   "kind": "consistency",
+   "status": "pass",
+   "detail": "snap age percentages add to 100 ± 2 (rounding)",
+   "expected": null,
+   "actual": 100.0,
+   "location": null
+  },
+  {
+   "id": "dhs.databook2025.snap.caseload_2025",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "SNAP SFY 2025 clients, cases, benefits match page 6",
+   "expected": [
+    158516.0,
+    83041.0,
+    694942213.0
+   ],
+   "actual": [
+    158516,
+    83041,
+    694942213
+   ],
+   "location": "p6"
+  },
+  {
+   "id": "dhs.databook2025.snap.citizenship.non_us_unspecified",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "snap citizenship “Non-US / Unspecified” = 8% (page 6)",
+   "expected": 8.0,
+   "actual": 8,
+   "location": "p6"
+  },
+  {
+   "id": "dhs.databook2025.snap.citizenship.sums_to_100",
+   "source": "dhs.databook2025",
+   "kind": "consistency",
+   "status": "pass",
+   "detail": "snap citizenship percentages add to 100 ± 2 (rounding)",
+   "expected": null,
+   "actual": 100.0,
+   "location": null
+  },
+  {
+   "id": "dhs.databook2025.snap.citizenship.us_citizen",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "snap citizenship “US Citizen” = 92% (page 6)",
+   "expected": 92.0,
+   "actual": 92,
+   "location": "p6"
+  },
+  {
+   "id": "dhs.databook2025.snap.race_ethnicity.american_indian_alaskan",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "snap race_ethnicity “American Indian / Alaskan” = < 1 (page 6)",
+   "expected": "<1%",
+   "actual": "< 1",
+   "location": "p6"
+  },
+  {
+   "id": "dhs.databook2025.snap.race_ethnicity.black",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "snap race_ethnicity “Black” = 2% (page 6)",
+   "expected": 2.0,
+   "actual": 2,
+   "location": "p6"
+  },
+  {
+   "id": "dhs.databook2025.snap.race_ethnicity.caucasian",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "snap race_ethnicity “Caucasian” = 28% (page 6)",
+   "expected": 28.0,
+   "actual": 28,
+   "location": "p6"
+  },
+  {
+   "id": "dhs.databook2025.snap.race_ethnicity.filipino",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "snap race_ethnicity “Filipino” = 14% (page 6)",
+   "expected": 14.0,
+   "actual": 14,
+   "location": "p6"
+  },
+  {
+   "id": "dhs.databook2025.snap.race_ethnicity.hawaiian_part_hawaiian",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "snap race_ethnicity “Hawaiian/part-Hawaiian” = 28% (page 6)",
+   "expected": 28.0,
+   "actual": 28,
+   "location": "p6"
+  },
+  {
+   "id": "dhs.databook2025.snap.race_ethnicity.other_asian",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "snap race_ethnicity “Other Asian” = 11% (page 6)",
+   "expected": 11.0,
+   "actual": 11,
+   "location": "p6"
+  },
+  {
+   "id": "dhs.databook2025.snap.race_ethnicity.other_pacific_islander",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "snap race_ethnicity “Other Pacific Islander” = 17% (page 6)",
+   "expected": 17.0,
+   "actual": 17,
+   "location": "p6"
+  },
+  {
+   "id": "dhs.databook2025.snap.race_ethnicity.other_unknown",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "snap race_ethnicity “Other / Unknown” = < .1 (page 6)",
+   "expected": "<.1%",
+   "actual": "< .1",
+   "location": "p6"
+  },
+  {
+   "id": "dhs.databook2025.snap.race_ethnicity.sums_to_100",
+   "source": "dhs.databook2025",
+   "kind": "consistency",
+   "status": "pass",
+   "detail": "snap race_ethnicity percentages add to 100 ± 2 (rounding)",
+   "expected": null,
+   "actual": 100.0,
+   "location": null
+  },
+  {
+   "id": "dhs.databook2025.snap.sex.female",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "snap sex “Female” = 54% (page 6)",
+   "expected": 54.0,
+   "actual": 54,
+   "location": "p6"
+  },
+  {
+   "id": "dhs.databook2025.snap.sex.male",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "snap sex “Male” = 46% (page 6)",
+   "expected": 46.0,
+   "actual": 46,
+   "location": "p6"
+  },
+  {
+   "id": "dhs.databook2025.snap.sex.sums_to_100",
+   "source": "dhs.databook2025",
+   "kind": "consistency",
+   "status": "pass",
+   "detail": "snap sex percentages add to 100 ± 2 (rounding)",
+   "expected": null,
+   "actual": 100.0,
+   "location": null
+  },
+  {
+   "id": "dhs.databook2025.tanf.race_ethnicity.aian",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "tanf race_ethnicity “American Indian/Alaskan” = 1% (page 8)",
+   "expected": 1.0,
+   "actual": 1,
+   "location": "p8"
+  },
+  {
+   "id": "dhs.databook2025.tanf.race_ethnicity.black",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "tanf race_ethnicity “Black” = 3% (page 8)",
+   "expected": 3.0,
+   "actual": 3,
+   "location": "p8"
+  },
+  {
+   "id": "dhs.databook2025.tanf.race_ethnicity.caucasian",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "tanf race_ethnicity “Caucasian” = 26% (page 8)",
+   "expected": 26.0,
+   "actual": 26,
+   "location": "p8"
+  },
+  {
+   "id": "dhs.databook2025.tanf.race_ethnicity.filipino",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "tanf race_ethnicity “Filipino” = 8% (page 8)",
+   "expected": 8.0,
+   "actual": 8,
+   "location": "p8"
+  },
+  {
+   "id": "dhs.databook2025.tanf.race_ethnicity.hawaiian",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "tanf race_ethnicity “Hawaiian/part-Hawaiian” = 33% (page 8)",
+   "expected": 33.0,
+   "actual": 33,
+   "location": "p8"
+  },
+  {
+   "id": "dhs.databook2025.tanf.race_ethnicity.other_asian",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "tanf race_ethnicity “Other Asian” = 6% (page 8)",
+   "expected": 6.0,
+   "actual": 6,
+   "location": "p8"
+  },
+  {
+   "id": "dhs.databook2025.tanf.race_ethnicity.other_pacific_islander",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "tanf race_ethnicity “Other Pacific Islander” = 21% (page 8)",
+   "expected": 21.0,
+   "actual": 21,
+   "location": "p8"
+  },
+  {
+   "id": "dhs.databook2025.tanf.race_ethnicity.sums_to_100",
+   "source": "dhs.databook2025",
+   "kind": "consistency",
+   "status": "pass",
+   "detail": "tanf race_ethnicity percentages add to 100 ± 2 (rounding)",
+   "expected": null,
+   "actual": 98.0,
+   "location": null
+  },
+  {
+   "id": "dhs.databook2025.tanf_by_island.poverty_2024",
+   "source": "dhs.databook2025",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "tanf_by_island.POVERTY_RATE_2024 matches page 12",
+   "expected": [
+    8.8,
+    16.7,
+    7.4,
+    9.7
+   ],
+   "actual": [
+    8.8,
+    16.7,
+    7.4,
+    9.7
+   ],
+   "location": "p12"
+  },
+  {
+   "id": "provenance.census.DP02.house.unchanged",
+   "source": "census.DP02.house",
+   "kind": "provenance",
+   "status": "pass",
+   "detail": "DP02_house_districts.json unchanged since 2026-11-16T00:06:35+00:00",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "provenance.census.DP02.senate.unchanged",
+   "source": "census.DP02.senate",
+   "kind": "provenance",
+   "status": "pass",
+   "detail": "DP02_senate_districts.json unchanged since 2026-11-16T00:06:35+00:00",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "provenance.census.DP03.house.unchanged",
+   "source": "census.DP03.house",
+   "kind": "provenance",
+   "status": "pass",
+   "detail": "DP03_house_districts.json unchanged since 2026-11-16T00:06:35+00:00",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "provenance.census.DP03.senate.unchanged",
+   "source": "census.DP03.senate",
+   "kind": "provenance",
+   "status": "pass",
+   "detail": "DP03_senate_districts.json unchanged since 2026-11-16T00:06:35+00:00",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "provenance.census.DP05.house.unchanged",
+   "source": "census.DP05.house",
+   "kind": "provenance",
+   "status": "pass",
+   "detail": "DP05_house_districts.json unchanged since 2026-11-16T00:06:35+00:00",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "provenance.census.DP05.senate.unchanged",
+   "source": "census.DP05.senate",
+   "kind": "provenance",
+   "status": "pass",
+   "detail": "DP05_senate_districts.json unchanged since 2026-11-16T00:06:35+00:00",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "provenance.census.S0103.senate.unchanged",
+   "source": "census.S0103.senate",
+   "kind": "provenance",
+   "status": "pass",
+   "detail": "S0103_senate_districts.json unchanged since 2026-11-16T00:06:35+00:00",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "provenance.census.S1701.house.unchanged",
+   "source": "census.S1701.house",
+   "kind": "provenance",
+   "status": "pass",
+   "detail": "S1701_house_districts.json unchanged since 2026-11-16T00:06:35+00:00",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "provenance.census.S1701.senate.unchanged",
+   "source": "census.S1701.senate",
+   "kind": "provenance",
+   "status": "pass",
+   "detail": "S1701_senate_districts.json unchanged since 2026-11-16T00:06:35+00:00",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "provenance.census.S1810.house.unchanged",
+   "source": "census.S1810.house",
+   "kind": "provenance",
+   "status": "pass",
+   "detail": "S1810_house_districts.json unchanged since 2026-11-16T00:06:35+00:00",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "provenance.census.S1810.senate.unchanged",
+   "source": "census.S1810.senate",
+   "kind": "provenance",
+   "status": "pass",
+   "detail": "S1810_senate_districts.json unchanged since 2026-11-16T00:06:35+00:00",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "provenance.census.S2201.house.unchanged",
+   "source": "census.S2201.house",
+   "kind": "provenance",
+   "status": "pass",
+   "detail": "S2201_house_districts.json unchanged since 2026-11-16T00:06:35+00:00",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "provenance.census.S2201.senate.unchanged",
+   "source": "census.S2201.senate",
+   "kind": "provenance",
+   "status": "pass",
+   "detail": "S2201_senate_districts.json unchanged since 2026-11-16T00:06:35+00:00",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "provenance.census.S2701.house.unchanged",
+   "source": "census.S2701.house",
+   "kind": "provenance",
+   "status": "pass",
+   "detail": "S2701_house_districts.json unchanged since 2026-11-16T00:06:35+00:00",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "provenance.census.S2701.senate.unchanged",
+   "source": "census.S2701.senate",
+   "kind": "provenance",
+   "status": "pass",
+   "detail": "S2701_senate_districts.json unchanged since 2026-11-16T00:06:35+00:00",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "provenance.dhs.bessd_sfy2026.unchanged",
+   "source": "dhs.bessd_sfy2026",
+   "kind": "provenance",
+   "status": "pass",
+   "detail": "SFY-2026-SUMMARY.numbers unchanged since 2026-11-16T00:06:35+00:00",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "provenance.dhs.databook2025.unchanged",
+   "source": "dhs.databook2025",
+   "kind": "provenance",
+   "status": "pass",
+   "detail": "DHS-Databook-2025.pdf unchanged since 2026-11-16T00:06:35+00:00",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "provenance.processed.bessd_csv.unchanged",
+   "source": "processed.bessd_csv",
+   "kind": "provenance",
+   "status": "pass",
+   "detail": "bessd_sfy2026_caseload_by_island.csv unchanged since 2026-11-16T00:06:35+00:00",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "provenance.processed.poverty_estimates.unchanged",
+   "source": "processed.poverty_estimates",
+   "kind": "provenance",
+   "status": "pass",
+   "detail": "dhs_databook_census_poverty_estimates.json unchanged since 2026-11-16T00:06:35+00:00",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "provenance.processed.snap_demographics.unchanged",
+   "source": "processed.snap_demographics",
+   "kind": "provenance",
+   "status": "pass",
+   "detail": "dhs_snap_demographics_june2025.json unchanged since 2026-11-16T00:06:35+00:00",
+   "expected": null,
+   "actual": null,
+   "location": null
+  }
+ ]
+}
