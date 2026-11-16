@@ -24,3 +24,13 @@ def root():
         return FileResponse(idx)
     return HTMLResponse("<p>Frontend not built. Run <code>cd frontend && npm run build</code>. API docs at "
                         "<a href='/docs'>/docs</a>.</p>")
+
+
+# Shareable links (/house-22, /senate-12/map, /state/rankings) are app routes: serve the same page.
+@app.get("/{slug:path}", include_in_schema=False)
+def app_route(slug: str):
+    import re
+    if re.fullmatch(r"(?:house|senate|hd|sd)-?\d{1,2}(?:/[a-z]+)?/?|state(?:/[a-z]+)?/?|hi(?:/[a-z]+)?/?", slug, re.I):
+        return root()
+    from fastapi import HTTPException
+    raise HTTPException(status_code=404)

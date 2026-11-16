@@ -1,6 +1,6 @@
 # Know Your District (HAIC 2026, Challenge 1)
 
-**Live app:** https://know-your-district-zio4.onrender.com — no login, no setup. Shareable links work, e.g. https://know-your-district-zio4.onrender.com/#/HD-44/map
+**Live app:** https://know-your-district-zio4.onrender.com — no login, no setup. Shareable links work, e.g. https://know-your-district-zio4.onrender.com/house-44/map
 (The free host sleeps when idle; the first load after a quiet spell can take 30–60 seconds.)
 
 A nonpartisan, cited profile of every Hawaiʻi State House and Senate district (2022 plan) for legislators and staff:
