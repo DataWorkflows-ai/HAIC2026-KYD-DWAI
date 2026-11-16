@@ -1,8 +1,8 @@
 # Render Blueprint: public, read-only demo of Know Your District.
 # Runs on the bundled SQLite database (kyd/data/kyd.sqlite, opened read-only) and the committed
 # frontend build (kyd/frontend/dist). No database server and no secrets are needed.
-# Optional: add KYD_LLM_PROVIDER=anthropic and KYD_LLM_API_KEY in the Render dashboard to turn on the
-# LLM tier (System 2); without them the agent answers with the rule-based tier (System 1) only.
+# LLM tier: set KYD_LLM_PROVIDER=anthropic, KYD_LLM_MODEL and KYD_LLM_API_KEY in the Render dashboard;
+# without them the agent answers with the rule-based tier (System 1) only.
 services:
   - type: web
     name: know-your-district
@@ -21,5 +21,10 @@ services:
         value: sqlite
       - key: KYD_GRAPH_MODE
         value: auto
+      # LLM tier (System 2): values are set in the Render dashboard, never in the repo.
       - key: KYD_LLM_PROVIDER
-        value: none
+        sync: false
+      - key: KYD_LLM_MODEL
+        sync: false
+      - key: KYD_LLM_API_KEY
+        sync: false
