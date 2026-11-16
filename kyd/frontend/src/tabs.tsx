@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { Send, ExternalLink, Bot, Zap, ShieldAlert } from 'lucide-react';
 import { api, fmt, type Answer, type Geo, type Obs, type Profile, type ProgramMatch, type Verification } from './api';
 import { Card, Empty, Figure, GeoPicker, Pill } from './ui';
@@ -8,7 +8,7 @@ const HEADLINE = ['total_pop', 'median_hh_income', 'pct_below_fpl', 'pct_65plus'
 const by = (xs: Obs[] | undefined) => Object.fromEntries((xs ?? []).map(o => [o.indicator, o]));
 
 // ── Overview ────────────────────────────────────────────────────────────────
-export function OverviewTab({ geo, geos, onAsk, onPick }: { geo: string; geos: Geo[]; onAsk: (q: string) => void; onPick: (g: string) => void }) {
+export function OverviewTab({ geo, geos, onAsk, onPick, picker }: { geo: string; geos: Geo[]; onAsk: (q: string) => void; onPick: (g: string) => void; picker?: ReactNode }) {
   const [p, setP] = useState<Profile | null>(null);
   const [progs, setProgs] = useState<ProgramMatch[]>([]);
   useEffect(() => { setP(null); api.profile(geo).then(setP); api.programs(geo).then(setProgs); }, [geo]);
@@ -17,7 +17,7 @@ export function OverviewTab({ geo, geos, onAsk, onPick }: { geo: string; geos: G
   const name = (g: string) => geos.find(x => x.geo_id === g)?.name ?? g;
   return (
     <div className="grid grid-cols-12 gap-4">
-      <Card className="col-span-12" title={<span className="normal-case text-lg text-slate-100">{p.geography.name}</span>}
+      <Card className="col-span-12" title={<span className="normal-case flex flex-wrap items-center gap-4"><span className="text-lg text-slate-100">{p.geography.name}</span>{picker}</span>}
         right={<span className="text-xs text-slate-500">ACS {p.data_as_of} · {p.geography.counties.map(name).join(', ')}</span>}>
         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3">
           {HEADLINE.filter(k => me[k]).map(k => (
