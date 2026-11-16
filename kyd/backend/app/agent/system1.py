@@ -31,6 +31,9 @@ REFUSE_PATTERNS = [
 ]
 
 INTENTS = {
+    "cross_program": [r"\balso (be )?(eligible|qualif\w*)\b", r"\bother programs?\b", r"\bcross[- ]program\w*\b",
+                      r"\b(snap|food stamp\w*)\b.{0,60}\b(also|other|qualif\w*|eligib\w*)\b",
+                      r"\bautomatically (eligible|qualif\w*|enrolled)\b", r"\bcategorical\w*\b", r"\badjunctive\w*\b"],
     "compare": [r"\bcompar\w*", r"\bvs\.?\b", r"\bversus\b", r"\bdifference between\b"],
     "programs": [r"\bprogram\w*", r"\bassistance\b", r"\bbenefit\w*", r"\beligib\w*", r"\boutreach\b",
                  r"\bunderserved\b", r"\buptake\b", r"\bgap\b"],
@@ -58,11 +61,17 @@ class Route:
     places: list[dict] = field(default_factory=list)   # place names matched by the gazetteer, with candidates
 
 
+# Place-name aliases that are also everyday words in questions ("school meals"); never matched as places.
+COMMON_WORD_ALIASES = {"school"}
+
+
 @lru_cache
 def gazetteer() -> dict[str, dict]:
     """Place names and ZIPs → districts, built by etl/load_places.py. Empty if the file is missing."""
     p = settings().data_dir / "place_aliases.json"
-    return json.loads(p.read_text(encoding="utf-8"))["aliases"] if p.exists() else {}
+    if not p.exists():
+        return {}
+    return {k: v for k, v in json.loads(p.read_text(encoding="utf-8"))["aliases"].items() if k not in COMMON_WORD_ALIASES}
 
 
 def _chamber(t: str, context_geo: str | None) -> str:
@@ -109,6 +118,8 @@ def resolve_districts(text: str, context_geo: str | None, places: list[dict] | N
 def classify(text: str) -> tuple[str | None, float, list[str]]:
     t = normalize(text)
     hits = {k: sum(bool(re.search(p, t)) for p in ps) for k, ps in INTENTS.items()}
+    if hits["cross_program"]:          # a cross-program question also mentions programs/eligibility; it is the narrower intent
+        hits["cross_program"] += hits.pop("programs")
     ranked = sorted(hits.items(), key=lambda kv: kv[1], reverse=True)
     top, n = ranked[0]
     if n == 0:

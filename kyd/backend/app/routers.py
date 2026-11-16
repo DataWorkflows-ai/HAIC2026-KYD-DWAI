@@ -9,7 +9,8 @@ from .config import settings
 from .models import AgentAnswer, AskRequest
 from .services.graph import graph
 from .services.repo import repo
-from .services import representation as rep
+from .services import crosswalk, program_context, representation as rep
+from .services.cache import cached
 
 api = APIRouter(prefix="/api")
 
@@ -62,6 +63,26 @@ def district_programs(geo_id: str, who: Principal = Who):
     return tools.find_programs(geo_id, limit=12)
 
 
+@api.get("/districts/{geo_id}/cross-program")
+def district_cross_program(geo_id: str, who: Principal = Who):
+    try:
+        out = crosswalk.estimate(geo_id)
+    except KeyError:
+        raise HTTPException(404, f"unknown geography {geo_id}")
+    audit.record(who.user, who.role, "estimate_cross_program", geo_ids=[geo_id])
+    return out
+
+
+@api.get("/districts/{geo_id}/program-context")
+def district_program_context(geo_id: str, who: Principal = Who):
+    try:
+        out = program_context.context(geo_id)
+    except KeyError:
+        raise HTTPException(404, f"unknown geography {geo_id}")
+    audit.record(who.user, who.role, "program_context", geo_ids=[geo_id])
+    return out
+
+
 @api.get("/map/{indicator}")
 def map_layer(indicator: str, geo_type: str = "sldl"):
     return tools.get_map_layer(indicator, geo_type)
@@ -80,6 +101,11 @@ MAP_FIGURES = ["total_pop", "median_hh_income", "pct_below_fpl", "pct_65plus", "
 @api.get("/map-summary")
 def map_summary(geo_type: str = "sldl"):
     """Everything a map popup needs for every district of a chamber, in a single request."""
+    return _map_summary(geo_type)
+
+
+@cached
+def _map_summary(geo_type: str) -> dict:
     r = repo()
     geos = r.geographies(geo_type)
     obs = r.observations([g.geo_id for g in geos], MAP_FIGURES)

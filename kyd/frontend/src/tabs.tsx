@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Send, ExternalLink, Bot, Zap, ShieldAlert } from 'lucide-react';
 import { api, fmt, type Answer, type Geo, type Obs, type Profile, type ProgramMatch, type Verification } from './api';
 import { Card, Empty, Figure, GeoPicker, Pill } from './ui';
+import { CrossProgramCard, ProgramContextCards } from './programExtras';
 
 const HEADLINE = ['total_pop', 'median_hh_income', 'pct_below_fpl', 'pct_65plus', 'pct_rent_burden_30', 'pct_uninsured'];
 const by = (xs: Obs[] | undefined) => Object.fromEntries((xs ?? []).map(o => [o.indicator, o]));
@@ -118,6 +119,8 @@ export function ProgramsTab({ geo }: { geo: string }) {
             Official program page <ExternalLink className="w-3 h-3" /></a>
         </Card>
       ))}
+      <CrossProgramCard geo={geo} />
+      <ProgramContextCards geo={geo} />
       <p className="col-span-full text-xs text-slate-500">Rankings compare district need indicators with the state. Eligibility information is informational only. The administering agency makes all determinations.</p>
     </div>
   );

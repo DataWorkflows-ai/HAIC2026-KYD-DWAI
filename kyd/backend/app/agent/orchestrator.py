@@ -4,7 +4,7 @@ import logging
 from ..models import AgentAnswer, Observation, ProgramMatch
 from ..services.repo import repo
 from . import system1, system2
-from .tools import compare_district, find_programs, get_district_profile
+from .tools import compare_district, estimate_cross_program, find_programs, get_district_profile
 
 log = logging.getLogger("kyd.agent")
 HEADLINE = ["total_pop", "median_hh_income", "pct_below_fpl", "pct_65plus", "pct_rent_burden_30", "pct_uninsured"]
@@ -42,6 +42,20 @@ def answer_s1(rt: system1.Route) -> AgentAnswer:
         return AgentAnswer(text=f"Programs most relevant to {name(g)}, ranked by indicated need relative to the state:\n"
                            + "\n".join(lines) + "\n\nEligibility is determined by each administering agency.",
                            route="S1", intent="programs", geo_ids=[g], observations=obs, programs=pm, trace=trace)
+    if rt.intent == "cross_program":
+        cp = estimate_cross_program(g)
+        ids = {i for e in cp["estimates"] for i in e["input_obs_ids"]}
+        obs = [o for o in repo().observations([g]) if o.obs_id in ids]
+        def rng(e):
+            if e["low"] is not None and e["high"] is not None and e["low"] != e["high"]:
+                return f" (range {e['low']:,}–{e['high']:,})"
+            return " (at least)" if e["low"] is not None and e["high"] is None else ""
+        lines = [f"- {e['name']}: about {e['estimate']:,} {e['unit']}{rng(e)}, {e['confidence']} confidence. "
+                 f"{e['rule']} Source: {e['source']['title']}. [obs:{e['input_obs_ids'][0]}]"
+                 for e in cp["estimates"] if e["estimate"] is not None]
+        return AgentAnswer(text=f"Likely eligible for other programs in {name(g)}, from SNAP participation and income "
+                                f"counts (ACS 2020–2024):\n" + "\n".join(lines) + "\n\n" + cp["note"],
+                           route="S1", intent="cross_program", geo_ids=[g], observations=obs, trace=trace)
     p = get_district_profile(g)
     lines = [f"- {o.label}: {_fmt(o)}" for o in p.observations if o.indicator in HEADLINE]
     return AgentAnswer(text=f"{p.geography.name} at a glance (ACS {p.data_as_of}):\n" + "\n".join(lines),

@@ -24,6 +24,8 @@ class Settings(BaseSettings):
     auth_secret: str = ""                           # HMAC key for bearer tokens (app/auth.py); empty = everyone is anonymous
     trust_proxy_headers: bool = False               # only behind an SSO proxy that strips client x-kyd-* headers
 
+    cache_ttl_seconds: float = 300                  # live mode only; bundled data never changes in-process
+    pg_pool_max: int = 10                           # Postgres connection pool size (live mode)
     cv_suppress: float = 0.30                       # §9.2
     stale_after_days: int = 540                     # §6.4
     fixtures_dir: Path = ROOT / "backend" / "fixtures"
