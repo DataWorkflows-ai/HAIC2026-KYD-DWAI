@@ -395,8 +395,8 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
     `≥ ${fmt({ value: breaks[3], unit })}`] : [];
 
   return (
-    <div className="grid grid-cols-12 gap-4 h-[calc(100vh-11rem)] min-h-[520px]">
-      <div className="col-span-12 lg:col-span-8 xl:col-span-9 relative rounded-xl overflow-hidden border border-premium-800">
+    <div className="grid grid-cols-12 gap-4 lg:h-[calc(100vh-11rem)] lg:min-h-[520px]">
+      <div className="col-span-12 lg:col-span-8 xl:col-span-9 relative rounded-xl overflow-hidden border border-premium-800 h-[60vh] min-h-[360px] lg:h-auto lg:min-h-0">
         <div ref={el} className="absolute inset-0" role="application" aria-label={`Map of Hawaiʻi ${chamber === 'sldl' ? 'House' : 'Senate'} districts`} />
 
         {/* controls */}
