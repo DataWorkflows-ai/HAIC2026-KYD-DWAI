@@ -5,6 +5,8 @@
 **Live app:** https://know-your-district-zio4.onrender.com — no login, no setup, no credentials needed.
 Shareable links work, for example https://know-your-district-zio4.onrender.com/house-44/map
 
+**Slides:** [Know Your District slide deck (PDF, 11 slides)](docs/Know-Your-District-slides.pdf)
+
 A nonpartisan, cited profile of every Hawaiʻi State House and Senate district (2022 plan) for legislators and staff:
 who lives there, how they are doing, which assistance programs fit, and where people who look eligible are not being reached.
 Every number on screen traces to a named source, vintage and method, with margins of error where the source publishes them.
@@ -239,7 +241,7 @@ invented number reaching a legislator), privacy (small groups, and what users ty
 | `kyd/tests/` | Automated tests |
 | `scripts/` | Program analyses (SNAP gap, TANF, GA, AABD, Med-QUEST) that the loaders import |
 | `data/` | Source files (`raw/`), processed tables and boundaries |
-| `docs/` | Challenge rules and [data notes](docs/DATA_NOTES.md) |
+| `docs/` | Challenge rules, the [slide deck](docs/Know-Your-District-slides.pdf) and [data notes](docs/DATA_NOTES.md) |
 | `render.yaml` | Render Blueprint for the public deployment |
 | `app.py` | The earlier Streamlit prototype, kept for reference |
 
