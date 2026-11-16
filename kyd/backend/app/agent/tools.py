@@ -28,6 +28,10 @@ def _by_ind(obs: list[Observation]) -> dict[str, Observation]:
     return {o.indicator: o for o in obs}
 
 
+COUNTY_GEO = {"Hawaiʻi County": "CNTY-15001", "City & County of Honolulu": "CNTY-15003",
+              "Kauaʻi County": "CNTY-15007", "Maui County": "CNTY-15009"}
+
+
 def get_district_profile(geo_id: str, indicators: list[str] | None = None) -> DistrictProfile:
     r = repo()
     g = r.geography(geo_id)
@@ -38,8 +42,8 @@ def get_district_profile(geo_id: str, indicators: list[str] | None = None) -> Di
     obs = sorted(r.observations([geo_id], inds), key=lambda o: order.get(o.indicator, 99))
     acs = [o for o in obs if o.source_id.startswith("acs")]
     comps = {"state": r.observations(["HI"], inds)}
-    if g.counties:
-        comps["county"] = r.observations([g.counties[0]], inds)
+    if g.counties and COUNTY_GEO.get(g.counties[0]):
+        comps["county"] = r.observations([COUNTY_GEO[g.counties[0]]], inds)
     return DistrictProfile(geography=g, observations=obs, comparisons=comps,
                            peers=peer_districts(geo_id), data_as_of=max((o.vintage for o in acs or obs), default=""))
 

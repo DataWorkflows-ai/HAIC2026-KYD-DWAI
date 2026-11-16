@@ -195,6 +195,8 @@ def build() -> None:
 
 if __name__ == "__main__":
     build()
+    import load_acs_state_county   # official state and county ACS profile values (replace district-summed state values)
+    load_acs_state_county.build()
     import load_programs  # program-analysis indicators live in the same database; rebuild them too
     load_programs.build()
     import load_hud       # HUD subsidized housing by district (needs kyd/data/tract_district_crosswalk.csv)
