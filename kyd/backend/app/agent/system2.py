@@ -64,9 +64,16 @@ def collect_obs(payload) -> list[dict]:
 
 NUM = re.compile(r"(?<![\w-])\$?\d[\d,]*(?:\.\d+)?%?")
 # Spans that hold numbers we never check: citation ids, district ids/names, years and year ranges.
-_SKIP = re.compile(r"\[obs:[^\]]+\]|\b(?:SD|HD)-\d+\b|\bDistrict \d+\b|\b(?:19|20)\d{2}(?:[–-](?:19|20)\d{2})?\b"
+_AGE = r"(?:1[5-9]|2[0-6]|3[045]|4[045]|5[0459]|6[02459]|7[0459]|8[045]|5|6)(?!\d)"
+_SKIP = re.compile((r"\[obs:[^\]]+\]|\b(?:SD|HD)-\d+\b|\bDistrict \d+\b|\b(?:19|20)\d{2}(?:[–-](?:19|20)\d{2})?\b"
                    # program thresholds are rules, not data: "200% of poverty", "138% FPL"
-                   r"|\b(?:100|125|130|135|138|150|185|200|250|300|400)%(?=\s*(?:of\s+(?:the\s+)?(?:federal\s+)?poverty|FPL|of\s+FPL))")
+                   r"|\b(?:100|125|130|135|138|150|185|200|250|300|400)%(?=\s*(?:of\s+(?:the\s+)?(?:federal\s+)?poverty|FPL|of\s+FPL))"
+                   # age groups name a population, they are not figures: "65 and older", "under 18", "18–64", "60+".
+                   # Only the standard Census/program cut-points, and never when a % follows.
+                   + "|" + r"(?<![\w,.$-])@AGE@\+(?![\w%])"
+                   + "|" + r"(?<![\w,.$-])@AGE@(?:\s+years?)?\s+(?:and|or)\s+(?:older|over|younger|under)\b"
+                   + "|" + r"\b(?:ages?|aged|under|over)\s+@AGE@(?:\s*(?:[–-]|to|and)\s*@AGE@)?(?!\d|[,.]\d|\s*%)"
+                   + "|" + r"(?<![\w,.$-])@AGE@\s*[–-]\s*@AGE@(?!\d|[,.]\d|\s*%)").replace("@AGE@", _AGE))
 REDACTED = "[figure removed: not from a cited source]"
 
 

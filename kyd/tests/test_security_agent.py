@@ -156,3 +156,15 @@ def test_program_thresholds_are_not_redacted():
     obs = [{"obs_id": "x", "value": 41.1}]
     assert unsupported_numbers("41.1% are below 200% of poverty; adults under 138% FPL", obs) == []
     assert unsupported_numbers("47.5% statewide", obs) == ["47.5%"]
+
+
+def test_age_groups_are_not_redacted():
+    """Age cut-points name a population ("65 and older"); they are labels, not figures."""
+    from app.agent.system2 import unsupported_numbers
+    obs = [{"obs_id": "x", "value": 8.3}, {"obs_id": "y", "value": 13.8}]
+    ok = ("About 8.3% of residents 65 and older are below the poverty line. Residents 65 and older are 13.8%. "
+          "Adults 18–64, children under 18, ages 25 to 64, kūpuna 60+, people 65 years and over, aged 85 or older.")
+    assert unsupported_numbers(ok, obs) == []
+    # an invented figure next to an age word is still caught
+    assert unsupported_numbers("Over 65% of residents, and 65 households, and under 4,200 people", obs) == ["65%", "65", "4,200"]
+    assert unsupported_numbers("About 47 and older residents; 1,865 and older", obs) == ["47", "1,865"]
