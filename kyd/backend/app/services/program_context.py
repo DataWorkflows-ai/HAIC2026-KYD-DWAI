@@ -84,8 +84,34 @@ def context(geo_id: str) -> dict:
     tr = {(o.geo_id, o.indicator): o.value for o in repo().observations([f"CNTY-{cfips}", "HI"], trend_keys)}
     def ty(y):
         return "laus_unemp_rate" if y == 2025 else f"laus_unemp_rate_{y}"
+    crime = None
+    if county == "Oahu":
+        ck = ["crime_total_est", "crime_violent_est", "crime_property_est", "crime_rate_per_1k_est", "crime_violent_per_1k_est"]
+        dist = {o.indicator: o for o in repo().observations([geo_id], ck)}
+        cyears = range(2017, 2026)
+        tkeys = [f"crime_total_est_{y}" for y in cyears if y != 2025] + ["crime_total_est"]
+        tv = {(o.geo_id, o.indicator): o.value for o in repo().observations([geo_id, "CNTY-15003"], tkeys)}
+        tk = lambda y: "crime_total_est" if y == 2025 else f"crime_total_est_{y}"
+        ohu = [o.value for o in repo().observations([g for g, c in counties.items() if c == "Oahu" and g[:2] == geo_id[:2]],
+                                                    ["crime_rate_per_1k_est"]) if o.value is not None]
+        crime = {"title": "Crime (Oʻahu) — ESTIMATE", "year": 2025,
+                 "district": [dist[k] for k in ck if k in dist],
+                 "honolulu_official": [o for o in repo().observations(["CNTY-15003"], ["crime_total_est", "crime_violent_est",
+                                                                                         "crime_property_est"])],
+                 "oahu_median_per_1k": sorted(ohu)[len(ohu) // 2] if ohu else None,
+                 "trend": [{"year": y, "district": tv.get((geo_id, tk(y))), "honolulu_official": tv.get(("CNTY-15003", tk(y)))}
+                           for y in cyears],
+                 "credit": "HPD Annual Reports; beat geometry traced from HPD 2025 report maps (map data Google)",
+                 "caveats": ["ESTIMATE / APPROXIMATE: HPD publishes no beat map files, so beat boundaries were traced from "
+                             "the 2025 report maps (about 50–150 m error in town) and offenses were split to districts by "
+                             "2020 population.",
+                             "Beat counts are raw case counts and run about 7–17% above HPD's official Table 1 totals "
+                             "(shown for the City & County).",
+                             "Per-resident rates overstate crime where visitors and workers outnumber residents "
+                             "(Waikīkī, Ala Moana, downtown, airport).",
+                             "Not comparable with the Attorney General's NIBRS dashboard."]}
     return {
-        "geo_id": geo_id, "county": county,
+        "geo_id": geo_id, "county": county, "crime": crime,
         "employment": {
             "title": "Unemployment", "district": [emp[k] for k in emp_keys if k in emp],
             "county": [cty[k] for k in ("laus_unemp_rate", "laus_labor_force") if k in cty],

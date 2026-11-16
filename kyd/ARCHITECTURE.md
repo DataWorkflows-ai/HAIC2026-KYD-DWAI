@@ -147,6 +147,12 @@ poverty ladder (125/138/150/185/200% FPL) plus SNAP households with children, 60
   (`kyd/data/bg_district_crosswalk.csv`, written by `build_tract_crosswalk.py`). Indicators `pct_pop_lidac`
   (flag 1 or 2), `pct_pop_lidac_most` (flag 2), `pop_lidac`; on the map and the district profile.
 
+- **Crime, Oʻahu (ESTIMATE)** (`kyd/etl/load_hpd_crime.py`): HPD annual-report beat offense counts 2017–2025 ×
+  beat→district shares (2020 population; area for beats < 50 residents) from the research agent's traced beat map
+  (`data/raw/hpd_crime/`, APPROXIMATE). Indicators `crime_total_est`, `crime_violent_est`, `crime_property_est`,
+  `crime_rate_per_1k_est`, `crime_violent_per_1k_est`, trend `crime_total_est_<year>`; HPD Table 1 official totals on
+  `CNTY-15003`. Credit "HPD Annual Reports; beat geometry traced from HPD 2025 report maps (map data Google)".
+
 ## Source verification
 
 `python kyd/verify/run.py` checks every source behind Crystal's program scripts and writes

@@ -207,3 +207,5 @@ if __name__ == "__main__":
     load_unemp_demographics.build()
     import load_lidac       # share of residents in LIDAC block groups (needs kyd/data/bg_district_crosswalk.csv)
     load_lidac.build()
+    import load_hpd_crime   # Oʻahu crime by district (ESTIMATE, HPD annual reports × traced beats)
+    load_hpd_crime.build()
