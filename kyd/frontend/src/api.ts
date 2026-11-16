@@ -48,6 +48,7 @@ export type CrossEstimate = {
 export type CrossProgram = { geo_id: string; estimates: CrossEstimate[]; note: string };
 export type ProgramContext = {
   geo_id: string; county: string;
+  employment: { title: string; district: Obs[]; county: Obs[]; state: Obs[]; trend: { year: number; county: number | null; state: number | null }[]; source: string; notes: string[] };
   school_meals: { title: string; observations: Obs[]; state_pct: number | null; source: string; url: string; note: string };
   facts: { program: string; level: string; agency: string; income_rule: string; limit_1_person: string; limit_4_person: string; enrollment_latest: string; smallest_geography: string; link: string }[];
   hud: { title: string; as_of: string; observations: Obs[]; state_per_1k_hh: number | null; source: string; caveats: string[] };

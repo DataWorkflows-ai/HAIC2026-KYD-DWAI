@@ -131,6 +131,11 @@ poverty ladder (125/138/150/185/200% FPL) plus SNAP households with children, 60
 - **Program facts** (`kyd/data/program_facts.csv`): 24 programs' income rules, limits and latest statewide
   enrollment with a source link per row, from the research package; shown on the Programs tab.
 
+- **Unemployment** (`kyd/etl/load_laus.py`): DBEDT/DLIR LAUS 2025 annual averages. District rates roll up DBEDT
+  tract estimates (county totals split by ACS 2020–2024 shares) with the population crosswalk; county values
+  (`CNTY-15001/3/7/9`) and state are official LAUS totals; county/state trend 2014–2025. Shown on the Programs
+  tab next to the ACS 2020–2024 rate; `ui_workforce` ranking now leads with `laus_unemp_rate`.
+
 ## Source verification
 
 `python kyd/verify/run.py` checks every source behind Crystal's program scripts and writes

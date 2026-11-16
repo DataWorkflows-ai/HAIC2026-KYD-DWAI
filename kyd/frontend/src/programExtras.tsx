@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ExternalLink } from 'lucide-react';
-import { api, type CrossProgram, type ProgramContext } from './api';
+import { api, type CrossProgram, type Obs, type ProgramContext } from './api';
 import { Card, Empty, Figure, Pill } from './ui';
 
 const n = (v: number | null | undefined) => (v === null || v === undefined ? 'n/a' : Math.round(v).toLocaleString());
@@ -58,6 +58,7 @@ export function ProgramContextCards({ geo }: { geo: string }) {
   const maxTrend = Math.max(...mq.trend.map(x => x.recipients));
   return (
     <>
+      {c.employment.district.length > 0 && <EmploymentCard e={c.employment} county={c.county} />}
       {c.school_meals.observations.length > 0 && (
         <Card title={<span className="normal-case">{c.school_meals.title}</span>} right={<Pill>schools in district</Pill>}>
           <div className="space-y-2">
@@ -182,6 +183,38 @@ function ProgramFacts({ facts }: { facts: ProgramContext['facts'] }) {
       </div>
       {facts.length > 6 && <button onClick={() => setOpen(!open)} className="mt-2 text-xs text-cyan-400 hover:underline">{open ? 'Show fewer' : `Show all ${facts.length}`}</button>}
       <p className="mt-2 text-xs text-slate-500">Compiled by the team's research agents from each agency's published charts and reports; every row links to its source. Statewide figures, not district enrollment.</p>
+    </Card>
+  );
+}
+
+/** Current unemployment: district (DBEDT tract estimates rolled up), county and state LAUS, ACS for comparison, 2014–2025 trend. */
+function EmploymentCard({ e, county }: { e: ProgramContext['employment']; county: string }) {
+  const rate = (xs: Obs[]) => xs.find(o => o.indicator === 'laus_unemp_rate');
+  const d = rate(e.district), c = rate(e.county), s = rate(e.state);
+  const acs = e.district.find(o => o.indicator === 'unemployment_rate');
+  const lf = e.district.find(o => o.indicator === 'laus_labor_force');
+  const max = Math.max(...e.trend.flatMap(t => [t.county ?? 0, t.state ?? 0]), 1);
+  return (
+    <Card title="Unemployment" right={<Pill>2025 annual avg</Pill>} className="md:col-span-2">
+      <div className="grid grid-cols-3 gap-3 text-sm">
+        <div><div className="text-xs text-slate-400">This district</div>{d && <Figure o={d} big />}
+          {lf && <div className="text-xs text-slate-500">labor force <Figure o={lf} /></div>}</div>
+        <div><div className="text-xs text-slate-400">{county} County</div>{c && <Figure o={c} big />}</div>
+        <div><div className="text-xs text-slate-400">State</div>{s && <Figure o={s} big />}</div>
+      </div>
+      {acs && <div className="mt-2 text-xs text-slate-400">ACS 2020–2024 five-year rate for comparison: <Figure o={acs} /></div>}
+      <div className="mt-3 text-xs text-slate-400">County (cyan) and state (gray), 2014–2025</div>
+      <div className="flex items-end gap-1 h-16 mt-1" aria-label="Unemployment rate trend 2014 to 2025">
+        {e.trend.map(t => (
+          <div key={t.year} className="flex-1 h-full flex items-end gap-px" title={`${t.year}: county ${t.county ?? 'n/a'}%, state ${t.state ?? 'n/a'}%`}>
+            <div className="flex-1 bg-cyan-700/80 rounded-sm" style={{ height: `${((t.county ?? 0) / max) * 100}%` }} />
+            <div className="flex-1 bg-slate-600 rounded-sm" style={{ height: `${((t.state ?? 0) / max) * 100}%` }} />
+          </div>
+        ))}
+      </div>
+      <div className="flex justify-between text-[10px] text-slate-500 font-mono"><span>{e.trend[0]?.year}</span><span>2020 peak {e.trend.find(t => t.year === 2020)?.state ?? ''}%</span><span>{e.trend[e.trend.length - 1]?.year}</span></div>
+      <ul className="mt-2 text-xs text-slate-500 list-disc ml-4">{e.notes.map(n => <li key={n}>{n}</li>)}</ul>
+      <div className="text-xs text-slate-500">{e.source}</div>
     </Card>
   );
 }
