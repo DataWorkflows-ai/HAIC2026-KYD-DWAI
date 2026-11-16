@@ -3,15 +3,15 @@
 @tailwind utilities;
 
 ::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: #0e111a; }
-::-webkit-scrollbar-thumb { background: #212942; border-radius: 3px; }
+::-webkit-scrollbar-track { background: #081a30; }
+::-webkit-scrollbar-thumb { background: #17406b; border-radius: 3px; }
 
 .kyd-card {
-  background: linear-gradient(145deg, #1a1d2e 0%, #0e111a 100%);
-  border: 1px solid rgba(0, 200, 255, 0.1);
+  background: linear-gradient(145deg, #0c2440 0%, #081a30 100%);
+  border: 1px solid rgba(0, 188, 255, 0.14);
 }
-.kyd-card:hover { border-color: rgba(0, 200, 255, 0.25); }
-:focus-visible { outline: 2px solid #06b6d4; outline-offset: 2px; }
+.kyd-card:hover { border-color: rgba(0, 188, 255, 0.3); }
+:focus-visible { outline: 2px solid #00bcff; outline-offset: 2px; }
 
 /* Print: one clean page per view — no tabs, chat or controls; white paper, dark ink. */
 .print-only { display: none; }

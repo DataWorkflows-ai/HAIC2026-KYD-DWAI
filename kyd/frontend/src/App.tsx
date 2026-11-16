@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { LayoutDashboard, Map, GitCompare, ListOrdered, HandHeart, MessageSquare, BookOpen, MapPinned, Star } from 'lucide-react';
+import { LayoutDashboard, Map, GitCompare, ListOrdered, HandHeart, MessageSquare, BookOpen, Star } from 'lucide-react';
 import { api, type Geo, type Health } from './api';
 import { GeoPicker, Pill, usePersistentState } from './ui';
 import { AskTab, CompareTab, OverviewTab, ProgramsTab, SourcesTab } from './tabs';
 import { MapTab } from './MapTab';
 import { RankingsTab } from './RankingsTab';
 import { Finder } from './Finder';
+import dwaiLogo from './brand/dataworkflows-logo.png';
 
 const TABS = [
   { id: 'overview', label: 'Overview', short: 'Overview', Icon: LayoutDashboard },
@@ -90,14 +91,15 @@ export default function App() {
           DEMO MODE: figures are synthetic placeholders and are not real Census data.
         </div>
       )}
-      <header className="shrink-0 min-h-16 xl:h-16 py-2 xl:py-0 border-b border-premium-800 flex flex-wrap xl:flex-nowrap items-center px-4 lg:px-6 bg-premium-900 shadow-md gap-x-4 gap-y-2">
-        <div className="flex items-center gap-3 min-w-max shrink-0">
-          <div className="w-9 h-9 rounded-lg bg-gradient-to-tr from-cyan-500 to-emerald-500 flex items-center justify-center shadow-lg">
-            <MapPinned className="w-5 h-5 text-white" />
-          </div>
+      <header className="shrink-0 min-h-16 min-[1440px]:h-16 py-2 min-[1440px]:py-0 border-b border-premium-800 flex flex-wrap min-[1440px]:flex-nowrap items-center px-4 lg:px-6 bg-premium-900 shadow-md gap-x-4 gap-y-2">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 max-w-full min-[1440px]:shrink-0">
           <div>
-            <h1 className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-emerald-400">KNOW YOUR DISTRICT</h1>
-            <p className="text-xs text-slate-400 hidden xl:block">Hawaiʻi legislative district profiles</p>
+            <h1 className="text-lg font-bold whitespace-nowrap text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-emerald-400">KNOW YOUR DISTRICT</h1>
+            <p className="text-xs text-slate-400 hidden min-[1440px]:block">Hawaiʻi legislative district profiles</p>
+          </div>
+          <div className="flex items-center gap-2 no-print">
+            <span className="text-sm text-slate-400">by</span>
+            <img src={dwaiLogo} alt="DataWorkflows.ai" width={181} height={36} className="h-9 w-auto" />
           </div>
         </div>
 
@@ -105,12 +107,12 @@ export default function App() {
         <div className="flex items-center gap-2 min-w-[1px] shrink-0">{tab !== 'overview' && districtControl}</div>
         <div className="shrink-0"><Finder onPick={setGeo} /></div>
 
-        <nav aria-label="Sections" className="w-full xl:w-auto justify-between xl:justify-start xl:ml-auto flex gap-1 bg-premium-950 p-1 rounded-lg border border-premium-800 overflow-x-auto min-w-0">
+        <nav aria-label="Sections" className="w-full min-[1440px]:w-auto justify-between md:justify-start min-[1440px]:ml-auto flex gap-1 bg-premium-950 p-1 rounded-lg border border-premium-800 overflow-x-auto min-w-0">
           {TABS.map(({ id, label, short, Icon }) => (
             <button key={id} onClick={() => setTab(id)} aria-current={tab === id ? 'page' : undefined} title={label} aria-label={label}
               className={`flex items-center gap-2 px-2.5 py-1.5 rounded-md text-sm font-medium whitespace-nowrap transition ${tab === id ? 'bg-premium-800 text-cyan-400 border border-premium-700' : 'text-slate-400 hover:text-slate-200'}`}>
               <Icon className="w-4 h-4 shrink-0" />
-              <span className="hidden min-[1600px]:inline">{short}</span>
+              <span className="hidden md:inline min-[1440px]:hidden min-[1800px]:inline">{short}</span>
             </button>
           ))}
         </nav>
@@ -118,7 +120,7 @@ export default function App() {
 
       <main className="flex-grow overflow-y-auto p-4 lg:p-6">
         <div className="print-only text-xs mb-2">
-          Know Your District · {geos.find(g => g.geo_id === geo)?.name ?? geo} · printed {new Date().toLocaleDateString()} ·
+          Know Your District by DataWorkflows.ai · {geos.find(g => g.geo_id === geo)?.name ?? geo} · printed {new Date().toLocaleDateString()} ·
           Sources: ACS 2020–2024 and the agencies listed on the Sources tab · {window.location.href}
         </div>
         {tab === 'overview' && <OverviewTab geo={geo} geos={geos} onAsk={ask} onPick={setGeo} picker={districtControl} />}

@@ -245,7 +245,7 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
           container: el.current, map, center: [-157.5, 20.6], zoom: 7, constraints: { minZoom: 6 },
           popupEnabled: false, ui: { components: ['zoom', 'attribution'] },
         });
-        try { view.highlightOptions = { color: '#22d3ee', fillOpacity: 0.25, haloOpacity: 1 }; } catch { /* newer SDKs use view.highlights */ }
+        try { view.highlightOptions = { color: '#00bcff', fillOpacity: 0.25, haloOpacity: 1 }; } catch { /* newer SDKs use view.highlights */ }
         const council = COUNCIL.map(c => new FeatureLayer({
           url: `${STATE_GIS}/${c.id}`, title: 'County council districts', visible: false, popupEnabled: false, outFields: ['*'],
           renderer: { type: 'simple', symbol: { type: 'simple-fill', color: [0, 0, 0, 0], outline: { color: [251, 191, 36, 1], width: 2, style: 'dash' } } },

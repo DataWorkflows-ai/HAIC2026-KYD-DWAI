@@ -52,12 +52,12 @@ export function RankMap({ chamber, values, unit, label, active, onHover, onPick 
         onMouseLeave={() => onHover(null)}>
         {features.map(f => (
           <path key={f.id} d={path(f.rings)} fill={color(values[f.id])} fillOpacity={0.85}
-            stroke={f.id === active ? '#22d3ee' : '#e2e8f0'} strokeWidth={f.id === active ? 3 : 0.6} vectorEffect="non-scaling-stroke"
+            stroke={f.id === active ? '#00bcff' : '#e2e8f0'} strokeWidth={f.id === active ? 3 : 0.6} vectorEffect="non-scaling-stroke"
             className="cursor-pointer" onMouseEnter={() => onHover(f.id)} onClick={() => onPick(f.id)}>
             <title>{`${f.id}: ${values[f.id] === null || values[f.id] === undefined ? 'no data' : fmt({ value: values[f.id] as number, unit })}`}</title>
           </path>))}
         {active && features.filter(f => f.id === active).map(f => (
-          <path key="hl" d={path(f.rings)} fill="none" stroke="#22d3ee" strokeWidth={3} vectorEffect="non-scaling-stroke" pointerEvents="none" />))}
+          <path key="hl" d={path(f.rings)} fill="none" stroke="#00bcff" strokeWidth={3} vectorEffect="non-scaling-stroke" pointerEvents="none" />))}
       </svg>
       <div className="mt-1 grid grid-cols-5 gap-1 max-w-xl">
         {RAMP.map((c, i) => (
