@@ -1,6 +1,7 @@
 """Entry point for /api/agent/ask. Runs System 1 → optional System 2, then validation."""
 from __future__ import annotations
 import logging
+from pydantic import ValidationError
 from ..models import AgentAnswer, Observation, ProgramMatch
 from ..services.repo import repo
 from . import system1, system2
@@ -136,6 +137,19 @@ async def ask(question: str, context_geo: str | None) -> AgentAnswer:
     text, bad = system2.redact_unsupported(text, obs)
     reasons = rt.reasons + (["unsupported_numbers_removed"] if bad else [])
     return AgentAnswer(text=text, route="S2", intent=rt.intent, geo_ids=rt.geo_ids,
-                       observations=[Observation(**{k: v for k, v in o.items() if k in Observation.model_fields})
-                                     for o in obs],
-                       escalation_reasons=reasons, trace=[{"tool": t["tool"], "args": t["args"]} for t in trace])
+                       observations=_cited(obs), escalation_reasons=reasons,
+                       trace=[{"tool": t["tool"], "args": t["args"]} for t in trace])
+
+
+def _cited(obs: list[dict]) -> list[Observation]:
+    """Tool figures the answer can cite. A row that is not a full observation is dropped, not a 500."""
+    out = []
+    fields = set(Observation.model_fields)
+    for o in obs:
+        if not isinstance(o, dict):
+            continue
+        try:
+            out.append(Observation(**{k: v for k, v in o.items() if k in fields}))
+        except ValidationError:
+            log.warning("dropping uncitable tool figure %s", o.get("obs_id"))
+    return out

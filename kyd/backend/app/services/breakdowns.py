@@ -44,9 +44,10 @@ def _rows() -> dict[str, list[dict]]:
 
 def _shape(r: dict) -> dict:
     label = ("All workers 16+" if r["dimension"] == "overall" else r["grp"]) if r["sex"] == "both" else r["sex"].capitalize()
-    return {"obs_id": r["obs_id"], "geo_id": r["geo_id"], "dimension": r["dimension"], "group": r["grp"],
-            "sex": r["sex"], "label": label, "value": r["value"], "moe": r["moe"], "unit": "pct",
-            "unemployed": r["numerator"], "labor_force": r["denominator"], "source_table": r["source_table"],
+    return {"obs_id": r["obs_id"], "geo_id": r["geo_id"], "indicator": "unemployment_rate",
+            "dimension": r["dimension"], "group": r["grp"], "sex": r["sex"], "label": label,
+            "value": r["value"], "moe": r["moe"], "unit": "pct", "unemployed": r["numerator"],
+            "labor_force": r["denominator"], "source_table": r["source_table"],
             "flags": ["suppressed_cv"] if r["quality_flag"] == "high_moe" else [], "vintage": r["vintage"],
             "source_id": r["source_id"]}
 
