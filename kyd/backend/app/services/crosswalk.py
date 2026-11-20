@@ -85,6 +85,7 @@ def estimate(geo_id: str) -> dict:
             + ([f"Actual: {v['free_reduced_students']:,.0f} students ({v['pct_free_reduced_meals']:g}%) at public schools "
                 "in this district are eligible for free/reduced-price meals (HCNP October SY2025-26, by school location, "
                 "charter schools excluded)."] if "pct_free_reduced_meals" in v else []))
+        out[-1]["context_obs_ids"] = _ids(obs, "free_reduced_students", "pct_free_reduced_meals")
 
     if "snap_hh_count" in v:
         income = None
