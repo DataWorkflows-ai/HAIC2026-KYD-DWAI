@@ -8,9 +8,11 @@ observation (§10.2).
 from __future__ import annotations
 import json
 import re
+from functools import lru_cache
 import httpx
 from pydantic import BaseModel
 from ..config import settings
+from ..services.repo import repo
 from .tools import TOOL_SPECS, TOOLS
 
 class NotConfigured(RuntimeError):
@@ -18,14 +20,63 @@ class NotConfigured(RuntimeError):
 
 
 SYSTEM = """You are Know Your District, a nonpartisan assistant for Hawaiʻi legislative offices.
-Rules:
-- Use tools for every figure. Never state a number that a tool did not return.
-- After each figure, cite it as [obs:<obs_id>].
+
+Figures
+- Use tools for every figure. Never state a number that a tool did not return, and never compute a new one.
+- Quote only figures that come with an obs_id. Numbers inside text fields (rationale, notes, assumptions) are
+  not citable; to use one, fetch it with get_district_profile (state: geo_id HI).
+- After each figure, cite it as [obs:<obs_id>]. Give the ± margin when the tool returns one, and the source
+  and years (for example "ACS 2020–2024").
 - If a figure has the flag suppressed_cv or high_moe, say it is an uncertain estimate.
-- Speak about populations only. Never about individuals. No partisan or electoral advice.
-- Eligibility is informational. Point to the program's official_url for determinations.
-- Use correct ʻokina and kahakō. Use plain language and keep answers under 200 words.
+- To say whether two figures differ, use compare_district's `significant` result. Do not work out interval
+  bounds (value minus or plus the margin) yourself.
+- Labels marked ESTIMATE or est. are modelled or allocated, not counted: call them estimates.
+
+Eligibility
+- People "look eligible" or "may be eligible". Never write that people "are eligible", "qualify" or
+  "are missing out". Say "not enrolled". The exception is an administrative count of people already certified,
+  such as students eligible for free or reduced-price meals.
+- The SNAP gap is a range. Whenever the gap comes up, call snap_gap_range and give both ends: the smaller figure and the larger one,
+  each with its basis (benchmark-based on USDA's participation rate, or survey-based). Never give one gap number,
+  a midpoint or an average. Say it is a range of estimates, not a count of individuals. If the hint's reasons
+  include snap_gap, always call snap_gap_range and give the range, even when the question is about something else.
+- Eligibility is decided by the administering agency. Point to the program's official_url.
+- DHS does not publish SNAP enrollment by district. When asked about SNAP enrollment, participation or how many
+  people are on SNAP in a district, begin with exactly that sentence. Then give the share of households reporting
+  SNAP (pct_snap_hh), and say it is self-reported on the Census survey, not DHS enrollment.
+
+Context
+- Crime, test scores, births and deaths, LIDAC, HUD housing and similar indicators describe a district. Never say
+  that one indicator causes or explains another, or explains a program gap.
+
+When there is no figure
+- If no tool returns the figure asked for, say so in the first sentence. Do not swap in a different measure
+  without saying so. Homelessness: KYD has no district figures; point-in-time counts are published by Partners
+  in Care for Oʻahu and Bridging the Gap for Hawaiʻi, Maui and Kauaʻi counties. For other topics, name the
+  publishing agency only if a tool result names it.
+
+Places
+- If the question names no place and the hint has no geo_ids, ask which district, for example "House District 22"
+  or "Senate District 9". Do not answer with state figures unless asked for the state.
+- "HD12", "house district 12" and "district 12 house" mean HD-12; "SD12" means SD-12; Oʻahu is CNTY-15003.
+- For "which districts have the highest/lowest …", use rank_districts and mention not_reliably_different pairs.
+
+Guardrails
+- Speak about populations only, never about individuals.
+- No partisan or electoral advice. If asked, reply: "I provide nonpartisan, population-level data only and
+  can't advise on elections, parties or candidates."
+
+Style
+- Lead with the answer. Use correct ʻokina and kahakō. Plain language, under 200 words.
 Geography ids: HI, CNTY-15001/15003/15007/15009, SD-01..SD-25, HD-01..HD-51."""
+
+
+@lru_cache
+def system_prompt() -> str:
+    """SYSTEM plus the indicator ids the tools accept (year-by-year trend series left out)."""
+    inds = [i for i in repo().indicators() if not str(i.get("topic", "")).endswith("_trend")]
+    return SYSTEM + "\nIndicator ids (pass to get_district_profile `indicators` or rank_districts):\n" + "\n".join(
+        f"- {i['indicator']}: {i['label']}" for i in inds)
 
 
 def _dump(x):
@@ -48,11 +99,15 @@ def call_tool(name: str, args: dict) -> dict:
 
 
 def collect_obs(payload) -> list[dict]:
+    """Observations in a tool result, including those an estimate cites only by id (input_obs_ids, context_obs_ids)."""
     found = []
     def walk(x):
         if isinstance(x, dict):
             if "obs_id" in x and "value" in x:
                 found.append(x)
+            for i in (x.get("input_obs_ids") or []) + (x.get("context_obs_ids") or []):
+                if o := repo().observation(i):
+                    found.append(o.model_dump())
             for v in x.values():
                 walk(v)
         elif isinstance(x, list):
@@ -62,12 +117,35 @@ def collect_obs(payload) -> list[dict]:
     return found
 
 
+def derived_values(payload) -> list[float]:
+    """Estimates a tool computed from cited observations by a published rule (estimate_cross_program)."""
+    out = []
+    def walk(x):
+        if isinstance(x, dict):
+            if x.get("input_obs_ids"):
+                out.extend(float(x[k]) for k in ("estimate", "low", "high") if isinstance(x.get(k), (int, float)))
+            for v in x.values():
+                walk(v)
+        elif isinstance(x, list):
+            for v in x:
+                walk(v)
+    walk(payload)
+    return out
+
+
 NUM = re.compile(r"(?<![\w-])\$?\d[\d,]*(?:\.\d+)?%?")
 # Spans that hold numbers we never check: citation ids, district ids/names, years and year ranges.
 _AGE = r"(?:1[5-9]|2[0-6]|3[045]|4[045]|5[0459]|6[02459]|7[0459]|8[045]|5|6)(?!\d)"
-_SKIP = re.compile((r"\[obs:[^\]]+\]|\b(?:SD|HD)-\d+\b|\bDistrict \d+\b|\b(?:19|20)\d{2}(?:[–-](?:19|20)\d{2})?\b"
+_SKIP = re.compile((r"\[obs:[^\]]+\]|\b(?:SD|HD)[\s-]?\d+\b|\bDistrict \d+\b"
+                   r"|\b(?:SY\s?)?(?:19|20)\d{2}(?:[–-](?:(?:19|20)\d{2}|\d{2}))?\b"   # 2024, 2020–2024, SY2025–26
                    # program thresholds are rules, not data: "200% of poverty", "138% FPL"
                    r"|\b(?:100|125|130|135|138|150|185|200|250|300|400)%(?=\s*(?:of\s+(?:the\s+)?(?:federal\s+)?poverty|FPL|of\s+FPL))"
+                   # the rent-burden definition and confidence levels: "30% or more of income", "90% margins"
+                   r"|\b(?:30|35|50)(?:\.0)?%(?=\s*(?:\+|or more\b|of\s+(?:their\s+|household\s+)?income))"
+                   r"|\b30(?:\.0)?%?\s*[–-]\s*34\.9%"                               # ACS rent-burden band
+                   r"|\b9[05]%(?=\s+(?:confidence\s+)?(?:intervals?|margins?|level))"
+                   r"|(?<=\bper )(?:1,000|10,000|100,000)\b"                          # rate units
+                   r"|\b(?:51|25)(?=\s+(?:House\s+|Senate\s+)?districts\b)"            # chamber sizes
                    # age groups name a population, they are not figures: "65 and older", "under 18", "18–64", "60+".
                    # Only the standard Census/program cut-points, and never when a % follows.
                    + "|" + r"(?<![\w,.$-])@AGE@\+(?![\w%])"
@@ -77,18 +155,17 @@ _SKIP = re.compile((r"\[obs:[^\]]+\]|\b(?:SD|HD)-\d+\b|\bDistrict \d+\b|\b(?:19|
 REDACTED = "[figure removed: not from a cited source]"
 
 
-def _allowed(obs: list[dict]) -> set[float]:
+def _allowed(obs: list[dict], extra: list[float] = ()) -> set[float]:
     allowed = set()
-    for o in obs:
-        for k in ("value", "moe"):
-            v = o.get(k)
-            if v is not None:
-                allowed |= {round(float(v), 1), round(float(v)), round(float(v), 2)}
+    vals = [o.get(k) for o in obs for k in ("value", "moe", "cv")] + list(extra)
+    for v in vals:
+        if v is not None:
+            allowed |= {round(float(v), 1), round(float(v)), round(float(v), 2)}
     return allowed
 
 
-def _unsupported_spans(text: str, obs: list[dict]) -> list[tuple[int, int, str]]:
-    allowed = _allowed(obs)
+def _unsupported_spans(text: str, obs: list[dict], extra: list[float] = ()) -> list[tuple[int, int, str]]:
+    allowed = _allowed(obs, extra)
     skip = [m.span() for m in _SKIP.finditer(text)]
     out = []
     for m in NUM.finditer(text):
@@ -107,9 +184,9 @@ def unsupported_numbers(text: str, obs: list[dict]) -> list[str]:
     return [s for _, _, s in _unsupported_spans(text, obs)]
 
 
-def redact_unsupported(text: str, obs: list[dict]) -> tuple[str, list[str]]:
+def redact_unsupported(text: str, obs: list[dict], extra: list[float] = ()) -> tuple[str, list[str]]:
     """Replace every unsupported number in place, so it never reaches the user, and say so once."""
-    spans = _unsupported_spans(text, obs)
+    spans = _unsupported_spans(text, obs, extra)
     if not spans:
         return text, []
     for a, b, _ in reversed(spans):
@@ -137,7 +214,7 @@ async def _openai_compat(user: str, trace: list, max_steps: int) -> str:
     s = settings()
     base = s.llm_base_url or "https://api.openai.com/v1"
     tools = [{"type": "function", "function": t} for t in TOOL_SPECS]
-    msgs = [{"role": "system", "content": SYSTEM}, {"role": "user", "content": user}]
+    msgs = [{"role": "system", "content": system_prompt()}, {"role": "user", "content": user}]
     async with httpx.AsyncClient(timeout=120) as c:
         for _ in range(max_steps):
             r = await c.post(f"{base}/chat/completions", headers={"Authorization": f"Bearer {s.llm_api_key}"},
@@ -163,7 +240,7 @@ async def _anthropic(user: str, trace: list, max_steps: int) -> str:
         for _ in range(max_steps):
             r = await c.post("https://api.anthropic.com/v1/messages",
                              headers={"x-api-key": s.llm_api_key, "anthropic-version": "2023-06-01"},
-                             json={"model": s.llm_model, "max_tokens": 1200, "system": SYSTEM,
+                             json={"model": s.llm_model, "max_tokens": 1200, "system": system_prompt(),
                                    "tools": tools, "messages": msgs})
             r.raise_for_status()
             d = r.json()

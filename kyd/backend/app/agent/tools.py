@@ -220,6 +220,29 @@ def uptake_peers(geo_id: str) -> dict:
     return f(geo_id)
 
 
+CHAMBER_GEO = {"house": "sldl", "senate": "sldu", "county": "county"}
+
+
+def rank_districts(indicator: str, chamber: str = "house", n: int = 5, order: str = "highest") -> dict:
+    """Top (or bottom) districts for one indicator. Survey values carry a 90% MOE; neighbours whose intervals
+    overlap are not reliably different, so the ties are reported."""
+    r = repo()
+    if indicator not in {i["indicator"] for i in r.indicators()}:
+        raise KeyError(f"unknown indicator {indicator}")
+    ids = [g.geo_id for g in r.geographies(CHAMBER_GEO[chamber])]
+    obs = sorted((o for o in r.observations(ids, [indicator]) if o.value is not None),
+                 key=lambda o: o.value, reverse=order == "highest")
+    top = obs[:max(1, min(n, 10))]
+    def ci(o):
+        m = o.moe or 0
+        return o.value - m, o.value + m
+    ties = [f"{a.geo_id} and {b.geo_id}" for a, b in zip(top, top[1:])
+            if a.moe and b.moe and ci(a)[0] <= ci(b)[1] and ci(b)[0] <= ci(a)[1]]
+    return {"indicator": indicator, "chamber": chamber, "order": order, "of": len(obs), "ranked": top,
+            "state": r.observations(["HI"], [indicator]),
+            "not_reliably_different": ties}
+
+
 def get_map_layer(indicator: str, geo_type: str = "sldl") -> dict:
     r = repo()
     ids = [g.geo_id for g in r.geographies(geo_type)]
@@ -291,9 +314,22 @@ TOOL_SPECS = [  # JSON-schema descriptions handed to System 2
                     "boards, council, shortest graph path). Contains no statistics.",
      "parameters": {"type": "object", "properties": {"a": {"type": "string"}, "b": {"type": "string"}},
                     "required": ["a"]}},
+    {"name": "snap_gap_range",
+     "description": "The SNAP gap for one geography as a range: people who look eligible for SNAP but are not "
+                    "enrolled. `low` and `high` each have persons, share of people below 200% of poverty, grade, "
+                    "basis and method; `benchmark` has USDA's Hawaiʻi participation rate; `is_not` says what it is not.",
+     "parameters": {"type": "object", "properties": {"geo_id": {"type": "string"}}, "required": ["geo_id"]}},
+    {"name": "rank_districts",
+     "description": "Districts ranked by one indicator (highest or lowest first), with the state value. "
+                    "`not_reliably_different` lists neighbouring pairs whose 90% margins overlap; mention them.",
+     "parameters": {"type": "object", "properties": {"indicator": {"type": "string"},
+                    "chamber": {"type": "string", "enum": ["house", "senate", "county"]},
+                    "n": {"type": "integer", "minimum": 1, "maximum": 10},
+                    "order": {"type": "string", "enum": ["highest", "lowest"]}}, "required": ["indicator"]}},
 ]
 TOOLS = {"get_district_profile": get_district_profile, "compare_district": compare_district,
          "find_programs": find_programs, "estimate_eligible": estimate_eligible,
          "get_map_layer": get_map_layer, "export_summary": export_summary,
          "district_connections": district_connections, "estimate_cross_program": estimate_cross_program,
-         "unemployment_breakdown": unemployment_breakdown, "uptake_peers": uptake_peers}
+         "unemployment_breakdown": unemployment_breakdown, "uptake_peers": uptake_peers,
+         "rank_districts": rank_districts, "snap_gap_range": snap_gap_range}

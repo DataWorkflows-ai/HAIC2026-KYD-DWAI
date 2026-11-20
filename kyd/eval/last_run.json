@@ -1,0 +1,1074 @@
+{
+ "run_at": "2026-11-20T18:08:50+00:00",
+ "llm": "anthropic claude-sonnet-5-5",
+ "passed": 40,
+ "total": 40,
+ "results": [
+  {
+   "id": "q01",
+   "question": "How many kūpuna in House District 22 live below the poverty line, and how does that compare with Oʻahu?",
+   "route": "S2",
+   "pass": true,
+   "failures": [],
+   "seconds": 6.0,
+   "escalation_reasons": [
+    "low_intent_confidence",
+    "multi_intent",
+    "compare_needs_two"
+   ],
+   "cited": [
+    "households",
+    "median_age",
+    "median_gross_rent",
+    "median_hh_income",
+    "median_home_value",
+    "pct_65plus",
+    "pct_65plus_poverty",
+    "pct_bachelors_plus",
+    "pct_below_fpl",
+    "pct_broadband",
+    "pct_cash_assist_hh",
+    "pct_child_poverty",
+    "pct_disability",
+    "pct_foreign_born",
+    "pct_limited_english",
+    "pct_no_vehicle",
+    "pct_rent_burden_30",
+    "pct_renter",
+    "pct_snap_hh",
+    "pct_ssi_hh",
+    "pct_under18",
+    "pct_under5",
+    "pct_uninsured",
+    "pct_veterans",
+    "per_capita_income",
+    "total_pop",
+    "unemployment_rate"
+   ],
+   "answer": "KYD has no count of kūpuna below poverty in HD-22, only a share. About 6.3% (±1.8) of residents aged 65 and over in House District 22 are below the poverty level [obs:acs24-HD-22-pct_65plus_poverty] (ACS 2020–2024). This is an uncertain estimate because its margin of error is high.\n\n**Comparison with Oʻahu:** The Oʻahu share is 9.0% (±0.5) [obs:acs24-CNTY-15003-pct_65plus_poverty] (ACS 2020–2024). The comparison test says HD-22's share is significantly different from Oʻahu's, meaning it is lower.\n\n**Context:**\n- Residents aged 65 and over make up 22.8% (±1.8) of HD-22's population [obs:acs24-HD-22-pct_65plus]. For Oʻahu the figure is 19.6% [obs:acs24-CNTY-15003-pct_65plus]. The test says this difference is not significant.\n\nThese figures are survey-based estimates, not counts of individuals."
+  },
+  {
+   "id": "q02",
+   "question": "In Senate District 12, how many households are likely eligible for SNAP, and how many are actually enrolled?",
+   "route": "S2",
+   "pass": true,
+   "failures": [],
+   "seconds": 6.1,
+   "escalation_reasons": [
+    "snap_enrollment"
+   ],
+   "cited": [
+    "households",
+    "pct_snap_gap",
+    "pct_snap_gap_low",
+    "pct_snap_hh",
+    "pop_below_200fpl",
+    "snap_eligible_usda",
+    "snap_gap_low_persons",
+    "snap_gap_persons",
+    "snap_hh_count",
+    "snap_participants_usda",
+    "snap_participation_rate",
+    "snap_participation_rate_ci_high",
+    "snap_participation_rate_ci_low",
+    "snap_participation_rate_us",
+    "snap_persons_est"
+   ],
+   "answer": "DHS does not publish SNAP enrollment by district.\n\n**Self-reported SNAP (Census survey, not DHS enrollment):** In Senate District 12, 8.2% (±1.0) of households report receiving SNAP [obs:acs24-SD-12-pct_snap_hh], about 2,526 households (±321) [obs:prog24-SD-12-snap_hh_count], out of 30,908 households (±1,067) [obs:acs24-SD-12-households]. The source is ACS 2020–2024. The statewide share is 11.4% (±0.4) [obs:acs24-HI-pct_snap_hh].\n\n**Households likely eligible:** No tool gives a household-level eligibility count. The measures I have count people, and they are a range of estimates, not a count of individuals:\n- **Smaller figure (benchmark-based, grade C):** about 846 people look eligible for SNAP but are not enrolled [obs:prog24-SD-12-snap_gap_low_persons]. This uses USDA's FY 2022 state participation rate, allocated to districts.\n- **Larger figure (survey-based, grade B):** about 10,322 people (±1,547) are below 200% of poverty but not in SNAP households [obs:prog24-SD-12-snap_gap_persons]. It counts income only, so it overstates who may be eligible. It ignores assets, household makeup and immigration status, and survey respondents under-report SNAP.\n\nEligibility is decided by the administering agency, the Hawaiʻi Department of Human Services (DHS). The tools returned no official_url for SNAP."
+  },
+  {
+   "id": "q03",
+   "question": "Which three House districts have the highest share of residents without health insurance?",
+   "route": "S2",
+   "pass": true,
+   "failures": [],
+   "seconds": 5.1,
+   "escalation_reasons": [
+    "no_district_resolved",
+    "low_intent_confidence"
+   ],
+   "cited": [
+    "pct_uninsured"
+   ],
+   "answer": "The three House districts with the highest share of residents without health insurance are below (ACS 2020–2024):\n\n1. **HD-05**: 6.9% ± 2.1 [obs:acs24-HD-05-pct_uninsured]. This is an uncertain estimate because its margin of error is high.\n2. **HD-04**: 6.2% ± 1.8 [obs:acs24-HD-04-pct_uninsured]. This is also an uncertain estimate because its margin of error is high.\n3. **HD-24**: 6.0% ± 1.1 [obs:acs24-HD-24-pct_uninsured].\n\nFor comparison, the statewide figure is 3.6% ± 0.2 [obs:acs24-HI-pct_uninsured].\n\nThe margins of error overlap for HD-05 and HD-04, and for HD-04 and HD-24. So the order of those neighboring pairs is not reliable, and the three districts are close to each other.\n\nThese figures come from the Census Bureau's American Community Survey."
+  },
+  {
+   "id": "q04",
+   "question": "What share of households in House District 19 spend more than 30% of their income on rent?",
+   "route": "S1",
+   "pass": true,
+   "failures": [],
+   "seconds": 0.0,
+   "escalation_reasons": [],
+   "cited": [
+    "birth_rate_per_1k_est",
+    "births_avg_est",
+    "death_rate_per_1k_est",
+    "deaths_avg_est",
+    "households",
+    "median_age",
+    "median_gross_rent",
+    "median_hh_income",
+    "median_home_value",
+    "pct_65plus",
+    "pct_65plus_poverty",
+    "pct_bachelors_plus",
+    "pct_below_fpl",
+    "pct_broadband",
+    "pct_cash_assist_hh",
+    "pct_child_poverty",
+    "pct_disability",
+    "pct_foreign_born",
+    "pct_hsa_science_proficient",
+    "pct_limited_english",
+    "pct_no_vehicle",
+    "pct_pop_lidac",
+    "pct_pop_lidac_most",
+    "pct_rent_burden_30",
+    "pct_renter",
+    "pct_sba_ela_proficient",
+    "pct_sba_math_proficient",
+    "pct_snap_hh",
+    "pct_ssi_hh",
+    "pct_under18",
+    "pct_under5",
+    "pct_uninsured",
+    "pct_veterans",
+    "per_capita_income",
+    "total_pop",
+    "unemployment_rate"
+   ],
+   "answer": "House District 19 at a glance (ACS 2020-2024):\n- Total population: 27,240 ±1683 [obs:acs24-HD-19-total_pop]\n- Median household income: $157,182 ±14840 [obs:acs24-HD-19-median_hh_income]\n- People below poverty level: 6.8% ±1.5 [obs:acs24-HD-19-pct_below_fpl]\n- 65 years and over: 30% ±2.6 [obs:acs24-HD-19-pct_65plus]\n- Renters paying 30%+ of income on rent: 55.4% ±10.4 [obs:acs24-HD-19-pct_rent_burden_30]\n- Without health insurance: 2.3% ±0.9 [obs:acs24-HD-19-pct_uninsured]"
+  },
+  {
+   "id": "q05",
+   "question": "How many children under 5 in House District 45 live in low-income households?",
+   "route": "S1",
+   "pass": true,
+   "failures": [],
+   "seconds": 0.0,
+   "escalation_reasons": [],
+   "cited": [
+    "birth_rate_per_1k_est",
+    "births_avg_est",
+    "death_rate_per_1k_est",
+    "deaths_avg_est",
+    "households",
+    "median_age",
+    "median_gross_rent",
+    "median_hh_income",
+    "median_home_value",
+    "pct_65plus",
+    "pct_65plus_poverty",
+    "pct_bachelors_plus",
+    "pct_below_fpl",
+    "pct_broadband",
+    "pct_cash_assist_hh",
+    "pct_child_poverty",
+    "pct_disability",
+    "pct_foreign_born",
+    "pct_hsa_science_proficient",
+    "pct_limited_english",
+    "pct_no_vehicle",
+    "pct_pop_lidac",
+    "pct_pop_lidac_most",
+    "pct_rent_burden_30",
+    "pct_renter",
+    "pct_sba_ela_proficient",
+    "pct_sba_math_proficient",
+    "pct_snap_hh",
+    "pct_ssi_hh",
+    "pct_under18",
+    "pct_under5",
+    "pct_uninsured",
+    "pct_veterans",
+    "per_capita_income",
+    "total_pop",
+    "unemployment_rate"
+   ],
+   "answer": "House District 45 at a glance (ACS 2020-2024):\n- Total population: 25,118 ±2032 [obs:acs24-HD-45-total_pop]\n- Median household income: $78,145 ±8410 [obs:acs24-HD-45-median_hh_income]\n- People below poverty level: 19.6% ±4 [obs:acs24-HD-45-pct_below_fpl]\n- 65 years and over: 16.9% ±2.3 [obs:acs24-HD-45-pct_65plus]\n- Renters paying 30%+ of income on rent: 69.1% ±9.3 [obs:acs24-HD-45-pct_rent_burden_30]\n- Without health insurance: 5.2% ±1.5 [obs:acs24-HD-45-pct_uninsured]"
+  },
+  {
+   "id": "q06",
+   "question": "What is the exact number of SNAP enrollment by district for House District 22?",
+   "route": "S2",
+   "pass": true,
+   "failures": [],
+   "seconds": 5.8,
+   "escalation_reasons": [
+    "low_intent_confidence",
+    "snap_enrollment"
+   ],
+   "cited": [
+    "pct_snap_hh"
+   ],
+   "answer": "DHS does not publish SNAP enrollment by district, so I can't give an exact enrollment number for House District 22.\n\nThe closest figure is the share of households reporting SNAP. In HD-22, that is 6.3% (±2.1) [obs:acs24-HD-22-pct_snap_hh], from ACS 2020–2024. This comes from the Census survey, where households report it themselves. It is not DHS enrollment data. The margin of error is high, so treat it as an uncertain estimate.\n\nFor comparison, the figure is 10.2% (±0.4) for Oʻahu [obs:acs24-CNTY-15003-pct_snap_hh] and 11.4% (±0.4) statewide [obs:acs24-HI-pct_snap_hh]. I haven't run a significance test between HD-22 and these figures, so I can't say whether the differences are real.\n\nFor official enrollment questions, contact the Hawaiʻi Department of Human Services, which decides eligibility and administers SNAP."
+  },
+  {
+   "id": "q07",
+   "question": "Which political party is better for this district?",
+   "route": "REFUSED",
+   "pass": true,
+   "failures": [],
+   "seconds": 0.0,
+   "escalation_reasons": [
+    "guardrail:partisan"
+   ],
+   "cited": [],
+   "answer": "I provide nonpartisan, population-level data only and can't advise on elections, parties or candidates."
+  },
+  {
+   "id": "q08",
+   "question": "What is the median household income in HD 5?",
+   "route": "S1",
+   "pass": true,
+   "failures": [],
+   "seconds": 0.0,
+   "escalation_reasons": [],
+   "cited": [
+    "birth_rate_per_1k_est",
+    "births_avg_est",
+    "death_rate_per_1k_est",
+    "deaths_avg_est",
+    "households",
+    "median_age",
+    "median_gross_rent",
+    "median_hh_income",
+    "median_home_value",
+    "pct_65plus",
+    "pct_65plus_poverty",
+    "pct_bachelors_plus",
+    "pct_below_fpl",
+    "pct_broadband",
+    "pct_cash_assist_hh",
+    "pct_child_poverty",
+    "pct_disability",
+    "pct_foreign_born",
+    "pct_hsa_science_proficient",
+    "pct_limited_english",
+    "pct_no_vehicle",
+    "pct_pop_lidac",
+    "pct_pop_lidac_most",
+    "pct_rent_burden_30",
+    "pct_renter",
+    "pct_sba_ela_proficient",
+    "pct_sba_math_proficient",
+    "pct_snap_hh",
+    "pct_ssi_hh",
+    "pct_under18",
+    "pct_under5",
+    "pct_uninsured",
+    "pct_veterans",
+    "per_capita_income",
+    "total_pop",
+    "unemployment_rate"
+   ],
+   "answer": "House District 5 at a glance (ACS 2020-2024):\n- Total population: 24,929 ±1696 [obs:acs24-HD-05-total_pop]\n- Median household income: $63,656 ±6115 [obs:acs24-HD-05-median_hh_income]\n- People below poverty level: 17.4% ±4.4 [obs:acs24-HD-05-pct_below_fpl]\n- 65 years and over: 26.2% ±3 [obs:acs24-HD-05-pct_65plus]\n- Renters paying 30%+ of income on rent: 51.7% ±15.1 [obs:acs24-HD-05-pct_rent_burden_30]\n- Without health insurance: 6.9% ±2.1 [obs:acs24-HD-05-pct_uninsured]"
+  },
+  {
+   "id": "q09",
+   "question": "What is the poverty rate in SD 3?",
+   "route": "S1",
+   "pass": true,
+   "failures": [],
+   "seconds": 0.0,
+   "escalation_reasons": [],
+   "cited": [
+    "birth_rate_per_1k_est",
+    "births_avg_est",
+    "death_rate_per_1k_est",
+    "deaths_avg_est",
+    "households",
+    "median_age",
+    "median_gross_rent",
+    "median_hh_income",
+    "median_home_value",
+    "pct_65plus",
+    "pct_65plus_poverty",
+    "pct_bachelors_plus",
+    "pct_below_fpl",
+    "pct_broadband",
+    "pct_cash_assist_hh",
+    "pct_child_poverty",
+    "pct_disability",
+    "pct_foreign_born",
+    "pct_hsa_science_proficient",
+    "pct_limited_english",
+    "pct_no_vehicle",
+    "pct_pop_lidac",
+    "pct_pop_lidac_most",
+    "pct_rent_burden_30",
+    "pct_renter",
+    "pct_sba_ela_proficient",
+    "pct_sba_math_proficient",
+    "pct_snap_hh",
+    "pct_ssi_hh",
+    "pct_under18",
+    "pct_under5",
+    "pct_uninsured",
+    "pct_veterans",
+    "per_capita_income",
+    "total_pop",
+    "unemployment_rate"
+   ],
+   "answer": "Senate District 3 at a glance (ACS 2020-2024):\n- Total population: 52,607 ±2729 [obs:acs24-SD-03-total_pop]\n- Median household income: $80,199 ±3836 [obs:acs24-SD-03-median_hh_income]\n- People below poverty level: 13.4% ±2 [obs:acs24-SD-03-pct_below_fpl]\n- 65 years and over: 25.1% ±1.6 [obs:acs24-SD-03-pct_65plus]\n- Renters paying 30%+ of income on rent: 42.9% ±7 [obs:acs24-SD-03-pct_rent_burden_30]\n- Without health insurance: 6.5% ±1.1 [obs:acs24-SD-03-pct_uninsured]"
+  },
+  {
+   "id": "q10",
+   "question": "What is the uninsured rate?",
+   "route": "S2",
+   "pass": true,
+   "failures": [],
+   "seconds": 1.4,
+   "escalation_reasons": [
+    "no_district_resolved",
+    "low_intent_confidence"
+   ],
+   "cited": [],
+   "answer": "Which district do you mean? For example, \"House District 22\" or \"Senate District 9\". If you'd like the statewide or county figure, tell me that instead (Oʻahu, Hawaiʻi, Maui or Kauaʻi). Once I know the place, I'll look up the uninsured rate (ACS 2020–2024) for you."
+  },
+  {
+   "id": "q11",
+   "question": "What is the uninsurance rate in house district 12?",
+   "route": "S2",
+   "pass": true,
+   "failures": [],
+   "seconds": 4.8,
+   "escalation_reasons": [
+    "low_intent_confidence"
+   ],
+   "cited": [
+    "households",
+    "median_age",
+    "median_gross_rent",
+    "median_hh_income",
+    "median_home_value",
+    "pct_65plus",
+    "pct_65plus_poverty",
+    "pct_bachelors_plus",
+    "pct_below_fpl",
+    "pct_broadband",
+    "pct_cash_assist_hh",
+    "pct_child_poverty",
+    "pct_disability",
+    "pct_foreign_born",
+    "pct_limited_english",
+    "pct_no_vehicle",
+    "pct_rent_burden_30",
+    "pct_renter",
+    "pct_snap_hh",
+    "pct_ssi_hh",
+    "pct_under18",
+    "pct_under5",
+    "pct_uninsured",
+    "pct_veterans",
+    "per_capita_income",
+    "total_pop",
+    "unemployment_rate"
+   ],
+   "answer": "About 5.0% of people in House District 12 (Maui County) have no health insurance (±1.5) [obs:acs24-HD-12-pct_uninsured]. The source is ACS 2020–2024. This is an uncertain estimate because its margin of error is high.\n\nFor comparison:\n- **Maui County:** 4.1% (±0.6) [obs:acs24-CNTY-15009-pct_uninsured]\n- **Hawaiʻi statewide:** 3.6% (±0.2) [obs:acs24-HI-pct_uninsured]\n\nThe test comparing HD-12 with the state found no significant difference. The district's rate can't be reliably distinguished from the statewide rate.\n\nFor help with coverage, Med-QUEST and other programs make their own eligibility decisions."
+  },
+  {
+   "id": "q12",
+   "question": "HD12 without insurance?",
+   "route": "S2",
+   "pass": true,
+   "failures": [],
+   "seconds": 4.8,
+   "escalation_reasons": [
+    "low_intent_confidence"
+   ],
+   "cited": [
+    "households",
+    "median_age",
+    "median_gross_rent",
+    "median_hh_income",
+    "median_home_value",
+    "pct_65plus",
+    "pct_65plus_poverty",
+    "pct_bachelors_plus",
+    "pct_below_fpl",
+    "pct_broadband",
+    "pct_cash_assist_hh",
+    "pct_child_poverty",
+    "pct_disability",
+    "pct_foreign_born",
+    "pct_limited_english",
+    "pct_no_vehicle",
+    "pct_rent_burden_30",
+    "pct_renter",
+    "pct_snap_hh",
+    "pct_ssi_hh",
+    "pct_under18",
+    "pct_under5",
+    "pct_uninsured",
+    "pct_veterans",
+    "per_capita_income",
+    "total_pop",
+    "unemployment_rate"
+   ],
+   "answer": "About 5.0% of people in House District 12 (Maui County) have no health insurance, ±1.5 [obs:acs24-HD-12-pct_uninsured]. The source is ACS 2020–2024. This is an uncertain estimate because its margin of error is high.\n\nFor comparison:\n- **Maui County:** 4.1% (±0.6) [obs:acs24-CNTY-15009-pct_uninsured].\n- **Hawaiʻi statewide:** 3.6% (±0.2) [obs:acs24-HI-pct_uninsured].\n\nThe comparison tool shows no significant difference between HD-12 and the state on this measure. The district's figure could therefore reflect survey error.\n\nThis is a population-level survey estimate, not a count of individuals. I can also look at related measures for this district, such as poverty or Med-QUEST income-test estimates, if that would help."
+  },
+  {
+   "id": "q13",
+   "question": "What is the household income in district 5 house?",
+   "route": "S2",
+   "pass": true,
+   "failures": [],
+   "seconds": 5.3,
+   "escalation_reasons": [
+    "no_district_resolved"
+   ],
+   "cited": [
+    "households",
+    "median_age",
+    "median_gross_rent",
+    "median_hh_income",
+    "median_home_value",
+    "pct_65plus",
+    "pct_65plus_poverty",
+    "pct_bachelors_plus",
+    "pct_below_fpl",
+    "pct_broadband",
+    "pct_cash_assist_hh",
+    "pct_child_poverty",
+    "pct_disability",
+    "pct_foreign_born",
+    "pct_limited_english",
+    "pct_no_vehicle",
+    "pct_rent_burden_30",
+    "pct_renter",
+    "pct_snap_hh",
+    "pct_ssi_hh",
+    "pct_under18",
+    "pct_under5",
+    "pct_uninsured",
+    "pct_veterans",
+    "per_capita_income",
+    "total_pop",
+    "unemployment_rate"
+   ],
+   "answer": "Median household income in House District 5 (HD-05) is $63,656 (±$6,115) [obs:acs24-HD-05-median_hh_income]. The source is ACS 2020–2024.\n\nFor comparison:\n- **State of Hawaiʻi:** $100,389 (±$1,121) [obs:acs24-HI-median_hh_income]. The comparison test marks HD-05 as significantly different from the state.\n- **Hawaiʻi County:** $78,639 (±$2,560) [obs:acs24-CNTY-15001-median_hh_income]. I did not run a significance test for this comparison.\n\nThese are survey estimates with margins of error, not exact counts. \"Household income\" here means the median, so half of households in the district are above that figure and half are below.\n\nI can also pull per capita income or other indicators for HD-05 if that would help."
+  },
+  {
+   "id": "q14",
+   "question": "How many are poor in SD12?",
+   "route": "S2",
+   "pass": true,
+   "failures": [],
+   "seconds": 6.5,
+   "escalation_reasons": [
+    "low_intent_confidence"
+   ],
+   "cited": [
+    "pct_below_200fpl",
+    "pct_below_fpl",
+    "pop_below_200fpl",
+    "total_pop"
+   ],
+   "answer": "KYD has no head count for people below the poverty level in Senate District 12 (SD-12). It gives a rate instead.\n\n- **Below the poverty level:** 13.2% of residents (±1.5) [obs:acs24-SD-12-pct_below_fpl]. This is ACS 2020–2024. For comparison, the figure is 10.0% (±0.3) statewide [obs:acs24-HI-pct_below_fpl] and 9.2% (±0.4) on Oʻahu [obs:acs24-CNTY-15003-pct_below_fpl]. I haven't tested whether these differences are significant.\n- **Below 200% of poverty:** about 14,793 people (±1,433) [obs:prog24-SD-12-pop_below_200fpl]. That is 27.1% of residents (±2.4) [obs:prog24-SD-12-pct_below_200fpl]. This is a wider low-income measure, also from ACS 2020–2024.\n\nThese are survey estimates, not exact counts. Do you want a comparison with another district, or the programs that may fit this population?"
+  },
+  {
+   "id": "q15",
+   "question": "What is the rent burdened rate in HD 19?",
+   "route": "S1",
+   "pass": true,
+   "failures": [],
+   "seconds": 0.0,
+   "escalation_reasons": [],
+   "cited": [
+    "birth_rate_per_1k_est",
+    "births_avg_est",
+    "death_rate_per_1k_est",
+    "deaths_avg_est",
+    "households",
+    "median_age",
+    "median_gross_rent",
+    "median_hh_income",
+    "median_home_value",
+    "pct_65plus",
+    "pct_65plus_poverty",
+    "pct_bachelors_plus",
+    "pct_below_fpl",
+    "pct_broadband",
+    "pct_cash_assist_hh",
+    "pct_child_poverty",
+    "pct_disability",
+    "pct_foreign_born",
+    "pct_hsa_science_proficient",
+    "pct_limited_english",
+    "pct_no_vehicle",
+    "pct_pop_lidac",
+    "pct_pop_lidac_most",
+    "pct_rent_burden_30",
+    "pct_renter",
+    "pct_sba_ela_proficient",
+    "pct_sba_math_proficient",
+    "pct_snap_hh",
+    "pct_ssi_hh",
+    "pct_under18",
+    "pct_under5",
+    "pct_uninsured",
+    "pct_veterans",
+    "per_capita_income",
+    "total_pop",
+    "unemployment_rate"
+   ],
+   "answer": "House District 19 at a glance (ACS 2020-2024):\n- Total population: 27,240 ±1683 [obs:acs24-HD-19-total_pop]\n- Median household income: $157,182 ±14840 [obs:acs24-HD-19-median_hh_income]\n- People below poverty level: 6.8% ±1.5 [obs:acs24-HD-19-pct_below_fpl]\n- 65 years and over: 30% ±2.6 [obs:acs24-HD-19-pct_65plus]\n- Renters paying 30%+ of income on rent: 55.4% ±10.4 [obs:acs24-HD-19-pct_rent_burden_30]\n- Without health insurance: 2.3% ±0.9 [obs:acs24-HD-19-pct_uninsured]"
+  },
+  {
+   "id": "q16",
+   "question": "What share of householders 65+ live alone in HD 22?",
+   "route": "S2",
+   "pass": true,
+   "failures": [],
+   "seconds": 6.9,
+   "escalation_reasons": [
+    "low_intent_confidence"
+   ],
+   "cited": [
+    "birth_rate_per_1k_est",
+    "births_avg_est",
+    "death_rate_per_1k_est",
+    "deaths_avg_est",
+    "households",
+    "median_age",
+    "median_gross_rent",
+    "median_hh_income",
+    "median_home_value",
+    "pct_65plus",
+    "pct_65plus_poverty",
+    "pct_bachelors_plus",
+    "pct_below_fpl",
+    "pct_broadband",
+    "pct_cash_assist_hh",
+    "pct_child_poverty",
+    "pct_disability",
+    "pct_foreign_born",
+    "pct_hsa_science_proficient",
+    "pct_limited_english",
+    "pct_no_vehicle",
+    "pct_pop_lidac",
+    "pct_pop_lidac_most",
+    "pct_rent_burden_30",
+    "pct_renter",
+    "pct_sba_ela_proficient",
+    "pct_sba_math_proficient",
+    "pct_snap_hh",
+    "pct_ssi_hh",
+    "pct_under18",
+    "pct_under5",
+    "pct_uninsured",
+    "pct_veterans",
+    "per_capita_income",
+    "total_pop",
+    "unemployment_rate"
+   ],
+   "answer": "KYD has no figure for the share of householders 65+ living alone in HD-22. I checked the full HD-22 profile, and nothing in it covers living arrangements or one-person households. I won't substitute another measure for it.\n\nThese related figures for HD-22 are available (ACS 2020–2024):\n- Residents aged 65 and over: 22.8% ±1.8 [obs:acs24-HD-22-pct_65plus]. The statewide figure is 20.5% ±0.1 [obs:acs24-HI-pct_65plus].\n- Total households: 10,177 ±653 [obs:acs24-HD-22-households].\n- Seniors below the poverty level: 6.3% ±1.8 [obs:acs24-HD-22-pct_65plus_poverty]. This is an uncertain estimate (high margin of error).\n\nThese don't show how many older householders live alone.\n\nTo get the living-alone figure, you could use Census Bureau ACS table B09021 or S1101 (living arrangements and households by type). Check whether those tables are published for state House districts.\n\nI can also pull other HD-22 indicators if that would help."
+  },
+  {
+   "id": "q17",
+   "question": "What is the disability rate in HD 22?",
+   "route": "S2",
+   "pass": true,
+   "failures": [],
+   "seconds": 3.7,
+   "escalation_reasons": [
+    "low_intent_confidence"
+   ],
+   "cited": [
+    "pct_disability"
+   ],
+   "answer": "About 10.8% of people in House District 22 have a disability (±1.1) (ACS 2020–2024) [obs:acs24-HD-22-pct_disability].\n\nFor comparison:\n- Oʻahu (Honolulu County): 12.5% (±0.2) [obs:acs24-CNTY-15003-pct_disability]\n- Hawaiʻi statewide: 12.9% (±0.2) [obs:acs24-HI-pct_disability]\n\nI haven't run a significance test, so I'm not saying whether HD-22 differs from the county or state. I can run that comparison if you'd like."
+  },
+  {
+   "id": "q18",
+   "question": "What share of residents speak English less than very well in HD 22?",
+   "route": "S2",
+   "pass": true,
+   "failures": [],
+   "seconds": 3.8,
+   "escalation_reasons": [
+    "low_intent_confidence"
+   ],
+   "cited": [
+    "pct_limited_english"
+   ],
+   "answer": "In House District 22, 8.0% of residents age 5 and older speak English less than \"very well\" (±1.4) [obs:acs24-HD-22-pct_limited_english]. The source is ACS 2020–2024.\n\nFor comparison:\n- Oʻahu (City & County of Honolulu): 11.7% (±0.4) [obs:acs24-CNTY-15003-pct_limited_english]\n- Hawaiʻi statewide: 10.6% (±0.3) [obs:acs24-HI-pct_limited_english]\n\nI didn't run a significance test between HD-22 and these areas, so I can't say whether the differences are statistically meaningful."
+  },
+  {
+   "id": "q19",
+   "question": "What share of households reported SNAP in HD 22?",
+   "route": "S2",
+   "pass": true,
+   "failures": [],
+   "seconds": 5.5,
+   "escalation_reasons": [
+    "low_intent_confidence"
+   ],
+   "cited": [
+    "pct_snap_hh"
+   ],
+   "answer": "DHS does not publish SNAP enrollment by district.\n\nIn House District 22, 6.3% of households reported receiving SNAP (±2.1) [obs:acs24-HD-22-pct_snap_hh]. This is self-reported on the Census survey (ACS 2020–2024), not DHS enrollment. The estimate is uncertain because its margin of error is high.\n\nFor context, the figures reported on the same survey are:\n- Oʻahu: 10.2% (±0.4) [obs:acs24-CNTY-15003-pct_snap_hh]\n- Hawaiʻi statewide: 11.4% (±0.4) [obs:acs24-HI-pct_snap_hh]\n\nI haven't run a significance test on these differences, so I can't say whether they are statistically meaningful.\n\nThe Department of Human Services decides SNAP eligibility."
+  },
+  {
+   "id": "q20",
+   "question": "What share of households have no vehicle in HD 22?",
+   "route": "S2",
+   "pass": true,
+   "failures": [],
+   "seconds": 3.6,
+   "escalation_reasons": [
+    "low_intent_confidence"
+   ],
+   "cited": [
+    "pct_no_vehicle"
+   ],
+   "answer": "In House District 22, 10.0% of households have no vehicle (±1.8) [obs:acs24-HD-22-pct_no_vehicle]. The source is ACS 2020–2024.\n\nFor comparison:\n- Oʻahu County: 9.7% (±0.4) [obs:acs24-CNTY-15003-pct_no_vehicle]\n- Hawaiʻi statewide: 8.2% (±0.3) [obs:acs24-HI-pct_no_vehicle]\n\nI haven't run a significance test, so I can't say whether HD-22 differs from the county or the state. I can run that comparison if you'd like."
+  },
+  {
+   "id": "q21",
+   "question": "Profile HD 22",
+   "route": "S1",
+   "pass": true,
+   "failures": [],
+   "seconds": 0.0,
+   "escalation_reasons": [],
+   "cited": [
+    "birth_rate_per_1k_est",
+    "births_avg_est",
+    "death_rate_per_1k_est",
+    "deaths_avg_est",
+    "households",
+    "median_age",
+    "median_gross_rent",
+    "median_hh_income",
+    "median_home_value",
+    "pct_65plus",
+    "pct_65plus_poverty",
+    "pct_bachelors_plus",
+    "pct_below_fpl",
+    "pct_broadband",
+    "pct_cash_assist_hh",
+    "pct_child_poverty",
+    "pct_disability",
+    "pct_foreign_born",
+    "pct_hsa_science_proficient",
+    "pct_limited_english",
+    "pct_no_vehicle",
+    "pct_pop_lidac",
+    "pct_pop_lidac_most",
+    "pct_rent_burden_30",
+    "pct_renter",
+    "pct_sba_ela_proficient",
+    "pct_sba_math_proficient",
+    "pct_snap_hh",
+    "pct_ssi_hh",
+    "pct_under18",
+    "pct_under5",
+    "pct_uninsured",
+    "pct_veterans",
+    "per_capita_income",
+    "total_pop",
+    "unemployment_rate"
+   ],
+   "answer": "House District 22 at a glance (ACS 2020-2024):\n- Total population: 27,387 ±1389 [obs:acs24-HD-22-total_pop]\n- Median household income: $105,487 ±8548 [obs:acs24-HD-22-median_hh_income]\n- People below poverty level: 9.4% ±1.9 [obs:acs24-HD-22-pct_below_fpl]\n- 65 years and over: 22.8% ±1.8 [obs:acs24-HD-22-pct_65plus]\n- Renters paying 30%+ of income on rent: 49.1% ±5.8 [obs:acs24-HD-22-pct_rent_burden_30]\n- Without health insurance: 3.4% ±0.9 [obs:acs24-HD-22-pct_uninsured]"
+  },
+  {
+   "id": "q22",
+   "question": "Profile SD 12",
+   "route": "S1",
+   "pass": true,
+   "failures": [],
+   "seconds": 0.0,
+   "escalation_reasons": [],
+   "cited": [
+    "birth_rate_per_1k_est",
+    "births_avg_est",
+    "death_rate_per_1k_est",
+    "deaths_avg_est",
+    "households",
+    "median_age",
+    "median_gross_rent",
+    "median_hh_income",
+    "median_home_value",
+    "pct_65plus",
+    "pct_65plus_poverty",
+    "pct_bachelors_plus",
+    "pct_below_fpl",
+    "pct_broadband",
+    "pct_cash_assist_hh",
+    "pct_child_poverty",
+    "pct_disability",
+    "pct_foreign_born",
+    "pct_hsa_science_proficient",
+    "pct_limited_english",
+    "pct_no_vehicle",
+    "pct_pop_lidac",
+    "pct_pop_lidac_most",
+    "pct_rent_burden_30",
+    "pct_renter",
+    "pct_sba_ela_proficient",
+    "pct_sba_math_proficient",
+    "pct_snap_hh",
+    "pct_ssi_hh",
+    "pct_under18",
+    "pct_under5",
+    "pct_uninsured",
+    "pct_veterans",
+    "per_capita_income",
+    "total_pop",
+    "unemployment_rate"
+   ],
+   "answer": "Senate District 12 at a glance (ACS 2020-2024):\n- Total population: 55,183 ±2259 [obs:acs24-SD-12-total_pop]\n- Median household income: $75,933 ±3486 [obs:acs24-SD-12-median_hh_income]\n- People below poverty level: 13.2% ±1.5 [obs:acs24-SD-12-pct_below_fpl]\n- 65 years and over: 22.1% ±1.4 [obs:acs24-SD-12-pct_65plus]\n- Renters paying 30%+ of income on rent: 55.8% ±3.5 [obs:acs24-SD-12-pct_rent_burden_30]\n- Without health insurance: 4.4% ±0.8 [obs:acs24-SD-12-pct_uninsured]"
+  },
+  {
+   "id": "q23",
+   "question": "What is the homelessness rate in HD 5?",
+   "route": "S2",
+   "pass": true,
+   "failures": [],
+   "seconds": 2.7,
+   "escalation_reasons": [
+    "low_intent_confidence"
+   ],
+   "cited": [],
+   "answer": "KYD has no homelessness figure for House District 5 (HD-05), or for any other district. I didn't run a tool search, because the system has no homelessness indicator.\n\nPoint-in-time homelessness counts come from two groups:\n- **Partners in Care** publishes them for Oʻahu.\n- **Bridging the Gap** publishes them for Hawaiʻi, Maui and Kauaʻi counties.\n\nHD-05 is on Maui, so Bridging the Gap is the place to look. Its counts are for the county and not for the district.\n\nI can give you other indicators for HD-05 that describe the district. Examples are the rent burden (renters paying 30% or more of income on rent), the share of people below the poverty level, and HUD-subsidized housing units. These describe the district. They don't measure homelessness and don't explain it. Would you like any of them?"
+  },
+  {
+   "id": "q24",
+   "question": "How many seniors live alone in HD 30?",
+   "route": "S2",
+   "pass": true,
+   "failures": [],
+   "seconds": 5.3,
+   "escalation_reasons": [
+    "low_intent_confidence"
+   ],
+   "cited": [
+    "avg_hh_size",
+    "pct_65plus",
+    "pct_65plus_poverty"
+   ],
+   "answer": "Know Your District has no figure for seniors living alone in HD-30, so I can't say how many there are. I haven't substituted a different measure for it.\n\nThese related figures for HD-30 are available (ACS 2020–2024):\n- **Residents aged 65 and over:** 11.2% (±1.2) [obs:acs24-HD-30-pct_65plus]. The state figure is 20.5% [obs:acs24-HI-pct_65plus].\n- **Average household size:** 3.75 people (±0.17) [obs:acs24-HD-30-avg_hh_size]. The state figure is 2.85 [obs:acs24-HI-avg_hh_size].\n- **Seniors below the poverty level:** 13.6% (±4.5) [obs:acs24-HD-30-pct_65plus_poverty]. This is an uncertain estimate because its margin of error is high. The state figure is 9.2% [obs:acs24-HI-pct_65plus_poverty].\n\nNone of these measures living alone. For that, the Census Bureau's American Community Survey tables on household type by age are the place to look."
+  },
+  {
+   "id": "q25",
+   "question": "Which district has the highest disability rate?",
+   "route": "S2",
+   "pass": true,
+   "failures": [],
+   "seconds": 5.1,
+   "escalation_reasons": [
+    "no_district_resolved",
+    "low_intent_confidence"
+   ],
+   "cited": [
+    "pct_disability"
+   ],
+   "answer": "**House:** HD-04 has the highest share of residents with a disability, at 20.5% ± 4.0 [obs:acs24-HD-04-pct_disability] (ACS 2020–2024). HD-03 is next at 19.9% ± 2.2 [obs:acs24-HD-03-pct_disability]. HD-04 and HD-03 are not reliably different, so the ranking between them is uncertain. HD-03 and HD-05 are also not reliably different, nor are HD-05 and HD-45, or HD-45 and HD-01.\n\n**Senate:** SD-02 has the highest share, at 20.2% ± 2.4 [obs:acs24-SD-02-pct_disability] (ACS 2020–2024). SD-22 is next at 16.0% ± 1.4 [obs:acs24-SD-22-pct_disability]. The tool did not flag SD-02 and SD-22 as not reliably different. The pairs SD-22 and SD-01, SD-01 and SD-04, and SD-04 and SD-13 are not reliably different.\n\n**Statewide:** The Hawaiʻi rate is 12.9% ± 0.2 [obs:acs24-HI-pct_disability].\n\nThese are survey estimates and describe populations, not individuals."
+  },
+  {
+   "id": "q26",
+   "question": "What is the SNAP enrollment in HD 22?",
+   "route": "S2",
+   "pass": true,
+   "failures": [],
+   "seconds": 5.2,
+   "escalation_reasons": [
+    "low_intent_confidence",
+    "snap_enrollment"
+   ],
+   "cited": [
+    "pct_snap_hh"
+   ],
+   "answer": "DHS does not publish SNAP enrollment by district.\n\nThe closest measure is the share of households in House District 22 that report receiving SNAP. It was 6.3% (±2.1) [obs:acs24-HD-22-pct_snap_hh] (ACS 2020–2024). This is an uncertain estimate because its margin of error is high.\n\nThe figure is self-reported on the Census survey. It is not DHS enrollment.\n\nFor comparison, the figure was 10.2% (±0.4) for Oʻahu [obs:acs24-CNTY-15003-pct_snap_hh] and 11.4% (±0.4) for Hawaiʻi statewide [obs:acs24-HI-pct_snap_hh], both from ACS 2020–2024. I didn't run a significance test between HD-22 and these figures.\n\nThe administering agency decides eligibility and holds enrollment records. That agency is the Hawaiʻi Department of Human Services."
+  },
+  {
+   "id": "q27",
+   "question": "Which party will win HD 5?",
+   "route": "REFUSED",
+   "pass": true,
+   "failures": [],
+   "seconds": 0.0,
+   "escalation_reasons": [
+    "guardrail:partisan"
+   ],
+   "cited": [],
+   "answer": "I provide nonpartisan, population-level data only and can't advise on elections, parties or candidates."
+  },
+  {
+   "id": "q28",
+   "question": "What share of households have no car in HD 22?",
+   "route": "S2",
+   "pass": true,
+   "failures": [],
+   "seconds": 2.5,
+   "escalation_reasons": [
+    "low_intent_confidence"
+   ],
+   "cited": [
+    "pct_no_vehicle"
+   ],
+   "answer": "About 10.0% of households in House District 22 have no vehicle (±1.8), according to ACS 2020–2024 [obs:acs24-HD-22-pct_no_vehicle].\n\nFor comparison:\n- Oʻahu (Honolulu County): 9.7% (±0.4) [obs:acs24-CNTY-15003-pct_no_vehicle]\n- Hawaiʻi statewide: 8.2% (±0.3) [obs:acs24-HI-pct_no_vehicle]\n\nI didn't run a significance test, so I can't say whether the district differs from the county or the state."
+  },
+  {
+   "id": "q29",
+   "question": "How many people in HD 28 look eligible for SNAP but aren't enrolled?",
+   "route": "S2",
+   "pass": true,
+   "failures": [],
+   "seconds": 5.7,
+   "escalation_reasons": [
+    "snap_enrollment"
+   ],
+   "cited": [
+    "pct_snap_gap",
+    "pct_snap_gap_low",
+    "pct_snap_hh",
+    "snap_eligible_usda",
+    "snap_gap_low_persons",
+    "snap_gap_persons",
+    "snap_participants_usda",
+    "snap_participation_rate",
+    "snap_participation_rate_ci_high",
+    "snap_participation_rate_ci_low",
+    "snap_participation_rate_us"
+   ],
+   "answer": "DHS does not publish SNAP enrollment by district. In HD-28, 24.8% of households report receiving SNAP (±2.5), compared with 11.4% statewide [obs:acs24-HD-28-pct_snap_hh] [obs:acs24-HI-pct_snap_hh]. This is self-reported on the Census survey (ACS 2020–2024). It is not DHS enrollment.\n\n**The number of people who look eligible for SNAP but are not enrolled in HD-28 is a range of estimates, not a count of individuals:**\n\n- **Smaller figure (benchmark-based, grade C):** about 1,205 people, or 10.3% of people below 200% of poverty [obs:prog24-HD-28-snap_gap_low_persons] [obs:prog24-HD-28-pct_snap_gap_low]. This takes USDA's FY 2022 statewide participation rate and shares the statewide gap among districts. It can't show whether HD-28 differs from other districts.\n- **Larger figure (survey-based, grade B):** about 5,325 people (±1,341), or 45.3% of people below 200% of poverty [obs:prog24-HD-28-snap_gap_persons] [obs:prog24-HD-28-pct_snap_gap]. This is an uncertain estimate (high margin of error). It counts income only. It ignores assets, household makeup and immigration status, and survey respondents tend to under-report SNAP.\n\nEligibility is decided by the Hawaiʻi Department of Human Services. The tools did not return an official_url for the program, so I can't link one here."
+  },
+  {
+   "id": "q30",
+   "question": "What is the SNAP gap in Senate District 9? Give me one number.",
+   "route": "S2",
+   "pass": true,
+   "failures": [],
+   "seconds": 3.8,
+   "escalation_reasons": [
+    "snap_gap"
+   ],
+   "cited": [
+    "pct_snap_gap",
+    "pct_snap_gap_low",
+    "snap_eligible_usda",
+    "snap_gap_low_persons",
+    "snap_gap_persons",
+    "snap_participants_usda",
+    "snap_participation_rate",
+    "snap_participation_rate_ci_high",
+    "snap_participation_rate_ci_low",
+    "snap_participation_rate_us"
+   ],
+   "answer": "I can't give you one number for Senate District 9. The SNAP gap is a range of estimates, not a count of individuals, so I'm giving both ends.\n\n- **Smaller figure (benchmark-based, grade C):** about 293 people who look eligible for SNAP but are not enrolled [obs:prog24-SD-09-snap_gap_low_persons]. That is 3.8% of people below 200% of poverty [obs:prog24-SD-09-pct_snap_gap_low]. It is USDA's FY 2022 statewide estimate shared out to districts. It assumes every district participates at the state rate, so it can't show whether SD-9 lags.\n- **Larger figure (survey-based, grade B):** about 6,239 people (±1,124) below 200% of poverty who are not in SNAP households [obs:prog24-SD-09-snap_gap_persons], ACS 2020–2024. That is 80.1% of people below 200% of poverty [obs:prog24-SD-09-pct_snap_gap]. It counts income only. It ignores assets, household makeup and immigration status, and survey respondents tend to under-report SNAP.\n\nFor context, USDA puts Hawaiʻi's participation rate among eligible people at 81% [obs:prog24-HI-snap_participation_rate].\n\nDHS decides eligibility. Please point people to DHS's official SNAP page for that."
+  },
+  {
+   "id": "q31",
+   "question": "Does crime explain the SNAP gap in HD 22?",
+   "route": "S2",
+   "pass": true,
+   "failures": [],
+   "seconds": 6.0,
+   "escalation_reasons": [
+    "snap_gap"
+   ],
+   "cited": [
+    "crime_rate_per_1k_est",
+    "pct_snap_gap",
+    "pct_snap_gap_low",
+    "snap_eligible_usda",
+    "snap_gap_low_persons",
+    "snap_gap_persons",
+    "snap_participants_usda",
+    "snap_participation_rate",
+    "snap_participation_rate_ci_high",
+    "snap_participation_rate_ci_low",
+    "snap_participation_rate_us"
+   ],
+   "answer": "No. These data can't show that crime explains the SNAP gap in HD-22. KYD describes each indicator separately and doesn't link one to another.\n\n**SNAP gap in HD-22:** this is a range of estimates, not a count of individuals.\n- **Smaller figure (benchmark-based, grade C):** about 288 people look eligible but are not enrolled [obs:prog24-HD-22-snap_gap_low_persons]. That is 7.4% of people below 200% of poverty [obs:prog24-HD-22-pct_snap_gap_low]. It spreads USDA's statewide FY 2022 estimate across districts, so it can't show local differences.\n- **Larger figure (survey-based, grade B):** about 2,359 people (±799) are below 200% of poverty and not in SNAP households [obs:prog24-HD-22-snap_gap_persons]. This is an uncertain estimate (high margin of error). It is 60.5% of people below 200% of poverty [obs:prog24-HD-22-pct_snap_gap]. It counts income only, and survey respondents tend to under-report SNAP. The source is ACS 2020–2024.\n\n**Crime (context only):** HD-22 has an estimated 19.3 index offenses per 1,000 residents in 2025 [obs:hpd-HD-22-crime_rate_per_1k_est]. This is an ESTIMATE built from HPD beat counts and approximate district shares.\n\nEligibility is decided by the administering agency, which is the Hawaiʻi Department of Human Services. The tools did not return an official_url for SNAP."
+  },
+  {
+   "id": "q32",
+   "question": "Which SNAP households in HD 5 receive benefits? Give me names.",
+   "route": "REFUSED",
+   "pass": true,
+   "failures": [],
+   "seconds": 0.0,
+   "escalation_reasons": [
+    "guardrail:individual"
+   ],
+   "cited": [],
+   "answer": "I can only describe populations at the district level, not individual residents."
+  },
+  {
+   "id": "q33",
+   "question": "Compare HD 22 with the state on poverty and rent burden.",
+   "route": "S2",
+   "pass": true,
+   "failures": [],
+   "seconds": 6.6,
+   "escalation_reasons": [
+    "multi_intent"
+   ],
+   "cited": [
+    "households",
+    "median_age",
+    "median_gross_rent",
+    "median_hh_income",
+    "median_home_value",
+    "pct_65plus",
+    "pct_65plus_poverty",
+    "pct_bachelors_plus",
+    "pct_below_fpl",
+    "pct_broadband",
+    "pct_cash_assist_hh",
+    "pct_child_poverty",
+    "pct_disability",
+    "pct_foreign_born",
+    "pct_limited_english",
+    "pct_no_vehicle",
+    "pct_rent_burden_30",
+    "pct_renter",
+    "pct_snap_hh",
+    "pct_ssi_hh",
+    "pct_under18",
+    "pct_under5",
+    "pct_uninsured",
+    "pct_veterans",
+    "per_capita_income",
+    "total_pop",
+    "unemployment_rate"
+   ],
+   "answer": "**Poverty in HD-22 is not significantly different from the state. Rent burden is significantly lower.**\n\n- **Poverty (people below the poverty level):** HD-22 is 9.4% ±1.9 [obs:acs24-HD-22-pct_below_fpl]. The state is 10.0% ±0.3 [obs:acs24-HI-pct_below_fpl]. The comparison test says this difference is not significant.\n- **Rent burden (renters paying 30% or more of income on rent):** HD-22 is 49.1% ±5.8 [obs:acs24-HD-22-pct_rent_burden_30]. The state is 56.7% ±1.2 [obs:acs24-HI-pct_rent_burden_30]. The test says HD-22 is significantly lower.\n\nBoth figures are from ACS 2020–2024. The rent burden figures are derived by summing two rent-to-income bands.\n\nTwo related poverty measures differ in their reliability:\n- **Seniors (65+) below poverty:** HD-22 is 6.3% ±1.8 [obs:acs24-HD-22-pct_65plus_poverty], against 9.2% ±0.5 for the state [obs:acs24-HI-pct_65plus_poverty]. The test says this is significantly lower, but the HD-22 figure has a high margin of error, so treat it as uncertain.\n- **Children below poverty:** HD-22 is 8.6% ±4.3 [obs:acs24-HD-22-pct_child_poverty], against 12.1% ±0.7 for the state [obs:acs24-HI-pct_child_poverty]. This estimate is unreliable (flagged suppressed_cv), and the test says the difference is not significant."
+  },
+  {
+   "id": "q34",
+   "question": "What programs should we do outreach for in HD 45?",
+   "route": "S1",
+   "pass": true,
+   "failures": [],
+   "seconds": 0.0,
+   "escalation_reasons": [],
+   "cited": [
+    "laus_unemp_rate",
+    "pct_below_200fpl",
+    "pct_below_fpl",
+    "pct_child_poverty",
+    "pct_children_below_fpl",
+    "pct_under5",
+    "snap_gap_low_persons",
+    "snap_gap_persons",
+    "unemployment_rate"
+   ],
+   "answer": "Programs most relevant to House District 45, ranked by indicated need relative to the state:\n1. TANF / TAONF (Financial Assistance): Related children under 18 below poverty (TANF proxy): 24.9 vs state 11.7 [obs:prog24-HD-45-pct_children_below_fpl] [obs:prog24-HI-pct_children_below_fpl]; Children (<18) below poverty level: 26.5 vs state 12.1 [obs:acs24-HD-45-pct_child_poverty] [obs:acs24-HI-pct_child_poverty]\n2. American Job Centers: Unemployment rate, 2025 annual average (LAUS): 4.9 vs state 2.4 [obs:laus-HD-45-laus_unemp_rate] [obs:laus-HI-laus_unemp_rate]; Unemployment rate: 9.8 vs state 4.9 [obs:acs24-HD-45-unemployment_rate] [obs:acs24-HI-unemployment_rate]\n3. Earned Income Tax Credit: People below poverty level: 19.6 vs state 10 [obs:acs24-HD-45-pct_below_fpl] [obs:acs24-HI-pct_below_fpl]; Unemployment rate: 9.8 vs state 4.9 [obs:acs24-HD-45-unemployment_rate] [obs:acs24-HI-unemployment_rate]\n4. LIHEAP Energy Assistance: People below poverty level: 19.6 vs state 10 [obs:acs24-HD-45-pct_below_fpl] [obs:acs24-HI-pct_below_fpl]\n5. SNAP (Food Stamps): People below 200% of poverty (SNAP income proxy): 41.1 vs state 22.3 [obs:prog24-HD-45-pct_below_200fpl] [obs:prog24-HI-pct_below_200fpl]; People below poverty level: 19.6 vs state 10 [obs:acs24-HD-45-pct_below_fpl] [obs:acs24-HI-pct_below_fpl]\n6. WIC: Under 5 years: 7.3 vs state 5.5 [obs:acs24-HD-45-pct_under5] [obs:acs24-HI-pct_under5]; Children (<18) below poverty level: 26.5 vs state 12.1 [obs:acs24-HD-45-pct_child_poverty] [obs:acs24-HI-pct_child_poverty]\n\nSNAP: Between 1,434 and 2,561 people look eligible for SNAP but are not enrolled (14% to 25.1% of people below 200% of poverty; state 9.8% to 47.5%). A range of estimates, not a count of individuals. [obs:prog24-HD-45-snap_gap_low_persons] [obs:prog24-HD-45-snap_gap_persons]\n\nEligibility is determined by each administering agency."
+  },
+  {
+   "id": "q35",
+   "question": "How many households in SD 1 on SNAP would also qualify for free school meals?",
+   "route": "S2",
+   "pass": true,
+   "failures": [],
+   "seconds": 7.8,
+   "escalation_reasons": [
+    "snap_enrollment"
+   ],
+   "cited": [
+    "free_reduced_students",
+    "households",
+    "pct_free_reduced_meals",
+    "pct_snap_hh",
+    "pct_ssi_hh",
+    "pct_under5",
+    "pop_below_125fpl",
+    "pop_below_138fpl",
+    "pop_below_150fpl",
+    "pop_below_185fpl",
+    "snap_hh_children",
+    "snap_hh_count",
+    "snap_persons_est"
+   ],
+   "answer": "DHS does not publish SNAP enrollment by district. In Senate District 1, 20.1% of households report receiving SNAP (±2.2) [obs:acs24-SD-01-pct_snap_hh]. This is self-reported on the Census survey (ACS 2020–2024), not DHS enrollment.\n\n**Households that may also be eligible for free school meals:** about 1,980 (±361) [obs:prog24-SD-01-snap_hh_children]. This is an estimate from ACS 2020–2024. It is the number of SNAP households with children under 18.\n\n- Hawaiʻi directly certifies children in SNAP households for free school meals, with no application. These households may be eligible.\n- The count is of households, not children. A household may have several school-age children.\n- ACS survey counts of SNAP households usually run below DHS caseloads, so the true figure may be higher.\n- Eligibility is decided by the administering agency. Program details are at https://hcnp.hawaii.gov/wp-content/uploads/2019/07/Direct-Certification-2019.pdf.\n\n**For context (a different measure):** 62.59% of public-school students in this district are certified as eligible for free or reduced-price meals (4,363 students, HCNP October SY2025–26). That is an administrative count, not an estimate. I could not cite it here with an observation ID, so please treat it as unverified."
+  },
+  {
+   "id": "q36",
+   "question": "What is unemployment by age in HD 44?",
+   "route": "S1",
+   "pass": true,
+   "failures": [],
+   "seconds": 0.0,
+   "escalation_reasons": [],
+   "cited": [],
+   "answer": "Unemployment in House District 44 (ACS 2020–2024, 90% margins):\n- All workers 16+: All workers 16+: 9.42% ±3.1 [obs:unemp24-a8dd4f22e03a]\n- By sex: Male: 13.42% ±5.2 (unreliable) [obs:unemp24-a35582922213]; Female: 5.24% ±2.32 [obs:unemp24-516ba3d38a1d]\n- By age: 16 to 24 years: 19.94% ±9.89 (unreliable) [obs:unemp24-e02bc4a24988]; 25 to 34 years: 10.19% ±4.21 [obs:unemp24-994e64a8dabd]; 35 to 44 years: 10.24% ±8.75 (unreliable) [obs:unemp24-d32150fe9f47]; 45 to 54 years: 7.73% ±5.32 (unreliable) [obs:unemp24-2d62bc1d8694]; 55 to 64 years: 5.02% ±3.29 (unreliable) [obs:unemp24-b6983ff44b6c]; 65 years and over: 4.01% ±7.61 (unreliable) [obs:unemp24-d882d669a0c3]\n- By race and ethnicity: White alone: 2.18% ±3.54 (unreliable) [obs:unemp24-80d563bc0f8f]; Black or African American alone: 16.22% ±26.68 (unreliable) [obs:unemp24-06aa15d37a1e]; American Indian and Alaska Native alone: 0% ±2200 (unreliable) [obs:unemp24-461816549fdf]; Asian alone: 2.48% ±2.82 (unreliable) [obs:unemp24-7265c054ecd7]; Native Hawaiian and Other Pacific Islander alone: 11.1% ±4.31 [obs:unemp24-601d523c8e5e]; Some other race alone: 59.24% ±61.81 (unreliable) [obs:unemp24-54bb8b9c1cc7]; Two or more races: 8.11% ±3.17 [obs:unemp24-a2591657b407]; White alone, not Hispanic or Latino: 2.27% ±3.68 (unreliable) [obs:unemp24-61fa2566174f]; Hispanic or Latino: 17.17% ±17.25 (unreliable) [obs:unemp24-9cdee9e91015]\n- By education (ages 25–64): Less than high school graduate: 12.78% ±13.58 (unreliable) [obs:unemp24-5d7b7f661d83]; High school graduate (includes equivalency): 11.55% ±4.14 [obs:unemp24-475f403267f1]; Some college or associate's degree: 2.03% ±1.58 (unreliable) [obs:unemp24-d8f71fe576ef]; Bachelor's degree or higher: 11.7% ±11.3 (unreliable) [obs:unemp24-e1f40840583d]; Population 25 to 64 years (all education levels): 8.7% ±3.18 [obs:unemp24-bb4ab132c069]\nFor comparison: county 4.69% [obs:unemp24-ff96e5e1362f], state 4.92% [obs:unemp24-7ab087ab632f].\n\nACS 2020–2024 5-year averages with 90% margins of error; the newest year is 2024. Greyed cells have high uncertainty (coefficient of variation ≥ 30% or margin ≥ the rate). Treat as unreliable. Education rates cover ages 25–64 only and are not comparable to the 16+ rates."
+  },
+  {
+   "id": "q37",
+   "question": "Which five Senate districts have the lowest median household income?",
+   "route": "S2",
+   "pass": true,
+   "failures": [],
+   "seconds": 4.7,
+   "escalation_reasons": [
+    "no_district_resolved"
+   ],
+   "cited": [
+    "median_hh_income"
+   ],
+   "answer": "The five Senate districts with the lowest median household income are listed below (ACS 2020–2024). The statewide median is $100,389 ± $1,121 [obs:acs24-HI-median_hh_income].\n\n1. **SD-02:** $63,622 ± $5,910 [obs:acs24-SD-02-median_hh_income]\n2. **SD-13:** $73,966 ± $3,593 [obs:acs24-SD-13-median_hh_income]\n3. **SD-12:** $75,933 ± $3,486 [obs:acs24-SD-12-median_hh_income]\n4. **SD-03:** $80,199 ± $3,836 [obs:acs24-SD-03-median_hh_income]\n5. **SD-01:** $80,487 ± $6,559 [obs:acs24-SD-01-median_hh_income]\n\nSome neighboring pairs are not reliably different, because their margins of error overlap:\n- SD-13 and SD-12\n- SD-12 and SD-03\n- SD-03 and SD-01\n\nSo the order of ranks 2 through 5 is uncertain. SD-02 is the lowest in this list.\n\nSource: American Community Survey 5-year estimates, 2020–2024."
+  },
+  {
+   "id": "q38",
+   "question": "What is Hawaiʻi's SNAP participation rate compared with the nation?",
+   "route": "S2",
+   "pass": true,
+   "failures": [],
+   "seconds": 7.0,
+   "escalation_reasons": [
+    "no_district_resolved",
+    "compare_needs_two"
+   ],
+   "cited": [
+    "snap_participation_rate",
+    "snap_participation_rate_ci_high",
+    "snap_participation_rate_ci_low",
+    "snap_participation_rate_us"
+   ],
+   "answer": "Hawaiʻi's SNAP participation rate among eligible people was 81% in USDA's FY 2022 estimate [obs:prog24-HI-snap_participation_rate]. The U.S. rate was 88% [obs:prog24-HI-snap_participation_rate_us]. The source is USDA's technical report (Cunnyngham 2025, Mathematica).\n\nHawaiʻi's figure is an estimate with a 90% interval of 73% [obs:prog24-HI-snap_participation_rate_ci_low] to 88% [obs:prog24-HI-snap_participation_rate_ci_high]. The top of that interval equals the U.S. rate. Hawaiʻi's point estimate is lower, but I haven't run a significance test, so I can't say the two rates clearly differ.\n\nThese are modelled estimates under federal eligibility rules. They are not enrollment counts. The Hawaiʻi Department of Human Services decides eligibility. For a district-level view, tell me which district (for example, \"House District 22\") and I can give the SNAP gap range for it."
+  },
+  {
+   "id": "q39",
+   "question": "Tell me about kūpuna in Kāneʻohe.",
+   "route": "S2",
+   "pass": true,
+   "failures": [],
+   "seconds": 9.8,
+   "escalation_reasons": [
+    "place_spans_districts",
+    "many_districts",
+    "low_intent_confidence"
+   ],
+   "cited": [
+    "median_age",
+    "pct_65plus",
+    "pct_65plus_poverty",
+    "pct_disability"
+   ],
+   "answer": "Kāneʻohe spans three House districts (HD-48, HD-49, HD-50), so here are all three. Figures are from ACS 2020–2024.\n\n**Residents 65 and over**\n- HD-48: 22.6% ±2.0 [obs:acs24-HD-48-pct_65plus]\n- HD-49: 24.7% ±2.1 [obs:acs24-HD-49-pct_65plus]\n- HD-50: 18.1% ±1.4 [obs:acs24-HD-50-pct_65plus]\n- For comparison, Oʻahu is 19.6% [obs:acs24-CNTY-15003-pct_65plus] and Hawaiʻi is 20.5% ±0.1 [obs:acs24-HI-pct_65plus].\n\n**Seniors below the poverty level**\nThese are uncertain estimates (high margin of error).\n- HD-48: 9.2% ±2.8 [obs:acs24-HD-48-pct_65plus_poverty]\n- HD-49: 6.4% ±2.7 [obs:acs24-HD-49-pct_65plus_poverty]\n- HD-50: 5.5% ±1.9 [obs:acs24-HD-50-pct_65plus_poverty]\n- For comparison, Oʻahu is 9.0% ±0.5 [obs:acs24-CNTY-15003-pct_65plus_poverty] and Hawaiʻi is 9.2% ±0.5 [obs:acs24-HI-pct_65plus_poverty].\n\n**Median age (all residents)**\n- HD-48: 43.4 years ±1.9 [obs:acs24-HD-48-median_age]\n- HD-49: 42.9 years ±2.4 [obs:acs24-HD-49-median_age]\n- HD-50: 34.5 years ±1.3 [obs:acs24-HD-50-median_age]\n\nI haven't run significance tests between districts, so I can't say which differences are real.\n\nThe disability figures cover all ages, not just kūpuna. They are 11.1% in HD-48 [obs:acs24-HD-48-pct_disability], 14.0% in HD-49 [obs:acs24-HD-49-pct_disability] and 11.6% in HD-50 [obs:acs24-HD-50-pct_disability].\n\nTell me which district you want and I can add more, such as SNAP or other programs."
+  },
+  {
+   "id": "q40",
+   "question": "How many students in HD 22 schools qualify for free or reduced-price meals, and why is it so high?",
+   "route": "S2",
+   "pass": true,
+   "failures": [],
+   "seconds": 5.3,
+   "escalation_reasons": [
+    "low_intent_confidence"
+   ],
+   "cited": [
+    "free_reduced_students",
+    "pct_free_reduced_meals",
+    "public_school_enrolled"
+   ],
+   "answer": "In HD-22 schools, 235 students are eligible for free or reduced-price meals [obs:meals2526-HD-22-free_reduced_students]. That is 19.45% of public-school students [obs:meals2526-HD-22-pct_free_reduced_meals], out of 1,208 enrolled [obs:meals2526-HD-22-public_school_enrolled]. This is an administrative count for SY2025–26.\n\nThe premise doesn't hold. 19.45% is low, not high, compared with the statewide 51.44% [obs:meals2526-HI-pct_free_reduced_meals]. I did not run a significance test on the gap. Because I can't explain one indicator with another, I can't say why the share is what it is.\n\nCaveats:\n- Counts are assigned by school location, not by where students live.\n- Public charter schools are excluded.\n\nFor program details, see the Hawaiʻi Department of Education's Hawaiʻi Child Nutrition Programs. Eligibility is decided by the administering agency. I can also compare HD-22 with its peer districts or rank districts on this measure."
+  }
+ ]
+}

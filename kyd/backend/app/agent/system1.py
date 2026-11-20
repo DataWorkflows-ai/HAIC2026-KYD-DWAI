@@ -18,12 +18,15 @@ from ..services import datastore
 DOMINANT_SHARE = 0.6        # a place resolves to one district only if that district holds ≥ 60% of it
 
 REFUSE_PATTERNS = [
-    (r"\b(who|which (person|people|resident|household)s?)\b.*\b(on|receiv\w*|get\w*)\b.*\b(snap|welfare|benefits|medicaid|quest)\b",
-     "individual"),
+    (r"\b(who|which (\w+ )?(person|people|resident|household|famil(y|ie))s?)\b.*\b(on|receiv\w*|get\w*)\b.*"
+     r"\b(snap|welfare|benefits|medicaid|quest)\b", "individual"),
+    (r"\b(give|list|show|tell)\b.{0,20}\bnames\b|\bnames (of|for)\b.{0,40}\b(recipients?|households?|residents?|"
+     r"famil(y|ies)|people|kupuna|enrollees?)\b", "individual"),
     (r"\b(name|address|phone|ssn|social security)\b.*\b(of|for)\b.*\b(resident|recipient|person)", "individual"),
     # Electoral advice and party politics. Voting RECORDS ("how did HD 22 vote on SB 123") are allowed.
     (r"\b(campaign\w*|candidates?|re-?elect\w*|elections?|electoral|incumbent|challenger|ballot|swing (district|seat)s?"
-     r"|democrat\w*|republican\w*|partisan|endorse\w*)\b", "partisan"),
+     r"|democrat\w*|republican\w*|partisan|endorse\w*|political part(y|ies))\b", "partisan"),
+    (r"\b(which|what) part(y|ies)\b|\bpart(y|ies)\b.*\b(win|better|best|control)\b", "partisan"),
     (r"\b(should|who will|who would|who to|whom to|who do i|who should)\b.*\b(vote for|vote against|win|beat|lose|run for)\b",
      "partisan"),
     (r"\bvot\w* (for|against) (him|her|them|the (representative|senator|rep|incumbent))\b", "partisan"),
@@ -42,6 +45,10 @@ INTENTS = {
     "map": [r"\bmap\b", r"\bwhere\b.*\bhighest\b", r"\bacross (the )?(state|districts)\b"],
 }
 
+SNAP_ENROLLMENT = re.compile(r"\b(snap|food stamps?)\b.{0,40}\b(enroll\w*|participa\w*(?! rate)|recipients?)\b"
+                            r"|\b(enroll\w*|participa\w*|how many\b.{0,20}\bon)\b.{0,40}\b(snap|food stamps?)\b")
+SNAP_GAP = re.compile(r"\b(snap|food stamps?)\b.{0,40}\bgap\b|\bgap\b.{0,40}\b(snap|food stamps?)\b"
+                     r"|\blook eligible\b.{0,60}\bnot\b.{0,20}\benrolled\b")
 DISTRICT_RE = re.compile(r"\b(senate|sd|house|hd|representative|rep\.?|senator)\s*(district\s*)?#?\s*(\d{1,2})\b", re.I)
 
 
@@ -138,7 +145,8 @@ def route(text: str, context_geo: str | None = None, aliases: dict[str, dict] | 
         if re.search(pat, t):
             msg = ("I can only describe populations at the district level, not individual residents."
                    if kind == "individual" else
-                   "I provide nonpartisan, population-level data only and can't advise on elections or candidates.")
+                   "I provide nonpartisan, population-level data only and can't advise on elections, parties or "
+                   "candidates.")
             return Route("REFUSE", reasons=[f"guardrail:{kind}"], refusal=msg)
 
     places = resolve_places(text, context_geo, aliases)
@@ -162,6 +170,10 @@ def route(text: str, context_geo: str | None = None, aliases: dict[str, dict] | 
         reasons.append("multi_intent")
     if intent == "compare" and len(geos) != 2:
         reasons.append("compare_needs_two")
+    if SNAP_ENROLLMENT.search(t):                                         # needs the "DHS does not publish" answer
+        reasons.append("snap_enrollment")
+    if SNAP_GAP.search(t):                                                # needs both ends of the range
+        reasons.append("snap_gap")
     if reasons:
         return Route("S2", intent, geos, reasons, places=places)
     return Route("S1", intent, geos, places=places)

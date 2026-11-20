@@ -7,6 +7,7 @@ from . import system1, system2
 from .tools import compare_district, estimate_cross_program, unemployment_breakdown, find_programs, get_district_profile
 
 log = logging.getLogger("kyd.agent")
+NO_SNAP_ENROLLMENT = "DHS does not publish SNAP enrollment by district."
 HEADLINE = ["total_pop", "median_hh_income", "pct_below_fpl", "pct_65plus", "pct_rent_burden_30", "pct_uninsured"]
 
 
@@ -37,8 +38,19 @@ def answer_s1(rt: system1.Route) -> AgentAnswer:
     g = rt.geo_ids[0]
     if rt.intent == "programs":
         pm: list[ProgramMatch] = find_programs(g)
-        lines = [f"{i+1}. {m.program.name}: {'; '.join(m.rationale[:2])}" for i, m in enumerate(pm)]
-        obs = [m.eligible_proxy for m in pm if m.eligible_proxy]
+        local, state = ({o.label: o for o in repo().observations([x])} for x in (g, "HI"))
+        obs: list[Observation] = []
+        def cite(why: str) -> str:
+            label = why.split(": ")[0]
+            refs = [o for o in (local.get(label), state.get(label) if " vs state " in why else None) if o]
+            obs.extend(refs)
+            return why + "".join(f" [obs:{o.obs_id}]" for o in refs)
+        lines = [f"{i+1}. {m.program.name}: {'; '.join(cite(w) for w in m.rationale[:2])}" for i, m in enumerate(pm)]
+        snap = next((m for m in pm if m.gap_range and m.gap_note), None)
+        if snap:
+            ends = [snap.gap_range.low.persons, snap.gap_range.high.persons]
+            obs.extend(ends)
+            lines.append(f"\nSNAP: {snap.gap_note} " + " ".join(f"[obs:{o.obs_id}]" for o in ends))
         return AgentAnswer(text=f"Programs most relevant to {name(g)}, ranked by indicated need relative to the state:\n"
                            + "\n".join(lines) + "\n\nEligibility is determined by each administering agency.",
                            route="S1", intent="programs", geo_ids=[g], observations=obs, programs=pm, trace=trace)
@@ -107,6 +119,8 @@ def _fallback(rt: system1.Route, reason: str) -> AgentAnswer:
             rt.intent = "profile"                                 # unclear intent, one district → its profile
         a = answer_s1(rt)
         a.escalation_reasons = reasons
+        if "snap_enrollment" in reasons:
+            a.text = f"{NO_SNAP_ENROLLMENT} {a.text}"
         return a
     return AgentAnswer(text="Which district do you mean? For example, “House District 22” or “Senate District 9”.",
                        route="S1", intent=rt.intent, escalation_reasons=reasons)
@@ -133,7 +147,7 @@ async def ask(question: str, context_geo: str | None) -> AgentAnswer:
     except Exception:                                             # timeout, 5xx, bad JSON … never a 500
         log.exception("System 2 failed; falling back to System 1")
         return _fallback(rt, "s2_error")
-    text, bad = system2.redact_unsupported(text, obs)
+    text, bad = system2.redact_unsupported(text, obs, [v for t in trace for v in system2.derived_values(t.get("output"))])
     reasons = rt.reasons + (["unsupported_numbers_removed"] if bad else [])
     return AgentAnswer(text=text, route="S2", intent=rt.intent, geo_ids=rt.geo_ids,
                        observations=[Observation(**{k: v for k, v in o.items() if k in Observation.model_fields})
