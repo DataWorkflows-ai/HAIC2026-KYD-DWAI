@@ -6,11 +6,11 @@ enrollment, TANF by island, county SNAP from the BESSD workbook) and her distric
 under-enrollment comparison. No numbers are re-derived here.
 """
 from __future__ import annotations
-import json
 import sys
 from functools import lru_cache
 
 from ..config import settings
+from . import datastore
 from .cache import cached
 
 COUNTY_ISLANDS = {  # county (district_counties.json) → Med-QUEST island keys, TANF island, county-SNAP keys
@@ -36,6 +36,9 @@ def _scripts():
 @lru_cache(maxsize=1)
 def _static() -> dict:
     """Island/county figures are the same for every district; compute once per process."""
+    pre = datastore.load_json(datastore.COMPUTED[0]) if datastore.origin() == "postgres" else None
+    if pre is not None:      # live mode: computed once at load time by etl/promote_to_postgres.py
+        return pre
     county_snap, mq, tanf_isl, _ = _scripts()
     month, snap_rows = county_snap.county_snap()
     return {"medquest": mq.get_medquest(), "medquest_ratio": mq.get_medquest_island_ratio(),
@@ -46,9 +49,14 @@ def _static() -> dict:
 @lru_cache(maxsize=1)
 def _facts() -> list[dict]:
     """Statewide program facts (income limits, latest enrollment, source link) from the research package."""
-    import csv
-    p = settings().data_dir / "program_facts.csv"
-    return list(csv.DictReader(p.open(encoding="utf-8"))) if p.exists() else []
+    return datastore.csv_rows("program_facts.csv")
+
+
+def _underenrollment(geo_id: str, chamber: str):
+    pre = datastore.load_json(datastore.COMPUTED[1]) if datastore.origin() == "postgres" else None
+    if pre is not None:
+        return pre[geo_id]
+    return _scripts()[3].get_tanf_underenrollment(chamber, int(geo_id[3:]))
 
 
 @cached
@@ -58,19 +66,18 @@ def _hpha(geo_id: str) -> dict:
 
 
 def context(geo_id: str) -> dict:
-    counties = json.loads((settings().data_dir / "district_counties.json").read_text())
+    counties = datastore.load_json("district_counties.json")
     county = counties.get(geo_id)
     if not county:
         raise KeyError(geo_id)
     mq_keys, tanf_key, snap_keys = COUNTY_ISLANDS[county]
     s = _static()
-    _, _, _, under = _scripts()
     chamber = "house" if geo_id.startswith("HD") else "senate"
 
     mq = s["medquest"]
     ratio = {x["island"]: x for x in s["medquest_ratio"]["islands"]}
     tanf = next((x for x in s["tanf_island"]["islands"] if x["island"] == tanf_key), None)
-    ue = under.get_tanf_underenrollment(chamber, int(geo_id[3:]))
+    ue = _underenrollment(geo_id, chamber)
     from .repo import repo
     hud_keys = ["hud_units_total", "hud_units_hcv", "hud_units_public_housing", "hud_units_pbs8",
                 "hud_units_elderly_disabled", "hud_people_total", "hud_units_per_1k_hh"]

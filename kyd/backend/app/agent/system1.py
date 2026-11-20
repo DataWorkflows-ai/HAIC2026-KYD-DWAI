@@ -8,13 +8,12 @@ Cues are checked in order, and the first decisive cue exits:
   5. Otherwise → answer with a template (S1)
 """
 from __future__ import annotations
-import json
 import re
 import unicodedata
 from dataclasses import dataclass, field
 from functools import lru_cache
 
-from ..config import settings
+from ..services import datastore
 
 DOMINANT_SHARE = 0.6        # a place resolves to one district only if that district holds ≥ 60% of it
 
@@ -69,10 +68,8 @@ COMMON_WORD_ALIASES = {"school"}
 @lru_cache
 def gazetteer() -> dict[str, dict]:
     """Place names and ZIPs → districts, built by etl/load_places.py. Empty if the file is missing."""
-    p = settings().data_dir / "place_aliases.json"
-    if not p.exists():
-        return {}
-    return {k: v for k, v in json.loads(p.read_text(encoding="utf-8"))["aliases"].items() if k not in COMMON_WORD_ALIASES}
+    aliases = datastore.load_json("place_aliases.json", {}).get("aliases", {})
+    return {k: v for k, v in aliases.items() if k not in COMMON_WORD_ALIASES}
 
 
 def _chamber(t: str, context_geo: str | None) -> str:

@@ -23,13 +23,11 @@ Relationships:
   (IngestRun)-[:LOADED]->(Dataset)
 """
 from __future__ import annotations
-import csv
-import json
 import re
 import unicodedata
 from datetime import datetime, timezone
 
-from ..config import settings
+from . import datastore
 
 # Crystal's program capabilities (scripts/*.py) and the datasets each one reads.
 CAPABILITIES = {
@@ -62,7 +60,6 @@ def slug(s: str) -> str:
 def build() -> dict:
     from .repo import repo
     from ..agent.tools import peer_districts
-    d = settings().data_dir
     nodes: dict[str, dict[str, dict]] = {}
     rels: list[tuple[str, str, str, str, str, dict]] = []
 
@@ -74,7 +71,7 @@ def build() -> dict:
         rels.append((t, fl, fid, tl, tid, props))
 
     r = repo()
-    counties = json.loads((d / "district_counties.json").read_text())
+    counties = datastore.load_json("district_counties.json")
     for g in r.geographies():
         if g.geo_type not in ("sldl", "sldu"):
             continue
@@ -89,21 +86,19 @@ def build() -> dict:
         for rank, p in enumerate(peer_districts(g.geo_id), 1):
             rel("PEER_OF", "District", g.geo_id, "District", p, rank=rank)
 
-    with (d / "district_overlap.csv").open() as f:
-        for row in csv.DictReader(f):
-            rel("OVERLAPS", "District", row["house_geo"], "District", row["senate_geo"],
-                share_of_house=float(row["share_of_house"]), share_of_senate=float(row["share_of_senate"]))
-    with (d / "legislators.csv").open(encoding="utf-8") as f:
-        for row in csv.DictReader(f):
-            if row["name"]:
-                lid = f"leg-{row['geo_id']}"
-                node("Legislator", lid, name=row["name"], status=row["status"], source=row["source"] or None,
-                     source_url=row["source_url"] or None)
-                rel("REPRESENTS", "Legislator", lid, "District", row["geo_id"])
+    for row in datastore.csv_rows("district_overlap.csv"):
+        rel("OVERLAPS", "District", row["house_geo"], "District", row["senate_geo"],
+            share_of_house=float(row["share_of_house"]), share_of_senate=float(row["share_of_senate"]))
+    for row in datastore.csv_rows("legislators.csv"):
+        if row["name"]:
+            lid = f"leg-{row['geo_id']}"
+            node("Legislator", lid, name=row["name"], status=row["status"], source=row["source"] or None,
+                 source_url=row["source_url"] or None)
+            rel("REPRESENTS", "Legislator", lid, "District", row["geo_id"])
 
-    local = d / "district_local.json"
-    if local.exists():
-        for gid, v in json.loads(local.read_text(encoding="utf-8"))["districts"].items():
+    local = datastore.load_json("district_local.json")
+    if local is not None:
+        for gid, v in local["districts"].items():
             for rank, n in enumerate(v["neighborhoods"], 1):
                 rel("CONTAINS", "District", gid, "Neighborhood", node("Neighborhood", f"nbhd-{slug(n)}", name=n), rank=rank)
             for b in v["boards"]:
@@ -114,7 +109,7 @@ def build() -> dict:
                            body=c["body"], number=c["number"], name=c["name"])
                 rel("COVERS", "CouncilDistrict", cid, "District", gid, share=c["share"])
 
-    for p in json.loads((d / "programs.json").read_text(encoding="utf-8")):
+    for p in datastore.load_json("programs.json"):
         node("Program", p["program_id"], name=p["name"], level=p["level"], summary=p["summary"],
              official_url=p["official_url"], agency=p["agency"],
              populations=p["populations"], proxy_indicators=p["proxy_indicators"])   # ordered, as in programs.json
@@ -141,9 +136,8 @@ def build() -> dict:
                 rel("PUBLISHED_BY", "SourceTable", i["acs"], "Source", src)
 
     # verification: datasets, their latest check results, the run that produced them
-    rp = d / "verification_report.json"
-    if rp.exists():
-        report = json.loads(rp.read_text(encoding="utf-8"))
+    report = datastore.load_json("verification_report.json")
+    if report is not None:
         run_id = f"verify-{report['generated_at']}"
         node("IngestRun", run_id, at=report["generated_at"], git_sha=report.get("git_sha"),
              passed=report["summary"]["pass"], warned=report["summary"]["warn"], failed=report["summary"]["fail"])

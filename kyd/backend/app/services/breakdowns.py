@@ -1,15 +1,13 @@
 """Demographic breakdowns (currently unemployment by sex, age, race/ethnicity, education; ACS 2020–2024).
 
-Read-only access to the `breakdown` table in kyd.sqlite (built by etl/load_unemp_demographics.py). Every row has an
+Read-only access to the `breakdown` table (kyd.sqlite, built by etl/load_unemp_demographics.py; kyd.breakdown in live mode). Every row has an
 obs_id, value (rate %) and MOE, so the System-2 number check can trace any figure the agent quotes. Rows the
 research file flags `high_moe` (CV ≥ 30% etc.) carry the existing `suppressed_cv` flag and are shown greyed.
 """
 from __future__ import annotations
-import json
-import sqlite3
 from functools import lru_cache
 
-from ..config import settings
+from . import datastore
 from .cache import cached
 
 DIMENSIONS = {  # dimension → (label, which sex rows to show)
@@ -28,18 +26,11 @@ NOTES = ["ACS 2020–2024 5-year averages with 90% margins of error; the newest 
 
 @lru_cache(maxsize=1)
 def _rows() -> dict[str, list[dict]]:
-    p = settings().data_dir / "kyd.sqlite"
-    c = sqlite3.connect(f"file:{p}?mode=ro", uri=True)
-    c.row_factory = sqlite3.Row
-    try:
-        out: dict[str, list[dict]] = {}
-        for r in c.execute("SELECT * FROM breakdown WHERE topic = 'unemployment'"):
-            out.setdefault(r["geo_id"], []).append(dict(r))
-        return out
-    except sqlite3.OperationalError:
-        return {}
-    finally:
-        c.close()
+    out: dict[str, list[dict]] = {}
+    for r in datastore.breakdown_rows():
+        if r["topic"] == "unemployment":
+            out.setdefault(r["geo_id"], []).append(r)
+    return out
 
 
 def _shape(r: dict) -> dict:
@@ -70,7 +61,7 @@ def unemployment(geo_id: str, dimension: str = "all") -> dict:
     dims = list(DIMENSIONS) if dimension == "all" else [dimension]
     if any(d not in DIMENSIONS for d in dims):
         raise ValueError(f"dimension must be one of {', '.join(DIMENSIONS)} or 'all'")
-    counties = json.loads((settings().data_dir / "district_counties.json").read_text())
+    counties = datastore.load_json("district_counties.json")
     cg = f"CNTY-{COUNTY_FIPS[counties[geo_id]]}" if geo_id in counties else None
     return {"geo_id": geo_id, "county_geo_id": cg, "dimensions": {d: DIMENSIONS[d][0] for d in dims},
             "rows": _for(geo_id, dims), "county": _for(cg, dims) if cg else {}, "state": _for("HI", dims),
