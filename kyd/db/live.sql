@@ -63,6 +63,10 @@ $$ BEGIN RAISE EXCEPTION 'audit.access_log is append-only'; END $$;
 DROP TRIGGER IF EXISTS access_log_no_update ON audit.access_log;
 CREATE TRIGGER access_log_no_update BEFORE UPDATE OR DELETE ON audit.access_log
   FOR EACH ROW EXECUTE FUNCTION audit.deny_mutation();
+-- TRUNCATE skips row triggers; block it too. Clearing the log on purpose means dropping this trigger first.
+DROP TRIGGER IF EXISTS access_log_no_truncate ON audit.access_log;
+CREATE TRIGGER access_log_no_truncate BEFORE TRUNCATE ON audit.access_log
+  FOR EACH STATEMENT EXECUTE FUNCTION audit.deny_mutation();
 
 -- ── roles: the app reads data and appends to the audit log; nothing else ──
 DO $$ BEGIN

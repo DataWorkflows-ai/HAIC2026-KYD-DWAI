@@ -5,10 +5,13 @@ from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from .config import settings
 from .routers import api
+from .security import SecurityMiddleware
 
 app = FastAPI(title="Know Your District API", version="1.0.0",
               description="HAIC 2026 Challenge 1. Every figure is an Observation with a citation.")
-app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:5173"], allow_methods=["*"], allow_headers=["*"])
+app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:5173"], allow_methods=["GET", "POST"],
+                   allow_headers=["Content-Type", "Authorization"])
+app.add_middleware(SecurityMiddleware)
 app.include_router(api)
 
 _dist = settings().frontend_dist

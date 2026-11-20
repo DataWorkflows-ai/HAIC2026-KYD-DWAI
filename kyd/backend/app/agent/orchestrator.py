@@ -1,7 +1,9 @@
 """Entry point for /api/agent/ask. Runs System 1 → optional System 2, then validation."""
 from __future__ import annotations
 import logging
+from ..config import settings
 from ..models import AgentAnswer, Observation, ProgramMatch
+from ..security import LLM_BUDGET
 from ..services.repo import repo
 from . import system1, system2
 from .tools import compare_district, estimate_cross_program, unemployment_breakdown, find_programs, get_district_profile
@@ -139,6 +141,8 @@ async def ask(question: str, context_geo: str | None) -> AgentAnswer:
     if rt.decision == "S1":
         return answer_s1(rt)
 
+    if settings().llm_provider != "none" and not LLM_BUDGET.take():
+        return _fallback(rt, "llm_daily_limit")
     try:
         text, obs, trace = await system2.run(question, {"intent": rt.intent, "geo_ids": rt.geo_ids,
                                                         "reasons": rt.reasons, "places": rt.places})

@@ -8,10 +8,13 @@ for all 77 geographies. Skips the routes that describe the process itself (/heal
 """
 from __future__ import annotations
 import json
+import os
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "backend"))
+# the dump sends hundreds of requests from one client; the rate limits would turn some into 429s
+os.environ.update(KYD_RATE_API_PER_MINUTE="100000", KYD_RATE_ASK_PER_MINUTE="100000")
 
 SKIP = {"/api/health", "/api/me", "/api/audit/verify"}
 
