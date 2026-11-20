@@ -8,9 +8,11 @@ export type Program = {
   program_id: string; name: string; agency: string; level: string; summary: string;
   official_url: string; populations: string[]; proxy_indicators: string[];
 };
+export type RangeEnd = { persons: Obs; share: Obs | null; grade: 'A' | 'B' | 'C'; basis: string; method: string };
+export type GapRange = { low: RangeEnd; high: RangeEnd; benchmark: Obs[]; is_not: string; note: string | null };
 export type ProgramMatch = {
   program: Program; score: number; eligible_proxy: Obs | null; uptake_proxy: Obs | null;
-  gap_note: string | null; rationale: string[];
+  gap_note: string | null; gap_range: GapRange | null; rationale: string[];
 };
 export type Profile = {
   geography: Geo; observations: Obs[]; comparisons: Record<string, Obs[]>; peers: string[]; data_as_of: string;
@@ -74,9 +76,10 @@ export type BRow = { obs_id: string; label: string; group: string; sex: string; 
 export type Unemployment = { geo_id: string; county_geo_id: string | null; dimensions: Record<string, string>;
   rows: Record<string, BRow[]>; county: Record<string, BRow[]>; state: Record<string, BRow[]>; notes: string[]; source: string };
 
-export type RankCol = { indicator: string; label: string; kind: 'survey' | 'estimate'; ranked: number };
+export type RankCol = { indicator: string; label: string; kind: 'survey' | 'estimate'; ranked: number; alt_indicator?: string };
 export type Rankings = { geo_type: string; columns: RankCol[]; state: Record<string, Obs | null>; notes: string[];
-  rows: { geo_id: string; name: string; counties: string[]; cells: Record<string, { obs: Obs; rank: number | null } | null> }[] };
+  state_alt: Record<string, Obs | null>;
+  rows: { geo_id: string; name: string; counties: string[]; cells: Record<string, { obs: Obs; rank: number | null; alt?: Obs | null } | null> }[] };
 
 // Bearer token from the login flow (see backend/app/auth.py). Stored per tab; absent = anonymous viewer.
 function authHeader(): Record<string, string> {

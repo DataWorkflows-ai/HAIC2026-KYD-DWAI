@@ -22,6 +22,16 @@ def test_house_and_senate_rankings():
     assert c.get("/api/rankings", params={"geo_type": "county"}).status_code == 400
 
 
+def test_snap_gap_shown_as_range():
+    j = c.get("/api/rankings").json()
+    col = next(x for x in j["columns"] if x["indicator"] == "pct_snap_gap")
+    assert col["alt_indicator"] == "pct_snap_gap_low"
+    assert j["state_alt"]["pct_snap_gap"]["value"] == 9.8
+    for r in j["rows"]:
+        alt = r["cells"]["pct_snap_gap"]["alt"]
+        assert alt["indicator"] == "pct_snap_gap_low" and repo().observation(alt["obs_id"])
+
+
 def test_crime_only_oahu():
     j = c.get("/api/rankings").json()
     ranked = [r for r in j["rows"] if r["cells"]["crime_violent_per_1k_est"]]

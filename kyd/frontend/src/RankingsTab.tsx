@@ -1,8 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowDown, ArrowUp } from 'lucide-react';
-import { api, fmt, type Rankings } from './api';
+import { api, fmt, type Obs, type Rankings } from './api';
 import { Card, Empty, ExportButtons, Figure, Pill } from './ui';
 import { RankMap } from './RankMap';
+
+/** Two estimates of one quantity, smaller first; each stays a cited figure. */
+function RangeCell({ a, b }: { a: Obs; b: Obs }) {
+  const [lo, hi] = (a.value ?? 0) <= (b.value ?? 0) ? [a, b] : [b, a];
+  return <><Figure o={lo} /><span className="text-slate-500">–</span><Figure o={hi} /></>;
+}
 
 /** All districts of a chamber ranked on comparable measures. Every cell is a cited figure. */
 export function RankingsTab({ onOpen }: { onOpen: (geo: string) => void }) {
@@ -59,9 +65,11 @@ export function RankingsTab({ onOpen }: { onOpen: (geo: string) => void }) {
             <tr>
               {head('name', 'District')}
               {data.columns.map(c => head(c.indicator, c.label, <span className="space-x-1">
-                {c.kind === 'estimate' ? <Pill tone="amber">ESTIMATE</Pill> : <Pill>ACS ±MOE</Pill>}
+                {c.alt_indicator ? <Pill tone="amber">RANGE</Pill> : c.kind === 'estimate' ? <Pill tone="amber">ESTIMATE</Pill> : <Pill>ACS ±MOE</Pill>}
                 {c.ranked < data.rows.length && <span className="text-[10px] text-slate-500">{c.ranked} ranked</span>}
-                {data.state[c.indicator] && <span className="text-[10px] text-slate-500">state {fmt(data.state[c.indicator]!)}</span>}</span>))}
+                {data.state[c.indicator] && <span className="text-[10px] text-slate-500">state {c.alt_indicator && data.state_alt[c.indicator]
+                  ? [data.state_alt[c.indicator]!, data.state[c.indicator]!].sort((x, y) => (x.value ?? 0) - (y.value ?? 0)).map(fmt).join('–')
+                  : fmt(data.state[c.indicator]!)}</span>}</span>))}
             </tr>
           </thead>
           <tbody>
@@ -75,7 +83,8 @@ export function RankingsTab({ onOpen }: { onOpen: (geo: string) => void }) {
                 {data.columns.map(c => {
                   const cell = r.cells[c.indicator];
                   return <td key={c.indicator} className="px-2 py-1.5 whitespace-nowrap">
-                    {cell ? <><Figure o={cell.obs} />{cell.rank && <span className="ml-1 text-[10px] text-slate-500">#{cell.rank}</span>}</>
+                    {cell ? <>{cell.alt ? <RangeCell a={cell.alt} b={cell.obs} /> : <Figure o={cell.obs} />}
+                      {cell.rank && <span className="ml-1 text-[10px] text-slate-500">#{cell.rank}</span>}</>
                       : <span className="text-slate-600 text-xs">—</span>}</td>;
                 })}
               </tr>))}

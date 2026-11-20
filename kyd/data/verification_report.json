@@ -1,11 +1,11 @@
 {
- "generated_at": "2026-11-16T15:06:45+00:00",
- "git_sha": "4569213",
+ "generated_at": "2026-11-20T16:46:57+00:00",
+ "git_sha": "a0926a0",
  "summary": {
   "fail": 0,
   "warn": 5,
   "info": 4,
-  "pass": 344
+  "pass": 356
  },
  "sources": {
   "dhs.databook2025": {
@@ -47,6 +47,14 @@
    "used_by": "tanf_by_island.py, load_county_snap.py",
    "sha256": "8e2d73cc1629137b1a8b2b73690ffd77580badb4c51b96a047f3dfbb0d3c3f65",
    "verified_at": "2026-11-16T00:06:35+00:00"
+  },
+  "usda.snap_rates_fy2022": {
+   "path": "data/raw/research/usda/ear-SNAP-Participation-Rates-2022.pdf",
+   "publisher": "USDA FNS (Mathematica)",
+   "url": "https://www.fns.usda.gov/sites/default/files/resource-files/ear-SNAP-Participation-Rates-2022.pdf",
+   "used_by": "kyd/etl/load_programs.py (SNAP gap range, benchmark end)",
+   "sha256": "34266fb753c399b284c19ea40694e3cc32184fc65cad91dfa60c13597de0e16b",
+   "verified_at": "2026-11-20T16:46:43+00:00"
   },
   "census.S1701.house": {
    "path": "data/raw/S1701_house_districts.json",
@@ -4595,6 +4603,144 @@
    "detail": "dhs_snap_demographics_june2025.json unchanged since 2026-11-16T00:06:35+00:00",
    "expected": null,
    "actual": null,
+   "location": null
+  },
+  {
+   "id": "provenance.usda.snap_rates_fy2022.unchanged",
+   "source": "usda.snap_rates_fy2022",
+   "kind": "provenance",
+   "status": "pass",
+   "detail": "ear-SNAP-Participation-Rates-2022.pdf unchanged since 2026-11-20T16:46:43+00:00",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "usda.snap_rates_fy2022.format.table_a.18",
+   "source": "usda.snap_rates_fy2022",
+   "kind": "format",
+   "status": "pass",
+   "detail": "Table A.18. has a Hawaiʻi row (eligible FY2020, FY2022, SE FY2020, SE FY2022)",
+   "expected": null,
+   "actual": [
+    162228.0,
+    161104.0,
+    7798.0,
+    9424.0
+   ],
+   "location": null
+  },
+  {
+   "id": "usda.snap_rates_fy2022.format.table_a.3",
+   "source": "usda.snap_rates_fy2022",
+   "kind": "format",
+   "status": "pass",
+   "detail": "Table A.3. has a Hawaiʻi row (eligible participants FY2020, FY2022)",
+   "expected": null,
+   "actual": [
+    138203.0,
+    130188.0
+   ],
+   "location": null
+  },
+  {
+   "id": "usda.snap_rates_fy2022.format.table_iii.1",
+   "source": "usda.snap_rates_fy2022",
+   "kind": "format",
+   "status": "pass",
+   "detail": "Table III.1. has a Hawaiʻi row (rate FY2020, rate FY2022, eligible (thousands) FY2020, FY2022)",
+   "expected": null,
+   "actual": [
+    85.0,
+    81.0,
+    162.0,
+    161.0
+   ],
+   "location": null
+  },
+  {
+   "id": "usda.snap_rates_fy2022.format.table_iii.3",
+   "source": "usda.snap_rates_fy2022",
+   "kind": "format",
+   "status": "pass",
+   "detail": "Table III.3. has a Hawaiʻi row (rate lower, rate upper, eligible lower, eligible upper (FY 2022))",
+   "expected": null,
+   "actual": [
+    73.0,
+    88.0,
+    146.0,
+    177.0
+   ],
+   "location": null
+  },
+  {
+   "id": "usda.snap_rates_fy2022.present",
+   "source": "usda.snap_rates_fy2022",
+   "kind": "provenance",
+   "status": "pass",
+   "detail": "USDA FY 2022 technical report archived",
+   "expected": null,
+   "actual": null,
+   "location": null
+  },
+  {
+   "id": "usda.snap_rates_fy2022.transcription.eligible",
+   "source": "usda.snap_rates_fy2022",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "load_programs.py Hawaiʻi eligible matches Table A.18.",
+   "expected": 161104,
+   "actual": 161104,
+   "location": null
+  },
+  {
+   "id": "usda.snap_rates_fy2022.transcription.eligible_moe",
+   "source": "usda.snap_rates_fy2022",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "load_programs.py Hawaiʻi eligible_moe matches Table A.18.",
+   "expected": 15502,
+   "actual": 15502,
+   "location": null
+  },
+  {
+   "id": "usda.snap_rates_fy2022.transcription.participants",
+   "source": "usda.snap_rates_fy2022",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "load_programs.py Hawaiʻi participants matches Table A.3.",
+   "expected": 130188,
+   "actual": 130188,
+   "location": null
+  },
+  {
+   "id": "usda.snap_rates_fy2022.transcription.rate",
+   "source": "usda.snap_rates_fy2022",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "load_programs.py Hawaiʻi rate matches Table III.1.",
+   "expected": 81,
+   "actual": 81,
+   "location": null
+  },
+  {
+   "id": "usda.snap_rates_fy2022.transcription.rate_ci_high",
+   "source": "usda.snap_rates_fy2022",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "load_programs.py Hawaiʻi rate_ci_high matches Table III.3.",
+   "expected": 88,
+   "actual": 88,
+   "location": null
+  },
+  {
+   "id": "usda.snap_rates_fy2022.transcription.rate_ci_low",
+   "source": "usda.snap_rates_fy2022",
+   "kind": "transcription",
+   "status": "pass",
+   "detail": "load_programs.py Hawaiʻi rate_ci_low matches Table III.3.",
+   "expected": 73,
+   "actual": 73,
    "location": null
   }
  ]

@@ -44,7 +44,7 @@ def test_live_mode_reports_postgres_and_falls_back(tmp_path):
             "h=TestClient(app).get('/api/health').json(); print(json.dumps(h))")
     h = json.loads(_run(["-c", code], "live").stdout.strip().splitlines()[-1])
     assert h["data_backend"] == "postgres" and h["files"] == "postgres" and h["fallback"] is None
-    assert h["load_run"]["counts"]["observation"] == 10093 and h["geographies"] == 77 and h["audit"]["store"] == "postgres"
+    assert h["load_run"]["counts"]["observation"] == 10253 and h["geographies"] == 77 and h["audit"]["store"] == "postgres"
     # database unreachable: the app still starts, serves the bundled copy, and says so
     h = json.loads(_run(["-c", code], "live", KYD_DATABASE_URL="postgresql://nobody@127.0.0.1:9/none",
                         KYD_PG_CONNECT_TIMEOUT="3").stdout.strip().splitlines()[-1])

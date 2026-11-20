@@ -35,6 +35,16 @@ SOURCES = {
     "acs5_2024_s2201_sld": ("S2201", "ACS 2020–2024 5-year S2201 Food Stamps/SNAP, Hawaiʻi State Legislative Districts"),
 }
 S1701, S2201 = "acs5_2024_s1701_sld", "acs5_2024_s2201_sld"
+USDA = "usda_snap_rates_fy2022"
+USDA_PDF = RAW / "research" / "usda" / "ear-SNAP-Participation-Rates-2022.pdf"
+USDA_TITLE = ("Cunnyngham (2025), Reaching Those in Need: Estimates of State SNAP Participation Rates in FY 2022, "
+              "technical report (Mathematica for USDA)")
+USDA_URL = "https://www.fns.usda.gov/sites/default/files/resource-files/ear-SNAP-Participation-Rates-2022.pdf"
+# Hawaiʻi, FY 2022, transcribed from USDA_PDF (printed page numbers):
+SNAP_ELIGIBLE_HI = (161_104, round(1.645 * 9_424))   # Table A.18 p50: eligible people, SE 9,424 → 90% MOE
+SNAP_PARTICIPANTS_HI = 130_188                       # Table A.3 p35: eligible participants, monthly average
+SNAP_RATE_HI, SNAP_RATE_CI_HI = 81, (73, 88)         # Table III.1 p11; 90% interval Table III.3 p15
+SNAP_RATE_US = 88                                    # national rate, report summary
 
 # key: label, unit, topic, acs line(s), source
 INDICATORS = {
@@ -61,7 +71,26 @@ INDICATORS = {
     "pop_below_138fpl": ("People below 138% of poverty (est.)", "count", "program", "S1701_C01_039..040 interpolated", S1701),
     "pct_below_138fpl": ("People below 138% of poverty (Med-QUEST adult limit, est.)", "pct", "program",
                          "S1701_C01_039..040 interpolated / C01_001", S1701),
+    # SNAP gap range. High end = snap_gap_persons (survey-based); low end = USDA benchmark, allocated to districts.
+    "snap_gap_low_persons": ("Look eligible for SNAP, not participating: low end, benchmark-based (est.)", "count",
+                             "program", "USDA HI eligible − participants, allocated by SNAP persons", USDA),
+    "pct_snap_gap_low": ("SNAP gap, low end: share of people below 200% of poverty (est.)", "pct", "program",
+                         "snap_gap_low_persons / S1701_C01_042", USDA),
+    "snap_eligible_usda": ("People eligible for SNAP (USDA estimate, FY 2022)", "count", "program", "USDA Table A.18", USDA),
+    "snap_participants_usda": ("Eligible people receiving SNAP (USDA estimate, FY 2022)", "count", "program",
+                               "USDA Table A.3", USDA),
+    "snap_participation_rate": ("SNAP participation rate among eligible people (USDA, FY 2022)", "pct", "program",
+                                "USDA Table III.1", USDA),
+    "snap_participation_rate_ci_low": ("SNAP participation rate, lower bound of 90% interval (USDA, FY 2022)", "pct",
+                                       "program", "USDA Table III.3", USDA),
+    "snap_participation_rate_ci_high": ("SNAP participation rate, upper bound of 90% interval (USDA, FY 2022)", "pct",
+                                        "program", "USDA Table III.3", USDA),
+    "snap_participation_rate_us": ("SNAP participation rate among eligible people, United States (USDA, FY 2022)", "pct",
+                                   "program", "USDA report summary", USDA),
 }
+# Only the state has the USDA benchmark rows; districts get the allocated low end.
+STATE_ONLY = ("snap_eligible_usda", "snap_participants_usda", "snap_participation_rate", "snap_participation_rate_ci_low",
+              "snap_participation_rate_ci_high", "snap_participation_rate_us")
 NOTE_138 = ("Linear interpolation between the 125% and 150% poverty-ratio counts (S1701 has no 138% line); "
             "MOE taken from the 150% line. Census poverty thresholds are national, not the higher Hawaiʻi guidelines "
             "Med-QUEST uses, so this likely understates the income-eligible pool.")
@@ -71,6 +100,13 @@ NOTE_GAP = ("People below 200% FPL minus estimated SNAP persons (scripts/snap_ga
             "Proxy only: SNAP eligibility also depends on assets, household makeup and immigration status. "
             "MOE root-sum-of-squares.")
 NOTE_GAP_PCT = "snap_gap_persons ÷ pop_below_200fpl. Proxy, not a measured eligible-but-not-enrolled rate; MOE not computed."
+NOTE_GAP_LOW = ("Low end of the SNAP gap range, grade C (allocated from a state figure). USDA estimates 161,104 Hawaiʻi "
+                "residents eligible under federal rules and 130,188 eligible participants in FY 2022; the difference is "
+                "shared among districts by their estimated SNAP persons. Assumes every district participates at the "
+                "state rate, so it cannot show which districts lag. MOE not computed.")
+NOTE_GAP_LOW_PCT = "snap_gap_low_persons ÷ pop_below_200fpl, the same denominator as the high end. MOE not computed."
+NOTE_USDA = ("Transcribed from the USDA technical report (Cunnyngham 2025, Mathematica). Federal eligibility rules; "
+             "monthly average for FY 2022.")
 
 
 def _table(name: str, chamber: str) -> dict[int, dict]:
@@ -142,6 +178,22 @@ def district_values(chamber: str) -> dict[int, dict[str, tuple]]:
     return out
 
 
+SNAP_NOT_PARTICIPATING_HI = SNAP_ELIGIBLE_HI[0] - SNAP_PARTICIPANTS_HI
+
+
+def add_low_end(vals: dict[int, dict[str, tuple]]) -> None:
+    """Share USDA's statewide count of eligible non-participants among one chamber's districts by SNAP persons,
+    so each chamber sums to the USDA figure (up to rounding)."""
+    total = sum(d["snap_persons_est"][0] for d in vals.values() if "snap_persons_est" in d)
+    for d in vals.values():
+        if "snap_persons_est" not in d or not total:
+            continue
+        low = round(SNAP_NOT_PARTICIPATING_HI * d["snap_persons_est"][0] / total)
+        d["snap_gap_low_persons"] = (low, None)
+        below = d["pop_below_200fpl"][0]
+        d["pct_snap_gap_low"] = (round(100 * low / below, 1) if below else None, None)
+
+
 def state_values(house: dict[int, dict[str, tuple]]) -> dict[str, tuple]:
     def tot(k):
         xs = [d[k] for d in house.values() if k in d and d[k][0] is not None]
@@ -160,10 +212,24 @@ def state_values(house: dict[int, dict[str, tuple]]) -> dict[str, tuple]:
     out["pct_children_below_fpl"] = (_pct((out["children_below_fpl"][0], None), utot("S1701_C01_005"))[0], None)
     out["pct_adults_18_64_below_fpl"] = (_pct((out["adults_18_64_below_fpl"][0], None), utot("S1701_C01_006"))[0], None)
     out["pct_snap_gap"] = (round(100 * out["snap_gap_persons"][0] / out["pop_below_200fpl"][0], 1), None)
+    out["snap_gap_low_persons"] = (SNAP_NOT_PARTICIPATING_HI, None)
+    out["pct_snap_gap_low"] = (round(100 * SNAP_NOT_PARTICIPATING_HI / out["pop_below_200fpl"][0], 1), None)
+    out["snap_eligible_usda"] = SNAP_ELIGIBLE_HI
+    out["snap_participants_usda"] = (SNAP_PARTICIPANTS_HI, None)
+    out["snap_participation_rate"] = (SNAP_RATE_HI, None)
+    out["snap_participation_rate_ci_low"] = (SNAP_RATE_CI_HI[0], None)
+    out["snap_participation_rate_ci_high"] = (SNAP_RATE_CI_HI[1], None)
+    out["snap_participation_rate_us"] = (SNAP_RATE_US, None)
     return {k: (round(v), round(m) if m else None) if INDICATORS[k][1] == "count" else (v, m) for k, (v, m) in out.items()}
 
 
 def _method(key: str, geo: str) -> tuple[str, str | None]:
+    if key in STATE_ONLY:
+        return "direct", NOTE_USDA
+    if key == "snap_gap_low_persons":
+        return "derived", NOTE_GAP_LOW
+    if key == "pct_snap_gap_low":
+        return "derived", NOTE_GAP_LOW_PCT
     if geo == "HI":
         return "derived", "Summed over the 51 House districts (counts: MOE root-sum-of-squares; rates: numerators ÷ universes)"
     if key == "snap_persons_est":
@@ -185,18 +251,23 @@ def build() -> int:
     q = ",".join("?" * len(keys))
     c.execute(f"DELETE FROM observation WHERE indicator IN ({q})", keys)
     c.execute(f"DELETE FROM indicator WHERE indicator IN ({q})", keys)
-    c.execute(f"DELETE FROM source WHERE source_id IN ({','.join('?' * len(SOURCES))})", list(SOURCES))
+    c.execute(f"DELETE FROM source WHERE source_id IN ({','.join('?' * (len(SOURCES) + 1))})", [*SOURCES, USDA])
     for sid, (t, title) in SOURCES.items():
         sha = hashlib.sha256(b"".join((RAW / f"{t}_{ch}_districts.json").read_bytes() for ch in ("house", "senate")))
         c.execute("INSERT INTO source VALUES (?,?,?,?,?,?,?)",
                   (sid, "U.S. Census Bureau, American Community Survey", title, ACS_URL.format(t=t), None,
                    "Public domain (U.S. Government work)", sha.hexdigest()[:16]))
+    c.execute("INSERT INTO source VALUES (?,?,?,?,?,?,?)",
+              (USDA, "USDA Food and Nutrition Service", USDA_TITLE, USDA_URL, "2025-04",
+               "Public domain (U.S. Government work)", hashlib.sha256(USDA_PDF.read_bytes()).hexdigest()[:16]))
     for k, (label, unit, topic, acs, _src) in INDICATORS.items():
         c.execute("INSERT INTO indicator VALUES (?,?,?,?,?)", (k, label, unit, topic, acs))
 
     rows = []
-    house = district_values("house")
-    for chamber, prefix, vals in (("house", "HD", house), ("senate", "SD", district_values("senate"))):
+    house, senate = district_values("house"), district_values("senate")
+    add_low_end(house)
+    add_low_end(senate)
+    for chamber, prefix, vals in (("house", "HD", house), ("senate", "SD", senate)):
         for n, d in vals.items():
             for k, (v, m) in d.items():
                 rows.append((f"{prefix}-{n:02d}", k, v, m))
@@ -204,7 +275,8 @@ def build() -> int:
     for geo, k, v, m in rows:
         method, note = _method(k, geo)
         c.execute("INSERT INTO observation VALUES (?,?,?,?,?,?,?,?,?)",
-                  (f"prog24-{geo}-{k}", geo, k, v, m, VINTAGE, method, note, INDICATORS[k][4]))
+                  (f"prog24-{geo}-{k}", geo, k, v, m, "FY 2022" if k in STATE_ONLY else VINTAGE, method, note,
+                   INDICATORS[k][4]))
     c.commit()
     c.close()
     print(f"{DB.relative_to(REPO)}: {len(INDICATORS)} program indicators, {len(rows)} observations")

@@ -1,6 +1,6 @@
 # Sources
 
-Every source Know Your District draws on (29 in all). Generated from `kyd/data/sources.csv` by `kyd/etl/make_sources_md.py`; the app's Sources tab shows the same list. Figure-level citations (source, vintage, method, margin of error) travel with every number through the API.
+Every source Know Your District draws on (30 in all). Generated from `kyd/data/sources.csv` by `kyd/etl/make_sources_md.py`; the app's Sources tab shows the same list. Figure-level citations (source, vintage, method, margin of error) travel with every number through the API.
 
 ## Demographics
 
@@ -25,6 +25,7 @@ Every source Know Your District draws on (29 in all). Generated from `kyd/data/s
 | [BESSD monthly SNAP caseload summary](https://humanservices.hawaii.gov/bessd/snap/) | Hawaiʻi DHS Benefit Employment & Support Services Division | SNAP households and persons by county and island office | SFY 2026 (latest month 2026-02) | Programs (county SNAP) | 2026-11 |
 | [Med-QUEST enrollment report](https://medquest.hawaii.gov/api/media/file/Website%20Enrollment%20Report%202026%2020261106.pdf) | Hawaiʻi DHS Med-QUEST Division | Medicaid enrollment by island | November 2026 | Programs | 2026-11 |
 | [HCNP October Data](https://hcnp.hawaii.gov/wp-content/uploads/2026/01/October-Data-2026-SY25-26.pdf) | Hawaiʻi Child Nutrition Programs (HIDOE) | Free and reduced-price meal eligibility by school, rolled up to districts by school location (charter schools excluded) | SY2025-26 | Programs, Cross-program estimates | 2026-11 |
+| [Reaching Those in Need: State SNAP Participation Rates, FY 2022 (technical report)](https://www.fns.usda.gov/sites/default/files/resource-files/ear-SNAP-Participation-Rates-2022.pdf) | USDA Food and Nutrition Service (Mathematica) | Hawaiʻi SNAP participation rate (81%, 90% interval 73–88%), eligible people and eligible participants; national rate. Sets the low end of the SNAP gap range | FY 2022 | Programs, Rankings, Agent | 2026-11 |
 
 ## Education
 
