@@ -98,9 +98,10 @@ def load(conn, tables, docs) -> dict:
 
 
 def check(conn, tables, docs) -> list[str]:
-    """Every row and every document in Postgres must equal the repository. Returns the differences."""
+    """Every row and every document in Postgres must equal the repository. Returns the differences.
+    Read in binary: text results lose float digits when the server sets extra_float_digits=0 (Supabase)."""
     bad: list[str] = []
-    with conn.cursor() as cur:
+    with conn.cursor(binary=True) as cur:
         for t in TABLES:
             cols, rows = tables[t]
             got = cur.execute(f"SELECT {', '.join(cols)} FROM kyd.{t} ORDER BY ord").fetchall()

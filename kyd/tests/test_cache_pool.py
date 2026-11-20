@@ -49,7 +49,7 @@ def test_postgres_repo_uses_a_pool(monkeypatch):
     class Conn:
         def __enter__(self): opened.append(1); return self
         def __exit__(self, *a): pass
-        def cursor(self): return Cur()
+        def cursor(self, binary=False): return Cur()
 
     class Pool:
         check_connection = None

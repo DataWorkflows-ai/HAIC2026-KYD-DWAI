@@ -134,7 +134,9 @@ class PostgresRepo:
             raise
 
     def _q(self, sql, *args):
-        with self._pool.connection() as conn, conn.cursor() as cur:
+        # Binary results: a server or pooler may set extra_float_digits=0 (Supabase does), and text results then
+        # drop the last digits of a float. Binary returns the stored value exactly.
+        with self._pool.connection() as conn, conn.cursor(binary=True) as cur:
             cur.execute(sql, args)
             return cur.fetchall()
 

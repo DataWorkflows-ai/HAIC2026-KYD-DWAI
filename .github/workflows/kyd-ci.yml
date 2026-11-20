@@ -79,6 +79,8 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: "3.12", cache: pip, cache-dependency-path: kyd/backend/requirements.txt }
       - run: pip install -r kyd/backend/requirements.txt
+      - name: Use Supabase's float setting (text results would drop digits; the app must read exactly anyway)
+        run: python -c "import os, psycopg; psycopg.connect(os.environ['KYD_DATABASE_URL'], autocommit=True).execute('ALTER DATABASE kyd SET extra_float_digits = 0')"
       - name: Load Postgres and check it equals the repository
         run: python kyd/etl/promote_to_postgres.py
       - name: Live mode answers exactly as SQLite does (every API response), falls back, keeps the audit chain
