@@ -14,7 +14,7 @@
  * it in the side panel. "Open profile" jumps to the Overview tab.
  */
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { ExternalLink, Layers, MapPin, Star } from 'lucide-react';
+import { ExternalLink, Layers, MapPin, SlidersHorizontal, Star } from 'lucide-react';
 import { api, fmt, type Geo, type MapDistrict, type MapSummary, type Member } from './api';
 import { Card, Pill } from './ui';
 
@@ -195,6 +195,8 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
   const [layersVersion, setLayersVersion] = useState(0);
   const [showLabels, setShowLabels] = useState(true);
   const [showCouncil, setShowCouncil] = useState(false);
+  // on a phone the overlays cover most of the map, so they start hidden there
+  const [showControls, setShowControls] = useState(() => window.matchMedia('(min-width: 640px)').matches);
   const pendingZoom = useRef<string | null>(geo);   // fly to the picked district once its shape is loaded
   const clickedOnMap = useRef<string | null>(null); // picks made by clicking the map don't re-zoom
 
@@ -399,6 +401,13 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
       <div className="col-span-12 lg:col-span-8 xl:col-span-9 relative rounded-xl overflow-hidden border border-premium-800 h-[60vh] min-h-[360px] lg:h-auto lg:min-h-0">
         <div ref={el} className="absolute inset-0" role="application" aria-label={`Map of Hawaiʻi ${chamber === 'sldl' ? 'House' : 'Senate'} districts`} />
 
+        <button onClick={() => setShowControls(s => !s)} aria-pressed={showControls}
+          aria-label={showControls ? 'Hide map controls' : 'Show map controls'} title={showControls ? 'Hide map controls' : 'Show map controls'}
+          className={`absolute top-[5.5rem] left-[15px] w-8 h-8 flex items-center justify-center rounded-sm border border-premium-700 ${showControls ? 'bg-cyan-700 text-white' : 'bg-premium-900/90 text-slate-200'}`}>
+          <SlidersHorizontal className="w-4 h-4" />
+        </button>
+
+        {showControls && <>
         {/* controls */}
         <div className="absolute top-3 left-14 right-3 flex flex-wrap gap-2 items-start pointer-events-none">
           <div className="pointer-events-auto flex bg-premium-900/90 border border-premium-700 rounded-lg p-0.5" role="group" aria-label="Chamber">
@@ -455,6 +464,7 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
           </div>
           <div className="text-slate-500 mt-1">Each color is one-fifth of the {chamber === 'sldl' ? 'House' : 'Senate'} districts · gray = no data</div>
         </div>
+        </>}
 
         {/* hover card (desktop) */}
         {hov && hover && (
