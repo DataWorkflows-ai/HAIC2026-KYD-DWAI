@@ -7,6 +7,7 @@ from .agent import tools
 from .agent.orchestrator import ask
 from .config import settings
 from .models import AgentAnswer, AskRequest
+from .security import LLM_BUDGET
 from .services.graph import graph
 from .services.repo import repo
 from .services import breakdowns, crosswalk, datastore, program_context, rankings, representation as rep, uptake
@@ -40,6 +41,7 @@ def health():
             "fallback": getattr(r, "fallback_reason", None), "load_run": getattr(r, "load_run", None),
             "audit": audit.status(), "demo": r.demo, "llm": settings().llm_provider,
             "graph": graph().backend, "verification": _verification_summary(), "frontend": _frontend_build(),
+            "llm_budget": LLM_BUDGET.status(),
             "geographies": len(r.geographies()), "programs": len(graph().programs())}
 
 

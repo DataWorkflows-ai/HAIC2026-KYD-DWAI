@@ -226,7 +226,7 @@ export function AskTab({ geo, pending, clearPending }: { geo: string; pending: s
     if (!q.trim()) return;
     setMsgs(m => [...m, { role: 'user', text: q }]); setInput(''); setBusy(true);
     try { const a = await api.ask(q, geo); setMsgs(m => [...m, { role: 'agent', text: a.text, a }]); }
-    catch (e) { setMsgs(m => [...m, { role: 'agent', text: 'Error: ' + e }]); }
+    catch (e) { setMsgs(m => [...m, { role: 'agent', text: e instanceof Error ? e.message : String(e) }]); }
     finally { setBusy(false); }
   };
   useEffect(() => { if (pending) { send(pending); clearPending(); } }, [pending]);

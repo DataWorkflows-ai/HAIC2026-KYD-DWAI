@@ -24,6 +24,13 @@ class Settings(BaseSettings):
     auth_secret: str = ""                           # HMAC key for bearer tokens (app/auth.py); empty = everyone is anonymous
     trust_proxy_headers: bool = False               # only behind an SSO proxy that strips client x-kyd-* headers
 
+    # Abuse limits (app/security.py). Per client; a venue's shared wifi counts as one client.
+    rate_api_per_minute: int = 600                  # data endpoints
+    rate_ask_per_minute: int = 20                   # chat questions
+    rate_ask_per_day: int = 500
+    llm_daily_calls: int = 2000                     # all callers; over budget, chat answers fall back to templates
+    csp_mode: str = "enforce"                       # enforce | report (Report-Only header) | off
+
     cache_ttl_seconds: float = 300                  # live mode only; bundled data never changes in-process
     pg_pool_max: int = 4                            # Postgres connection pool size (live mode); data is read once at start-up
     pg_connect_timeout: float = 10                  # seconds to wait for Postgres at start-up before falling back

@@ -89,7 +89,12 @@ function authHeader(): Record<string, string> {
 
 async function j<T>(url: string, init?: RequestInit): Promise<T> {
   const r = await fetch(url, { ...init, headers: { ...authHeader(), ...(init?.headers ?? {}) } });
-  if (!r.ok) throw new Error(`${r.status} ${await r.text()}`);
+  if (!r.ok) {
+    const body = await r.text();
+    let detail: unknown;
+    try { detail = JSON.parse(body).detail; } catch { detail = undefined; }
+    throw new Error(typeof detail === 'string' ? detail : `${r.status} ${body}`);
+  }
   return r.json();
 }
 

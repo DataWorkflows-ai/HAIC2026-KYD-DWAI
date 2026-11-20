@@ -1,5 +1,5 @@
 """Append-only, hash-chained access log (§8.1–8.2). With bundled data it writes JSONL; when live mode is
-serving from Postgres it writes audit.access_log, where a trigger blocks UPDATE and DELETE.
+serving from Postgres it writes audit.access_log, where triggers block UPDATE, DELETE and TRUNCATE.
 
 If a database write fails, the entry goes to the local JSONL file instead and /api/health reports
 audit "degraded" (set KYD_AUDIT_STRICT=true to fail the request instead)."""
