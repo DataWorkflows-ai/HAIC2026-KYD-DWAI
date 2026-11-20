@@ -1,10 +1,40 @@
 import { useEffect, useState } from 'react';
 import { ExternalLink } from 'lucide-react';
-import { api, type BRow, type CrossProgram, type Obs, type ProgramContext, type Unemployment, type UptakePeers } from './api';
+import { api, type BRow, type CrossProgram, type GapRange, type Obs, type ProgramContext, type RangeEnd, type Unemployment, type UptakePeers } from './api';
 import { Card, Empty, Figure, Pill } from './ui';
 
 const n = (v: number | null | undefined) => (v === null || v === undefined ? 'n/a' : Math.round(v).toLocaleString());
 const tone = { high: 'emerald', medium: 'cyan', low: 'amber' } as const;
+const gradeTone = { A: 'emerald', B: 'cyan', C: 'amber' } as const;
+const GRADE = { A: 'administrative count for this area', B: 'survey or modelled estimate', C: 'allocated from a state figure' };
+
+/** People who look eligible but are not enrolled, as a range from two methods (never one headline figure). */
+export function GapRangeBlock({ r }: { r: GapRange }) {
+  const end = (e: RangeEnd) => (
+    <div className="min-w-0 rounded border border-premium-700 p-2">
+      <div className="flex items-center justify-between gap-2">
+        <span className="text-[10px] uppercase tracking-wide text-slate-400">{e.basis}</span>
+        <span title={GRADE[e.grade]}><Pill tone={gradeTone[e.grade]}>grade {e.grade}</Pill></span>
+      </div>
+      <div className="mt-1"><Figure o={e.persons} /></div>
+      {e.share && <div className="text-[11px] text-slate-400"><Figure o={e.share} /> of people below 200% of poverty</div>}
+      <p className="mt-1 text-[11px] text-slate-500">{e.method}</p>
+    </div>
+  );
+  const rate = (k: string) => r.benchmark.find(o => o.indicator === k);
+  const hi = rate('snap_participation_rate'), lo = rate('snap_participation_rate_ci_low'),
+    up = rate('snap_participation_rate_ci_high'), us = rate('snap_participation_rate_us');
+  return (
+    <div className="mt-2 min-w-0">
+      <div className="text-xs text-amber-300">Look eligible, not enrolled: a range of estimates</div>
+      <div className="mt-1 grid grid-cols-1 gap-2">{end(r.low)}{end(r.high)}</div>
+      {hi && <p className="mt-2 text-[11px] text-slate-400">USDA: <Figure o={hi} /> of eligible Hawaiʻi residents took part in FY 2022
+        {lo && up && <> (90% interval <Figure o={lo} />–<Figure o={up} />)</>}{us && <>; national <Figure o={us} /></>}.</p>}
+      {r.note && <p className="mt-1 text-[11px] text-amber-400">{r.note}</p>}
+      <p className="mt-1 text-[11px] text-slate-500">{r.is_not}</p>
+    </div>
+  );
+}
 
 /** "Likely eligible for other programs": one published rule applied to district counts, per row. */
 export function CrossProgramCard({ geo }: { geo: string }) {

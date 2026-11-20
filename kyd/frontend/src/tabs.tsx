@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { Send, ExternalLink, Bot, Zap, ShieldAlert, GripVertical } from 'lucide-react';
 import { api, fmt, type Answer, type Geo, type Obs, type Profile, type ProgramMatch, type Verification } from './api';
 import { Card, Empty, ExportButtons, Figure, GeoPicker, Pill, usePersistentState } from './ui';
-import { CrossProgramCard, ProgramContextCards, UptakePeersCard } from './programExtras';
+import { CrossProgramCard, GapRangeBlock, ProgramContextCards, UptakePeersCard } from './programExtras';
 
 const HEADLINE = ['total_pop', 'median_hh_income', 'pct_below_fpl', 'pct_65plus', 'pct_rent_burden_30', 'pct_uninsured'];
 const by = (xs: Obs[] | undefined) => Object.fromEntries((xs ?? []).map(o => [o.indicator, o]));
@@ -184,7 +184,7 @@ export function ProgramsTab({ geo }: { geo: string }) {
           <p className="text-sm text-slate-300">{m.program.summary}</p>
           <div className="text-xs text-slate-500 mt-1">{m.program.agency} · {m.program.level}</div>
           <ul className="mt-2 text-xs text-slate-400 list-disc ml-4">{m.rationale.map(r => <li key={r}>{r}</li>)}</ul>
-          {m.gap_note && <p className="mt-2 text-xs text-amber-300">{m.gap_note}</p>}
+          {m.gap_range ? <GapRangeBlock r={m.gap_range} /> : m.gap_note && <p className="mt-2 text-xs text-amber-300">{m.gap_note}</p>}
           <a href={m.program.official_url} target="_blank" rel="noreferrer" className="mt-3 inline-flex items-center gap-1 text-xs text-cyan-400 hover:underline">
             Official program page <ExternalLink className="w-3 h-3" /></a>
         </Card>

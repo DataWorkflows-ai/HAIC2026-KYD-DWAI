@@ -78,5 +78,9 @@
  "data/raw/SFY-2026-SUMMARY.numbers": {
   "sha256": "077c2320cbc833b5e71afa13e07f0f2d093a1f846fc4e591edb0062c081d2651",
   "verified_at": "2026-11-16T00:06:35+00:00"
+ },
+ "data/raw/research/usda/ear-SNAP-Participation-Rates-2022.pdf": {
+  "sha256": "34266fb753c399b284c19ea40694e3cc32184fc65cad91dfa60c13597de0e16b",
+  "verified_at": "2026-11-20T16:46:43+00:00"
  }
 }

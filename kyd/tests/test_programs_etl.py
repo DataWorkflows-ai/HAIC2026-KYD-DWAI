@@ -54,6 +54,30 @@ def test_ranking_uses_program_data():
     assert snap.gap_note and "200% of poverty" in snap.gap_note
 
 
+def test_snap_gap_benchmark_end():
+    hi = _vals("HI")
+    assert (hi["snap_eligible_usda"], hi["snap_participants_usda"]) == (161_104, 130_188)
+    assert (hi["snap_participation_rate"], hi["snap_participation_rate_ci_low"],
+            hi["snap_participation_rate_ci_high"], hi["snap_participation_rate_us"]) == (81, 73, 88, 88)
+    assert hi["snap_gap_low_persons"] == 161_104 - 130_188
+    for _, prefix, n in CHAMBERS:
+        ds = [_vals(f"{prefix}-{d:02d}") for d in range(1, n + 1)]
+        assert abs(sum(v["snap_gap_low_persons"] for v in ds) - hi["snap_gap_low_persons"]) <= n / 2
+        for v in ds:
+            assert v["pct_snap_gap_low"] == round(100 * v["snap_gap_low_persons"] / v["pop_below_200fpl"], 1)
+
+
+def test_snap_gap_range():
+    for geo in ("HI", "HD-28", "SD-13", "HD-36"):
+        rng = next(m for m in find_programs(geo, limit=20) if m.program.program_id == "snap").gap_range
+        assert rng and rng.low.persons.value <= rng.high.persons.value, geo
+        assert {rng.low.basis, rng.high.basis} == {"benchmark-based", "survey-based"}, geo
+        assert (rng.note is not None) == (rng.low.basis == "survey-based"), geo
+        assert {o.indicator for o in rng.benchmark} >= {"snap_participation_rate", "snap_participation_rate_us"}
+    hd36 = next(m for m in find_programs("HD-36", limit=20) if m.program.program_id == "snap").gap_range
+    assert hd36.low.basis == "survey-based" and hd36.high.grade == "C"
+
+
 def test_program_indicators_on_map():
     r = TestClient(app).get("/api/map/pct_snap_gap", params={"geo_type": "sldl"})
     assert r.status_code == 200, r.text

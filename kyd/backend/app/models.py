@@ -49,12 +49,30 @@ class Program(BaseModel):
     proxy_indicators: list[str] = Field(default_factory=list)
 
 
+class RangeEnd(BaseModel):
+    persons: Observation
+    share: Observation | None = None     # of people below the program's income limit
+    grade: Literal["A", "B", "C"]        # A administrative count at district/ZIP; B survey or modelled; C allocated down
+    basis: str                           # e.g. "survey-based", "benchmark-based"
+    method: str
+
+
+class GapRange(BaseModel):
+    """People who look eligible but are not enrolled, shown as a range rather than one figure (spec §5.2)."""
+    low: RangeEnd
+    high: RangeEnd
+    benchmark: list[Observation] = Field(default_factory=list)   # official participation rates behind the benchmark end
+    is_not: str                                                  # one line on what the range does not mean
+    note: str | None = None                                      # e.g. when the two methods disagree in this district
+
+
 class ProgramMatch(BaseModel):
     program: Program
     score: float
     eligible_proxy: Observation | None = None
     uptake_proxy: Observation | None = None
     gap_note: str | None = None
+    gap_range: GapRange | None = None
     rationale: list[str] = Field(default_factory=list)
 
 

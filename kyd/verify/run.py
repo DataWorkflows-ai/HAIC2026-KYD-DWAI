@@ -18,7 +18,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from core import MANIFEST, RAW, PROCESSED, REPO, REPORT, Report, load_manifest, sha256  # noqa: E402
-import bessd, census, crosscheck, databook  # noqa: E402,E401
+import bessd, census, crosscheck, databook, usda  # noqa: E402,E401
 
 SOURCES = {  # id → file, publisher, how it's used
     "dhs.databook2025": {"path": RAW / "DHS-Databook-2025.pdf", "publisher": "Hawaiʻi DHS",
@@ -32,6 +32,9 @@ SOURCES = {  # id → file, publisher, how it's used
                                     "publisher": "derived from Databook p12–13", "url": None, "used_by": "tanf_by_island.py"},
     "processed.bessd_csv": {"path": PROCESSED / "bessd_sfy2026_caseload_by_island.csv", "publisher": "derived from BESSD workbook",
                             "url": None, "used_by": "tanf_by_island.py, load_county_snap.py"},
+    "usda.snap_rates_fy2022": {"path": usda.PDF, "publisher": "USDA FNS (Mathematica)",
+                               "url": "https://www.fns.usda.gov/sites/default/files/resource-files/ear-SNAP-Participation-Rates-2022.pdf",
+                               "used_by": "kyd/etl/load_programs.py (SNAP gap range, benchmark end)"},
     **{f"census.{t}.{ch}": {"path": RAW / f"{t}_{ch}_districts.json", "publisher": "U.S. Census Bureau, ACS 2020–2024 5-year",
                             "url": f"https://data.census.gov/table/ACSST5Y2024.{t}", "used_by": "scripts/*.py"}
        for t, chs in census.TABLES.items() for ch in chs},
@@ -43,14 +46,14 @@ def provenance(rep: Report) -> dict:
     out = {}
     for sid, s in SOURCES.items():
         p: Path | None = s["path"]
-        info = {k: (str(v.relative_to(REPO)) if isinstance(v, Path) else v) for k, v in s.items()}
+        info = {k: (v.relative_to(REPO).as_posix() if isinstance(v, Path) else v) for k, v in s.items()}
         if p is None or not p.exists():
             info["sha256"] = None
             out[sid] = info
             continue
         h = sha256(p)
         info["sha256"] = h
-        prev = man.get(str(p.relative_to(REPO)))
+        prev = man.get(p.relative_to(REPO).as_posix())
         info["verified_at"] = prev and prev.get("verified_at")
         if prev is None:
             rep.add(f"provenance.{sid}.new", sid, "provenance", "warn",
@@ -68,7 +71,7 @@ def provenance(rep: Report) -> dict:
 def main(argv: list[str]) -> int:
     rep = Report()
     sources = provenance(rep)
-    for mod in (census, databook, bessd, crosscheck):
+    for mod in (census, databook, bessd, crosscheck, usda):
         try:
             mod.run(rep)
         except Exception as e:  # a crashed checker is itself a failure, never a silent skip
@@ -86,7 +89,9 @@ def main(argv: list[str]) -> int:
             print("not accepted: fix the FAIL checks first")
             return 1
         now = datetime.now(timezone.utc).isoformat(timespec="seconds")
-        man = {v["path"]: {"sha256": v["sha256"], "verified_at": now} for v in sources.values() if v.get("sha256")}
+        old = load_manifest()
+        man = {v["path"]: (old[v["path"]] if old.get(v["path"], {}).get("sha256") == v["sha256"]
+                           else {"sha256": v["sha256"], "verified_at": now}) for v in sources.values() if v.get("sha256")}
         MANIFEST.write_text(json.dumps(man, indent=1, sort_keys=True))
         print(f"accepted {len(man)} source files → {MANIFEST.relative_to(REPO)}")
     return 1 if s["fail"] else 0
