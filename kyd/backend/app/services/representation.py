@@ -9,10 +9,8 @@ several Senate districts and the reverse. Every counterpart is listed with the
 share of overlap.
 """
 from __future__ import annotations
-import csv
-import json
 from functools import lru_cache
-from ..config import settings
+from . import datastore
 
 ROSTER_AS_OF = "2026-11-13"
 OVERLAP_METHOD = ("Share of land area (2022 boundaries, Hawaiʻi Statewide GIS Program). "
@@ -21,18 +19,13 @@ OVERLAP_METHOD = ("Share of land area (2022 boundaries, Hawaiʻi Statewide GIS P
 
 @lru_cache
 def _members() -> dict[str, dict]:
-    with (settings().data_dir / "legislators.csv").open(encoding="utf-8") as f:
-        return {r["geo_id"]: r for r in csv.DictReader(f)}
+    return {r["geo_id"]: r for r in datastore.csv_rows("legislators.csv")}
 
 
 @lru_cache
 def _overlap() -> list[dict]:
-    p = settings().data_dir / "district_overlap.csv"
-    if not p.exists():
-        return []
-    with p.open() as f:
-        return [{**r, "share_of_house": float(r["share_of_house"]), "share_of_senate": float(r["share_of_senate"])}
-                for r in csv.DictReader(f)]
+    return [{**r, "share_of_house": float(r["share_of_house"]), "share_of_senate": float(r["share_of_senate"])}
+            for r in datastore.csv_rows("district_overlap.csv")]
 
 
 LOCAL_METHOD = ("Neighborhoods: Honolulu Board of Realtors areas (City & County of Honolulu, 2012) on Oʻahu, "
@@ -42,8 +35,7 @@ LOCAL_METHOD = ("Neighborhoods: Honolulu Board of Realtors areas (City & County 
 
 @lru_cache
 def _local() -> dict[str, dict]:
-    p = settings().data_dir / "district_local.json"
-    return json.loads(p.read_text(encoding="utf-8"))["districts"] if p.exists() else {}
+    return (datastore.load_json("district_local.json") or {}).get("districts", {})
 
 
 def local_areas(geo_id: str) -> dict:

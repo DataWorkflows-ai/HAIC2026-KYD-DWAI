@@ -1,4 +1,5 @@
 -- KYD schema. Postgres 16 + PostGIS + pgvector. Idempotent.
+-- Normalized design (geometry, vectors, watchdog). Live mode reads the tables in live.sql.
 CREATE EXTENSION IF NOT EXISTS postgis;
 CREATE EXTENSION IF NOT EXISTS vector;
 CREATE EXTENSION IF NOT EXISTS pg_trgm;
@@ -7,7 +8,6 @@ CREATE SCHEMA IF NOT EXISTS ref;
 CREATE SCHEMA IF NOT EXISTS facts;
 CREATE SCHEMA IF NOT EXISTS programs;
 CREATE SCHEMA IF NOT EXISTS vec;
-CREATE SCHEMA IF NOT EXISTS audit;
 CREATE SCHEMA IF NOT EXISTS watchdog;
 
 -- ── reference ────────────────────────────────────────────────────────────
@@ -132,27 +132,7 @@ CREATE TABLE IF NOT EXISTS vec.doc_chunk (
 CREATE INDEX IF NOT EXISTS doc_chunk_tsv ON vec.doc_chunk USING gin (tsv);
 CREATE INDEX IF NOT EXISTS doc_chunk_hnsw ON vec.doc_chunk USING hnsw (embedding vector_cosine_ops);
 
--- ── audit: append-only, hash-chained (§8.1–8.2) ──────────────────────────
-CREATE TABLE IF NOT EXISTS audit.access_log (
-  seq        bigserial PRIMARY KEY,
-  ts         timestamptz NOT NULL DEFAULT now(),
-  actor      text NOT NULL,
-  role       text NOT NULL,
-  action     text NOT NULL,                   -- tool / endpoint
-  route      text,                            -- S1 | S2
-  geo_ids    text[],
-  tables     text[],
-  row_count  integer,
-  export     boolean NOT NULL DEFAULT false,
-  query_scrubbed text,
-  prev_hash  text NOT NULL,
-  hash       text NOT NULL
-);
-CREATE OR REPLACE FUNCTION audit.deny_mutation() RETURNS trigger LANGUAGE plpgsql AS
-$$ BEGIN RAISE EXCEPTION 'audit.access_log is append-only'; END $$;
-DROP TRIGGER IF EXISTS access_log_no_update ON audit.access_log;
-CREATE TRIGGER access_log_no_update BEFORE UPDATE OR DELETE ON audit.access_log
-  FOR EACH ROW EXECUTE FUNCTION audit.deny_mutation();
+-- audit.access_log and the kyd.* data tables used by live mode are in live.sql.
 
 -- ── watchdog (§6) ────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS watchdog.source_check (
@@ -177,8 +157,4 @@ DO $$ BEGIN
 END $$;
 GRANT USAGE ON SCHEMA ref, facts, programs, vec TO kyd_app;
 GRANT SELECT ON ALL TABLES IN SCHEMA ref, facts, programs, vec TO kyd_app;
-GRANT USAGE ON SCHEMA audit TO kyd_app, kyd_auditor;
-GRANT INSERT ON audit.access_log TO kyd_app;
-GRANT USAGE ON SEQUENCE audit.access_log_seq_seq TO kyd_app;
-GRANT SELECT ON audit.access_log TO kyd_auditor;
 GRANT USAGE, CREATE ON SCHEMA ref, facts, programs, vec, watchdog TO kyd_etl;

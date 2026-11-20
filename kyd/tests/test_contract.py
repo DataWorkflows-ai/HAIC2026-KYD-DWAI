@@ -47,6 +47,7 @@ def test_audit_chain():
 
 # ── real data, map and representation ──────────────────────────────────────
 import csv
+import os
 import sqlite3
 from pathlib import Path
 
@@ -55,7 +56,7 @@ REPO = Path(__file__).resolve().parents[2]
 
 def test_real_data_mode_is_default():
     h = c.get("/api/health").json()
-    assert h["mode"] == "sqlite" and not h["demo"] and h["geographies"] == 77
+    assert h["mode"] == os.environ.get("KYD_DATA_MODE", "sqlite") and not h["demo"] and h["geographies"] == 77
 
 
 def test_acs_matches_teammate_database():

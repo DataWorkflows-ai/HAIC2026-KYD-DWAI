@@ -147,17 +147,44 @@ The blueprint sets the instance type (`plan`). A free instance sleeps after 15 i
 Any host that can run a Python web process works the same way: install `kyd/backend/requirements.txt`, then run
 `uvicorn app.main:app --host 0.0.0.0 --port $PORT` from `kyd/backend`.
 
+## Live mode: data in Supabase (Postgres)
+
+By default the app reads the bundled SQLite file. In live mode it reads the same data from Postgres.
+
+1. Copy `kyd/backend/.env.example` to `kyd/backend/.env` and set `KYD_DATABASE_URL` to your database's connection
+   string (Supabase: **Connect → Connection string → Session pooler**). `.env` is ignored by git. Never commit it.
+2. Load and verify, from a machine that can reach the database:
+
+   ```
+   python kyd/etl/promote_to_postgres.py --app-env kyd/backend/.env.render
+   ```
+
+   This creates the tables (`kyd/db/live.sql`), copies every row of `kyd.sqlite` and every reference file the app
+   reads, then reads it all back and compares it with the repository. `--app-env` also gives the read-only role
+   `kyd_app` a login and writes its connection string to that file (ignored by git) for the server to use.
+3. On the server set `KYD_DATA_MODE=live` and `KYD_DATABASE_URL` to the `kyd_app` string.
+4. Check `/api/health`: `data_backend` should say `postgres`, and `load_run` shows what was loaded and when.
+
+If the database cannot be reached at start-up, the app serves the bundled SQLite copy instead and `/api/health`
+shows `data_backend: sqlite` with the reason under `fallback`. To go back on purpose, set `KYD_DATA_MODE=sqlite`.
+
+CI loads a Postgres, compares every API response between the two modes (they must be identical), and runs the whole
+test suite in live mode. Re-check a loaded database at any time with `python kyd/etl/promote_to_postgres.py --check`.
+
 ## Settings
 
 All settings are environment variables, or lines in `kyd/backend/.env`. The defaults run the app with no setup.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `KYD_DATA_MODE` | `sqlite` | `sqlite` = the bundled database, read-only. `live` = Postgres and Neo4j. `fixture` = synthetic demo data for UI work. |
+| `KYD_DATA_MODE` | `sqlite` | `sqlite` = the bundled database, read-only. `live` = Postgres (Supabase), see above. `fixture` = synthetic demo data for UI work. |
 | `KYD_LLM_PROVIDER` | `none` | `none`, `anthropic`, or `openai` (any OpenAI-compatible server). |
 | `KYD_LLM_MODEL`, `KYD_LLM_API_KEY`, `KYD_LLM_BASE_URL` | empty | Model id, key, and base URL for the AI tier. |
 | `KYD_GRAPH_MODE` | `auto` | `auto` uses Neo4j if it is running, otherwise the in-memory graph. |
-| `KYD_DATABASE_URL`, `KYD_NEO4J_URI`, `KYD_NEO4J_PASSWORD` | local dev values | Used only in `live` mode. Start both with `docker compose -f kyd/docker-compose.yml up -d`. |
+| `KYD_DATABASE_URL` | local dev value | Postgres connection string, used in `live` mode. |
+| `KYD_NEO4J_URI`, `KYD_NEO4J_PASSWORD` | local dev values | Neo4j, used when `KYD_GRAPH_MODE` is `auto` or `neo4j`. Local copies of both databases: `docker compose -f kyd/docker-compose.yml up -d`. |
+| `KYD_LIVE_FALLBACK` | `true` | In `live` mode, serve the bundled SQLite copy if Postgres cannot be reached. |
+| `KYD_AUDIT_STRICT` | `false` | `true` fails a request whose audit entry cannot be written to Postgres. `false` writes it to the local file and flags it in `/api/health`. |
 | `KYD_AUTH_SECRET` | empty | HMAC key for signed role tokens. Empty means every visitor is an anonymous, read-only viewer. |
 
 ## Third-party services and data

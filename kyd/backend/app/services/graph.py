@@ -8,13 +8,13 @@ Backends (KYD_GRAPH_MODE):
 Both backends are built from the same document (graph_data.build), so answers match.
 """
 from __future__ import annotations
-import json
 import logging
 from collections import defaultdict, deque
 from typing import Protocol
 
 from ..config import settings
 from ..models import Program
+from . import datastore
 
 log = logging.getLogger("kyd.graph")
 
@@ -32,7 +32,7 @@ class ProgramGraph(Protocol):
 
 
 def _program_from_json() -> dict[str, Program]:
-    raw = json.loads((settings().data_dir / "programs.json").read_text(encoding="utf-8"))
+    raw = datastore.load_json("programs.json")
     return {r["program_id"]: Program(**{k: v for k, v in r.items() if k in Program.model_fields}) for r in raw}
 
 

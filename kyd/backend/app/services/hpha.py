@@ -8,20 +8,16 @@ public housing stay on HUD's Picture of Subsidized Households (4,727 units, Dec 
 """
 from __future__ import annotations
 
-import csv
 from functools import lru_cache
 
-from ..config import settings
+from . import datastore
 
 URL = "https://hpha.hawaii.gov/programs-and-resources/public-housing"
 
 
 @lru_cache
 def _rows() -> list[dict]:
-    p = settings().data_dir.parent.parent / "data" / "raw" / "research" / "hpha" / "hpha_properties.csv"
-    if not p.exists():
-        return []
-    return list(csv.DictReader(p.open(encoding="utf-8")))
+    return datastore.csv_rows("hpha_properties.csv")
 
 
 def properties(geo_id: str) -> dict:

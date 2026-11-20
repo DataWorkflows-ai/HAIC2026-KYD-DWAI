@@ -49,16 +49,17 @@ def test_postgres_repo_uses_a_pool(monkeypatch):
     class Conn:
         def __enter__(self): opened.append(1); return self
         def __exit__(self, *a): pass
-        def cursor(self): return Cur()
+        def cursor(self, binary=False): return Cur()
 
     class Pool:
-        def __init__(self, url, min_size, max_size, kwargs, open):
+        check_connection = None
+        def __init__(self, url, min_size, max_size, kwargs, check, open):
             self.max_size = max_size
         def connection(self): return Conn()
         def close(self): pass
 
     monkeypatch.setitem(sys.modules, "psycopg_pool", types.SimpleNamespace(ConnectionPool=Pool))
-    r = PostgresRepo()
+    r = PostgresRepo(load=False)
     assert r._pool.max_size == settings().pg_pool_max
     assert r._q("select 1") == [{"ok": 1}] and r._q("select 2") == [{"ok": 1}]
     assert len(opened) == 2                                            # a pooled connection per query

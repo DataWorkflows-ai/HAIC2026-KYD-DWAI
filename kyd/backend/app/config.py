@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parents[2]
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_prefix="KYD_", env_file=ROOT / "backend" / ".env", extra="ignore")
 
-    data_mode: str = "sqlite"                       # sqlite (bundled real ACS) | fixture (synthetic) | live (Postgres+Neo4j)
+    data_mode: str = "sqlite"                       # sqlite (bundled real data) | fixture (synthetic) | live (Postgres / Supabase)
     database_url: str = "postgresql://kyd:kyd_dev@127.0.0.1:5433/kyd"
     neo4j_uri: str = "bolt://127.0.0.1:7688"
     neo4j_user: str = "neo4j"
@@ -25,7 +25,10 @@ class Settings(BaseSettings):
     trust_proxy_headers: bool = False               # only behind an SSO proxy that strips client x-kyd-* headers
 
     cache_ttl_seconds: float = 300                  # live mode only; bundled data never changes in-process
-    pg_pool_max: int = 10                           # Postgres connection pool size (live mode)
+    pg_pool_max: int = 4                            # Postgres connection pool size (live mode); data is read once at start-up
+    pg_connect_timeout: float = 10                  # seconds to wait for Postgres at start-up before falling back
+    live_fallback: bool = True                      # live mode: serve bundled SQLite if Postgres is unreachable (shown in /api/health)
+    audit_strict: bool = False                      # true: a failed audit write fails the request; false: write to the local file and flag it
     cv_suppress: float = 0.30                       # §9.2
     stale_after_days: int = 540                     # §6.4
     fixtures_dir: Path = ROOT / "backend" / "fixtures"

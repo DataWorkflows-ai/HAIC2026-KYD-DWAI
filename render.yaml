@@ -21,6 +21,10 @@ services:
         value: sqlite
       - key: KYD_GRAPH_MODE
         value: auto
+      # Live mode (Supabase): set KYD_DATABASE_URL in the Render dashboard, then change KYD_DATA_MODE to live.
+      # If the database cannot be reached the app serves the bundled SQLite copy and /api/health says so.
+      - key: KYD_DATABASE_URL
+        sync: false
       # LLM tier (System 2): values are set in the Render dashboard, never in the repo.
       - key: KYD_LLM_PROVIDER
         sync: false
