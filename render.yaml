@@ -1,6 +1,7 @@
 # Render Blueprint: public, read-only demo of Know Your District.
-# Runs on the bundled SQLite database (kyd/data/kyd.sqlite, opened read-only) and the committed
-# frontend build (kyd/frontend/dist). No database server and no secrets are needed.
+# Live mode: data is read from Supabase (KYD_DATABASE_URL, the read-only kyd_app login) at start-up and
+# the audit log is written there. The bundled SQLite database (kyd/data/kyd.sqlite) is the fallback.
+# Frontend is the committed build (kyd/frontend/dist). Rollback: set KYD_DATA_MODE to sqlite.
 # LLM tier: set KYD_LLM_PROVIDER=anthropic, KYD_LLM_MODEL and KYD_LLM_API_KEY in the Render dashboard;
 # without them the agent answers with the rule-based tier (System 1) only.
 services:
@@ -18,11 +19,11 @@ services:
       - key: PYTHON_VERSION
         value: "3.12.7"
       - key: KYD_DATA_MODE
-        value: sqlite
+        value: live
       - key: KYD_GRAPH_MODE
         value: auto
-      # Live mode (Supabase): set KYD_DATABASE_URL in the Render dashboard, then change KYD_DATA_MODE to live.
-      # If the database cannot be reached the app serves the bundled SQLite copy and /api/health says so.
+      # KYD_DATABASE_URL is set in the Render dashboard only. If the database cannot be reached
+      # the app serves the bundled SQLite copy and /api/health says so.
       - key: KYD_DATABASE_URL
         sync: false
       # LLM tier (System 2): values are set in the Render dashboard, never in the repo.
