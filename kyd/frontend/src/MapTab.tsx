@@ -195,8 +195,8 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
   const [layersVersion, setLayersVersion] = useState(0);
   const [showLabels, setShowLabels] = useState(true);
   const [showCouncil, setShowCouncil] = useState(false);
-  // on a phone the overlays cover most of the map, so they start hidden there
-  const [showControls, setShowControls] = useState(() => window.matchMedia('(min-width: 640px)').matches);
+  // on a phone (either orientation) the overlays cover most of the map, so they start hidden there
+  const [showControls, setShowControls] = useState(() => window.matchMedia('(min-width: 640px) and (min-height: 500px)').matches);
   const pendingZoom = useRef<string | null>(geo);   // fly to the picked district once its shape is loaded
   const clickedOnMap = useRef<string | null>(null); // picks made by clicking the map don't re-zoom
 
@@ -446,13 +446,12 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
               <input type="checkbox" checked={showCouncil} onChange={e => setShowCouncil(e.target.checked)} /> Council
             </label>
           </div>
-        </div>
-
-        {/* island quick zoom */}
-        <div className="absolute top-14 left-14 flex flex-wrap gap-1" role="group" aria-label="Zoom to island">
-          {ISLANDS.map(([n, ext]) => (
-            <button key={n} onClick={() => zoomExtent(ext)} className="px-2 py-0.5 rounded-md text-[11px] bg-premium-900/90 border border-premium-700 text-slate-300 hover:text-white">{n}</button>
-          ))}
+          {/* island quick zoom: in the same wrapping row, so it moves down instead of overlapping when the row wraps */}
+          <div className="pointer-events-auto basis-full flex flex-wrap gap-1" role="group" aria-label="Zoom to island">
+            {ISLANDS.map(([n, ext]) => (
+              <button key={n} onClick={() => zoomExtent(ext)} className="px-2 py-0.5 rounded-md text-[11px] bg-premium-900/90 border border-premium-700 text-slate-300 hover:text-white">{n}</button>
+            ))}
+          </div>
         </div>
 
         {/* legend */}
