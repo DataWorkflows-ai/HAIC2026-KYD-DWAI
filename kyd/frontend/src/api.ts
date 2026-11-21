@@ -145,6 +145,7 @@ export const api = {
   get: <T,>(url: string) => j<T>(url),
 
   register: (email: string, name: string, password: string) => post<Session>('/api/auth/register', { email, name, password }),
+  guest: () => post<Session>('/api/auth/guest', {}),
   login: (email: string, password: string) => post<Session>('/api/auth/login', { email, password }),
   me: () => j<User>('/api/auth/me'),
   users: () => j<User[]>('/api/admin/users'),

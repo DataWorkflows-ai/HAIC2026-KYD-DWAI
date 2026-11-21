@@ -67,7 +67,11 @@ export default function App() {
   }, []);
   if (user === undefined) return <div className="h-screen flex items-center justify-center text-sm text-slate-500">Loading…</div>;
   if (!user) return <Login onSignedIn={u => { setTab('dashboard'); setUser(u); }} />;
-  return <Workspace user={user} onSignOut={() => { setToken(null); setUser(null); }} />;
+  const signOut = () => {
+    if (user.email.endsWith('@guest.kyd') && !window.confirm('Signing out ends this guest workspace and its chats. Sign out?')) return;
+    setToken(null); setUser(null);
+  };
+  return <Workspace user={user} onSignOut={signOut} />;
 }
 
 function Workspace({ user, onSignOut }: { user: User; onSignOut: () => void }) {

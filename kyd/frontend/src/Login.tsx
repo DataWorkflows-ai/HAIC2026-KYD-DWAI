@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { LogIn, UserPlus } from 'lucide-react';
-import { api, setToken, type User } from './api';
+import { LogIn, Sparkles, UserPlus } from 'lucide-react';
+import { api, setToken, type Session, type User } from './api';
 import dwaiLogo from './brand/dataworkflows-logo.png';
 
 /** Sign in or register. Registration is instant; the owner can change roles or disable accounts later. */
@@ -11,15 +11,18 @@ export function Login({ onSignedIn }: { onSignedIn: (u: User) => void }) {
   const [password, setPassword] = useState('');
   const [err, setErr] = useState('');
   const [busy, setBusy] = useState(false);
-  const submit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const run = async (go: () => Promise<Session>) => {
     setErr(''); setBusy(true);
     try {
-      const s = mode === 'login' ? await api.login(email, password) : await api.register(email, name, password);
+      const s = await go();
       setToken(s.token);
       onSignedIn(s.user);
     } catch (x) { setErr(x instanceof Error ? x.message : String(x)); }
     finally { setBusy(false); }
+  };
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    run(() => mode === 'login' ? api.login(email, password) : api.register(email, name, password));
   };
   const input = 'w-full bg-premium-950 border border-premium-700 rounded-md px-3 py-2 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-600';
   return (
@@ -33,6 +36,13 @@ export function Login({ onSignedIn }: { onSignedIn: (u: User) => void }) {
             <img src={dwaiLogo} alt="DataWorkflows.ai" width={140} height={28} className="h-7 w-auto" />
           </div>
         </div>
+        <div className="space-y-1.5">
+          <button onClick={() => run(api.guest)} disabled={busy}
+            className="w-full py-2.5 rounded-md bg-emerald-700 hover:bg-emerald-600 disabled:opacity-50 text-sm font-semibold inline-flex items-center justify-center gap-2">
+            <Sparkles className="w-4 h-4" />Try the demo</button>
+          <p className="text-[11px] text-slate-500 text-center">No sign-up. You get a private guest workspace with a sample chat and brief. Signing out ends it.</p>
+        </div>
+        <div className="flex items-center gap-2 text-[11px] text-slate-500"><span className="flex-1 border-t border-premium-800" />or use an account<span className="flex-1 border-t border-premium-800" /></div>
         <div role="tablist" className="grid grid-cols-2 gap-1 bg-premium-950 p-1 rounded-lg border border-premium-800">
           {(['login', 'register'] as const).map(m => (
             <button key={m} role="tab" aria-selected={mode === m} onClick={() => { setMode(m); setErr(''); }}

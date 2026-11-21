@@ -116,7 +116,7 @@ class SecurityMiddleware(BaseHTTPMiddleware):
         path = req.url.path
         if path.startswith("/api/") and path != "/api/health":
             key = client_key(req)
-            if path in ("/api/auth/login", "/api/auth/register") and req.method == "POST":
+            if path in ("/api/auth/login", "/api/auth/register", "/api/auth/guest") and req.method == "POST":
                 if wait := LOGIN.hit(key):
                     return _too_many(wait, "sign-in attempts")
             elif path == "/api/agent/ask" and req.method == "POST":

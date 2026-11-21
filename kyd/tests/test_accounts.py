@@ -142,6 +142,21 @@ def test_dashboard_saved_per_account():
     assert c.get("/api/dashboard", headers=h(b)).json()["layout"] is None
 
 
+def test_guest_gets_private_account_with_sample_chat(monkeypatch):
+    monkeypatch.setattr(settings(), "auth_required", True)
+    g1, g2 = (c.post("/api/auth/guest").json() for _ in range(2))
+    assert g1["user"]["role"] == "user" and g1["user"]["email"].endswith("@guest.kyd") and g1["user"]["id"] != g2["user"]["id"]
+    assert c.get("/api/indicators", headers=h(g1)).status_code == 200
+    chats = c.get("/api/chats", headers=h(g1)).json()
+    assert [x["title"] for x in chats] == ["Sample: House District 22 brief"]
+    msgs = c.get(f"/api/chats/{chats[0]['id']}", headers=h(g1)).json()["messages"]
+    doc = msgs[3]["content"]["document"]
+    assert [m["role"] for m in msgs] == ["user", "assistant", "user", "assistant"] and msgs[1]["content"]["route"] == "S1"
+    assert doc["title"] == "House District 22: one-page brief" and "[obs:" in doc["body"] and "Programs to raise" in doc["body"]
+    assert c.get(f"/api/chats/{chats[0]['id']}", headers=h(g2)).status_code == 404
+    assert chats[0]["id"] not in [x["id"] for x in c.get("/api/chats", headers=h(g2)).json()]
+
+
 def test_split_document():
     text, doc = system2.split_document('Here is the memo.\n<document title="HD 12 brief">## Summary\n- one</document>')
     assert text == "Here is the memo." and doc == {"title": "HD 12 brief", "body": "## Summary\n- one"}

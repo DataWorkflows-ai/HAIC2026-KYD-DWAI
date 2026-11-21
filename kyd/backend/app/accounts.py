@@ -1,6 +1,8 @@
 """Accounts (register, sign in), owner and admin pages, saved chats and dashboards. Storage: app/appstore.py."""
 from __future__ import annotations
+import logging
 import re
+import secrets
 from collections import Counter
 from datetime import datetime, timezone
 
@@ -8,10 +10,13 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
 
 from . import appstore, audit
+from .agent import system1
+from .agent.orchestrator import answer_s1
 from .auth import ACCOUNT, Principal, check_password, current_principal, forget, hash_password, mint
 from .config import settings
 from .security import LLM_BUDGET
 
+log = logging.getLogger("kyd.accounts")
 auth_api = APIRouter(prefix="/api/auth")
 api = APIRouter(prefix="/api")
 Who = Depends(current_principal)
@@ -61,6 +66,50 @@ def register(body: Register):
     u = appstore.create_user(email, body.name.strip(), hash_password(body.password), role)
     appstore.touch_login(u["id"])
     audit.record(u["id"], role, "register")
+    return _session(u)
+
+
+GUEST_DOMAIN = "guest.kyd"
+SAMPLE_GEO = "HD-22"
+
+
+def _sample_chat(uid: str) -> None:
+    """A starter chat with a document, built from rule-based (System 1) answers: no LLM call, every figure cited."""
+    profile_q = "Give me a profile of House District 22"
+    routes = [system1.route(q, SAMPLE_GEO) for q in (profile_q, "Which programs fit House District 22?")]
+    if [r.intent for r in routes] != ["profile", "programs"]:
+        return
+    profile, programs = (answer_s1(r) for r in routes)
+    brief_q = "Write a one-page brief on House District 22 for a constituent meeting"
+    body = "\n\n".join([
+        "## At a glance\n" + profile.text.split("\n", 1)[-1],
+        "## Programs to raise\n" + programs.text.split("\n", 1)[-1],
+        "## Notes\n- Figures are population-level estimates (ACS 2020–2024) with 90% margins of error.\n"
+        "- Program fit reflects indicated need relative to the state; each agency determines eligibility.",
+    ])
+    brief = programs.model_copy(update={
+        "text": "Here is a one-page brief built from the cited figures. It is open in the document panel.",
+        "observations": profile.observations + programs.observations,
+        "document": {"title": "House District 22: one-page brief", "body": body}})
+    c = appstore.create_chat(uid, "Sample: House District 22 brief")
+    for q, a in ((profile_q, profile), (brief_q, brief)):
+        appstore.add_message(c["id"], "user", q)
+        appstore.add_message(c["id"], "assistant", {**a.model_dump(mode="json"), "chat_id": c["id"]})
+
+
+@auth_api.post("/guest")
+def guest():
+    """One click, no form: a private account for trying the demo. It has no usable password, so signing out
+    ends access to it."""
+    tag = secrets.token_hex(4)
+    u = appstore.create_user(f"guest-{tag}@{GUEST_DOMAIN}", f"Guest {tag[:4].upper()}",
+                             hash_password(secrets.token_urlsafe(24)), "user")
+    appstore.touch_login(u["id"])
+    try:
+        _sample_chat(u["id"])
+    except Exception:
+        log.exception("sample chat for guest failed")
+    audit.record(u["id"], "user", "guest")
     return _session(u)
 
 
