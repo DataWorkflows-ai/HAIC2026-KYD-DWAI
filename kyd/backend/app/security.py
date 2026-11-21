@@ -17,7 +17,8 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from .config import settings
 
 # ArcGIS (map SDK, Hawaiʻi boundary service, imagery) is the only third-party code or data the app loads.
-ARCGIS = "https://js.arcgis.com https://*.arcgis.com https://*.arcgisonline.com https://geodata.hawaii.gov"
+ARCGIS = ("https://js.arcgis.com https://*.arcgis.com https://*.arcgisonline.com https://geodata.hawaii.gov"
+          " https://*.tile.openstreetmap.org")
 CSP = "; ".join([
     "default-src 'self'",
     # ArcGIS compiles Arcade label and renderer expressions at run time, which needs 'unsafe-eval'.

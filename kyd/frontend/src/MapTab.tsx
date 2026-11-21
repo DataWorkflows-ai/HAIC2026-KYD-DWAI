@@ -10,11 +10,11 @@
  *  3. Basemap: Esri World Imagery tiles, which need no key, or OpenStreetMap. With an ArcGIS
  *     API key (VITE_ARCGIS_API_KEY) the vector basemaps are used instead.
  *
- * Interaction: hover (mouse) highlights a district and shows a summary card. Click or tap pins
- * it in the side panel. "Open profile" jumps to the Overview tab.
+ * Interaction: hover (mouse) highlights a district. Click or tap shows its summary card. Double-click
+ * or double-tap makes it the app's district and opens its Overview.
  */
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { ExternalLink, Layers, MapPin, Star } from 'lucide-react';
+import { ExternalLink, Layers, MapPin, SlidersHorizontal, Star } from 'lucide-react';
 import { api, fmt, type Geo, type MapDistrict, type MapSummary, type Member } from './api';
 import { Card, Pill } from './ui';
 
@@ -186,7 +186,7 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
   const [indicators, setIndicators] = useState<{ indicator: string; label: string; unit: string; topic: string }[]>([]);
   const [summary, setSummary] = useState<Record<Chamber, MapSummary | null>>({ sldl: null, sldu: null });
   const [values, setValues] = useState<Record<string, number | null>>({});
-  const [hover, setHover] = useState<{ id: string; x: number; y: number } | null>(null);
+  const [popup, setPopup] = useState<{ id: string; x: number; y: number } | null>(null);
   const [selected, setSelected] = useState<string | null>(geo.startsWith(defaultChamber === 'sldl' ? 'HD' : 'SD') ? geo : null);
   const [basemap, setBasemap] = useState<'imagery' | 'streets'>('imagery');
   const [showOfficial, setShowOfficial] = useState(true);
@@ -195,6 +195,8 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
   const [layersVersion, setLayersVersion] = useState(0);
   const [showLabels, setShowLabels] = useState(true);
   const [showCouncil, setShowCouncil] = useState(false);
+  // on a phone (either orientation) the overlays cover most of the map, so they start hidden there
+  const [showControls, setShowControls] = useState(() => window.matchMedia('(min-width: 640px) and (min-height: 500px)').matches);
   const pendingZoom = useRef<string | null>(geo);   // fly to the picked district once its shape is loaded
   const clickedOnMap = useRef<string | null>(null); // picks made by clicking the map don't re-zoom
 
@@ -329,12 +331,13 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
     const c = ctx.current;
     if (status !== 'ready') return;
     let seq = 0;
-    const hit = async (e: any) => {
-      const my = ++seq;
+    // hover hit tests drop stale results; clicks always resolve
+    const hit = async (e: any, latestOnly = true) => {
+      const my = latestOnly ? ++seq : 0;
       if (!c.layers?.data || c.view?.destroyed) return;
       let r: any;
       try { r = await c.view.hitTest(e, { include: [c.layers.data] }); } catch { return; }
-      if (my !== seq) return;
+      if (latestOnly && my !== seq) return;
       const g = r.results.find((x: any) => x.graphic?.attributes?.geo_id)?.graphic;
       return g?.attributes?.geo_id as string | undefined;
     };
@@ -342,13 +345,15 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
       if (isTouch()) return;
       const id = await hit(e);
       c.hoverHL?.remove(); c.hoverHL = null;
-      if (id && c.graphics?.[id] && c.dataView) { c.hoverHL = c.dataView.highlight(c.graphics[id]); setHover({ id, x: e.x, y: e.y }); el.current!.style.cursor = 'pointer'; }
-      else { setHover(null); el.current!.style.cursor = ''; }
+      if (id && c.graphics?.[id] && c.dataView) { c.hoverHL = c.dataView.highlight(c.graphics[id]); el.current!.style.cursor = 'pointer'; }
+      else el.current!.style.cursor = '';
     });
-    const leave = c.view.on('pointer-leave', () => { c.hoverHL?.remove(); c.hoverHL = null; setHover(null); });
-    const click = c.view.on('click', async (e: any) => { const id = await hit(e); if (id) { clickedOnMap.current = id; setSelected(id); onPick(id); } });
-    const dbl = c.view.on('double-click', async (e: any) => { const id = await hit(e); if (id) { e.stopPropagation(); onOpen(id); } });
-    return () => { move.remove(); leave.remove(); click.remove(); dbl.remove(); };
+    const leave = c.view.on('pointer-leave', () => { c.hoverHL?.remove(); c.hoverHL = null; });
+    const click = c.view.on('click', async (e: any) => { const id = await hit(e, false); setPopup(id ? { id, x: e.x, y: e.y } : null); });
+    // stopped before the hit test resolves, otherwise the view zooms in first
+    const dbl = c.view.on('double-click', async (e: any) => { e.stopPropagation(); const id = await hit(e, false); if (id) { setPopup(null); onOpen(id); } });
+    const drag = c.view.on('drag', () => setPopup(null));
+    return () => { move.remove(); leave.remove(); click.remove(); dbl.remove(); drag.remove(); };
   }, [status]);
 
   // selection + office outline
@@ -365,7 +370,7 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
     if (next === chamber) return;
     const cur = selected ? byId[selected] : undefined;
     const nextSel = cur?.counterparts[0]?.geo_id ?? null;
-    setChamber(next); setSelected(nextSel); setHover(null);
+    setChamber(next); setSelected(nextSel); setPopup(null);
     if (nextSel) { clickedOnMap.current = nextSel; onPick(nextSel); }
   };
 
@@ -374,7 +379,7 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
       .catch((e: any) => console.warn('goTo', e));
   const zoomTo = (id: string) => { const g = ctx.current.graphics?.[id]; if (g) ctx.current.view.goTo(g.geometry.extent.expand(1.6)); };
   const sel = selected ? byId[selected] : null;
-  const hov = hover ? byId[hover.id] : null;
+  const pop = popup ? byId[popup.id] : null;
   const roster = summary[chamber]?.roster;
   const indLabel = indicators.find(i => i.indicator === indicator)?.label ?? '';
   const ranked = useMemo(() => Object.entries(values).filter(([, v]) => v !== null).sort((a, b) => (b[1] as number) - (a[1] as number)).map(([k]) => k), [values]);
@@ -399,6 +404,13 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
       <div className="col-span-12 lg:col-span-8 xl:col-span-9 relative rounded-xl overflow-hidden border border-premium-800 h-[60vh] min-h-[360px] lg:h-auto lg:min-h-0">
         <div ref={el} className="absolute inset-0" role="application" aria-label={`Map of Hawaiʻi ${chamber === 'sldl' ? 'House' : 'Senate'} districts`} />
 
+        <button onClick={() => setShowControls(s => !s)} aria-pressed={showControls}
+          aria-label={showControls ? 'Hide map controls' : 'Show map controls'} title={showControls ? 'Hide map controls' : 'Show map controls'}
+          className={`absolute top-[5.5rem] left-[15px] w-8 h-8 flex items-center justify-center rounded-sm border border-premium-700 ${showControls ? 'bg-cyan-700 text-white' : 'bg-premium-900/90 text-slate-200'}`}>
+          <SlidersHorizontal className="w-4 h-4" />
+        </button>
+
+        {showControls && <>
         {/* controls */}
         <div className="absolute top-3 left-14 right-3 flex flex-wrap gap-2 items-start pointer-events-none">
           <div className="pointer-events-auto flex bg-premium-900/90 border border-premium-700 rounded-lg p-0.5" role="group" aria-label="Chamber">
@@ -434,13 +446,12 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
               <input type="checkbox" checked={showCouncil} onChange={e => setShowCouncil(e.target.checked)} /> Council
             </label>
           </div>
-        </div>
-
-        {/* island quick zoom */}
-        <div className="absolute top-14 left-14 flex flex-wrap gap-1" role="group" aria-label="Zoom to island">
-          {ISLANDS.map(([n, ext]) => (
-            <button key={n} onClick={() => zoomExtent(ext)} className="px-2 py-0.5 rounded-md text-[11px] bg-premium-900/90 border border-premium-700 text-slate-300 hover:text-white">{n}</button>
-          ))}
+          {/* island quick zoom: in the same wrapping row, so it moves down instead of overlapping when the row wraps */}
+          <div className="pointer-events-auto basis-full flex flex-wrap gap-1" role="group" aria-label="Zoom to island">
+            {ISLANDS.map(([n, ext]) => (
+              <button key={n} onClick={() => zoomExtent(ext)} className="px-2 py-0.5 rounded-md text-[11px] bg-premium-900/90 border border-premium-700 text-slate-300 hover:text-white">{n}</button>
+            ))}
+          </div>
         </div>
 
         {/* legend */}
@@ -455,13 +466,14 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
           </div>
           <div className="text-slate-500 mt-1">Each color is one-fifth of the {chamber === 'sldl' ? 'House' : 'Senate'} districts · gray = no data</div>
         </div>
+        </>}
 
-        {/* hover card (desktop) */}
-        {hov && hover && (
-          <div ref={tooltipHost} className="absolute z-10 w-72 p-3 rounded-lg bg-premium-900/95 border border-cyan-800 shadow-2xl pointer-events-none"
-            style={{ left: Math.min(hover.x + 16, (el.current?.clientWidth ?? 800) - 300), top: Math.max(8, Math.min(hover.y + 16, (el.current?.clientHeight ?? 600) - 440)) }}>
-            <DistrictCard d={hov} chamber={chamber} compact metric={metricFor(hov.geo_id)} />
-            <div className="text-[10px] text-slate-500 mt-2">Click to pin · double-click to open profile</div>
+        {/* click card; pointer-events-none so the second click of a double-click reaches the map */}
+        {pop && popup && (
+          <div ref={tooltipHost} className="absolute z-10 w-72 max-w-[calc(100%-1rem)] p-3 rounded-lg bg-premium-900/95 border border-cyan-800 shadow-2xl pointer-events-none"
+            style={{ left: Math.max(8, Math.min(popup.x + 16, (el.current?.clientWidth ?? 800) - 300)), top: Math.max(8, Math.min(popup.y + 16, (el.current?.clientHeight ?? 600) - 440)) }}>
+            <DistrictCard d={pop} chamber={chamber} compact metric={metricFor(pop.geo_id)} />
+            <div className="text-[10px] text-slate-500 mt-2">Double-click to open this district's report · click elsewhere to close</div>
           </div>
         )}
 
@@ -482,7 +494,7 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
             <button onClick={() => onOpen(sel.geo_id)} className="text-xs px-2 py-0.5 rounded border border-cyan-800 text-cyan-300 hover:bg-cyan-950">Open profile</button>
           </div>)}>
           {sel ? <DistrictCard d={sel} chamber={chamber} metric={metricFor(sel.geo_id)} /> : (
-            <p className="text-sm text-slate-400">{isTouch() ? 'Tap' : 'Hover over'} a district to see who represents it. {isTouch() ? '' : 'Click to pin it here.'}</p>
+            <p className="text-sm text-slate-400">{isTouch() ? 'Tap' : 'Click'} a district to see who represents it. {isTouch() ? 'Double-tap' : 'Double-click'} to open its report.</p>
           )}
           {office && office === sel?.geo_id && <div className="mt-2 text-xs text-amber-300 flex items-center gap-1"><Star className="w-3 h-3" /> Your office</div>}
         </Card>
