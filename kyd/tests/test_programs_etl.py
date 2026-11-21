@@ -94,6 +94,30 @@ def test_snap_gap_range():
     assert "HD-36" in hd36.note and "House 24" not in hd36.note
 
 
+def test_state_programs_when_usda_range_ends_are_missing(monkeypatch):
+    """The deployed Postgres snapshot has the USDA point estimate without the range ends."""
+    from app.agent import tools
+    from app.services.cache import clear
+    real = tools.repo()
+
+    class _Repo:
+        def observations(self, geos, keys):
+            rows = real.observations(geos, keys)
+            if geos == ["HI"]:
+                rows = [o for o in rows if o.indicator not in ("snap_gap_usda_low", "snap_gap_usda_high")]
+            return rows
+
+        def __getattr__(self, name):
+            return getattr(real, name)
+
+    monkeypatch.setattr(tools, "repo", lambda: _Repo())
+    clear()
+    out = tools.find_programs("HI", limit=12)
+    snap = next(m for m in out if m.program.program_id == "snap")
+    assert snap.gap_range.low.persons.value == snap.gap_range.high.persons.value == 30916
+    assert "30,916" in snap.gap_range.note
+
+
 def test_snap_included_even_when_not_top_ranked():
     for geo in ("HD-18", "HD-33", "HD-37", "HD-39", "HD-40", "HD-41", "SD-16", "SD-20", "SD-25"):
         assert any(m.program.program_id == "snap" and m.gap_range for m in find_programs(geo, limit=12)), geo

@@ -152,12 +152,12 @@ def _rank_programs(geo_id: str) -> tuple[ProgramMatch, ...]:
             e, u = obs.get("pct_below_fpl"), obs.get("pct_snap_hh")
             rng = snap_gap_range(geo_id)
             if g and g.value is not None and gs and gs.value is not None:
+                moe = f" (90% MOE ±{g.moe:,.0f})" if g.moe else ""
                 if rng:
-                    gap = (f"{g.value:,.0f} poverty households do not report SNAP in ACS 2020-2024 "
-                           f"(90% MOE ±{g.moe:,.0f} where available). USDA's statewide federal-rules gap is "
-                           f"about 31,000 eligible people, range about 15,000-46,000.")
+                    gap = (f"{g.value:,.0f} poverty households do not report SNAP in ACS 2020-2024{moe}. "
+                           f"USDA's statewide federal-rules gap is about 31,000 eligible people, range about 15,000-46,000.")
                 else:
-                    gap = f"{g.value:,.0f} poverty households do not report SNAP in ACS 2020-2024."
+                    gap = f"{g.value:,.0f} poverty households do not report SNAP in ACS 2020-2024{moe}."
                 score *= 1 + max(0, (g.value / max(gs.value, 1)) - 1) / 10
             elif e and u and e.value and u.value is not None:
                 gap = (f"Uptake proxy: {u.value:g}% of households get SNAP; {e.value:g}% of people are below "
@@ -180,13 +180,17 @@ def snap_gap_range(geo_id: str) -> GapRange | None:
     if geo_id == "HI":
         if "snap_gap_low_persons" not in o:
             return None
-        main = RangeEnd(persons=o["snap_gap_low_persons"], share=None, grade="B", basis="USDA official",
-                        method="USDA FY2022 eligible people minus eligible participants")
-        low = RangeEnd(persons=o["snap_gap_usda_low"], share=None, grade="B", basis="USDA range low",
-                       method="Rounded lower end using USDA rate interval and eligible SE")
-        high = RangeEnd(persons=o["snap_gap_usda_high"], share=None, grade="B", basis="USDA range high",
-                        method="Rounded upper end using USDA rate interval and eligible SE")
-        return GapRange(low=low, high=high, benchmark=r.observations(["HI"], SNAP_BENCHMARKS), note=f"Point estimate: {main.persons.value:,.0f}.",
+        point = RangeEnd(persons=o["snap_gap_low_persons"], share=None, grade="B", basis="USDA official",
+                         method="USDA FY2022 eligible people minus eligible participants")
+        # The live database can have the point estimate without the published range ends.
+        if "snap_gap_usda_low" in o and "snap_gap_usda_high" in o:
+            low = RangeEnd(persons=o["snap_gap_usda_low"], share=None, grade="B", basis="USDA range low",
+                           method="Rounded lower end using USDA rate interval and eligible SE")
+            high = RangeEnd(persons=o["snap_gap_usda_high"], share=None, grade="B", basis="USDA range high",
+                            method="Rounded upper end using USDA rate interval and eligible SE")
+        else:
+            low = high = point
+        return GapRange(low=low, high=high, benchmark=r.observations(["HI"], SNAP_BENCHMARKS), note=f"Point estimate: {point.persons.value:,.0f}.",
                         is_not="Not a district ranking and not a Hawaiʻi BBCE eligible count; USDA uses federal rules.")
     if "snap_strict_gap_households" not in o:
         return None
