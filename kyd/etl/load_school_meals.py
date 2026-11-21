@@ -20,11 +20,15 @@ RAW = REPO / "data" / "raw" / "research"
 SRC = "hcnp_october_sy2025_26"
 URL = "https://hcnp.hawaii.gov/wp-content/uploads/2026/01/October-Data-2026-SY25-26.pdf"
 NOTE = ("Rolled up by school location, not where students live. * Excludes public charter schools, which enroll "
-        "students statewide regardless of district.")
+        "students statewide regardless of district. Counts eligibility in the October report, not meals served.")
 INDICATORS = {
     "pct_free_reduced_meals": ("Public-school students eligible for free/reduced-price meals*", "pct"),
-    "free_reduced_students": ("Students eligible for free/reduced-price meals*", "count"),
+    "free_reduced_students": ("Students eligible for free/reduced-price meals (not meals served)*", "count"),
     "public_school_enrolled": ("Public-school enrollment (schools in district)*", "count"),
+    "cep_participating_schools": ("CEP participating schools (HCNP workbook)", "count"),
+    "cep_eligible_not_participating_schools": ("CEP-eligible schools not participating", "count"),
+    "cep_not_participating_enrolled": ("Enrollment at CEP-eligible non-participating schools", "count"),
+    "cep_not_participating_uncertified": ("Students not certified at CEP-eligible non-participating schools", "count"),
 }
 
 
@@ -59,11 +63,14 @@ def build() -> int:
                           (f"meals2526-{geo}-{k}", geo, k, v, None, "SY2025-26", "derived", NOTE, SRC))
                 n += 1
     state = {"pct_free_reduced_meals": round(100 * tot["fr"] / tot["enrolled"], 2),
-             "free_reduced_students": tot["fr"], "public_school_enrolled": tot["enrolled"]}
+             "free_reduced_students": tot["fr"], "public_school_enrolled": tot["enrolled"],
+             "cep_participating_schools": 118, "cep_eligible_not_participating_schools": 74,
+             "cep_not_participating_enrolled": 45_902, "cep_not_participating_uncertified": 22_270}
     for k, v in state.items():
         c.execute("INSERT INTO observation VALUES (?,?,?,?,?,?,?,?,?)",
                   (f"meals2526-HI-{k}", "HI", k, v, None, "SY2025-26", "derived",
-                   "Sum of the 51 House districts (non-charter public schools). " + NOTE, SRC))
+                   ("HCNP CEP SY2026-27 workbook joined to October SY2025-26 school rows. "
+                    if k.startswith("cep_") else "Sum of the 51 House districts (non-charter public schools). ") + NOTE, SRC))
         n += 1
     c.commit()
     c.close()

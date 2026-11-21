@@ -30,8 +30,7 @@ def test_program_indicators_match_crystal_scripts():
             assert v["snap_persons_est"] == s["person_level"]["snap_persons_estimate"], geo
             assert v["snap_gap_persons"] == s["person_level"]["person_gap"], geo
             t = tanf_proxy.get_tanf_proxy(chamber, d)
-            assert v["children_below_fpl"] == t["eligible_proxy"]["count"], geo
-            assert v["pct_children_below_fpl"] == t["context"]["percent_of_related_children_below_poverty"], geo
+            assert v["tanf_deep_poverty_children"] == t["eligible_proxy"]["count"], geo
             g = ga_proxy.get_ga_proxy(chamber, d, lenses=["poverty_18_64"])["poverty_18_64"]
             assert v["adults_18_64_below_fpl"] == g["count"], geo
             assert v["pct_adults_18_64_below_fpl"] == g["rate_percent"], geo
@@ -51,7 +50,7 @@ def test_ranking_uses_program_data():
     ids = {m.program.program_id for g in ("SD-01", "HD-44") for m in find_programs(g, limit=20)}
     assert {"snap", "tanf", "ga", "aabd"} <= ids
     snap = next(m for m in find_programs("SD-01", limit=20) if m.program.program_id == "snap")
-    assert snap.gap_note and "200% of poverty" in snap.gap_note
+    assert snap.gap_note and "poverty households" in snap.gap_note
 
 
 def test_snap_gap_benchmark_end():
@@ -67,15 +66,31 @@ def test_snap_gap_benchmark_end():
             assert v["pct_snap_gap_low"] == round(100 * v["snap_gap_low_persons"] / v["pop_below_200fpl"], 1)
 
 
+def test_verified_program_gap_anchors():
+    hi = _vals("HI")
+    h24 = _vals("HD-24")
+    assert hi["snap_strict_gap_households"] == 31_739
+    assert h24["snap_strict_gap_households"] == 1_755
+    assert h24["tanf_deep_poverty_children"] >= 0
+    assert hi["tanf_deep_poverty_children"] == 18_183
+    assert (hi["tanf_reach_low"], hi["tanf_reach_high"]) == (18.7, 24.0)
+    assert hi["act139_acs_upper_children"] == 36_492
+    assert hi["wic_eligible_est"] == 44_888
+    assert hi["wic_participating_est"] == 25_804
+    assert hi["medquest_uninsured_eligible"] == 13_544
+
+
 def test_snap_gap_range():
     for geo in ("HI", "HD-28", "SD-13", "HD-36"):
         rng = next(m for m in find_programs(geo, limit=20) if m.program.program_id == "snap").gap_range
         assert rng and rng.low.persons.value <= rng.high.persons.value, geo
-        assert {rng.low.basis, rng.high.basis} == {"benchmark-based", "survey-based"}, geo
-        assert (rng.note is not None) == (rng.low.basis == "survey-based"), geo
+        if geo == "HI":
+            assert {rng.low.basis, rng.high.basis} == {"USDA range low", "USDA range high"}, geo
+        else:
+            assert rng.low.basis == rng.high.basis == "ACS strict district cell", geo
         assert {o.indicator for o in rng.benchmark} >= {"snap_participation_rate", "snap_participation_rate_us"}
     hd36 = next(m for m in find_programs("HD-36", limit=20) if m.program.program_id == "snap").gap_range
-    assert hd36.low.basis == "survey-based" and hd36.high.grade == "C"
+    assert hd36.low.basis == "ACS strict district cell" and hd36.high.grade == "A"
 
 
 def test_program_indicators_on_map():

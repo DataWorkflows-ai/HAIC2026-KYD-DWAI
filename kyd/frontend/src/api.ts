@@ -50,6 +50,21 @@ export type CrossEstimate = {
   confidence: 'high' | 'medium' | 'low'; assumptions: string[];
 };
 export type CrossProgram = { geo_id: string; estimates: CrossEstimate[]; note: string };
+export type GapSchoolRow = {
+  school_name: string; house: string; senate: string; complex_area: string; island_or_district: string;
+  enrollment: number; free_reduced: number; cep_status: string; source_year: string; source_url: string;
+};
+export type ProgramGapRow = {
+  program_id: string; name: string; unit: string; geography: string; source: string; official_url: string;
+  eligible: Obs | null; enrolled: Obs | null; gap: Obs | null; reach: Obs | null; range_low: Obs | null; range_high: Obs | null;
+  basis: string; caveats: string[]; unavailable: string | null;
+};
+export type ProgramGaps = {
+  geo_id: string; disclaimer: string; rows: ProgramGapRow[]; state_rows: Record<string, Obs>;
+  school_meals: { rows: GapSchoolRow[]; totals: { schools: number; enrollment: number; free_reduced: number; uncertified: number } };
+  cep: Record<string, { rows: GapSchoolRow[]; totals: { schools: number; enrollment: number; free_reduced: number; uncertified: number } }>;
+  map_indicators: string[];
+};
 export type ProgramContext = {
   geo_id: string; county: string;
   crime: null | { title: string; year: number; district: Obs[]; honolulu_official: Obs[]; oahu_median_per_1k: number | null;
@@ -133,6 +148,7 @@ export const api = {
   rankings: (t: string) => j<Rankings>(`/api/rankings?geo_type=${t}`),
   unemployment: (g: string) => j<Unemployment>(`/api/districts/${g}/unemployment`),
   programContext: (g: string) => j<ProgramContext>(`/api/districts/${g}/program-context`),
+  programGaps: (g: string) => j<ProgramGaps>(`/api/districts/${g}/program-gaps`),
   compare: (a: string, b: string) => j<{ a: string; b: string; rows: { indicator: string; a: Obs; b: Obs; significant: boolean }[] }>(`/api/compare?a=${a}&b=${b}`),
   mapSummary: (t: string) => j<MapSummary>(`/api/map-summary?geo_type=${t}`),
   mapLayer: (ind: string, t: string) => j<{ features: Obs[] }>(`/api/map/${ind}?geo_type=${t}`),

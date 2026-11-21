@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { ExternalLink, GripVertical } from 'lucide-react';
-import { api, fmt, type Geo, type Obs, type Profile, type ProgramMatch, type Verification } from './api';
+import { api, fmt, type Geo, type Obs, type Profile, type ProgramGaps, type ProgramMatch, type Verification } from './api';
 import { Card, Empty, ExportButtons, Figure, GeoPicker, Pill, usePersistentState } from './ui';
 import { CrossProgramCard, GapRangeBlock, ProgramContextCards, UptakePeersCard } from './programExtras';
+import { SchoolDetailsCard } from './ProgramGaps';
 
 const HEADLINE = ['total_pop', 'median_hh_income', 'pct_below_fpl', 'pct_65plus', 'pct_rent_burden_30', 'pct_uninsured'];
 const by = (xs: Obs[] | undefined) => Object.fromEntries((xs ?? []).map(o => [o.indicator, o]));
@@ -25,10 +26,12 @@ export function OverviewTab({ geo, geos, onAsk, onPick, picker }: { geo: string;
   };
   const [p, setP] = useState<Profile | null>(null);
   const [progs, setProgs] = useState<ProgramMatch[]>([]);
+  const [gaps, setGaps] = useState<ProgramGaps | null>(null);
   useEffect(() => {
     let live = true;   // ignore a slow reply for a district the user has already left
     setP(null);
     api.profile(geo).then(x => live && setP(x)); api.programs(geo).then(x => live && setProgs(x));
+    api.programGaps(geo).then(x => live && setGaps(x)).catch(() => live && setGaps(null));
     return () => { live = false; };
   }, [geo]);
   if (!p) return <Empty>Loading…</Empty>;
@@ -135,7 +138,8 @@ export function OverviewTab({ geo, geos, onAsk, onPick, picker }: { geo: string;
           </div>
         </Card>
       </div>
-      <div className="col-span-12"><UptakePeersCard geo={geo} onPick={onPick} /></div>
+      <div className="col-span-12 lg:col-span-7"><UptakePeersCard geo={geo} onPick={onPick} /></div>
+      {gaps && <div className="col-span-12 lg:col-span-5"><SchoolDetailsCard data={gaps} /></div>}
     </div>
   );
 }

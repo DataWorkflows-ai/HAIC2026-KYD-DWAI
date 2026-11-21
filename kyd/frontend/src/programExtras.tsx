@@ -17,7 +17,7 @@ export function GapRangeBlock({ r }: { r: GapRange }) {
         <span title={GRADE[e.grade]}><Pill tone={gradeTone[e.grade]}>grade {e.grade}</Pill></span>
       </div>
       <div className="mt-1"><Figure o={e.persons} /></div>
-      {e.share && <div className="text-[11px] text-slate-400"><Figure o={e.share} /> of people below 200% of poverty</div>}
+      {e.share && <div className="text-[11px] text-slate-400"><Figure o={e.share} /></div>}
       <p className="mt-1 text-[11px] text-slate-500">{e.method}</p>
     </div>
   );
@@ -26,7 +26,7 @@ export function GapRangeBlock({ r }: { r: GapRange }) {
     up = rate('snap_participation_rate_ci_high'), us = rate('snap_participation_rate_us');
   return (
     <div className="mt-2 min-w-0">
-      <div className="text-xs text-amber-300">Look eligible, not enrolled: a range of estimates</div>
+      <div className="text-xs text-amber-300">SNAP gap evidence</div>
       <div className="mt-1 grid grid-cols-1 gap-2">{end(r.low)}{end(r.high)}</div>
       {hi && <p className="mt-2 text-[11px] text-slate-400">USDA: <Figure o={hi} /> of eligible Hawaiʻi residents took part in FY 2022
         {lo && up && <> (90% interval <Figure o={lo} />–<Figure o={up} />)</>}{us && <>; national <Figure o={us} /></>}.</p>}
@@ -180,7 +180,7 @@ export function ProgramContextCards({ geo }: { geo: string }) {
         {t.tanf_persons !== undefined ? (
           <div className="space-y-1 text-sm">
             <div className="text-slate-300">{t.county}</div>
-            <div><span className="font-mono text-2xl text-cyan-300">{n(t.tanf_persons)}</span> <span className="text-xs text-slate-400">people on TANF</span></div>
+            <div><span className="font-mono text-2xl text-cyan-300">{n(t.tanf_persons)}</span> <span className="text-xs text-slate-400">SNAP-category people</span></div>
             <div className="text-xs text-slate-400">{t.tanf_per_1000} per 1,000 residents · county poverty rate {t.poverty_rate_percent}%</div>
           </div>
         ) : <Empty>No TANF figure for this county.</Empty>}

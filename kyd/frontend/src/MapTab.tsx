@@ -14,7 +14,7 @@
  * or double-tap makes it the app's district and opens its Overview.
  */
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { ExternalLink, Layers, MapPin, SlidersHorizontal, Star } from 'lucide-react';
+import { ExternalLink, Layers, MapPin, SlidersHorizontal, Star, X } from 'lucide-react';
 import { api, fmt, type Geo, type MapDistrict, type MapSummary, type Member } from './api';
 import { Card, Pill } from './ui';
 
@@ -37,7 +37,8 @@ const ISLANDS: [string, number[]][] = [
 ];
 type Chamber = 'sldl' | 'sldu';
 // Indicators most offices ask about first; everything else follows, grouped by topic.
-const PRIORITY = ['pct_below_fpl', 'pct_snap_hh', 'snap_hh_count', 'pct_snap_gap', 'snap_gap_persons', 'pct_below_200fpl',
+const PRIORITY = ['pct_below_fpl', 'pct_snap_hh', 'snap_hh_count', 'snap_strict_gap_households', 'medquest_uninsured_eligible',
+  'wic_gap_est', 'act139_acs_upper_children', 'pct_below_200fpl',
   'median_hh_income', 'pct_child_poverty', 'pct_65plus_poverty', 'pct_rent_burden_30', 'pct_uninsured', 'laus_unemp_rate',
   'pct_pop_lidac', 'pct_pop_lidac_most', 'pct_free_reduced_meals', 'pct_sba_ela_proficient', 'pct_sba_math_proficient',
   'hud_units_per_1k_hh', 'crime_violent_per_1k_est', 'total_pop'];
@@ -364,6 +365,7 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
     const ids = [selected, office].filter((x): x is string => !!x && !!c.graphics[x]);
     c.selHL = ids.length ? c.dataView.highlight(ids.map(i => c.graphics[i])) : null;
   }, [selected, office, layersVersion]);
+  useEffect(() => { if (popup) setTimeout(() => tooltipHost.current?.focus(), 0); }, [popup]);
 
   // chamber switch keeps the selection meaningful: jump to the biggest counterpart
   const switchChamber = (next: Chamber) => {
@@ -386,6 +388,18 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
   const metricFor = (id: string): Metric => {
     const v = values[id] ?? null, r = ranked.indexOf(id);
     return { label: indLabel, text: v === null ? 'No data' : fmt({ value: v, unit }), rank: r >= 0 ? r + 1 : null, of: ranked.length };
+  };
+  const popupBox = () => {
+    const host = el.current;
+    const w = host?.clientWidth ?? 800, h = host?.clientHeight ?? 600;
+    const width = Math.min(320, Math.max(260, w - 16));
+    const margin = 8;
+    const x = popup?.x ?? margin, y = popup?.y ?? margin;
+    const left = Math.max(margin, Math.min(x + 16 + width > w ? x - width - 16 : x + 16, w - width - margin));
+    const maxHeight = Math.max(180, h - margin * 2);
+    const preferredTop = y + 16 + Math.min(440, maxHeight) > h ? y - Math.min(440, maxHeight) - 16 : y + 16;
+    const top = Math.max(margin, Math.min(preferredTop, h - margin - Math.min(440, maxHeight)));
+    return { left, top, width, maxHeight: Math.min(maxHeight, h - top - margin) };
   };
   const options = useMemo(() => {
     const top = PRIORITY.map(k => indicators.find(i => i.indicator === k)).filter((x): x is NonNullable<typeof x> => !!x);
@@ -468,11 +482,16 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
         </div>
         </>}
 
-        {/* click card; pointer-events-none so the second click of a double-click reaches the map */}
+        {/* click card */}
         {pop && popup && (
-          <div ref={tooltipHost} className="absolute z-10 w-72 max-w-[calc(100%-1rem)] p-3 rounded-lg bg-premium-900/95 border border-cyan-800 shadow-2xl pointer-events-none"
-            style={{ left: Math.max(8, Math.min(popup.x + 16, (el.current?.clientWidth ?? 800) - 300)), top: Math.max(8, Math.min(popup.y + 16, (el.current?.clientHeight ?? 600) - 440)) }}>
-            <DistrictCard d={pop} chamber={chamber} compact metric={metricFor(pop.geo_id)} />
+          <div ref={tooltipHost} role="dialog" tabIndex={0} aria-label={`${pop.name} map details`}
+            onKeyDown={e => { if (e.key === 'Escape') setPopup(null); }}
+            className="absolute z-10 p-3 rounded-lg bg-premium-900/95 border border-cyan-800 shadow-2xl overflow-auto focus:outline-none focus:ring-2 focus:ring-cyan-400"
+            style={popupBox()}>
+            <button onClick={() => setPopup(null)} className="absolute top-2 right-2 p-1 rounded text-slate-400 hover:text-cyan-300" aria-label="Close district details">
+              <X className="w-3.5 h-3.5" />
+            </button>
+            <div className="pr-5"><DistrictCard d={pop} chamber={chamber} compact metric={metricFor(pop.geo_id)} /></div>
             <div className="text-[10px] text-slate-500 mt-2">Double-click to open this district's report · click elsewhere to close</div>
           </div>
         )}

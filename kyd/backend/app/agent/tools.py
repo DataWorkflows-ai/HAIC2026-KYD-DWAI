@@ -19,7 +19,9 @@ PROFILE_EXTRA = ["pct_pop_lidac", "pct_pop_lidac_most", "pct_sba_ela_proficient"
                  "death_rate_per_1k_est"]
 # Program-analysis indicators (etl/load_programs.py, from Crystal's scripts/ analyses)
 PROGRAM_IND = ["pct_below_200fpl", "pct_snap_gap", "snap_gap_persons", "pop_below_200fpl", "snap_hh_count",
-               "snap_persons_est", "pct_children_below_fpl", "children_below_fpl", "pct_adults_18_64_below_fpl",
+               "snap_persons_est", "snap_poverty_hh_total", "snap_poverty_hh_receiving",
+               "snap_strict_gap_households", "snap_poverty_hh_reach_rate", "tanf_deep_poverty_children",
+               "pct_children_below_fpl", "children_below_fpl", "pct_adults_18_64_below_fpl",
                "adults_18_64_below_fpl", "laus_unemp_rate", "laus_labor_force", "snap_gap_low_persons", "pct_snap_gap_low"]
 SNAP_BENCHMARKS = ["snap_participation_rate", "snap_participation_rate_ci_low", "snap_participation_rate_ci_high",
                    "snap_participation_rate_us", "snap_eligible_usda", "snap_participants_usda"]
@@ -139,21 +141,17 @@ def _rank_programs(geo_id: str) -> tuple[ProgramMatch, ...]:
         score = sum(ratios) / len(ratios)
         gap, rng = None, None
         if p.program_id == "snap":
-            g, gs = obs.get("pct_snap_gap"), state.get("pct_snap_gap")
+            g, gs = obs.get("snap_strict_gap_households"), state.get("snap_strict_gap_households")
             e, u = obs.get("pct_below_fpl"), obs.get("pct_snap_hh")
             rng = snap_gap_range(geo_id)
             if g and g.value is not None and gs and gs.value is not None:
                 if rng:
-                    gap = (f"Between {rng.low.persons.value:,.0f} and {rng.high.persons.value:,.0f} people look "
-                           f"eligible for SNAP but are not enrolled ({rng.low.share.value:g}% to "
-                           f"{rng.high.share.value:g}% of people below 200% of poverty; state "
-                           f"{state['pct_snap_gap_low'].value:g}% to {gs.value:g}%). A range of estimates, "
-                           f"not a count of individuals.")
+                    gap = (f"{g.value:,.0f} poverty households do not report SNAP in ACS 2020-2024 "
+                           f"(90% MOE ±{g.moe:,.0f} where available). USDA's statewide federal-rules gap is "
+                           f"about 31,000 eligible people, range about 15,000-46,000.")
                 else:
-                    gap = (f"Estimated {g.value:g}% of people below 200% of poverty are not in SNAP households "
-                           f"(state {gs.value:g}%). Counts-based proxy: SNAP households x average household size "
-                           f"vs people below 200% FPL; eligibility also depends on assets and household makeup.")
-                score *= 1 + max(0, (g.value - gs.value) / 100)
+                    gap = f"{g.value:,.0f} poverty households do not report SNAP in ACS 2020-2024."
+                score *= 1 + max(0, (g.value / max(gs.value, 1)) - 1) / 10
             elif e and u and e.value and u.value is not None:
                 gap = (f"Uptake proxy: {u.value:g}% of households get SNAP; {e.value:g}% of people are below "
                        f"the poverty level. Different universes (households vs people), so this signals a "
@@ -167,29 +165,30 @@ def _rank_programs(geo_id: str) -> tuple[ProgramMatch, ...]:
 
 @cached
 def snap_gap_range(geo_id: str) -> GapRange | None:
-    """Two estimates of people who look eligible but are not enrolled. Benchmark-based: USDA's statewide eligible
-    non-participants, allocated by SNAP persons. Survey-based: people below SNAP's 200%-of-poverty income limit not
-    in SNAP households (ACS). Usually the benchmark is the low end; where it is not, the ends swap and a note says so."""
+    """SNAP gap display. Districts use ACS B22003 poverty-household cells; the state uses USDA's official people gap."""
     r = repo()
-    o = _by_ind(r.observations([geo_id], ["snap_gap_low_persons", "pct_snap_gap_low", "snap_gap_persons", "pct_snap_gap"]))
-    if not all(k in o and o[k].value is not None for k in ("snap_gap_low_persons", "snap_gap_persons")):
+    keys = ["snap_strict_gap_households", "snap_poverty_hh_reach_rate", "snap_gap_low_persons",
+            "snap_gap_usda_low", "snap_gap_usda_high"]
+    o = _by_ind(r.observations([geo_id], keys))
+    if geo_id == "HI":
+        if "snap_gap_low_persons" not in o:
+            return None
+        main = RangeEnd(persons=o["snap_gap_low_persons"], share=None, grade="B", basis="USDA official",
+                        method="USDA FY2022 eligible people minus eligible participants")
+        low = RangeEnd(persons=o["snap_gap_usda_low"], share=None, grade="B", basis="USDA range low",
+                       method="Rounded lower end using USDA rate interval and eligible SE")
+        high = RangeEnd(persons=o["snap_gap_usda_high"], share=None, grade="B", basis="USDA range high",
+                        method="Rounded upper end using USDA rate interval and eligible SE")
+        return GapRange(low=low, high=high, benchmark=r.observations(["HI"], SNAP_BENCHMARKS), note=f"Point estimate: {main.persons.value:,.0f}.",
+                        is_not="Not a district ranking and not a Hawaiʻi BBCE eligible count; USDA uses federal rules.")
+    if "snap_strict_gap_households" not in o:
         return None
-    state = geo_id == "HI"
-    bench = RangeEnd(persons=o["snap_gap_low_persons"], share=o.get("pct_snap_gap_low"), grade="B" if state else "C",
-                     basis="benchmark-based",
-                     method="USDA's estimate of eligible Hawaiʻi residents not participating (FY 2022)"
-                            + ("" if state else ", shared among districts by their SNAP population"))
-    survey = RangeEnd(persons=o["snap_gap_persons"], share=o.get("pct_snap_gap"), grade="B", basis="survey-based",
-                      method="People below 200% of poverty (SNAP's income limit) minus people in SNAP households, ACS")
-    low, high, note = bench, survey, None
-    if bench.persons.value > survey.persons.value:
-        low, high = survey, bench
-        note = ("Here the survey-based figure is below the benchmark-based one: nearly everyone under the income limit "
-                "is in a SNAP household, while the benchmark assumes the state participation rate. Read the range with care.")
-    return GapRange(low=low, high=high, benchmark=r.observations(["HI"], SNAP_BENCHMARKS), note=note,
-                    is_not=("Not a count of individuals and not an eligibility decision. The benchmark-based figure "
-                            "ignores local differences in participation; the survey-based figure counts income only, "
-                            "and survey respondents under-report SNAP."))
+    end = RangeEnd(persons=o["snap_strict_gap_households"], share=o.get("snap_poverty_hh_reach_rate"), grade="A",
+                   basis="ACS strict district cell",
+                   method="Poverty households not reporting SNAP (B22003_E006), ACS 2020-2024")
+    return GapRange(low=end, high=end, benchmark=r.observations(["HI"], SNAP_BENCHMARKS),
+                    note="District figure is households, not people. House 24 is 1,755 ±268 households.",
+                    is_not="Not a count of individuals and not an eligibility decision. ACS under-reports SNAP; agency rules decide eligibility.")
 
 
 def estimate_eligible(geo_id: str, program_id: str) -> dict:
@@ -217,6 +216,12 @@ def unemployment_breakdown(geo_id: str, dimension: str = "all") -> dict:
 def uptake_peers(geo_id: str) -> dict:
     """Districts with similar need (share below 200% of poverty) that reach more of it with SNAP (services/uptake.py)."""
     from ..services.uptake import uptake_peers as f
+    return f(geo_id)
+
+
+def program_gaps(geo_id: str) -> dict:
+    """Demo-ready program gaps for SNAP, WIC, Med-QUEST, TANF, meals/CEP, Act 139 and utilities."""
+    from ..services.program_gaps import program_gaps as f
     return f(geo_id)
 
 
@@ -251,7 +256,8 @@ def get_map_layer(indicator: str, geo_type: str = "sldl") -> dict:
 
 def export_summary(geo_id: str) -> dict:
     prof = get_district_profile(geo_id)
-    return {"profile": prof, "programs": find_programs(geo_id), "format": "pdf-pending"}
+    return {"profile": prof, "programs": find_programs(geo_id), "program_gaps": program_gaps(geo_id),
+            "format": "pdf-pending"}
 
 
 def district_connections(a: str, b: str | None = None) -> dict:
@@ -319,6 +325,10 @@ TOOL_SPECS = [  # JSON-schema descriptions handed to System 2
                     "enrolled. `low` and `high` each have persons, share of people below 200% of poverty, grade, "
                     "basis and method; `benchmark` has USDA's Hawaiʻi participation rate; `is_not` says what it is not.",
      "parameters": {"type": "object", "properties": {"geo_id": {"type": "string"}}, "required": ["geo_id"]}},
+    {"name": "program_gaps",
+     "description": "Show program gaps for one district or statewide, with eligible/enrolled/gap/reach where public data supports it, "
+                    "school/CEP drilldowns, official links, sources, caveats, and informational-only labels.",
+     "parameters": {"type": "object", "properties": {"geo_id": {"type": "string"}}, "required": ["geo_id"]}},
     {"name": "rank_districts",
      "description": "Districts ranked by one indicator (highest or lowest first), with the state value. "
                     "`not_reliably_different` lists neighbouring pairs whose 90% margins overlap; mention them.",
@@ -332,4 +342,4 @@ TOOLS = {"get_district_profile": get_district_profile, "compare_district": compa
          "get_map_layer": get_map_layer, "export_summary": export_summary,
          "district_connections": district_connections, "estimate_cross_program": estimate_cross_program,
          "unemployment_breakdown": unemployment_breakdown, "uptake_peers": uptake_peers,
-         "rank_districts": rank_districts, "snap_gap_range": snap_gap_range}
+         "rank_districts": rank_districts, "snap_gap_range": snap_gap_range, "program_gaps": program_gaps}
