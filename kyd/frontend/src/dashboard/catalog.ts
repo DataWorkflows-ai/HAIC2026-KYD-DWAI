@@ -20,7 +20,7 @@ export const META: Record<WidgetType, Meta> = {
   chats: { title: 'Chats', desc: 'Pinned and recent chats', size: [4, 5], fields: ['title'] },
   answer: { title: 'Pinned answer', desc: 'Pin an answer from the Ask tab', size: [6, 6], fields: ['title'], pinOnly: true },
   holidays: { title: 'Upcoming holidays', desc: 'Federal and Hawaiʻi state holidays, next 90 days', size: [4, 5], fields: ['title'] },
-  calendar: { title: 'Calendar', desc: 'Month view with holidays and your own entries', size: [4, 8], fields: ['title'] },
+  calendar: { title: 'Calendar', desc: 'Today at a glance and what is coming up; double-click for the Calendar tab', size: [4, 8], fields: ['title'] },
   notes: { title: 'Notes & to-dos', desc: 'Scratch notes and a checklist', size: [4, 6], fields: ['title'] },
   usage: { title: 'Usage', desc: 'Questions, LLM budget and top users (admins)', size: [12, 5], fields: ['title'], admin: true },
 };
@@ -41,7 +41,7 @@ export const PRESETS: { id: string; title: string; specs: Spec[] }[] = [
     ['snapshot', 0, 0, 8, 4], ['kpi', 8, 0, 4, 4, { indicator: 'pct_below_fpl' }],
     ['snap', 0, 4, 4, 7], ['programs', 4, 4, 4, 7], ['trends', 8, 4, 4, 7],
     ['reps', 0, 11, 4, 5], ['ask', 4, 11, 4, 5], ['chats', 8, 11, 4, 5],
-    ['holidays', 0, 16, 4, 6], ['notes', 4, 16, 8, 6]] },
+    ['calendar', 0, 16, 4, 8], ['notes', 4, 16, 8, 8]] },
   { id: 'constituent', title: 'Constituent services', specs: [
     ['snapshot', 0, 0, 12, 3], ['programs', 0, 3, 4, 7], ['snap', 4, 3, 4, 7], ['housing', 8, 3, 4, 7],
     ['schools', 0, 10, 4, 7], ['ask', 4, 10, 4, 4], ['chats', 4, 14, 4, 3], ['calendar', 8, 10, 4, 8], ['notes', 0, 18, 12, 5]] },
@@ -58,6 +58,6 @@ export const PRESETS: { id: string; title: string; specs: Spec[] }[] = [
 export function presetWidgets(id: string, role: Role): Widget[] {
   const p = PRESETS.find(x => x.id === id) ?? PRESETS[0];
   const ws = build(p.specs);
-  if (p.id === 'legislator' && canSee('usage', role)) ws.push(...build([['usage', 0, 22, 12, 5]]).map(w => ({ ...w, id: 'usage-p' })));
+  if (p.id === 'legislator' && canSee('usage', role)) ws.push(...build([['usage', 0, 24, 12, 5]]).map(w => ({ ...w, id: 'usage-p' })));
   return ws;
 }

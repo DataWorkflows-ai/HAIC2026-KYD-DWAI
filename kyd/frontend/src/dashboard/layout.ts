@@ -1,4 +1,4 @@
-import type { Layout, Widget, WidgetConfig, WidgetType } from './types';
+import type { CalEvent, Layout, Widget, WidgetConfig, WidgetType } from './types';
 import { META, isType } from './catalog';
 
 export const COLS = 12, ROW = 56, GAP = 12;
@@ -36,6 +36,17 @@ export function append(ws: Widget[], w: Widget): Widget[] {
   return [...ws, { ...w, x: 0, y: bottom(ws), hidden: false }];
 }
 
+const DATE = /^\d{4}-\d{2}-\d{2}$/, TIME = /^\d{2}:\d{2}$/;
+export const sortEvents = (es: CalEvent[]) => [...es].sort((a, b) => a.date.localeCompare(b.date) || (a.time ?? '').localeCompare(b.time ?? ''));
+
+function calendarOf(raw: unknown, widgets: Widget[]): CalEvent[] {
+  // Older layouts kept entries in each Calendar widget's config; gather them once.
+  const src: unknown[] = Array.isArray(raw) ? raw : widgets.filter(w => w.type === 'calendar').flatMap(w => w.config.events ?? []);
+  return sortEvents(src.flatMap((e: any, i) => !e || typeof e.date !== 'string' || !DATE.test(e.date) || typeof e.text !== 'string' || !e.text.trim() ? []
+    : [{ id: typeof e.id === 'string' ? e.id : `ev-${e.date}-${i}`, date: e.date, text: e.text.trim().slice(0, 140),
+         ...(typeof e.time === 'string' && TIME.test(e.time) ? { time: e.time } : {}) }]));
+}
+
 /** Accept only well-formed layouts (server and localStorage are both untrusted input). */
 export function sanitize(raw: unknown): Layout | null {
   const l = raw as Partial<Layout> | null;
@@ -43,7 +54,7 @@ export function sanitize(raw: unknown): Layout | null {
   const widgets = l.widgets.filter((w): w is Widget => !!w && typeof w === 'object' && typeof w.id === 'string' && isType(w.type)
     && [w.x, w.y, w.w, w.h].every(n => typeof n === 'number' && isFinite(n)))
     .map(w => clampBox({ ...w, config: w.config && typeof w.config === 'object' ? w.config : {} }));
-  return { version: 1, updated: typeof l.updated === 'number' ? l.updated : 0, widgets: resolve(widgets) };
+  return { version: 1, updated: typeof l.updated === 'number' ? l.updated : 0, widgets: resolve(widgets), calendar: calendarOf(l.calendar, widgets) };
 }
 
 export function readLocal(): Layout | null {

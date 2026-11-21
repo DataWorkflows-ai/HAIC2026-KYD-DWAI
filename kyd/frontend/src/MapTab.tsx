@@ -416,7 +416,7 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
           <div className="pointer-events-auto flex bg-premium-900/90 border border-premium-700 rounded-lg p-0.5" role="group" aria-label="Chamber">
             {(['sldl', 'sldu'] as Chamber[]).map(c => (
               <button key={c} onClick={() => switchChamber(c)} aria-pressed={chamber === c}
-                className={`px-3 py-1 rounded-md text-xs font-medium ${chamber === c ? 'bg-cyan-700 text-white' : 'text-slate-300 hover:text-white'}`}>
+                className={`px-3 py-1 rounded-md text-xs font-medium ${chamber === c ? 'bg-cyan-700 text-white' : 'text-slate-300 hover:text-slate-50'}`}>
                 {c === 'sldl' ? 'House (51)' : 'Senate (25)'}
               </button>
             ))}
@@ -449,7 +449,7 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
           {/* island quick zoom: in the same wrapping row, so it moves down instead of overlapping when the row wraps */}
           <div className="pointer-events-auto basis-full flex flex-wrap gap-1" role="group" aria-label="Zoom to island">
             {ISLANDS.map(([n, ext]) => (
-              <button key={n} onClick={() => zoomExtent(ext)} className="px-2 py-0.5 rounded-md text-[11px] bg-premium-900/90 border border-premium-700 text-slate-300 hover:text-white">{n}</button>
+              <button key={n} onClick={() => zoomExtent(ext)} className="px-2 py-0.5 rounded-md text-[11px] bg-premium-900/90 border border-premium-700 text-slate-300 hover:text-slate-50">{n}</button>
             ))}
           </div>
         </div>

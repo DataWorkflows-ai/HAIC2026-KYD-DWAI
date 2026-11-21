@@ -20,7 +20,7 @@ export function SnapshotWidget({ geo, ctx }: WidgetProps) {
       {!shown.length && <Empty>No headline figures for this geography.</Empty>}
       <div className="grid gap-2" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(8.5rem, 1fr))' }}>
         {shown.map(k => (
-          <div key={k} className="rounded-lg bg-black/30 p-2">
+          <div key={k} className="rounded-lg bg-premium-950/60 p-2">
             <div className="text-[11px] text-slate-400 mb-0.5 truncate" title={me[k].label}>{me[k].label}</div>
             <Figure o={me[k]} big />
             {st[k] && geo !== 'HI' && <div className="text-[11px] text-slate-500">State <Figure o={st[k]} /></div>}

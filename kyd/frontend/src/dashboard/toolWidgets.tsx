@@ -1,11 +1,12 @@
 import { useMemo, useState } from 'react';
-import { ChevronLeft, ChevronRight, Pin, Plus, Send, Trash2 } from 'lucide-react';
+import { Pin, Plus, Send, Trash2 } from 'lucide-react';
 import { api } from '../api';
 import { Markdown } from '../Markdown';
 import { Empty, Pill } from '../ui';
-import { holidayIndex, iso, parseIso, upcomingHolidays, type Holiday } from './holidays';
+import { hstToday, upcoming } from './calendar';
+import { parseIso, upcomingHolidays, type Holiday } from './holidays';
 import { Gate, Note, useLoad } from './shared';
-import type { CalEvent, WidgetProps } from './types';
+import type { WidgetProps } from './types';
 
 const input = 'bg-premium-950 border border-premium-700 rounded-md px-2 py-1 text-xs text-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-600';
 const geoLabel = (g: string, name?: string) => g === 'HI' ? 'the state' : name ?? g;
@@ -63,53 +64,37 @@ export function HolidaysWidget(_: WidgetProps) {
   </ul>;
 }
 
-export function CalendarWidget({ w, setConfig }: WidgetProps) {
-  const today = iso(new Date());
-  const [month, setMonth] = useState(() => { const d = new Date(); return new Date(d.getFullYear(), d.getMonth(), 1); });
-  const [sel, setSel] = useState<string | null>(null);
-  const [draft, setDraft] = useState('');
-  const events = w.config.events ?? [];
-  const evBy = Object.fromEntries(events.map(e => [e.date, e]));
-  const hol = useMemo(() => holidayIndex(month.getFullYear()), [month.getFullYear()]);
-  const y = month.getFullYear(), m = month.getMonth(), lead = month.getDay(), days = new Date(y, m + 1, 0).getDate();
-  const cells = [...Array(lead).fill(null), ...Array.from({ length: days }, (_, i) => iso(new Date(y, m, i + 1)))] as (string | null)[];
-  const pick = (d: string) => { setSel(d); setDraft(evBy[d]?.text ?? ''); };
-  const save = (text: string) => {
-    if (!sel) return;
-    const rest = events.filter(e => e.date !== sel);
-    setConfig({ events: (text.trim() ? [...rest, { date: sel, text: text.trim().slice(0, 140) }] : rest).sort((a, b) => a.date.localeCompare(b.date)) });
-    setSel(null);
-  };
-  const shift = (k: number) => { setMonth(new Date(y, m + k, 1)); setSel(null); };
-  const monthEvents: CalEvent[] = events.filter(e => e.date.startsWith(`${y}-${String(m + 1).padStart(2, '0')}`));
-  return <>
-    <div className="flex items-center justify-between mb-1">
-      <button onClick={() => shift(-1)} aria-label="Previous month" className="p-1 text-slate-400 hover:text-cyan-300"><ChevronLeft className="w-4 h-4" /></button>
-      <span className="text-sm text-slate-200">{month.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</span>
-      <button onClick={() => shift(1)} aria-label="Next month" className="p-1 text-slate-400 hover:text-cyan-300"><ChevronRight className="w-4 h-4" /></button>
-    </div>
-    <div className="grid grid-cols-7 gap-0.5 text-center text-[10px] text-slate-500">{['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => <div key={i}>{d}</div>)}</div>
-    <div className="grid grid-cols-7 gap-0.5">{cells.map((d, i) => d === null ? <div key={i} /> : (
-      <button key={d} onClick={() => pick(d)} title={[...(hol[d] ?? []).map(h => h.name), evBy[d]?.text].filter(Boolean).join(' · ') || 'Add an entry'}
-        className={`relative h-7 rounded text-xs ${d === today ? 'bg-cyan-800 text-white' : 'text-slate-300 hover:bg-premium-800'} ${sel === d ? 'ring-1 ring-cyan-400' : ''} ${hol[d] ? 'font-semibold text-emerald-300' : ''}`}>
-        {Number(d.slice(8))}
-        <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 flex gap-0.5">
-          {hol[d] && <span className="w-1 h-1 rounded-full bg-emerald-400" />}{evBy[d] && <span className="w-1 h-1 rounded-full bg-cyan-300" />}</span>
-      </button>))}
-    </div>
-    {sel && <form onSubmit={e => { e.preventDefault(); save(draft); }} className="mt-2 space-y-1">
-      <div className="text-[11px] text-slate-400">{day(sel)}{hol[sel] && <> · {hol[sel].map(h => h.name).join(', ')}</>}</div>
-      <div className="flex gap-1">
-        <input autoFocus value={draft} onChange={e => setDraft(e.target.value)} maxLength={140} placeholder="Short entry" aria-label="Calendar entry" className={`flex-1 min-w-0 ${input}`} />
-        <button className="px-2 rounded border border-cyan-800 text-xs text-cyan-300">Save</button>
-        {evBy[sel] && <button type="button" onClick={() => save('')} aria-label="Delete entry" className="px-1.5 text-slate-400 hover:text-red-400"><Trash2 className="w-3.5 h-3.5" /></button>}
-        <button type="button" onClick={() => setSel(null)} className="px-1.5 text-xs text-slate-400">Cancel</button>
+/** Styled like a desk-calendar icon: month band, weekday, big date. Double-click (or the link) opens the Calendar tab. */
+export function CalendarWidget({ ctx }: WidgetProps) {
+  const today = hstToday(), now = parseIso(today);
+  const items = upcoming(ctx.calendar, 30);
+  const entries = items.filter(i => i.kind === 'entry').length, holidays = items.length - entries;
+  const open = () => ctx.onOpen('calendar');
+  return <div className="flex flex-col h-full select-none cursor-pointer" onDoubleClick={open} title="Double-click to open the Calendar tab">
+    <div className="shrink-0 rounded-lg overflow-hidden border border-premium-700 shadow-lg">
+      <div className="bg-gradient-to-r from-cyan-600 to-emerald-600 text-white text-center font-bold uppercase tracking-widest py-1.5 text-sm">
+        {now.toLocaleDateString('en-US', { month: 'long' })}</div>
+      <div className="bg-premium-950 flex flex-col items-center justify-center py-3 gap-1">
+        <div className="text-slate-400 text-sm font-semibold tracking-wide">{now.toLocaleDateString('en-US', { weekday: 'long' })}</div>
+        <div className="text-cyan-400 font-bold" style={{ fontSize: '3.5rem', lineHeight: 1 }}>{now.getDate()}</div>
+        <div className="text-slate-500 text-xs font-mono">{now.getFullYear()} · HST</div>
       </div>
-    </form>}
-    {monthEvents.length > 0 && <ul className="mt-2 text-xs space-y-0.5">{monthEvents.map(e => (
-      <li key={e.date}><button onClick={() => pick(e.date)} className="text-left hover:text-cyan-300"><span className="font-mono text-slate-500 mr-2">{e.date.slice(8)}</span><span className="text-slate-300">{e.text}</span></button></li>))}</ul>}
-    <Note><span className="text-emerald-400">●</span> holiday · <span className="text-cyan-300">●</span> your entry. Connecting Google or Outlook calendars is coming later.</Note>
-  </>;
+      <div className="bg-premium-900 border-t border-premium-800 px-3 py-1 flex items-center justify-between text-[11px] font-mono text-slate-500">
+        <span>{entries} {entries === 1 ? 'entry' : 'entries'} · {holidays} {holidays === 1 ? 'holiday' : 'holidays'}</span><span>next 30 days</span>
+      </div>
+    </div>
+    <div className="flex-1 min-h-0 overflow-y-auto mt-2">
+      <div className="px-1 pb-0.5 text-[10px] font-mono text-slate-500 uppercase tracking-widest border-b border-premium-800">Coming up</div>
+      {!items.length && <p className="text-xs text-slate-500 px-1 py-2">Nothing in the next 30 days. Double-click to add an entry.</p>}
+      {items.slice(0, 12).map((it, i) => (
+        <div key={i} className={`px-2 py-1 border-b border-premium-800 border-l-2 ${it.date === today ? 'border-l-cyan-500' : it.kind === 'holiday' ? 'border-l-emerald-600' : 'border-l-premium-700'}`}>
+          <p className={`text-xs truncate ${it.kind === 'holiday' ? 'text-emerald-300' : 'text-slate-200'}`} title={it.text}>{it.text}</p>
+          <p className={`text-[11px] font-mono ${it.date === today ? 'text-cyan-400' : 'text-slate-500'}`}>
+            {it.date === today ? 'Today' : day(it.date)}{it.time ? ` · ${it.time}` : ''}{it.kind === 'holiday' ? ' · holiday' : ''}</p>
+        </div>))}
+    </div>
+    <button onClick={open} className="shrink-0 mt-1 self-end text-xs text-cyan-400 hover:text-cyan-300 font-mono">Open calendar →</button>
+  </div>;
 }
 
 export function NotesWidget({ w, setConfig }: WidgetProps) {

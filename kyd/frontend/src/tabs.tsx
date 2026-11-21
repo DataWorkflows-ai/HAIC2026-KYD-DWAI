@@ -40,7 +40,7 @@ export function OverviewTab({ geo, geos, onAsk, onPick, picker }: { geo: string;
         right={<span className="text-xs text-slate-500">ACS {p.data_as_of} · {p.geography.counties.map(name).join(', ')}</span>}>
         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3">
           {HEADLINE.filter(k => me[k]).map(k => (
-            <div key={k} className="rounded-lg bg-black/30 p-3">
+            <div key={k} className="rounded-lg bg-premium-950/60 p-3">
               <div className="text-xs text-slate-400 mb-1">{me[k].label}</div>
               <Figure o={me[k]} big />
               <div className="mt-1 text-xs text-slate-500 space-x-2">
