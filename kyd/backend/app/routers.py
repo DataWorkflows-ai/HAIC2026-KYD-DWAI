@@ -1,7 +1,7 @@
 from __future__ import annotations
 import re
 from fastapi import APIRouter, Depends, HTTPException
-from . import accounts, appstore, audit
+from . import accounts, appstore, audit, mailer
 from .auth import Principal, current_principal, secret_status, signed_in
 from .agent import tools
 from .agent.orchestrator import ask
@@ -44,6 +44,7 @@ def health():
             "llm_budget": LLM_BUDGET.status(),
             "auth": {"required": settings().auth_required, "secret": secret_status(),
                      "owner_email_set": bool(settings().owner_email), "accounts_store": appstore.store().backend,
+                     "google_sign_in": bool(settings().google_client_id), "email_reset": mailer.configured(),
                      "accounts_fallback": appstore.fallback_reason},
             "geographies": len(r.geographies()), "programs": len(graph().programs())}
 

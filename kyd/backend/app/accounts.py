@@ -1,18 +1,24 @@
 """Accounts (register, sign in), owner and admin pages, saved chats and dashboards. Storage: app/appstore.py."""
 from __future__ import annotations
+import hashlib
+import hmac
 import logging
 import re
 import secrets
+import threading
+import time
 from collections import Counter
 from datetime import datetime, timezone
 
-from fastapi import APIRouter, Depends, HTTPException
+import httpx
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 from pydantic import BaseModel, Field
 
-from . import appstore, audit
+from . import appstore, audit, mailer
 from .agent import system1
 from .agent.orchestrator import answer_s1
-from .auth import ACCOUNT, Principal, check_password, current_principal, forget, hash_password, mint
+from .auth import (ACCOUNT, Principal, check_password, current_principal, forget, hash_password, mint,
+                   signing_secret)
 from .config import settings
 from .security import LLM_BUDGET
 
@@ -52,6 +58,18 @@ def account(who: Principal = Who) -> Principal:
 Me = Depends(account)
 
 
+def _new_role(email: str) -> str:
+    owner = settings().owner_email.strip().lower()
+    role = "owner" if (email == owner if owner else not appstore.has_owner()) else "user"
+    return "user" if role == "owner" and appstore.has_owner() else role
+
+
+@auth_api.get("/options")
+def options():
+    """Which sign-in methods the sign-in page should offer."""
+    return {"google_client_id": settings().google_client_id or None, "email_reset": mailer.configured()}
+
+
 @auth_api.post("/register")
 def register(body: Register):
     email = body.email.strip().lower()
@@ -59,10 +77,7 @@ def register(body: Register):
         raise HTTPException(422, "enter a valid email address")
     if appstore.user_by_email(email):
         raise HTTPException(409, "an account with that email already exists; sign in instead")
-    owner = settings().owner_email.strip().lower()
-    role = "owner" if (email == owner if owner else not appstore.has_owner()) else "user"
-    if role == "owner" and appstore.has_owner():
-        role = "user"
+    role = _new_role(email)
     u = appstore.create_user(email, body.name.strip(), hash_password(body.password), role)
     appstore.touch_login(u["id"])
     audit.record(u["id"], role, "register")
@@ -128,6 +143,128 @@ def login(body: Login):
 @auth_api.get("/me")
 def me(who: Principal = Me):
     return public(appstore.user_by_id(who.user))
+
+
+# ── forgot password: a 6-digit code by email ──────────────────────────────
+# Codes live in this process only (Render runs one), so a deploy cancels pending codes; people just ask again.
+# Only an HMAC of each code is kept, five wrong tries cancel it, and the reply never says whether an account exists.
+CODE_TRIES = 5
+RESEND_SECONDS = 60
+_codes: dict[str, tuple[str, float, int, float]] = {}     # email -> (code HMAC, expires, wrong tries, issued)
+_codes_lock = threading.Lock()
+
+
+def _code_mac(email: str, code: str) -> str:
+    return hmac.new(signing_secret().encode(), f"reset:{email}:{code}".encode(), hashlib.sha256).hexdigest()
+
+
+class Forgot(BaseModel):
+    email: str = Field(max_length=254)
+
+
+class Reset(BaseModel):
+    email: str = Field(max_length=254)
+    code: str = Field(pattern=r"^\d{6}$")
+    password: str = Field(min_length=8, max_length=200)
+
+
+def _send_code(email: str, name: str, code: str) -> None:
+    minutes = settings().reset_code_minutes
+    try:
+        mailer.send(email, f"Your Know Your District code: {code}",
+                    f"Hi {name},\n\nYour code to reset your Know Your District password is {code}.\n"
+                    f"It expires in {minutes} minutes and works once.\n\n"
+                    "If you didn't ask for this, ignore this email; your password has not changed.\n\n"
+                    "DataWorkflows.ai")
+    except Exception:
+        log.exception("reset code email failed")
+
+
+@auth_api.post("/forgot")
+def forgot(body: Forgot, tasks: BackgroundTasks):
+    if not mailer.configured():
+        raise HTTPException(503, "password reset by email is not set up yet; contact DataWorkflows.ai")
+    email = body.email.strip().lower()
+    u = appstore.user_by_email(email)
+    if u and not u["disabled"] and not email.endswith("@" + GUEST_DOMAIN):
+        code, t = f"{secrets.randbelow(10 ** 6):06d}", time.time()
+        with _codes_lock:
+            prev = _codes.get(email)
+            fresh = not prev or t - prev[3] >= RESEND_SECONDS
+            if fresh:
+                _codes[email] = (_code_mac(email, code), t + settings().reset_code_minutes * 60, 0, t)
+        if fresh:
+            tasks.add_task(_send_code, email, u["name"], code)
+            audit.record(u["id"], u["role"], "forgot_password")
+    return {"detail": f"If that email has an account, a 6-digit code is on its way. "
+                      f"It expires in {settings().reset_code_minutes} minutes."}
+
+
+@auth_api.post("/reset")
+def reset(body: Reset):
+    email = body.email.strip().lower()
+    bad = HTTPException(400, "that code is wrong or has expired; request a new one")
+    with _codes_lock:
+        entry = _codes.get(email)
+        if not entry or entry[1] < time.time():
+            _codes.pop(email, None)
+            raise bad
+        mac, expires, tries, issued = entry
+        if not hmac.compare_digest(mac, _code_mac(email, body.code)):
+            if tries + 1 >= CODE_TRIES:
+                del _codes[email]
+            else:
+                _codes[email] = (mac, expires, tries + 1, issued)
+            raise bad
+        del _codes[email]
+    u = appstore.user_by_email(email)
+    if not u or u["disabled"]:
+        raise bad
+    appstore.set_password(u["id"], hash_password(body.password))
+    appstore.touch_login(u["id"])
+    audit.record(u["id"], u["role"], "reset_password")
+    return _session(u)
+
+
+# ── Continue with Google ──────────────────────────────────────────────────
+GOOGLE_ISSUERS = ("accounts.google.com", "https://accounts.google.com")
+
+
+class GoogleSignIn(BaseModel):
+    credential: str = Field(min_length=20, max_length=4096)
+
+
+def google_claims(credential: str) -> dict | None:
+    """Google's tokeninfo endpoint checks the ID token's signature and expiry; None if it is not valid."""
+    try:
+        r = httpx.get("https://oauth2.googleapis.com/tokeninfo", params={"id_token": credential}, timeout=10)
+    except httpx.HTTPError:
+        raise HTTPException(502, "could not reach Google; try again")
+    return r.json() if r.status_code == 200 else None
+
+
+@auth_api.post("/google")
+def google(body: GoogleSignIn):
+    """Signs in the account with the Google email, creating it on first use. Google has verified the email."""
+    client_id = settings().google_client_id
+    if not client_id:
+        raise HTTPException(503, "Google sign-in is not set up")
+    c = google_claims(body.credential) or {}
+    if (c.get("aud") != client_id or c.get("iss") not in GOOGLE_ISSUERS or not c.get("email")
+            or str(c.get("email_verified")).lower() != "true" or int(c.get("exp", 0)) < time.time()):
+        raise HTTPException(401, "that Google sign-in could not be verified; try again")
+    email = c["email"].lower()
+    u = appstore.user_by_email(email)
+    if u is None:
+        role = _new_role(email)
+        name = (c.get("name") or email.split("@")[0]).strip()[:80]
+        u = appstore.create_user(email, name, hash_password(secrets.token_urlsafe(24)), role)
+        audit.record(u["id"], role, "register_google")
+    elif u["disabled"]:
+        raise HTTPException(403, "this account is disabled; contact the owner")
+    appstore.touch_login(u["id"])
+    audit.record(u["id"], u["role"], "login_google")
+    return _session(u)
 
 
 # ── owner: accounts ───────────────────────────────────────────────────────

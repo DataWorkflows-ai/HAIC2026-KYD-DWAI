@@ -16,17 +16,19 @@ from starlette.middleware.base import BaseHTTPMiddleware
 
 from .config import settings
 
-# ArcGIS (map SDK, Hawaiʻi boundary service, imagery) is the only third-party code or data the app loads.
+# Third-party code and data: ArcGIS (map SDK, Hawaiʻi boundary service, imagery) and the Google sign-in button.
 ARCGIS = ("https://js.arcgis.com https://*.arcgis.com https://*.arcgisonline.com https://geodata.hawaii.gov"
           " https://*.tile.openstreetmap.org")
+GSI = "https://accounts.google.com/gsi/"
 CSP = "; ".join([
     "default-src 'self'",
     # ArcGIS compiles Arcade label and renderer expressions at run time, which needs 'unsafe-eval'.
-    "script-src 'self' blob: https://js.arcgis.com 'unsafe-eval' 'wasm-unsafe-eval'",
-    "style-src 'self' 'unsafe-inline' https://js.arcgis.com",
+    f"script-src 'self' blob: https://js.arcgis.com {GSI}client 'unsafe-eval' 'wasm-unsafe-eval'",
+    f"style-src 'self' 'unsafe-inline' https://js.arcgis.com {GSI}style",
     "img-src 'self' data: blob: https:",
     "font-src 'self' data: https://js.arcgis.com",
-    f"connect-src 'self' blob: data: {ARCGIS}",
+    f"connect-src 'self' blob: data: {ARCGIS} {GSI}",
+    f"frame-src {GSI}",
     "worker-src 'self' blob:",
     "object-src 'none'",
     "base-uri 'self'",
@@ -38,7 +40,7 @@ HEADERS = {
     "X-Frame-Options": "DENY",
     "Referrer-Policy": "strict-origin-when-cross-origin",
     "Permissions-Policy": "camera=(), microphone=(), geolocation=(), payment=(), usb=()",
-    "Cross-Origin-Opener-Policy": "same-origin",
+    "Cross-Origin-Opener-Policy": "same-origin-allow-popups",   # the Google sign-in popup reports back to the page
     "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
 }
 DOCS = ("/docs", "/redoc")                     # Swagger UI and ReDoc load their scripts from a CDN
@@ -103,6 +105,7 @@ API_LIMIT = Window(_s.rate_api_per_minute, 60)
 ASK_MINUTE = Window(_s.rate_ask_per_minute, 60)
 ASK_DAY = Window(_s.rate_ask_per_day, 86400)
 LOGIN = Window(_s.rate_login_per_minute, 60)
+AUTH_POSTS = {f"/api/auth/{p}" for p in ("login", "register", "guest", "google", "forgot", "reset")}
 LLM_BUDGET = DailyBudget(_s.llm_daily_calls)
 
 
@@ -116,7 +119,7 @@ class SecurityMiddleware(BaseHTTPMiddleware):
         path = req.url.path
         if path.startswith("/api/") and path != "/api/health":
             key = client_key(req)
-            if path in ("/api/auth/login", "/api/auth/register", "/api/auth/guest") and req.method == "POST":
+            if path in AUTH_POSTS and req.method == "POST":
                 if wait := LOGIN.hit(key):
                     return _too_many(wait, "sign-in attempts")
             elif path == "/api/agent/ask" and req.method == "POST":

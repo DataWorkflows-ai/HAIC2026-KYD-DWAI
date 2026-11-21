@@ -7,7 +7,7 @@ from types import SimpleNamespace
 import pytest
 from fastapi.testclient import TestClient
 
-from app import appstore, security
+from app import accounts, appstore, mailer, security
 from app.agent import orchestrator, system1, system2
 from app.config import settings
 from app.main import app
@@ -155,6 +155,78 @@ def test_guest_gets_private_account_with_sample_chat(monkeypatch):
     assert doc["title"] == "House District 22: one-page brief" and "[obs:" in doc["body"] and "Programs to raise" in doc["body"]
     assert c.get(f"/api/chats/{chats[0]['id']}", headers=h(g2)).status_code == 404
     assert chats[0]["id"] not in [x["id"] for x in c.get("/api/chats", headers=h(g2)).json()]
+
+
+@pytest.fixture
+def outbox(monkeypatch):
+    sent = []
+    monkeypatch.setattr(mailer, "configured", lambda: True)
+    monkeypatch.setattr(mailer, "send", lambda to, subject, text: sent.append((to, subject, text)))
+    return sent
+
+
+def code_in(mail) -> str:
+    return mail[1].rsplit(" ", 1)[-1]
+
+
+def test_forgot_password_code_resets_and_signs_in(outbox):
+    s = register(password="old-password")
+    email = s["user"]["email"]
+    r = c.post("/api/auth/forgot", json={"email": email.upper()})
+    assert r.status_code == 200 and len(outbox) == 1 and outbox[0][0] == email
+    code = code_in(outbox[0])
+    assert len(code) == 6 and code in outbox[0][2]
+    wrong = "000000" if code != "000000" else "111111"
+    assert c.post("/api/auth/reset", json={"email": email, "code": wrong, "password": "new-password"}).status_code == 400
+    r = c.post("/api/auth/reset", json={"email": email, "code": code, "password": "new-password"})
+    assert r.status_code == 200 and r.json()["user"]["email"] == email
+    assert c.post("/api/auth/login", json={"email": email, "password": "new-password"}).status_code == 200
+    assert c.post("/api/auth/login", json={"email": email, "password": "old-password"}).status_code == 401
+    assert c.post("/api/auth/reset", json={"email": email, "code": code, "password": "again-pass"}).status_code == 400
+
+
+def test_forgot_password_does_not_reveal_accounts_and_limits_tries(outbox):
+    unknown = c.post("/api/auth/forgot", json={"email": f"nobody-{uuid.uuid4().hex[:6]}@example.com"})
+    email = register()["user"]["email"]
+    known = c.post("/api/auth/forgot", json={"email": email})
+    assert unknown.json() == known.json() and len(outbox) == 1
+    c.post("/api/auth/forgot", json={"email": email})
+    assert len(outbox) == 1                                                   # one code a minute
+    code = code_in(outbox[0])
+    wrong = [f"{(int(code) + i) % 10 ** 6:06d}" for i in range(1, accounts.CODE_TRIES + 1)]
+    for w in wrong:
+        assert c.post("/api/auth/reset", json={"email": email, "code": w, "password": "new-password"}).status_code == 400
+    assert c.post("/api/auth/reset", json={"email": email, "code": code, "password": "new-password"}).status_code == 400
+    assert c.post("/api/auth/forgot", json={"email": "guest-x@guest.kyd"}).status_code == 200 and len(outbox) == 1
+
+
+def test_forgot_password_off_without_smtp(monkeypatch):
+    monkeypatch.setattr(mailer, "configured", lambda: False)
+    assert c.post("/api/auth/forgot", json={"email": "a@b.co"}).status_code == 503
+    assert c.get("/api/auth/options").json()["email_reset"] is False
+
+
+def test_google_sign_in_creates_then_reuses_account(monkeypatch):
+    monkeypatch.setattr(settings(), "google_client_id", "kyd-test.apps.googleusercontent.com")
+    email = f"g-{uuid.uuid4().hex[:8]}@gmail.com"
+    claims = {"aud": "kyd-test.apps.googleusercontent.com", "iss": "https://accounts.google.com", "email": email,
+              "email_verified": "true", "name": "Pat Google", "exp": "9999999999"}
+    monkeypatch.setattr(accounts, "google_claims", lambda cred: dict(claims) if cred == "x" * 40 else None)
+    assert c.get("/api/auth/options").json()["google_client_id"] == "kyd-test.apps.googleusercontent.com"
+    a = c.post("/api/auth/google", json={"credential": "x" * 40}).json()
+    assert a["user"]["email"] == email and a["user"]["name"] == "Pat Google" and a["user"]["role"] == "user"
+    b = c.post("/api/auth/google", json={"credential": "x" * 40}).json()
+    assert b["user"]["id"] == a["user"]["id"]
+    assert c.post("/api/auth/google", json={"credential": "y" * 40}).status_code == 401
+    claims["aud"] = "someone-else"
+    assert c.post("/api/auth/google", json={"credential": "x" * 40}).status_code == 401
+    claims.update(aud="kyd-test.apps.googleusercontent.com", email_verified="false")
+    assert c.post("/api/auth/google", json={"credential": "x" * 40}).status_code == 401
+
+
+def test_google_sign_in_off_without_client_id(monkeypatch):
+    monkeypatch.setattr(settings(), "google_client_id", "")
+    assert c.post("/api/auth/google", json={"credential": "x" * 40}).status_code == 503
 
 
 def test_split_document():

@@ -125,6 +125,10 @@ def touch_login(uid: str) -> None:
     q("UPDATE app.users SET last_login = %s WHERE id = %s", now(), uid)
 
 
+def set_password(uid: str, pw_hash: str) -> None:
+    q("UPDATE app.users SET pw_hash = %s WHERE id = %s", pw_hash, uid)
+
+
 def list_users() -> list[dict]:
     return q(f"SELECT {USER_COLS} FROM app.users ORDER BY created_at")
 
