@@ -32,7 +32,7 @@ class Settings(BaseSettings):
     rate_api_per_minute: int = 600                  # data endpoints
     rate_ask_per_minute: int = 20                   # chat questions
     rate_ask_per_day: int = 500
-    rate_login_per_minute: int = 10                 # sign-in and registration attempts
+    rate_login_per_minute: int = 30                 # sign-in and registration attempts (a venue's wifi is one client)
     llm_daily_calls: int = 2000                     # all callers; over budget, chat answers fall back to templates
     csp_mode: str = "enforce"                       # enforce | report (Report-Only header) | off
 

@@ -5,6 +5,7 @@
  */
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Search } from 'lucide-react';
+import { api } from './api';
 
 type Entry = { label: string; kind: string; targets: [string, number][]; keys: string[] };
 const fold = (s: string) => s.normalize('NFD').replace(/[̀-ͯʻ‘’']/g, '').toLowerCase().trim();
@@ -16,7 +17,7 @@ export function Finder({ onPick }: { onPick: (geo: string) => void }) {
   const [open, setOpen] = useState(false);
   const box = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    fetch('/api/finder-index').then(r => r.json())
+    api.get<Entry[]>('/api/finder-index')
       .then((xs: Entry[]) => setIndex(xs.map(x => ({ ...x, hay: fold([x.label, ...x.keys].join(' | ')) }))))
       .catch(() => setIndex([]));
   }, []);

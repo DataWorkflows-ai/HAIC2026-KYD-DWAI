@@ -43,7 +43,8 @@ def health():
             "graph": graph().backend, "verification": _verification_summary(), "frontend": _frontend_build(),
             "llm_budget": LLM_BUDGET.status(),
             "auth": {"required": settings().auth_required, "secret": secret_status(),
-                     "owner_email_set": bool(settings().owner_email), "accounts_store": appstore.store().backend},
+                     "owner_email_set": bool(settings().owner_email), "accounts_store": appstore.store().backend,
+                     "accounts_fallback": appstore.fallback_reason},
             "geographies": len(r.geographies()), "programs": len(graph().programs())}
 
 

@@ -72,10 +72,23 @@ class _Postgres:
             return [_norm(r) for r in cur.fetchall()] if cur.description else []
 
 
+fallback_reason: str | None = None
+
+
 @lru_cache
 def store():
+    """Postgres when live mode serves from it and db/app.sql has been applied; otherwise the local SQLite file
+    (on a host with an ephemeral disk, accounts then last until the next deploy; /api/health says so)."""
+    global fallback_reason
     pg = _pg()
-    return _Postgres(pg._pool) if pg is not None else _Sqlite(settings().app_db)
+    if pg is not None:
+        s = _Postgres(pg._pool)
+        try:
+            s.q("SELECT id FROM app.users LIMIT 1")
+            return s
+        except Exception as e:
+            fallback_reason = f"app schema unavailable ({type(e).__name__}); run db/app.sql"
+    return _Sqlite(settings().app_db)
 
 
 def q(sql: str, *args) -> list[dict]:

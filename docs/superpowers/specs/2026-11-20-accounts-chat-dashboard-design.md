@@ -20,7 +20,7 @@ Items marked *(decided while Mitchell was away)* are defaults he has not yet rev
   - Bundled and CI mode use `backend/var/app.sqlite`, with the same tables.
 - **Passwords:**
   - Hashed with scrypt (Python standard library, n=2^14, r=8, p=1, 16-byte salt); minimum 8 characters.
-  - Login is limited to 10 attempts a minute per client.
+  - Sign-in and registration are limited to 30 attempts a minute per client (a venue's Wi-Fi counts as one).
 - **Tokens:**
   - The existing HMAC bearer tokens, valid for 7 days, stored in `localStorage`.
   - Each request re-reads the account (30 s cache), so a role change or a disable takes effect without signing in again.
