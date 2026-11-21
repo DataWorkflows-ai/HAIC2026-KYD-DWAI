@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { ExternalLink } from 'lucide-react';
-import { api, type RangeEnd } from '../api';
+import { api, type Obs, type ProgramGapRow } from '../api';
 import { Empty, Figure, Pill } from '../ui';
 import { RankMap } from '../RankMap';
 import { by, chamberOf, Gate, Go, Note, useLoad } from './shared';
@@ -105,50 +105,46 @@ export function MinimapWidget({ w, geo, ctx }: WidgetProps) {
   }}</Gate>;
 }
 
-function End({ e, side }: { e: RangeEnd; side: string }) {
-  return (
-    <div className="min-w-0 rounded border border-premium-700 p-2">
-      <div className="text-[10px] uppercase tracking-wide text-slate-500">{side} · grade {e.grade}</div>
-      <div className="text-[11px] text-slate-400 truncate" title={e.basis}>{e.basis}</div>
-      <Figure o={e.persons} />
-      {e.share && <div className="text-[11px] text-slate-500">SNAP reach among poverty households: <Figure o={e.share} /></div>}
-    </div>
-  );
+function SnapLine({ label, o }: { label: string; o: Obs | null }) {
+  if (!o) return null;
+  return <div className="flex items-baseline justify-between gap-2 text-xs"><span className="text-slate-400">{label}</span><Figure o={o} /></div>;
 }
 
 export function SnapWidget({ geo, ctx }: WidgetProps) {
-  const l = usePrograms(geo);
+  const l = useLoad(`gaps:${geo}`, () => api.programGaps(geo));
   const peers = useLoad(`peers:${geo}`, () => api.uptakePeers(geo));
-  return <Gate l={l}>{ms => {
-    const m = ms.find(x => x.gap_range && /snap/i.test(x.program.program_id)) ?? ms.find(x => x.gap_range);
+  return <Gate l={l}>{g => {
+    const row = g.rows.find(r => r.program_id === 'snap');
     const p = peers.data;
-    return <>
-      {m?.gap_range ? (geo === 'HI' ? <>
-        <div className="text-xs text-amber-300 mb-1">{m.program.name}: eligible people not participating (USDA FY2022)</div>
-        <div className="space-y-1 text-xs text-slate-300">
-          {([['snap_eligible_usda', 'Eligible'], ['snap_participants_usda', 'Enrolled'], ['snap_participation_rate', 'Reach']] as const).map(([k, label]) => {
-            const o = m.gap_range!.benchmark.find(x => x.indicator === k);
-            return o ? <div key={k}>{label}: <Figure o={o} /></div> : null;
-          })}
-        </div>
-        <div className="mt-2 grid grid-cols-2 gap-2">
-          <End e={m.gap_range.low} side="Range low" />
-          <End e={m.gap_range.high} side="Range high" />
-        </div>
-        <Note>{m.gap_range.note} {m.gap_range.is_not}</Note>
-      </> : <>
-        <div className="text-xs text-amber-300 mb-1">{m.program.name}: ACS poverty households not reporting SNAP</div>
-        <div className="grid grid-cols-1 gap-2"><End e={m.gap_range.low} side="Survey estimate" /></div>
-        <Note>{m.gap_range.is_not}</Note>
-      </>) : <Empty>No SNAP gap range for this geography.</Empty>}
-      {p?.gap && p.need && <p className="mt-2 text-xs text-slate-300">Poverty households: <Figure o={p.need} />; SNAP reach: <Figure o={p.gap} />.</p>}
-      {p && geo !== 'HI' && <p className="mt-1 text-xs text-slate-400">{p.peers.length
-        ? <>{p.peers.length} district{p.peers.length > 1 ? 's' : ''} with similar need reach more people with SNAP (estimate).</>
-        : 'No similar-need district reaches noticeably more with SNAP.'}</p>}
-      {geo === 'HI' && <p className="mt-1 text-xs text-slate-400">Peer districts are compared within the House or the Senate. Pick a district to see them.</p>}
-      <Go onClick={() => ctx.onOpen('programs', geo)}>Open Programs</Go>
-    </>;
+    return <SnapBody geo={geo} row={row} peers={p?.peers.length ?? null} onOpen={() => ctx.onOpen('programs', geo)} />;
   }}</Gate>;
+}
+
+function SnapBody({ geo, row, peers, onOpen }: { geo: string; row: ProgramGapRow | undefined; peers: number | null; onOpen: () => void }) {
+  if (!row || !(row.eligible || row.enrolled || row.reach || row.gap)) return <Empty>No SNAP figures for this geography.</Empty>;
+  const people = row.unit === 'people';
+  const ranged = row.range_low && row.range_high && row.range_low.value !== row.range_high.value;
+  return <>
+    <div className="text-xs text-amber-300 mb-1">{people ? 'USDA FY2022 · people' : 'ACS 2020–2024 · poverty households'}</div>
+    <div className="space-y-1">
+      <SnapLine label={people ? 'Eligible' : 'Poverty households'} o={row.eligible} />
+      <SnapLine label={people ? 'Receiving SNAP' : 'Reporting SNAP'} o={row.enrolled} />
+      <SnapLine label="Participation rate" o={row.reach} />
+    </div>
+    {row.gap && <div className="mt-2 rounded border border-premium-700 p-2">
+      <div className="text-[10px] uppercase tracking-wide text-slate-500">{people ? 'Eligible, not receiving SNAP' : 'Not reporting SNAP'}</div>
+      <Figure o={row.gap} />
+      {ranged && row.range_low && row.range_high && <div className="mt-1 text-[11px] text-slate-500">USDA range <Figure o={row.range_low} />–<Figure o={row.range_high} /></div>}
+    </div>}
+    <Note>{people
+      ? 'Eligible and receiving are USDA counts of people. The gap is eligible people who did not participate. It is not a district ranking.'
+      : 'These are poverty households in the ACS, not people. The gap is households in that group who do not report SNAP.'} {row.caveats[0]}</Note>
+    {peers !== null && geo !== 'HI' && <p className="mt-1 text-xs text-slate-400">{peers
+      ? <>{peers} district{peers > 1 ? 's' : ''} with similar need reach more of those households with SNAP.</>
+      : 'No similar-need district reaches noticeably more of those households with SNAP.'}</p>}
+    {geo === 'HI' && <p className="mt-1 text-xs text-slate-400">Peer districts are compared within the House or the Senate. Pick a district to see them.</p>}
+    <Go onClick={onOpen}>Open Programs</Go>
+  </>;
 }
 
 export function ProgramsWidget({ geo, ctx }: WidgetProps) {
