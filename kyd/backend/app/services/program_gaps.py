@@ -104,6 +104,14 @@ def _cep_rows(geo_id: str, statuses: set[str] | None = None) -> list[dict]:
     return out
 
 
+def _attach_snap_receipt(row: dict, obs: dict) -> None:
+    """Households and people who report SNAP. These exist for House and Senate districts even when the
+    poverty-household gap has not been loaded."""
+    row["receiving_households"] = obs.get("snap_hh_count")
+    row["receiving_persons"] = obs.get("snap_persons_est")
+    row["receiving_pct"] = obs.get("pct_snap_hh")
+
+
 def _totals(rows: list[dict]) -> dict:
     return {
         "schools": len(rows),
@@ -125,6 +133,7 @@ def program_gaps(geo_id: str) -> dict:
         "tanf_deep_poverty_children", "tanf_reach_low", "tanf_reach_high",
         "free_reduced_students", "public_school_enrolled", "pct_free_reduced_meals",
         "act139_acs_upper_children", "act139_hidoe_expected_children",
+        "snap_hh_count", "snap_persons_est", "pct_snap_hh",
     ])
     state = _obs("HI", list(district.keys()) + [
         "snap_eligible_usda", "snap_participants_usda", "snap_gap_low_persons",
@@ -148,6 +157,7 @@ def program_gaps(geo_id: str) -> dict:
                     eligible=district.get("snap_poverty_hh_total"), enrolled=district.get("snap_poverty_hh_receiving"),
                     gap=district.get("snap_strict_gap_households"), reach=district.get("snap_poverty_hh_reach_rate"),
                     basis="District-native survey estimate", caveats=["Use this for district rankings; USDA's 30,916 is statewide only."])
+    _attach_snap_receipt(snap, district)
     med_covered = district.get("medquest_covered_acs")
     med_gap = district.get("medquest_uninsured_eligible")
     med_eligible = _derived_count(geo_id, "medquest_eligible_proxy", "People covered by Medicaid/means-tested coverage plus uninsured eligible",

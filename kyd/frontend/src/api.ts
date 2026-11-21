@@ -58,6 +58,7 @@ export type ProgramGapRow = {
   program_id: string; name: string; unit: string; geography: string; source: string; official_url: string;
   eligible: Obs | null; enrolled: Obs | null; gap: Obs | null; reach: Obs | null; range_low: Obs | null; range_high: Obs | null;
   basis: string; caveats: string[]; unavailable: string | null;
+  receiving_households?: Obs | null; receiving_persons?: Obs | null; receiving_pct?: Obs | null;
 };
 export type ProgramGaps = {
   geo_id: string; disclaimer: string; rows: ProgramGapRow[]; state_rows: Record<string, Obs>;

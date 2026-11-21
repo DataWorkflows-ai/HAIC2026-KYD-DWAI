@@ -121,24 +121,48 @@ export function SnapWidget({ geo, ctx }: WidgetProps) {
 }
 
 function SnapBody({ geo, row, peers, onOpen }: { geo: string; row: ProgramGapRow | undefined; peers: number | null; onOpen: () => void }) {
-  if (!row || !(row.eligible || row.enrolled || row.reach || row.gap)) return <Empty>No SNAP figures for this geography.</Empty>;
-  const people = row.unit === 'people';
+  const receipt = !!(row?.receiving_households || row?.receiving_persons || row?.receiving_pct);
+  const people = row?.unit === 'people';
+  const strict = row?.gap?.indicator === 'snap_strict_gap_households';
+  if (!row || !(row.eligible || row.enrolled || row.reach || row.gap || receipt)) return <Empty>No SNAP figures for this geography.</Empty>;
   const ranged = row.range_low && row.range_high && row.range_low.value !== row.range_high.value;
   return <>
-    <div className="text-xs text-amber-300 mb-1">{people ? 'USDA FY2022 · people' : 'ACS 2020–2024 · poverty households'}</div>
-    <div className="space-y-1">
-      <SnapLine label={people ? 'Eligible' : 'Poverty households'} o={row.eligible} />
-      <SnapLine label={people ? 'Receiving SNAP' : 'Reporting SNAP'} o={row.enrolled} />
-      <SnapLine label="Participation rate" o={row.reach} />
-    </div>
-    {row.gap && <div className="mt-2 rounded border border-premium-700 p-2">
-      <div className="text-[10px] uppercase tracking-wide text-slate-500">{people ? 'Eligible, not receiving SNAP' : 'Not reporting SNAP'}</div>
-      <Figure o={row.gap} />
-      {ranged && row.range_low && row.range_high && <div className="mt-1 text-[11px] text-slate-500">USDA range <Figure o={row.range_low} />–<Figure o={row.range_high} /></div>}
-    </div>}
-    <Note>{people
-      ? 'Eligible and receiving are USDA counts of people. The gap is eligible people who did not participate. It is not a district ranking.'
-      : 'These are poverty households in the ACS, not people. The gap is households in that group who do not report SNAP.'} {row.caveats[0]}</Note>
+    {people && <>
+      <div className="text-xs text-amber-300 mb-1">USDA FY2022 · people</div>
+      <div className="space-y-1">
+        <SnapLine label="Eligible" o={row.eligible} />
+        <SnapLine label="Receiving SNAP" o={row.enrolled} />
+        <SnapLine label="Participation rate" o={row.reach} />
+      </div>
+      {row.gap && <div className="mt-2 rounded border border-premium-700 p-2">
+        <div className="text-[10px] uppercase tracking-wide text-slate-500">Eligible, not receiving SNAP</div>
+        <Figure o={row.gap} />
+        {ranged && row.range_low && row.range_high && <div className="mt-1 text-[11px] text-slate-500">USDA range <Figure o={row.range_low} />–<Figure o={row.range_high} /></div>}
+      </div>}
+      <Note>Eligible and receiving are USDA counts of people. The gap is eligible people who did not participate.</Note>
+    </>}
+    {receipt && <>
+      <div className={`text-xs text-amber-300 mb-1 ${people ? 'mt-3' : ''}`}>ACS 2020–2024 · households reporting SNAP</div>
+      <div className="space-y-1">
+        <SnapLine label="Households receiving SNAP" o={row.receiving_households ?? null} />
+        <SnapLine label="People in those households" o={row.receiving_persons ?? null} />
+        <SnapLine label="Share of households" o={row.receiving_pct ?? null} />
+      </div>
+    </>}
+    {strict && <>
+      <div className="text-xs text-amber-300 mt-3 mb-1">ACS 2020–2024 · poverty households</div>
+      <div className="space-y-1">
+        <SnapLine label="Poverty households" o={row.eligible} />
+        <SnapLine label="Reporting SNAP" o={row.enrolled} />
+        <SnapLine label="Share reporting SNAP" o={row.reach} />
+      </div>
+      {row.gap && <div className="mt-2 rounded border border-premium-700 p-2">
+        <div className="text-[10px] uppercase tracking-wide text-slate-500">Poverty households not reporting SNAP</div>
+        <Figure o={row.gap} />
+      </div>}
+      <Note>These are poverty households, not people. The gap is households in that group who do not report SNAP.</Note>
+    </>}
+    {!people && !strict && <Note>These are households that report receiving SNAP in the ACS survey, and the estimated people living in them. This is not a count of eligible people who are not enrolled.</Note>}
     {peers !== null && geo !== 'HI' && <p className="mt-1 text-xs text-slate-400">{peers
       ? <>{peers} district{peers > 1 ? 's' : ''} with similar need reach more of those households with SNAP.</>
       : 'No similar-need district reaches noticeably more of those households with SNAP.'}</p>}

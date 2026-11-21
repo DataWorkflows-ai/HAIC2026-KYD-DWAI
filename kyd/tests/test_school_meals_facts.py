@@ -49,6 +49,15 @@ def test_program_gaps_do_not_mix_state_and_district_ranges_or_unmatched_cep():
     assert all(r["house"] == "HD-24" for r in h24["cep"]["participating"]["rows"])
     h19 = c.get("/api/districts/HD-19/program-gaps").json()
     assert next(r for r in h19["rows"] if r["program_id"] == "snap")["gap"]["value"] == 607
+    snap = next(r for r in h24["rows"] if r["program_id"] == "snap")
+    assert snap["receiving_households"]["value"] == 951
+    assert snap["receiving_persons"]["value"] == 1607
+    assert snap["receiving_pct"]["value"] == 6.0
+    sd = c.get("/api/districts/SD-12/program-gaps").json()
+    senate = next(r for r in sd["rows"] if r["program_id"] == "snap")
+    assert senate["receiving_households"]["value"] == 2526
+    assert senate["receiving_persons"]["value"] == 4471
+    assert senate["receiving_pct"]["value"] == 8.2
 
 
 def test_context_and_crosswalk_use_meals():
