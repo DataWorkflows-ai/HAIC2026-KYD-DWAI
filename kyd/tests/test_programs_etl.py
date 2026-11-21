@@ -75,6 +75,11 @@ def test_verified_program_gap_anchors():
     assert hi["tanf_deep_poverty_children"] == 18_183
     assert (hi["tanf_reach_low"], hi["tanf_reach_high"]) == (18.7, 24.0)
     assert hi["act139_acs_upper_children"] == 36_492
+    vintages = {o.indicator: o.vintage for o in repo().observations(
+        ["HI"], ["tanf_reach_low", "tanf_reach_high", "act139_hidoe_expected_children", "snap_eligible_usda"])}
+    assert vintages["tanf_reach_low"] == vintages["tanf_reach_high"] == "ACS 2020-2024 / ACF FY2025 / DHS SFY2025"
+    assert vintages["act139_hidoe_expected_children"] == "HIDOE July 2026"
+    assert vintages["snap_eligible_usda"] == "FY 2022"
     assert hi["wic_eligible_est"] == 44_888
     assert hi["wic_participating_est"] == 25_804
     assert hi["medquest_uninsured_eligible"] == 13_544

@@ -161,6 +161,8 @@ NOTE_MEDQUEST = ("ACS eligible-uninsured construction: uninsured people under 65
 NOTE_ACT139 = ("ACS upper bound for children ages 6–17 in the 185–299% band. Act 139 uses Hawaiʻi HHS guidelines and "
                "department-school enrollment; HIDOE expects nearly 12,000 additional students statewide, so present "
                "statewide Act 139 as a range, not a point gap.")
+NOTE_ACT139_HIDOE = ("HIDOE July 2026 projection of nearly 12,000 additional students statewide. Not an ACS count "
+                     "and not allocated to districts.")
 
 
 def _table(name: str, chamber: str) -> dict[int, dict]:
@@ -338,7 +340,19 @@ def state_values(house: dict[int, dict[str, tuple]]) -> dict[str, tuple]:
     return {k: (round(v), round(m) if m else None) if INDICATORS[k][1] == "count" else (v, m) for k, (v, m) in out.items()}
 
 
+def _vintage(key: str) -> str:
+    if key in ("tanf_reach_low", "tanf_reach_high"):
+        return "ACS 2020-2024 / ACF FY2025 / DHS SFY2025"
+    if key == "act139_hidoe_expected_children":
+        return "HIDOE July 2026"
+    if key in STATE_ONLY:
+        return "FY 2022"
+    return VINTAGE
+
+
 def _method(key: str, geo: str) -> tuple[str, str | None]:
+    if key == "act139_hidoe_expected_children":
+        return "derived", NOTE_ACT139_HIDOE
     if key in STATE_ONLY:
         if key.startswith("tanf_"):
             return "derived", NOTE_TANF
@@ -404,7 +418,7 @@ def build() -> int:
     for geo, k, v, m in rows:
         method, note = _method(k, geo)
         c.execute("INSERT INTO observation VALUES (?,?,?,?,?,?,?,?,?)",
-                  (f"prog24-{geo}-{k}", geo, k, v, m, "FY 2022" if k in STATE_ONLY else VINTAGE, method, note,
+                  (f"prog24-{geo}-{k}", geo, k, v, m, _vintage(k), method, note,
                    INDICATORS[k][4]))
     c.commit()
     c.close()
