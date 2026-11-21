@@ -82,7 +82,8 @@ export type ProgramContext = {
     islands: { island: string; recipients: number; share_of_state_percent: number; enrollment_to_need_ratio: number | null }[];
     trend: { sfy: number; recipients: number }[] };
   tanf_island: { title: string; month: string; island?: string; county?: string; tanf_persons?: number; population?: number;
-    tanf_per_1000?: number; poverty_rate_percent?: number; source: string; note: string };
+    tanf_per_1000?: number; poverty_rate_percent?: number; source: string; note: string;
+    islands?: { island: string; county?: string; tanf_persons: number | null; tanf_per_1000?: number | null; poverty_rate_percent?: number }[] };
   county_snap: { title: string; month: string; source: string; rows: { area: string; households: number; persons: number }[] };
   tanf_underenrollment: { title: string; available: boolean; poverty_population: number | null; caveats: string[];
     groups: { label: string; poverty_count: number | null; district_poverty_share_percent: number | null;

@@ -52,6 +52,26 @@ def test_common_words_are_not_places():
     assert system1.route("Who in HD 19 is automatically eligible for school meals?").geo_ids == ["HD-19"]
 
 
+def test_state_context_uses_statewide_figures():
+    j = c.get("/api/districts/HI/program-context").json()
+    assert j["county"] == "Statewide"
+    meals = {o["indicator"]: o["value"] for o in j["school_meals"]["observations"]}
+    assert meals["free_reduced_students"] == 78927 and meals["public_school_enrolled"] == 153435
+    assert j["school_meals"]["state_pct"] is None
+    rate = next(o for o in j["employment"]["state"] if o["indicator"] == "laus_unemp_rate")
+    assert rate["value"] == 2.4 and len(j["employment"]["trend"]) == 12
+    assert j["employment"]["trend"][-1]["state"] == 2.4 and j["employment"]["trend"][6]["state"] > 10
+    assert j["medquest"]["statewide"] > 0 and len(j["medquest"]["islands"]) >= 4 and j["medquest"]["trend"]
+    assert j["tanf_island"]["tanf_persons"] > 0 and len(j["tanf_island"]["islands"]) == 4
+    assert j["county_snap"]["rows"] and j["hpha"]["units"] > 0 and j["hud"]["observations"]
+    assert j["test_scores"]["observations"] and j["vital"]["trend"]
+    assert j["crime"] is None
+    gaps = c.get("/api/districts/HI/program-gaps").json()
+    snap = next(r for r in gaps["rows"] if r["program_id"] == "snap")
+    assert snap["gap"]["value"] == 30916 and snap["eligible"]["value"] == 161104
+    assert snap["unit"] == "people"
+
+
 def test_program_context():
     for g, county, n_islands in (("HD-13", "Maui", 3), ("SD-01", "Hawaii", 1), ("HD-19", "Oahu", 1)):
         j = c.get(f"/api/districts/{g}/program-context").json()

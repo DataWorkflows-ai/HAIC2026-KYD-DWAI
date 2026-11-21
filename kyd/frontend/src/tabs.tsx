@@ -47,7 +47,7 @@ export function OverviewTab({ geo, geos, onAsk, onPick, picker }: { geo: string;
               <div className="text-xs text-slate-400 mb-1">{me[k].label}</div>
               <Figure o={me[k]} big />
               <div className="mt-1 text-xs text-slate-500 space-x-2">
-                {co[k] && <span>County {fmt(co[k])}</span>}{st[k] && <span>State {fmt(st[k])}</span>}
+                {geo !== 'HI' && co[k] && <span>County {fmt(co[k])}</span>}{geo !== 'HI' && st[k] && <span>State {fmt(st[k])}</span>}
               </div>
             </div>
           ))}
@@ -74,7 +74,7 @@ export function OverviewTab({ geo, geos, onAsk, onPick, picker }: { geo: string;
           </div>
         )}
         <table ref={indTable} className="w-full text-sm">
-          <thead className="text-xs text-slate-500 text-left"><tr><th className="no-print w-6" /><th className="py-1">Indicator</th><th>District</th><th>County</th><th>State</th>{editing && <th className="no-print" />}</tr></thead>
+          <thead className="text-xs text-slate-500 text-left"><tr><th className="no-print w-6" /><th className="py-1">Indicator</th><th>{geo === 'HI' ? 'State' : 'District'}</th>{geo !== 'HI' && <><th>County</th><th>State</th></>}{editing && <th className="no-print" />}</tr></thead>
           <tbody>
             {layout.rows.map(k => me[k]).filter(Boolean).map((o, i, shown) => (
               <tr key={o.obs_id}
@@ -97,8 +97,10 @@ export function OverviewTab({ geo, geos, onAsk, onPick, picker }: { geo: string;
                 </td>
                 <td className="py-1.5 text-slate-300">{o.label}</td>
                 <td><Figure o={o} /></td>
-                <td className="text-slate-400 font-mono text-xs">{co[o.indicator] ? fmt(co[o.indicator]) : '—'}</td>
-                <td className="text-slate-400 font-mono text-xs">{st[o.indicator] ? fmt(st[o.indicator]) : '—'}</td>
+                {geo !== 'HI' && <>
+                  <td className="text-slate-400 font-mono text-xs">{co[o.indicator] ? fmt(co[o.indicator]) : '—'}</td>
+                  <td className="text-slate-400 font-mono text-xs">{st[o.indicator] ? fmt(st[o.indicator]) : '—'}</td>
+                </>}
                 {editing && (
                   <td className="no-print whitespace-nowrap text-right">
                     <button onClick={() => setLayout({ rows: layout.rows.filter(x => x !== o.indicator) })} aria-label={`Hide ${o.label}`}
@@ -196,7 +198,9 @@ export function ProgramsTab({ geo }: { geo: string }) {
       <CrossProgramCard geo={geo} />
       <UptakePeersCard geo={geo} />
       <ProgramContextCards geo={geo} />
-      <p className="col-span-full text-xs text-slate-500">Rankings compare district need indicators with the state. Eligibility information is informational only. The administering agency makes all determinations.</p>
+      <p className="col-span-full text-xs text-slate-500">{geo === 'HI'
+        ? 'These are statewide figures. A program listed here is not a ranking against other places.'
+        : 'Rankings compare district need indicators with the state.'} Eligibility information is informational only. The administering agency makes all determinations.</p>
     </div>
   );
 }

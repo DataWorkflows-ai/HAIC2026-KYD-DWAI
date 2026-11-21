@@ -140,8 +140,9 @@ def _rank_programs(geo_id: str) -> tuple[ProgramMatch, ...]:
             # higher than reference = more need, except income (inverse)
             ratio = 1 / ratio if o.unit == "usd" else ratio
             ratios.append(ratio)
-            why.append(f"{o.label}: {o.value:g} vs {ref_name} {ref:g}"
-                       + (" (low reliability)" if "suppressed_cv" in o.flags else ""))
+            tail = " (low reliability)" if "suppressed_cv" in o.flags else ""
+            why.append(f"{o.label}: {o.value:g}{tail}" if geo_id == "HI"
+                       else f"{o.label}: {o.value:g} vs {ref_name} {ref:g}{tail}")
         if not ratios:
             continue
         score = sum(ratios) / len(ratios)

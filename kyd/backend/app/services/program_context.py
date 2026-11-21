@@ -65,28 +65,98 @@ def _hpha(geo_id: str) -> dict:
     return properties(geo_id)
 
 
+def _listed(geo_id: str, keys: list[str]) -> list:
+    from .repo import repo
+    found = {o.indicator: o for o in repo().observations([geo_id], keys)}
+    return [found[k] for k in keys if k in found]
+
+
+def _statewide() -> dict:
+    """State of Hawaiʻi uses the same cards as a district, filled with statewide figures."""
+    from .repo import repo
+    r = repo()
+    emp_keys = ["laus_unemp_rate", "laus_labor_force", "laus_unemployed", "unemployment_rate"]
+    employment = _listed("HI", emp_keys)
+    years = range(2014, 2026)
+    trend_keys = [f"laus_unemp_rate_{y}" for y in years if y != 2025] + ["laus_unemp_rate"]
+    tr = {o.indicator: o.value for o in r.observations(["HI"], trend_keys)}
+
+    def ty(y: int) -> str:
+        return "laus_unemp_rate" if y == 2025 else f"laus_unemp_rate_{y}"
+
+    score_keys = ["pct_sba_ela_proficient", "pct_sba_math_proficient", "pct_hsa_science_proficient", "sba_tested"]
+    vkeys = ["births_avg_est", "deaths_avg_est", "birth_rate_per_1k_est", "death_rate_per_1k_est"]
+    vyears = range(2000, 2025)
+    vtr = {o.indicator: o.value for o in r.observations(
+        ["HI"], [f"{k}_est_{y}" for k in ("births", "deaths") for y in vyears])}
+    hud_keys = ["hud_units_total", "hud_units_hcv", "hud_units_public_housing", "hud_units_pbs8",
+                "hud_units_elderly_disabled", "hud_people_total", "hud_units_per_1k_hh"]
+    s = _static()
+    mq = s["medquest"]
+    ratio = {x["island"]: x for x in s["medquest_ratio"]["islands"]}
+    tanf_rows = s["tanf_island"]["islands"]
+    return {
+        "geo_id": "HI", "county": "Statewide", "crime": None,
+        "employment": {
+            "title": "Unemployment", "district": employment, "county": [], "state": employment,
+            "trend": [{"year": y, "county": None, "state": tr.get(ty(y))} for y in years],
+            "source": "DBEDT/DLIR LAUS annual averages, statewide; ACS 2020–2024 for comparison",
+            "notes": ["2025 is the official statewide LAUS annual average.",
+                      "The ACS 2020–2024 rate is a five-year survey average that includes the 2020–21 pandemic "
+                      "years and uses a different definition, so it is not the same measure as the 2025 LAUS rate."]},
+        "school_meals": {"title": "Free/reduced-price school meals (SY2025-26)",
+                         "observations": _listed("HI", ["pct_free_reduced_meals", "free_reduced_students", "public_school_enrolled"]),
+                         "state_pct": None,
+                         "source": "Hawaiʻi Child Nutrition Programs, October Data SY2025-26",
+                         "url": "https://hcnp.hawaii.gov/wp-content/uploads/2026/01/October-Data-2026-SY25-26.pdf",
+                         "note": "Public non-charter schools statewide. Eligibility, not meals served. "
+                                 "Charter schools enroll students from anywhere in the state and are listed on the CEP tables."},
+        "test_scores": {"title": "Test scores (2025 Smarter Balanced and HSA Science)",
+                        "observations": _listed("HI", score_keys), "state": {},
+                        "source": "Hawaiʻi State Department of Education, 2025 results by school",
+                        "url": "https://hawaiipublicschools.org/academics/types-of-testing/",
+                        "note": "Public schools statewide; excludes public charter schools. Results HIDOE suppresses "
+                                "for student privacy are left out."},
+        "vital": {"title": "Births and deaths — statewide",
+                  "observations": _listed("HI", vkeys), "state": {},
+                  "trend": [{"year": y, "births": vtr.get(f"births_est_{y}"), "deaths": vtr.get(f"deaths_est_{y}")}
+                            for y in vyears],
+                  "source": "Hawaiʻi DOH, Hawaii Health Data Warehouse (Hawaiʻi-IBIS), births and deaths by community of residence",
+                  "url": "https://hhdw.org/report/",
+                  "caveats": ["Statewide totals sum community-of-residence counts. They match the district rollups.",
+                              "Rates are crude (not age-adjusted).",
+                              "The headline uses the 2020–2024 average."]},
+        "hpha": _hpha("HI"),
+        "facts": _facts(),
+        "hud": {"title": "HUD-subsidized housing (statewide)", "as_of": "2025-12-31",
+                "observations": _listed("HI", hud_keys), "state_per_1k_hh": None,
+                "source": "HUD Picture of Subsidized Households 2025",
+                "caveats": ["Suppressed small cells count as 0.",
+                            "About 2,400 units HUD could not place in a tract are in the statewide total and not in any district."]},
+        "medquest": {
+            "title": "Med-QUEST enrollment (statewide)", "sfy": mq["sfy"], "statewide": mq["statewide"],
+            "islands": [{"island": ISLAND_LABEL.get(k, k), **mq["islands"][k],
+                         "enrollment_to_need_ratio": ratio.get(k, {}).get("enrollment_to_need_ratio")}
+                        for k in mq["islands"]],
+            "trend": s["medquest_trend"]["series"], "source": mq["source"], "caveats": mq["caveats"]},
+        "tanf_island": {
+            "title": "SNAP cases with a TANF category, by island", "month": s["tanf_island"]["month"],
+            "tanf_persons": sum(x["tanf_persons"] or 0 for x in tanf_rows), "county": "Statewide",
+            "islands": [{**x, "island": {"OAHU": "Oʻahu", "HAWAII": "Hawaiʻi", "KAUAI": "Kauaʻi", "MAUI": "Maui"}.get(x["island"], x["island"])}
+                        for x in tanf_rows],
+            "source": s["tanf_island"]["source_caseload"], "note": s["tanf_island"]["note"]},
+        "county_snap": {
+            "title": "SNAP participation (statewide)", "month": s["county_snap"]["month"],
+            "rows": [{"area": ISLAND_LABEL.get(k, k), **s["county_snap"]["rows"][k]} for k in s["county_snap"]["rows"]],
+            "source": "Hawaiʻi DHS BESSD SFY 2026 monthly summary (SNAP households and persons, all categories)"},
+        "tanf_underenrollment": {"title": "TANF reach by race", "available": False, "poverty_population": None,
+                                 "groups": [], "caveats": []},
+    }
+
+
 def context(geo_id: str) -> dict:
     if geo_id == "HI":
-        return {
-            "geo_id": "HI", "county": "Statewide", "crime": None,
-            "employment": {"title": "Unemployment", "district": [], "county": [], "state": [], "trend": [],
-                           "source": "Statewide context is shown in the Overview and Compare tabs.", "notes": []},
-            "school_meals": {"title": "Free/reduced-price school meals (SY2025-26)", "observations": [],
-                             "state_pct": None, "source": "Hawaiʻi Child Nutrition Programs, October Data SY2025-26",
-                             "url": "https://hcnp.hawaii.gov/wp-content/uploads/2026/01/October-Data-2026-SY25-26.pdf",
-                             "note": "Use the Program Gaps tab for statewide meals and CEP figures."},
-            "test_scores": {"title": "Test scores", "observations": [], "state": {}, "source": "", "url": "", "note": ""},
-            "vital": {"title": "Births and deaths", "observations": [], "state": {}, "trend": [], "source": "", "url": "", "caveats": []},
-            "hpha": {"properties": [], "units": 0, "state_units": 0, "source": "", "url": "", "caveats": []},
-            "facts": _facts(), "hud": {"title": "HUD-subsidized housing", "as_of": "", "observations": [],
-                                       "state_per_1k_hh": None, "source": "", "caveats": []},
-            "medquest": {"title": "Med-QUEST enrollment", "sfy": 0, "statewide": 0, "islands": [],
-                         "trend": [], "source": "", "caveats": []},
-            "tanf_island": {"title": "SNAP cases with TANF category by island", "month": "", "source": "", "note": ""},
-            "county_snap": {"title": "SNAP participation", "month": "", "rows": [], "source": ""},
-            "tanf_underenrollment": {"title": "TANF reach by race", "available": False, "poverty_population": None,
-                                      "groups": [], "caveats": []},
-        }
+        return _statewide()
     counties = datastore.load_json("district_counties.json")
     county = counties.get(geo_id)
     if not county:

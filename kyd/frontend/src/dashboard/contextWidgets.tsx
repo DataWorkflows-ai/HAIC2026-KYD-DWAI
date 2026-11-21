@@ -44,14 +44,29 @@ function TrendBody({ c, series }: { c: ProgramContext; series: Series }) {
 
 export function TrendsWidget({ w, geo }: WidgetProps) {
   const l = useContext(geo);
-  return <Gate l={l}>{c => <TrendBody c={c} series={w.config.series ?? 'unemployment'} />}</Gate>;
+  return <Gate l={l}>{c => geo === 'HI' && (w.config.series ?? 'unemployment') === 'unemployment'
+    ? <StateTrend c={c} /> : <TrendBody c={c} series={w.config.series ?? 'unemployment'} />}</Gate>;
+}
+
+function StateTrend({ c }: { c: ProgramContext }) {
+  const e = c.employment;
+  const st = e.state.find(o => o.indicator === 'laus_unemp_rate');
+  return <>
+    <div className="text-xs text-slate-400 mb-1">Statewide unemployment rate</div>
+    {st && <div className="text-xs text-slate-300 mb-2">State <Figure o={st} /></div>}
+    <Spark xs={e.trend.map(t => t.year)} label="Statewide unemployment rate, 2014 to 2025"
+      series={[{ name: 'state', color: '#94a3b8', ys: e.trend.map(t => t.state) }]} />
+    <Note>{e.source}</Note>
+  </>;
 }
 
 export function CrimeWidget({ geo }: WidgetProps) {
   const l = useContext(geo);
   return <Gate l={l}>{c => {
     const k = c.crime;
-    if (!k || !k.district.length) return <Empty>{OAHU_ONLY}</Empty>;
+    if (!k || !k.district.length) return <Empty>{geo === 'HI'
+      ? 'Crime estimates cover Oʻahu districts only. There is no statewide total in this package.'
+      : OAHU_ONLY}</Empty>;
     return <>
       <div className="flex items-center gap-2 mb-2 text-xs text-slate-400">{k.title} <Pill tone="amber">Oʻahu estimate</Pill></div>
       <div className="grid gap-2" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(8rem, 1fr))' }}>
@@ -70,15 +85,15 @@ export function SchoolsWidget({ geo }: WidgetProps) {
     return <>
       <div className="text-xs font-semibold text-slate-300 mb-1">{m.title}</div>
       {m.observations.length ? m.observations.map(o => (
-        <div key={o.indicator} className="flex items-baseline justify-between gap-2 text-xs"><span className="text-slate-400">{o.label}</span><Figure o={o} /></div>))
+        <div key={o.indicator} className="flex items-baseline justify-between gap-2 text-xs"><span className="text-slate-400">{geo === 'HI' ? o.label.replace(' (schools in district)', '') : o.label}</span><Figure o={o} /></div>))
         : <Empty>No school meals figures for this geography.</Empty>}
-      {m.state_pct !== null && <div className="text-[11px] text-slate-500">State: {m.state_pct}% of public-school students</div>}
+      {m.state_pct !== null && geo !== 'HI' && <div className="text-[11px] text-slate-500">State: {m.state_pct}% of public-school students</div>}
       <div className="text-xs font-semibold text-slate-300 mt-3 mb-1">{t?.title ?? 'Test scores'}</div>
       {t?.observations.length ? t.observations.map(o => (
         <div key={o.indicator} className="flex items-baseline justify-between gap-2 text-xs"><span className="text-slate-400">{o.label}</span>
-          <span className="whitespace-nowrap"><Figure o={o} />{t.state[o.indicator] != null && <span className="ml-2 text-slate-500">State {t.state[o.indicator]}%</span>}</span></div>))
+          <span className="whitespace-nowrap"><Figure o={o} />{geo !== 'HI' && t.state[o.indicator] != null && <span className="ml-2 text-slate-500">State {t.state[o.indicator]}%</span>}</span></div>))
         : <Empty>No test score figures for this geography.</Empty>}
-      <Note>District-level rollups of the schools in the district. By-school and by-grade results: not yet loaded.</Note>
+      <Note>{geo === 'HI' ? 'Statewide rollup of public schools. By-school lists are on the Overview and Program Gaps tabs.' : 'District-level rollups of the schools in the district. By-school and by-grade results: not yet loaded.'}</Note>
     </>;
   }}</Gate>;
 }
@@ -103,7 +118,7 @@ const who = (m: Member | null) => m?.name ? `${m.title} ${m.name}` : 'Not on fil
 export function RepsWidget({ w, geo, ctx }: WidgetProps) {
   const ch = chamberOf(geo) ?? w.config.chamber ?? 'sldl';
   const l = useLoad(`summary:${ch}`, () => api.mapSummary(ch));
-  if (!chamberOf(geo)) return <Empty>Pick a House or Senate district in this widget's settings.</Empty>;
+  if (!chamberOf(geo)) return <Empty>The state has 51 representatives and 25 senators. Pick a House or Senate district to see who represents it.</Empty>;
   return <Gate l={l}>{s => {
     const d = s.districts.find(x => x.geo_id === geo);
     if (!d) return <Empty>No roster entry for {geo}.</Empty>;

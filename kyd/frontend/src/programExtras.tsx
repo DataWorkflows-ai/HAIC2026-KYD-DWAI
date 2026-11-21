@@ -92,11 +92,11 @@ export function ProgramContextCards({ geo }: { geo: string }) {
       {c.employment.district.length > 0 && <EmploymentCard e={c.employment} county={c.county} />}
       <UnemploymentBreakdown geo={geo} county={c.county} />
       {c.school_meals.observations.length > 0 && (
-        <Card title={<span className="normal-case">{c.school_meals.title}</span>} right={<Pill>schools in district</Pill>}>
+        <Card title={<span className="normal-case">{c.school_meals.title}</span>} right={<Pill>{c.geo_id === 'HI' ? 'statewide' : 'schools in district'}</Pill>}>
           <div className="space-y-2">
             {c.school_meals.observations.map(o => (
               <div key={o.indicator} className="flex items-baseline justify-between gap-2">
-                <span className="text-xs text-slate-400">{o.label}</span><Figure o={o} />
+                <span className="text-xs text-slate-400">{c.geo_id === 'HI' ? o.label.replace(' (schools in district)', '') : o.label}</span><Figure o={o} />
               </div>
             ))}
           </div>
@@ -107,7 +107,7 @@ export function ProgramContextCards({ geo }: { geo: string }) {
         </Card>
       )}
       {c.test_scores && c.test_scores.observations.length > 0 && (
-        <Card title={<span className="normal-case">{c.test_scores.title}</span>} right={<Pill>schools in district</Pill>}>
+        <Card title={<span className="normal-case">{c.test_scores.title}</span>} right={<Pill>{c.geo_id === 'HI' ? 'statewide' : 'schools in district'}</Pill>}>
           <div className="space-y-2">
             {c.test_scores.observations.map(o => (
               <div key={o.indicator} className="flex items-baseline justify-between gap-2">
@@ -124,8 +124,8 @@ export function ProgramContextCards({ geo }: { geo: string }) {
       )}
       {c.vital && c.vital.observations.length > 0 && <VitalCard v={c.vital} />}
       {c.hpha && (
-        <Card title={<span className="normal-case">HPHA public housing in this district</span>} right={<Pill>{c.hpha.properties.length} properties · {c.hpha.units.toLocaleString()} units</Pill>}>
-          {c.hpha.properties.length === 0 ? <p className="text-sm text-slate-400">No HPHA public housing property is located in this district.</p> : (
+        <Card title={<span className="normal-case">{c.geo_id === 'HI' ? 'HPHA public housing in the state' : 'HPHA public housing in this district'}</span>} right={<Pill>{c.hpha.properties.length} properties · {c.hpha.units.toLocaleString()} units</Pill>}>
+          {c.hpha.properties.length === 0 ? <p className="text-sm text-slate-400">{c.geo_id === 'HI' ? 'No HPHA public housing properties are on file.' : 'No HPHA public housing property is located in this district.'}</p> : (
             <ul className="text-sm divide-y divide-premium-800 max-h-64 overflow-y-auto">
               {c.hpha.properties.map(p => (
                 <li key={p.name + p.address} className="py-1.5 flex justify-between gap-3">
@@ -153,7 +153,7 @@ export function ProgramContextCards({ geo }: { geo: string }) {
           <p className="mt-1 text-xs text-slate-500">{c.hud.source}. {c.hud.caveats.join(' ')}</p>
         </Card>
       )}
-      <h3 className="col-span-full mt-2 text-xs font-semibold text-slate-400 uppercase tracking-wide">Island & statewide context · {c.county} County</h3>
+      <h3 className="col-span-full mt-2 text-xs font-semibold text-slate-400 uppercase tracking-wide">{c.county === 'Statewide' ? 'Statewide context' : `Island & statewide context · ${c.county} County`}</h3>
       <Card title={<span className="normal-case">{mq.title}</span>} right={<Pill>SFY {mq.sfy}</Pill>}>
         <table className="w-full text-sm">
           <tbody>
@@ -177,7 +177,17 @@ export function ProgramContextCards({ geo }: { geo: string }) {
         <p className="mt-2 text-xs text-slate-500">{mq.source} {mq.caveats.join(' ')}</p>
       </Card>
       <Card title={<span className="normal-case">{t.title}</span>} right={<Pill>{t.month}</Pill>}>
-        {t.tanf_persons !== undefined ? (
+        {t.islands && t.islands.length > 0 ? (
+          <table className="w-full text-sm">
+            <thead><tr className="text-xs text-slate-500"><th className="text-left font-normal">Island</th><th className="text-right font-normal">SNAP persons with TANF</th><th className="text-right font-normal">Per 1,000</th></tr></thead>
+            <tbody>{t.islands.map(i => (
+              <tr key={i.island} className="border-b border-premium-800">
+                <td className="py-1 text-slate-300">{i.island}</td>
+                <td className="py-1 text-right font-mono text-cyan-300">{n(i.tanf_persons)}</td>
+                <td className="py-1 text-right font-mono text-slate-400">{i.tanf_per_1000 ?? 'n/a'}</td>
+              </tr>))}</tbody>
+          </table>
+        ) : t.tanf_persons !== undefined ? (
           <div className="space-y-1 text-sm">
             <div className="text-slate-300">{t.county}</div>
             <div><span className="font-mono text-2xl text-cyan-300">{n(t.tanf_persons)}</span> <span className="text-xs text-slate-400">SNAP-category people</span></div>
@@ -256,9 +266,28 @@ function ProgramFacts({ facts }: { facts: ProgramContext['facts'] }) {
 function EmploymentCard({ e, county }: { e: ProgramContext['employment']; county: string }) {
   const rate = (xs: Obs[]) => xs.find(o => o.indicator === 'laus_unemp_rate');
   const d = rate(e.district), c = rate(e.county), s = rate(e.state);
+  const statewide = d?.geo_id === 'HI';
   const acs = e.district.find(o => o.indicator === 'unemployment_rate');
   const lf = e.district.find(o => o.indicator === 'laus_labor_force');
   const max = Math.max(...e.trend.flatMap(t => [t.county ?? 0, t.state ?? 0]), 1);
+  if (statewide) return (
+    <Card title="Unemployment" right={<Pill>2025 annual avg</Pill>} className="md:col-span-2">
+      <div className="text-sm"><div className="text-xs text-slate-400">State</div>{d && <Figure o={d} big />}
+        {lf && <div className="text-xs text-slate-500">labor force <Figure o={lf} /></div>}</div>
+      {acs && <div className="mt-2 text-xs text-slate-400">ACS 2020–2024 five-year rate for comparison: <Figure o={acs} /></div>}
+      <div className="mt-3 text-xs text-slate-400">State, 2014–2025</div>
+      <div className="flex items-end gap-1 h-16 mt-1" aria-label="Statewide unemployment rate 2014 to 2025">
+        {e.trend.map(t => (
+          <div key={t.year} className="flex-1 h-full flex items-end" title={`${t.year}: state ${t.state ?? 'n/a'}%`}>
+            <div className="flex-1 bg-slate-600 rounded-sm" style={{ height: `${((t.state ?? 0) / max) * 100}%` }} />
+          </div>
+        ))}
+      </div>
+      <div className="flex justify-between text-[10px] text-slate-500 font-mono"><span>{e.trend[0]?.year}</span><span>2020 peak {e.trend.find(t => t.year === 2020)?.state ?? ''}%</span><span>{e.trend[e.trend.length - 1]?.year}</span></div>
+      <ul className="mt-2 text-xs text-slate-500 list-disc ml-4">{e.notes.map(n => <li key={n}>{n}</li>)}</ul>
+      <div className="text-xs text-slate-500">{e.source}</div>
+    </Card>
+  );
   return (
     <Card title="Unemployment" right={<Pill>2025 annual avg</Pill>} className="md:col-span-2">
       <div className="grid grid-cols-3 gap-3 text-sm">
@@ -308,15 +337,19 @@ function UnemploymentBreakdown({ geo, county }: { geo: string; county: string })
             className={`px-2 py-0.5 rounded text-xs border ${dim === d ? 'border-cyan-700 text-cyan-300' : 'border-premium-700 text-slate-400'}`}>{t.replace('By ', '')}</button>))}
       </div>
       <table className="w-full text-xs">
-        <thead><tr className="text-slate-500"><th className="text-left font-normal">Group</th><th className="text-right font-normal">District</th>
-          <th className="text-right font-normal">{county} Co.</th><th className="text-right font-normal">State</th></tr></thead>
+        <thead><tr className="text-slate-500"><th className="text-left font-normal">Group</th>
+          {geo === 'HI' ? <th className="text-right font-normal">State</th> : <>
+            <th className="text-right font-normal">District</th>
+            <th className="text-right font-normal">{county} Co.</th><th className="text-right font-normal">State</th></>}</tr></thead>
         <tbody>
           <tr className="border-b border-premium-800"><td className="py-1 text-slate-300">All workers 16+</td>
-            <td className="text-right whitespace-nowrap pl-2">{cell(overall(u.rows))}</td><td className="text-right whitespace-nowrap pl-2">{cell(overall(u.county))}</td><td className="text-right whitespace-nowrap pl-2">{cell(overall(u.state))}</td></tr>
+            <td className="text-right whitespace-nowrap pl-2">{cell(overall(u.rows))}</td>
+            {geo !== 'HI' && <><td className="text-right whitespace-nowrap pl-2">{cell(overall(u.county))}</td><td className="text-right whitespace-nowrap pl-2">{cell(overall(u.state))}</td></>}</tr>
           {(u.rows[dim] ?? []).map(r => (
             <tr key={key(r)} className="border-b border-premium-800">
               <td className="py-1 text-slate-300">{r.label}</td><td className="text-right whitespace-nowrap pl-2">{cell(r)}</td>
-              <td className="text-right whitespace-nowrap pl-2">{cell(ct[key(r)])}</td><td className="text-right whitespace-nowrap pl-2">{cell(st[key(r)])}</td></tr>))}
+              {geo !== 'HI' && <><td className="text-right whitespace-nowrap pl-2">{cell(ct[key(r)])}</td><td className="text-right whitespace-nowrap pl-2">{cell(st[key(r)])}</td></>}
+            </tr>))}
         </tbody>
       </table>
       <ul className="mt-2 text-[11px] text-slate-500 list-disc ml-4">{u.notes.map(n => <li key={n}>{n}</li>)}</ul>

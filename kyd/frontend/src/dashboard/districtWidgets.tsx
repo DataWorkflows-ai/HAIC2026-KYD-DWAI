@@ -53,7 +53,20 @@ export function KpiWidget({ w, geo }: WidgetProps) {
 export function RankWidget({ w, geo, ctx }: WidgetProps) {
   const ch = chamberOf(geo) ?? w.config.chamber ?? 'sldl';
   const l = useLoad(`rankings:${ch}`, () => api.rankings(ch));
-  if (!chamberOf(geo)) return <Empty>Rankings cover House and Senate districts. Pick one in this widget's settings.</Empty>;
+  if (!chamberOf(geo)) return <Gate l={l}>{d => <>
+    <div className="text-sm text-slate-100 mb-2">State of Hawaiʻi <span className="text-xs text-slate-500">statewide figures, not a rank</span></div>
+    <table className="w-full text-xs">
+      <tbody>{d.columns.map(c => {
+        const o = d.state[c.indicator];
+        return <tr key={c.indicator} className="border-t border-premium-800">
+          <td className="py-1 pr-2 text-slate-300">{c.label}{c.kind === 'estimate' && <span className="ml-1"><Pill tone="amber">EST</Pill></span>}</td>
+          <td className="py-1 whitespace-nowrap">{o ? <Figure o={o} /> : <span className="text-slate-600">—</span>}</td>
+        </tr>;
+      })}</tbody>
+    </table>
+    <Note>Ranks compare House or Senate districts with each other. These are the statewide figures for the same measures. Crime is an Oʻahu estimate and has no state total.</Note>
+    <Go onClick={() => ctx.onOpen('rankings', geo)}>Open Rankings</Go>
+  </>}</Gate>;
   return <Gate l={l}>{d => {
     const row = d.rows.find(r => r.geo_id === geo);
     if (!row) return <Empty>No ranking row for {geo}.</Empty>;
@@ -110,15 +123,29 @@ export function SnapWidget({ geo, ctx }: WidgetProps) {
     const m = ms.find(x => x.gap_range && /snap/i.test(x.program.program_id)) ?? ms.find(x => x.gap_range);
     const p = peers.data;
     return <>
-      {m?.gap_range ? <>
+      {m?.gap_range ? (geo === 'HI' ? <>
+        <div className="text-xs text-amber-300 mb-1">{m.program.name}: eligible people not participating (USDA FY2022)</div>
+        <div className="space-y-1 text-xs text-slate-300">
+          {([['snap_eligible_usda', 'Eligible'], ['snap_participants_usda', 'Enrolled'], ['snap_participation_rate', 'Reach']] as const).map(([k, label]) => {
+            const o = m.gap_range!.benchmark.find(x => x.indicator === k);
+            return o ? <div key={k}>{label}: <Figure o={o} /></div> : null;
+          })}
+        </div>
+        <div className="mt-2 grid grid-cols-2 gap-2">
+          <End e={m.gap_range.low} side="Range low" />
+          <End e={m.gap_range.high} side="Range high" />
+        </div>
+        <Note>{m.gap_range.note} {m.gap_range.is_not}</Note>
+      </> : <>
         <div className="text-xs text-amber-300 mb-1">{m.program.name}: ACS poverty households not reporting SNAP</div>
         <div className="grid grid-cols-1 gap-2"><End e={m.gap_range.low} side="Survey estimate" /></div>
         <Note>{m.gap_range.is_not}</Note>
-      </> : <Empty>No SNAP gap range for this geography.</Empty>}
+      </>) : <Empty>No SNAP gap range for this geography.</Empty>}
       {p?.gap && p.need && <p className="mt-2 text-xs text-slate-300">Poverty households: <Figure o={p.need} />; SNAP reach: <Figure o={p.gap} />.</p>}
-      {p && <p className="mt-1 text-xs text-slate-400">{p.peers.length
+      {p && geo !== 'HI' && <p className="mt-1 text-xs text-slate-400">{p.peers.length
         ? <>{p.peers.length} district{p.peers.length > 1 ? 's' : ''} with similar need reach more people with SNAP (estimate).</>
         : 'No similar-need district reaches noticeably more with SNAP.'}</p>}
+      {geo === 'HI' && <p className="mt-1 text-xs text-slate-400">Peer districts are compared within the House or the Senate. Pick a district to see them.</p>}
       <Go onClick={() => ctx.onOpen('programs', geo)}>Open Programs</Go>
     </>;
   }}</Gate>;
