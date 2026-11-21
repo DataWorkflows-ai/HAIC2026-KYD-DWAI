@@ -6,8 +6,9 @@ Two ways to establish identity:
    `Authorization: Bearer <payload>.<signature>`, where payload is base64url JSON
    {"sub", "role", "exp"} and signature is HMAC-SHA256 over the payload with KYD_AUTH_SECRET
    (a random per-process key when that is unset, so tokens end at every restart).
-   Accounts (app/accounts.py) get tokens with sub "acct:<id>"; their role and disabled flag are re-read from the
-   account store, so a change applies without signing in again.
+   Accounts (app/accounts.py) get tokens with sub "acct:<id>" and a stamp of the current password. Their role,
+   disabled flag and password stamp are re-read from the account store, so a role change, a disable or a password
+   change applies without signing in again.
    Service tokens: python -m app.auth --sub "eval.bot" --role staff --days 1
    A bad or expired token is rejected with 401. No token means anonymous viewer.
 
@@ -54,6 +55,7 @@ class Principal:
     role: str
     email: str = ""
     name: str = ""
+    cred: str = ""                          # password stamp for account tokens; empty for service tokens
 
     def require(self, *roles: str) -> None:
         if self.role not in roles:
@@ -75,12 +77,15 @@ def _sign(payload: str, secret: str) -> str:
     return _b64(hmac.new(secret.encode(), payload.encode(), hashlib.sha256).digest())
 
 
-def mint(sub: str, role: str, ttl_seconds: int = 30 * 86400, secret: str | None = None) -> str:
+def mint(sub: str, role: str, ttl_seconds: int = 30 * 86400, secret: str | None = None,
+         cred: str | None = None) -> str:
     if role not in ROLES:
         raise ValueError(f"role must be one of {ROLES}")
     secret = secret or signing_secret()
-    payload = _b64(json.dumps({"sub": sub, "role": role, "exp": int(time.time()) + ttl_seconds},
-                              separators=(",", ":")).encode())
+    body = {"sub": sub, "role": role, "exp": int(time.time()) + ttl_seconds}
+    if cred:
+        body["cred"] = cred
+    payload = _b64(json.dumps(body, separators=(",", ":")).encode())
     return f"{payload}.{_sign(payload, secret)}"
 
 
@@ -94,7 +99,7 @@ def verify(token: str, secret: str) -> Principal:
             raise ValueError("expired")
         if claims["role"] not in ROLES:
             raise ValueError("unknown role")
-        return Principal(str(claims["sub"]), claims["role"])
+        return Principal(str(claims["sub"]), claims["role"], cred=str(claims.get("cred") or ""))
     except (ValueError, KeyError, TypeError, json.JSONDecodeError) as e:
         raise HTTPException(401, f"invalid token: {e}", headers={"WWW-Authenticate": "Bearer"})
 
@@ -120,10 +125,13 @@ def _account(uid: str) -> dict | None:
     return u
 
 
-def account_principal(uid: str) -> Principal:
+def account_principal(uid: str, cred: str) -> Principal:
     u = _account(uid)
     if not u or u["disabled"]:
         raise HTTPException(401, "account not found or disabled", headers={"WWW-Authenticate": "Bearer"})
+    # A password change moves the stamp, so tokens issued before it stop working.
+    if not cred or len(cred) != len(u["cred"]) or not hmac.compare_digest(cred, u["cred"]):
+        raise HTTPException(401, "session ended; sign in again", headers={"WWW-Authenticate": "Bearer"})
     return Principal(uid, u["role"], u["email"], u["name"])
 
 
@@ -133,7 +141,7 @@ def current_principal(req: Request) -> Principal:
     authz = req.headers.get("authorization", "")
     if authz.lower().startswith("bearer "):
         p = verify(authz[7:].strip(), signing_secret())
-        return account_principal(p.user[len(ACCOUNT):]) if p.user.startswith(ACCOUNT) else p
+        return account_principal(p.user[len(ACCOUNT):], p.cred) if p.user.startswith(ACCOUNT) else p
     if s.trust_proxy_headers and req.headers.get("x-kyd-user"):
         role = req.headers.get("x-kyd-role", "viewer")
         return Principal(req.headers["x-kyd-user"], role if role in ROLES else "viewer")

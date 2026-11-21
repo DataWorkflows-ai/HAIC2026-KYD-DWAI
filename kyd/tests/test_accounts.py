@@ -50,7 +50,7 @@ def owner(owner_email):
 
 def test_register_login_and_me():
     s = register(password="pw-123456")
-    assert s["user"]["role"] in ("user", "owner") and "pw_hash" not in s["user"]
+    assert s["user"]["role"] in ("user", "owner") and "pw_hash" not in s["user"] and "cred" not in s["user"]
     me = c.get("/api/auth/me", headers=h(s)).json()
     assert me["email"] == s["user"]["email"]
     assert c.post("/api/auth/login", json={"email": me["email"].upper(), "password": "pw-123456"}).status_code == 200
@@ -182,6 +182,10 @@ def test_forgot_password_code_resets_and_signs_in(outbox):
     assert r.status_code == 200 and r.json()["user"]["email"] == email
     assert c.post("/api/auth/login", json={"email": email, "password": "new-password"}).status_code == 200
     assert c.post("/api/auth/login", json={"email": email, "password": "old-password"}).status_code == 401
+    # The token from before the reset must not keep access to the account.
+    assert c.get("/api/auth/me", headers=h(s)).status_code == 401
+    assert c.get("/api/chats", headers=h(s)).status_code == 401
+    assert c.get("/api/auth/me", headers=h(r.json())).status_code == 200
     assert c.post("/api/auth/reset", json={"email": email, "code": code, "password": "again-pass"}).status_code == 400
 
 

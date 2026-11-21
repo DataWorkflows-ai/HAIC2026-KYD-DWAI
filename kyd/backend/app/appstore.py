@@ -1,6 +1,7 @@
 """Accounts, chats and dashboards (db/app.sql). Postgres when live mode is serving from Postgres, else a local
 SQLite file (KYD_APP_DB). Both use the same tables; SQL is written with %s placeholders."""
 from __future__ import annotations
+import hashlib
 import json
 import secrets
 import sqlite3
@@ -99,15 +100,27 @@ def q(sql: str, *args) -> list[dict]:
 USER_COLS = "id, email, name, role, disabled, created_at, last_login"
 
 
+def credential_stamp(pw_hash: str) -> str:
+    """A password change produces a different stamp. Tokens carry it; the hash itself stays in the database."""
+    return hashlib.sha256(pw_hash.encode()).hexdigest()[:16]
+
+
 def user_by_email(email: str) -> dict | None:
     rows = q("SELECT id, email, name, role, disabled, created_at, last_login, pw_hash FROM app.users WHERE email = %s",
              email.lower())
-    return rows[0] if rows else None
+    if not rows:
+        return None
+    rows[0]["cred"] = credential_stamp(rows[0]["pw_hash"])
+    return rows[0]
 
 
 def user_by_id(uid: str) -> dict | None:
-    rows = q(f"SELECT {USER_COLS} FROM app.users WHERE id = %s", uid)
-    return rows[0] if rows else None
+    rows = q(f"SELECT {USER_COLS}, pw_hash FROM app.users WHERE id = %s", uid)
+    if not rows:
+        return None
+    u = rows[0]
+    u["cred"] = credential_stamp(u.pop("pw_hash"))
+    return u
 
 
 def has_owner() -> bool:

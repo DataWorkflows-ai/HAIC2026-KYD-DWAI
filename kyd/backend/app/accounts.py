@@ -45,7 +45,7 @@ def public(u: dict) -> dict:
 
 
 def _session(u: dict) -> dict:
-    token = mint(ACCOUNT + u["id"], u["role"], int(settings().token_days * 86400))
+    token = mint(ACCOUNT + u["id"], u["role"], int(settings().token_days * 86400), cred=u["cred"])
     return {"token": token, "user": public(u)}
 
 
@@ -221,6 +221,8 @@ def reset(body: Reset):
     if not u or u["disabled"]:
         raise bad
     appstore.set_password(u["id"], hash_password(body.password))
+    forget(u["id"])                                   # drop the cached stamp so the new password applies immediately
+    u = appstore.user_by_id(u["id"])
     appstore.touch_login(u["id"])
     audit.record(u["id"], u["role"], "reset_password")
     return _session(u)
