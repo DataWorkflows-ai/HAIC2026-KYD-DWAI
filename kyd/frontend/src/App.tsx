@@ -1,21 +1,27 @@
 import { useEffect, useState } from 'react';
-import { LayoutDashboard, Map, GitCompare, ListOrdered, HandHeart, MessageSquare, BookOpen, Star } from 'lucide-react';
-import { api, type Geo, type Health } from './api';
+import { LayoutDashboard, LayoutGrid, Map, GitCompare, ListOrdered, HandHeart, MessageSquare, BookOpen, Star, Users, LogOut } from 'lucide-react';
+import { api, hasToken, setToken, SIGNED_OUT, type Geo, type Health, type User } from './api';
 import { GeoPicker, Pill, usePersistentState } from './ui';
-import { AskTab, CompareTab, OverviewTab, ProgramsTab, SourcesTab } from './tabs';
+import { CompareTab, OverviewTab, ProgramsTab, SourcesTab } from './tabs';
 import { MapTab } from './MapTab';
 import { RankingsTab } from './RankingsTab';
 import { Finder } from './Finder';
+import { Login } from './Login';
+import { ChatTab } from './ChatTab';
+import { AdminTab } from './AdminTab';
+import { DashboardTab } from './Dashboard';
 import dwaiLogo from './brand/dataworkflows-logo.png';
 
 const TABS = [
+  { id: 'dashboard', label: 'Dashboard', short: 'Dashboard', Icon: LayoutGrid },
   { id: 'overview', label: 'Overview', short: 'Overview', Icon: LayoutDashboard },
   { id: 'map', label: 'Map', short: 'Map', Icon: Map },
   { id: 'compare', label: 'Compare', short: 'Compare', Icon: GitCompare },
   { id: 'rankings', label: 'Rankings', short: 'Rankings', Icon: ListOrdered },
   { id: 'programs', label: 'Programs', short: 'Programs', Icon: HandHeart },
-  { id: 'ask', label: 'Ask the Agent', short: 'Ask', Icon: MessageSquare },
+  { id: 'ask', label: 'Chat with the agent', short: 'Chat', Icon: MessageSquare },
   { id: 'sources', label: 'Sources & Methods', short: 'Sources', Icon: BookOpen },
+  { id: 'admin', label: 'Accounts & usage', short: 'Accounts', Icon: Users },
 ] as const;
 const TAB_IDS: string[] = TABS.map(t => t.id);
 const GEO_RE = /^(HD|SD)-\d{2}$|^HI$|^CNTY-\d{5}$/;
@@ -49,15 +55,38 @@ function readHash(): { geo?: string; tab?: string } {
   } catch { /* storage unavailable: the hash effect below still applies it */ }
 }
 
+/** Sign-in gate: nothing but the sign-in page until there is an account. */
 export default function App() {
-  const [tab, setTab] = usePersistentState<string>('kyd_tab', 'overview');
+  const [user, setUser] = useState<User | null | undefined>(hasToken() ? undefined : null);
+  const [, setTab] = usePersistentState<string>('kyd_tab', 'dashboard');
+  useEffect(() => {
+    if (hasToken()) api.me().then(setUser).catch(() => setUser(null));
+    const out = () => setUser(null);
+    window.addEventListener(SIGNED_OUT, out);
+    return () => window.removeEventListener(SIGNED_OUT, out);
+  }, []);
+  if (user === undefined) return <div className="h-screen flex items-center justify-center text-sm text-slate-500">Loading…</div>;
+  if (!user) return <Login onSignedIn={u => { setTab('dashboard'); setUser(u); }} />;
+  const signOut = () => {
+    if (user.email.endsWith('@guest.kyd') && !window.confirm('Signing out ends this guest workspace and its chats. Sign out?')) return;
+    setToken(null); setUser(null);
+  };
+  return <Workspace user={user} onSignOut={signOut} />;
+}
+
+function Workspace({ user, onSignOut }: { user: User; onSignOut: () => void }) {
+  const [tab, setTab] = usePersistentState<string>('kyd_tab', 'dashboard');
   const [office, setOffice] = usePersistentState<string | null>('kyd_office', null);
   const [geo, setGeo] = usePersistentState<string>('kyd_geo', office ?? 'HD-22');
   const [geos, setGeos] = useState<Geo[]>([]);
   const [health, setHealth] = useState<Health | null>(null);
   const [pending, setPending] = useState<string | null>(null);
+  const [openChat, setOpenChat] = useState<string | null>(null);
+  const staff = user.role === 'owner' || user.role === 'admin';
+  const tabs = TABS.filter(t => t.id !== 'admin' || staff);
 
-  useEffect(() => { api.geographies().then(setGeos); api.health().then(setHealth).catch(() => setHealth(null)); }, []);
+  useEffect(() => { api.geographies().then(setGeos).catch(() => setGeos([])); api.health().then(setHealth).catch(() => setHealth(null)); }, []);
+  useEffect(() => { if (tab === 'admin' && !staff) setTab('dashboard'); }, [tab, staff]);
   // URL hash <-> district and tab, so a link opens the same view
   useEffect(() => {
     const apply = () => { const h = readHash(); if (h.geo) setGeo(h.geo); if (h.tab) setTab(h.tab); };
@@ -108,7 +137,7 @@ export default function App() {
         <div className="shrink-0"><Finder onPick={setGeo} /></div>
 
         <nav aria-label="Sections" className="w-full min-[1440px]:w-auto justify-between md:justify-start min-[1440px]:ml-auto flex gap-1 bg-premium-950 p-1 rounded-lg border border-premium-800 overflow-x-auto min-w-0">
-          {TABS.map(({ id, label, short, Icon }) => (
+          {tabs.map(({ id, label, short, Icon }) => (
             <button key={id} onClick={() => setTab(id)} aria-current={tab === id ? 'page' : undefined} title={label} aria-label={label}
               className={`flex items-center gap-2 px-2.5 py-1.5 rounded-md text-sm font-medium whitespace-nowrap transition ${tab === id ? 'bg-premium-800 text-cyan-400 border border-premium-700' : 'text-slate-400 hover:text-slate-200'}`}>
               <Icon className="w-4 h-4 shrink-0" />
@@ -116,20 +145,30 @@ export default function App() {
             </button>
           ))}
         </nav>
+        <div className="flex items-center gap-2 shrink-0 no-print">
+          <span className="text-xs text-slate-300 max-w-[10rem] truncate" title={user.email}>{user.name}</span>
+          {user.role !== 'user' && <Pill tone={user.role === 'owner' ? 'amber' : 'cyan'}>{user.role}</Pill>}
+          <button onClick={onSignOut} title="Sign out" aria-label="Sign out" className="p-1.5 rounded-md text-slate-400 hover:text-cyan-300 hover:bg-premium-800">
+            <LogOut className="w-4 h-4" /></button>
+        </div>
       </header>
 
-      <main className="flex-grow overflow-y-auto p-4 lg:p-6">
+      <main className={`flex-grow p-4 lg:p-6 ${tab === 'ask' ? 'overflow-hidden min-h-0' : 'overflow-y-auto'}`}>
         <div className="print-only text-xs mb-2">
           Know Your District by DataWorkflows.ai · {geos.find(g => g.geo_id === geo)?.name ?? geo} · printed {new Date().toLocaleDateString()} ·
           Sources: ACS 2020–2024 and the agencies listed on the Sources tab · {window.location.href}
         </div>
+        {tab === 'dashboard' && <DashboardTab geo={geo} geos={geos} user={user} onAsk={ask}
+          onOpen={(t, g) => { if (g) setGeo(g); setTab(t); }} onOpenChat={id => { setOpenChat(id); setTab('ask'); }} />}
         {tab === 'overview' && <OverviewTab geo={geo} geos={geos} onAsk={ask} onPick={setGeo} picker={districtControl} />}
         {tab === 'map' && <MapTab geos={geos} geo={geo} office={office} onPick={setGeo} onOpen={g => { setGeo(g); setTab('overview'); }} />}
         {tab === 'compare' && <CompareTab geos={geos} geo={geo} />}
         {tab === 'rankings' && <RankingsTab onOpen={g => { setGeo(g); setTab('overview'); }} />}
         {tab === 'programs' && <ProgramsTab geo={geo} />}
-        {tab === 'ask' && <AskTab geo={geo} pending={pending} clearPending={() => setPending(null)} />}
+        {tab === 'ask' && <ChatTab geo={geo} pending={pending} clearPending={() => setPending(null)}
+          openChat={openChat} clearOpenChat={() => setOpenChat(null)} />}
         {tab === 'sources' && <SourcesTab />}
+        {tab === 'admin' && staff && <AdminTab me={user} />}
       </main>
 
       <footer className="shrink-0 min-h-9 py-1 border-t border-premium-800 bg-premium-900 flex flex-wrap items-center justify-between gap-x-3 gap-y-1 px-4 lg:px-6 text-xs text-slate-500 font-mono">

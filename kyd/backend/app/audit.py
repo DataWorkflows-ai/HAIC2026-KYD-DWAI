@@ -7,7 +7,7 @@ from __future__ import annotations
 import hashlib
 import json
 import threading
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from .config import ROOT, settings
 from .privacy import scrub
 
@@ -91,6 +91,25 @@ def verify_chain() -> dict:
                 return {"ok": False, "broken_at": n}
             prev, n = h, n + 1
     return {"ok": True, "entries": n}
+
+
+def recent(days: int = 7, limit: int = 5000) -> list[dict]:
+    """Newest-first entries from the last `days` days: ts, actor, role, action, route (no query text)."""
+    since = (datetime.now(timezone.utc) - timedelta(days=days)).isoformat()
+    keep = ("ts", "actor", "role", "action", "route")
+    if _pg() is not None:
+        rows = _pg()._q("SELECT ts_text AS ts, actor, role, action, route FROM audit.access_log WHERE ts >= %s::timestamptz "
+                        "ORDER BY seq DESC LIMIT %s", since, limit)
+        return [dict(r) for r in rows]
+    if not _LOG.exists():
+        return []
+    out = []
+    for line in reversed(_LOG.read_text(encoding="utf-8").splitlines()):
+        e = json.loads(line)
+        if e["ts"] < since or len(out) >= limit:
+            break
+        out.append({k: e.get(k) for k in keep})
+    return out
 
 
 def _pg_last_hash() -> str:

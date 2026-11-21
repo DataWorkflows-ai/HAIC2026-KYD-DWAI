@@ -20,6 +20,7 @@ export type Profile = {
 export type Answer = {
   text: string; route: 'S1' | 'S2' | 'REFUSED'; intent: string | null; geo_ids: string[];
   observations: Obs[]; programs: ProgramMatch[]; escalation_reasons: string[]; trace: any[];
+  document?: Doc | null; chat_id?: string | null;
 };
 export type Member = {
   geo_id: string; name: string | null; title: string; basis: string;
@@ -35,7 +36,8 @@ export type MapDistrict = {
 };
 export type MapSummary = { roster: { as_of: string; counts: Record<string, number> }; overlap_method: string; local_method: string; districts: MapDistrict[] };
 export type VerifySummary = { generated_at: string; git_sha: string | null; pass: number; info: number; warn: number; fail: number };
-export type Health = { ok: boolean; mode: string; demo: boolean; llm: string; graph: string; verification: VerifySummary | null; geographies: number; programs: number };
+export type Health = { ok: boolean; mode: string; demo: boolean; llm: string; graph: string; verification: VerifySummary | null; geographies: number; programs: number;
+  auth?: { required: boolean; secret: string; owner_email_set: boolean; accounts_store: string } };
 export type VCheck = { id: string; source: string; kind: string; status: 'pass' | 'info' | 'warn' | 'fail'; detail: string; expected: any; actual: any; location: string | null };
 export type Verification = {
   summary: VerifySummary; checks: VCheck[];
@@ -81,14 +83,37 @@ export type Rankings = { geo_type: string; columns: RankCol[]; state: Record<str
   state_alt: Record<string, Obs | null>;
   rows: { geo_id: string; name: string; counties: string[]; cells: Record<string, { obs: Obs; rank: number | null; alt?: Obs | null } | null> }[] };
 
-// Bearer token from the login flow (see backend/app/auth.py). Stored per tab; absent = anonymous viewer.
+export type Role = 'owner' | 'admin' | 'user';
+export type User = { id: string; email: string; name: string; role: Role; disabled: boolean; created_at: string; last_login: string | null };
+export type Session = { token: string; user: User };
+export type Doc = { title: string; body: string };
+export type ChatMeta = { id: string; title: string; pinned: boolean; archived: boolean; created_at: string; updated_at: string };
+export type ChatMsg = { id: number; role: 'user' | 'assistant'; content: string | Answer; created_at: string };
+export type Chat = ChatMeta & { messages: ChatMsg[] };
+export type Usage = {
+  totals: { users: number; chats: number; messages: number }; questions_today: number;
+  questions_by_day: { day: string; questions: number }[]; by_user: { user: string; questions: number }[];
+  routes: Record<string, number>; llm_budget: { limit: number; used_today: number };
+  recent: { ts: string; user: string; action: string; route: string | null }[];
+};
+
+// Bearer token from sign-in (backend/app/accounts.py), kept across visits. A 401 signs the user out.
+const TOKEN = 'kyd_token';
+export const SIGNED_OUT = 'kyd-signed-out';
+export function setToken(t: string | null) {
+  try { t ? localStorage.setItem(TOKEN, t) : localStorage.removeItem(TOKEN); } catch { /* storage unavailable */ }
+}
+export function hasToken(): boolean {
+  try { return !!localStorage.getItem(TOKEN); } catch { return false; }
+}
 function authHeader(): Record<string, string> {
-  try { const t = sessionStorage.getItem('kyd_token'); return t ? { Authorization: `Bearer ${t}` } : {}; }
+  try { const t = localStorage.getItem(TOKEN); return t ? { Authorization: `Bearer ${t}` } : {}; }
   catch { return {}; }
 }
 
 async function j<T>(url: string, init?: RequestInit): Promise<T> {
   const r = await fetch(url, { ...init, headers: { ...authHeader(), ...(init?.headers ?? {}) } });
+  if (r.status === 401 && !url.startsWith('/api/auth/')) { setToken(null); window.dispatchEvent(new Event(SIGNED_OUT)); }
   if (!r.ok) {
     const body = await r.text();
     let detail: unknown;
@@ -115,9 +140,29 @@ export const api = {
   sources: () => j<any[]>('/api/sources'),
   cite: (id: string) => j<any>(`/api/sources/observation/${id}`),
   verification: () => j<Verification>('/api/verification'),
-  ask: (question: string, geo_id: string | null) =>
-    j<Answer>('/api/agent/ask', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ question, geo_id }) }),
+  ask: (question: string, geo_id: string | null, chat_id?: string | null) =>
+    post<Answer>('/api/agent/ask', { question, geo_id, chat_id: chat_id ?? null }),
+  get: <T,>(url: string) => j<T>(url),
+
+  register: (email: string, name: string, password: string) => post<Session>('/api/auth/register', { email, name, password }),
+  guest: () => post<Session>('/api/auth/guest', {}),
+  login: (email: string, password: string) => post<Session>('/api/auth/login', { email, password }),
+  me: () => j<User>('/api/auth/me'),
+  users: () => j<User[]>('/api/admin/users'),
+  updateUser: (id: string, patch: { role?: 'admin' | 'user'; disabled?: boolean }) => post<User>(`/api/admin/users/${id}`, patch),
+  usage: () => j<Usage>('/api/admin/usage'),
+
+  chats: (archived = false, q = '') => j<ChatMeta[]>(`/api/chats?archived=${archived}&q=${encodeURIComponent(q)}`),
+  chat: (id: string) => j<Chat>(`/api/chats/${id}`),
+  updateChat: (id: string, patch: { title?: string; pinned?: boolean; archived?: boolean }) => post<ChatMeta>(`/api/chats/${id}`, patch),
+
+  dashboard: () => j<{ layout: any; updated_at: string | null }>('/api/dashboard'),
+  saveDashboard: (layout: any) => post<{ updated_at: string }>('/api/dashboard', { layout }),
 };
+
+function post<T>(url: string, body: unknown): Promise<T> {
+  return j<T>(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+}
 
 export function fmt(o: Pick<Obs, 'value' | 'unit'>): string {
   if (o.value === null || o.value === undefined) return '—';

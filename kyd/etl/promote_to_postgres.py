@@ -155,6 +155,7 @@ def main() -> int:
     with psycopg.connect(url, connect_timeout=20, prepare_threshold=None, autocommit=True) as conn:
         if not a.check:
             conn.execute((KYD / "db" / "live.sql").read_text(encoding="utf-8"))
+            conn.execute((KYD / "db" / "app.sql").read_text(encoding="utf-8"))
             counts = load(conn, tables, docs)
             print("loaded:", ", ".join(f"{k} {v}" for k, v in counts.items()))
         bad = check(conn, tables, docs)

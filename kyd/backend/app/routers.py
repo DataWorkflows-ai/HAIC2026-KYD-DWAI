@@ -1,8 +1,8 @@
 from __future__ import annotations
 import re
 from fastapi import APIRouter, Depends, HTTPException
-from . import audit
-from .auth import Principal, current_principal
+from . import accounts, appstore, audit
+from .auth import Principal, current_principal, secret_status, signed_in
 from .agent import tools
 from .agent.orchestrator import ask
 from .config import settings
@@ -13,7 +13,7 @@ from .services.repo import repo
 from .services import breakdowns, crosswalk, datastore, program_context, rankings, representation as rep, uptake
 from .services.cache import cached
 
-api = APIRouter(prefix="/api")
+api = APIRouter(prefix="/api", dependencies=[Depends(signed_in)])
 
 
 Who = Depends(current_principal)
@@ -42,6 +42,9 @@ def health():
             "audit": audit.status(), "demo": r.demo, "llm": settings().llm_provider,
             "graph": graph().backend, "verification": _verification_summary(), "frontend": _frontend_build(),
             "llm_budget": LLM_BUDGET.status(),
+            "auth": {"required": settings().auth_required, "secret": secret_status(),
+                     "owner_email_set": bool(settings().owner_email), "accounts_store": appstore.store().backend,
+                     "accounts_fallback": appstore.fallback_reason},
             "geographies": len(r.geographies()), "programs": len(graph().programs())}
 
 
@@ -249,9 +252,14 @@ def cite(obs_id: str):
 
 @api.post("/agent/ask", response_model=AgentAnswer)
 async def agent_ask(body: AskRequest, who: Principal = Who):
-    a = await ask(body.question, body.geo_id)
+    c = accounts.chat_for_question(who, body.chat_id, body.question)
+    a = await ask(body.question, body.geo_id, accounts.history(c["id"]) if c else None)
     audit.record(who.user, who.role, "agent_ask", route=a.route, geo_ids=a.geo_ids,
                  row_count=len(a.observations), query=body.question)
+    if c:
+        a.chat_id = c["id"]
+        appstore.add_message(c["id"], "user", body.question)
+        appstore.add_message(c["id"], "assistant", a.model_dump(mode="json"))
     return a
 
 

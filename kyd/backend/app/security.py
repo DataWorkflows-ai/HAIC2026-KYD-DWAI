@@ -102,6 +102,7 @@ _s = settings()
 API_LIMIT = Window(_s.rate_api_per_minute, 60)
 ASK_MINUTE = Window(_s.rate_ask_per_minute, 60)
 ASK_DAY = Window(_s.rate_ask_per_day, 86400)
+LOGIN = Window(_s.rate_login_per_minute, 60)
 LLM_BUDGET = DailyBudget(_s.llm_daily_calls)
 
 
@@ -115,7 +116,10 @@ class SecurityMiddleware(BaseHTTPMiddleware):
         path = req.url.path
         if path.startswith("/api/") and path != "/api/health":
             key = client_key(req)
-            if path == "/api/agent/ask" and req.method == "POST":
+            if path in ("/api/auth/login", "/api/auth/register", "/api/auth/guest") and req.method == "POST":
+                if wait := LOGIN.hit(key):
+                    return _too_many(wait, "sign-in attempts")
+            elif path == "/api/agent/ask" and req.method == "POST":
                 for w, what in ((ASK_MINUTE, "questions this minute"), (ASK_DAY, "questions today")):
                     if wait := w.hit(key):
                         return _too_many(wait, what)

@@ -30,4 +30,7 @@
   a { text-decoration: none !important; }
   table { font-size: 10px; }
   tr { break-inside: avoid; }
+  /* Printing a chat document: the document panel only. */
+  body.print-doc #root > * > *:not(main), body.print-doc .chat-side, body.print-doc .chat-main { display: none !important; }
+  body.print-doc .chat-doc { display: block !important; position: static !important; width: 100% !important; border: none !important; }
 }

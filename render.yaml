@@ -33,3 +33,9 @@ services:
         sync: false
       - key: KYD_LLM_API_KEY
         sync: false
+      # Accounts (sign-in is required). Without KYD_AUTH_SECRET every redeploy signs everyone out; without
+      # KYD_OWNER_EMAIL the first account registered becomes the owner. Set both in the dashboard.
+      - key: KYD_AUTH_SECRET
+        sync: false
+      - key: KYD_OWNER_EMAIL
+        sync: false

@@ -1,8 +1,10 @@
 """KYD API. Run with: uvicorn app.main:app --port 8060 (from backend/)."""
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
+from . import accounts
+from .auth import signed_in
 from .config import settings
 from .routers import api
 from .security import SecurityMiddleware
@@ -13,6 +15,8 @@ app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:5173"], allo
                    allow_headers=["Content-Type", "Authorization"])
 app.add_middleware(SecurityMiddleware)
 app.include_router(api)
+app.include_router(accounts.auth_api)
+app.include_router(accounts.api, dependencies=[Depends(signed_in)])
 
 _dist = settings().frontend_dist
 for _sub in ("assets", "geo"):

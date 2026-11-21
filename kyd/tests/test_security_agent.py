@@ -125,7 +125,7 @@ def test_s2_answer_with_invented_number_is_redacted(monkeypatch):
     from app.services.repo import repo
     o = repo().observations(["HD-22"], ["pct_below_fpl"])[0].model_dump()
 
-    async def fake(q, hint):
+    async def fake(q, hint, history=None):
         return f"Poverty is {o['value']}% [obs:{o['obs_id']}], up from 99.9% before.", [o], []
     monkeypatch.setattr(system2, "run", fake)
     a = asyncio.run(orchestrator.ask("how does HD 22 compare with others nearby on things", None))
