@@ -188,6 +188,7 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
   const [summary, setSummary] = useState<Record<Chamber, MapSummary | null>>({ sldl: null, sldu: null });
   const [values, setValues] = useState<Record<string, number | null>>({});
   const [popup, setPopup] = useState<{ id: string; x: number; y: number } | null>(null);
+  const [, setPopupLayoutVersion] = useState(0);
   const [selected, setSelected] = useState<string | null>(geo.startsWith(defaultChamber === 'sldl' ? 'HD' : 'SD') ? geo : null);
   const [basemap, setBasemap] = useState<'imagery' | 'streets'>('imagery');
   const [showOfficial, setShowOfficial] = useState(true);
@@ -366,6 +367,11 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
     c.selHL = ids.length ? c.dataView.highlight(ids.map(i => c.graphics[i])) : null;
   }, [selected, office, layersVersion]);
   useEffect(() => { if (popup) setTimeout(() => tooltipHost.current?.focus(), 0); }, [popup]);
+  useEffect(() => {
+    const onResize = () => setPopupLayoutVersion(v => v + 1);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
 
   // chamber switch keeps the selection meaningful: jump to the biggest counterpart
   const switchChamber = (next: Chamber) => {
@@ -392,14 +398,18 @@ export function MapTab({ geos, geo, office, onPick, onOpen }: {
   const popupBox = () => {
     const host = el.current;
     const w = host?.clientWidth ?? 800, h = host?.clientHeight ?? 600;
+    const rect = host?.getBoundingClientRect();
     const width = Math.min(320, Math.max(260, w - 16));
     const margin = 8;
     const x = popup?.x ?? margin, y = popup?.y ?? margin;
     const left = Math.max(margin, Math.min(x + 16 + width > w ? x - width - 16 : x + 16, w - width - margin));
-    const maxHeight = Math.max(180, h - margin * 2);
-    const preferredTop = y + 16 + Math.min(440, maxHeight) > h ? y - Math.min(440, maxHeight) - 16 : y + 16;
-    const top = Math.max(margin, Math.min(preferredTop, h - margin - Math.min(440, maxHeight)));
-    return { left, top, width, maxHeight: Math.min(maxHeight, h - top - margin) };
+    const viewportBottom = Math.min(window.innerHeight - margin, rect ? rect.bottom - margin : h - margin);
+    const viewportSpace = Math.max(180, viewportBottom - (rect?.top ?? 0) - margin);
+    const heightCap = window.innerHeight < 700 ? 320 : 420;
+    const maxHeight = Math.min(heightCap, h - margin * 2, viewportSpace);
+    const preferredTop = y + 16 + maxHeight > h - margin ? y - maxHeight - 16 : y + 16;
+    const top = Math.max(margin, Math.min(preferredTop, h - margin - maxHeight));
+    return { left, top, width, maxHeight, boxSizing: 'border-box' as const, scrollbarGutter: 'stable' as const };
   };
   const options = useMemo(() => {
     const top = PRIORITY.map(k => indicators.find(i => i.indicator === k)).filter((x): x is NonNullable<typeof x> => !!x);
