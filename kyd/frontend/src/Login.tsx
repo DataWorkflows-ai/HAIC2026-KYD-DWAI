@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, Eye, EyeOff, KeyRound, LogIn, Mail, Sparkles, UserPlus } from 'lucide-react';
 import { api, setToken, type Session, type User } from './api';
 import dwaiLogo from './brand/dataworkflows-logo.png';
+import { ThemePicker } from './theme';
 
 const input = 'w-full bg-premium-950 border border-premium-700 rounded-md px-3 py-2 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-600';
 
@@ -180,6 +181,7 @@ export function Login({ onSignedIn }: { onSignedIn: (u: User) => void }) {
           </form>
         </>}
         <p className="text-[11px] text-slate-500 text-center">Demo accounts. Nonpartisan, population-level data only. Your questions are logged for audit, with personal details removed.</p>
+        <div className="flex justify-center"><ThemePicker /></div>
       </div>
     </div>
   );

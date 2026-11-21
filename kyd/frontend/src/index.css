@@ -2,16 +2,57 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Palette as RGB channels so Tailwind classes follow the theme (src/theme.ts). Light mode keeps the DataWorkflows
+   accents and reverses the surfaces and text: slate is mirrored, accent tints become deep and deep shades become tints. */
+:root {
+  --premium-950: 5 15 29; --premium-900: 8 26 48; --premium-800: 13 39 69; --premium-700: 23 64 107; --premium-600: 36 89 143; --slate-50: 248 250 252;
+  --slate-100: 241 245 249; --slate-200: 226 232 240; --slate-300: 203 213 225; --slate-400: 148 163 184; --slate-500: 100 116 139; --slate-600: 71 85 105;
+  --slate-700: 51 65 85; --slate-800: 30 41 59; --slate-900: 15 23 42; --slate-950: 2 6 23; --cyan-50: 230 248 255; --cyan-100: 199 239 255;
+  --cyan-200: 153 226 255; --cyan-300: 92 210 255; --cyan-400: 0 188 255; --cyan-500: 0 162 253; --cyan-600: 0 140 234; --cyan-700: 0 112 192;
+  --cyan-800: 0 80 144; --cyan-900: 0 58 112; --cyan-950: 5 43 88; --emerald-50: 230 251 250; --emerald-100: 194 245 243; --emerald-200: 142 236 233;
+  --emerald-300: 79 224 220; --emerald-400: 0 204 199; --emerald-500: 0 179 174; --emerald-600: 0 148 144; --emerald-700: 0 118 115; --emerald-800: 0 94 92;
+  --emerald-900: 0 77 75; --emerald-950: 0 46 45; --amber-50: 255 251 235; --amber-100: 254 243 199; --amber-200: 253 230 138; --amber-300: 252 211 77;
+  --amber-400: 251 191 36; --amber-500: 245 158 11; --amber-600: 217 119 6; --amber-700: 180 83 9; --amber-800: 146 64 14; --amber-900: 120 53 15;
+  --amber-950: 69 26 3; --red-50: 254 242 242; --red-100: 254 226 226; --red-200: 254 202 202; --red-300: 252 165 165; --red-400: 248 113 113;
+  --red-500: 239 68 68; --red-600: 220 38 38; --red-700: 185 28 28; --red-800: 153 27 27; --red-900: 127 29 29; --red-950: 69 10 10;
+  --rose-50: 255 241 242; --rose-100: 255 228 230; --rose-200: 254 205 211; --rose-300: 253 164 175; --rose-400: 251 113 133; --rose-500: 244 63 94;
+  --rose-600: 225 29 72; --rose-700: 190 18 60; --rose-800: 159 18 57; --rose-900: 136 19 55; --rose-950: 76 5 25; --sky-50: 240 249 255;
+  --sky-100: 224 242 254; --sky-200: 186 230 253; --sky-300: 125 211 252; --sky-400: 56 189 248; --sky-500: 14 165 233; --sky-600: 2 132 199;
+  --sky-700: 3 105 161; --sky-800: 7 89 133; --sky-900: 12 74 110; --sky-950: 8 47 73; --orange-50: 255 247 237; --orange-100: 255 237 213;
+  --orange-200: 254 215 170; --orange-300: 253 186 116; --orange-400: 251 146 60; --orange-500: 249 115 22; --orange-600: 234 88 12; --orange-700: 194 65 12;
+  --orange-800: 154 52 18; --orange-900: 124 45 18; --orange-950: 67 20 7; --card-from: 12 36 64; color-scheme: dark;
+}
+
+html.light {
+  --premium-950: 243 247 251; --premium-900: 255 255 255; --premium-800: 226 234 243; --premium-700: 199 213 229; --premium-600: 157 178 202; --slate-50: 2 6 23;
+  --slate-100: 15 23 42; --slate-200: 30 41 59; --slate-300: 51 65 85; --slate-400: 71 85 105; --slate-500: 100 116 139; --slate-600: 148 163 184;
+  --slate-700: 203 213 225; --slate-800: 226 232 240; --slate-900: 241 245 249; --slate-950: 248 250 252; --cyan-50: 5 43 88; --cyan-100: 0 58 112;
+  --cyan-200: 0 80 144; --cyan-300: 0 80 144; --cyan-400: 0 112 192; --cyan-500: 0 162 253; --cyan-600: 0 140 234; --cyan-700: 0 112 192;
+  --cyan-800: 92 210 255; --cyan-900: 199 239 255; --cyan-950: 230 248 255; --emerald-50: 0 46 45; --emerald-100: 0 77 75; --emerald-200: 0 94 92;
+  --emerald-300: 0 94 92; --emerald-400: 0 118 115; --emerald-500: 0 179 174; --emerald-600: 0 148 144; --emerald-700: 0 118 115; --emerald-800: 79 224 220;
+  --emerald-900: 194 245 243; --emerald-950: 230 251 250; --amber-50: 69 26 3; --amber-100: 120 53 15; --amber-200: 146 64 14; --amber-300: 146 64 14;
+  --amber-400: 180 83 9; --amber-500: 245 158 11; --amber-600: 217 119 6; --amber-700: 180 83 9; --amber-800: 252 211 77; --amber-900: 254 243 199;
+  --amber-950: 255 251 235; --red-50: 69 10 10; --red-100: 127 29 29; --red-200: 153 27 27; --red-300: 153 27 27; --red-400: 185 28 28;
+  --red-500: 239 68 68; --red-600: 220 38 38; --red-700: 185 28 28; --red-800: 252 165 165; --red-900: 254 226 226; --red-950: 254 242 242;
+  --rose-50: 76 5 25; --rose-100: 136 19 55; --rose-200: 159 18 57; --rose-300: 159 18 57; --rose-400: 190 18 60; --rose-500: 244 63 94;
+  --rose-600: 225 29 72; --rose-700: 190 18 60; --rose-800: 253 164 175; --rose-900: 255 228 230; --rose-950: 255 241 242; --sky-50: 8 47 73;
+  --sky-100: 12 74 110; --sky-200: 7 89 133; --sky-300: 7 89 133; --sky-400: 3 105 161; --sky-500: 14 165 233; --sky-600: 2 132 199;
+  --sky-700: 3 105 161; --sky-800: 125 211 252; --sky-900: 224 242 254; --sky-950: 240 249 255; --orange-50: 67 20 7; --orange-100: 124 45 18;
+  --orange-200: 154 52 18; --orange-300: 154 52 18; --orange-400: 194 65 12; --orange-500: 249 115 22; --orange-600: 234 88 12; --orange-700: 194 65 12;
+  --orange-800: 253 186 116; --orange-900: 255 237 213; --orange-950: 255 247 237; --card-from: 255 255 255; color-scheme: light;
+}
+
 ::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: #081a30; }
-::-webkit-scrollbar-thumb { background: #17406b; border-radius: 3px; }
+::-webkit-scrollbar-track { background: rgb(var(--premium-900)); }
+::-webkit-scrollbar-thumb { background: rgb(var(--premium-700)); border-radius: 3px; }
 
 .kyd-card {
-  background: linear-gradient(145deg, #0c2440 0%, #081a30 100%);
+  background: linear-gradient(145deg, rgb(var(--card-from)) 0%, rgb(var(--premium-900)) 100%);
   border: 1px solid rgba(0, 188, 255, 0.14);
 }
+html.light .kyd-card { border-color: rgba(0, 112, 192, 0.18); box-shadow: 0 1px 3px rgba(9, 42, 82, 0.08); }
 .kyd-card:hover { border-color: rgba(0, 188, 255, 0.3); }
-:focus-visible { outline: 2px solid #00bcff; outline-offset: 2px; }
+:focus-visible { outline: 2px solid rgb(var(--cyan-400)); outline-offset: 2px; }
 
 /* Print: one clean page per view — no tabs, chat or controls; white paper, dark ink. */
 .print-only { display: none; }

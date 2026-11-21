@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { LayoutDashboard, LayoutGrid, Map, GitCompare, ListOrdered, HandHeart, MessageSquare, BookOpen, Star, Users, LogOut } from 'lucide-react';
+import { LayoutDashboard, LayoutGrid, CalendarDays, Map, GitCompare, ListOrdered, HandHeart, MessageSquare, BookOpen, Star, Users, LogOut } from 'lucide-react';
 import { api, hasToken, setToken, SIGNED_OUT, type Geo, type Health, type User } from './api';
 import { GeoPicker, Pill, usePersistentState } from './ui';
 import { CompareTab, OverviewTab, ProgramsTab, SourcesTab } from './tabs';
@@ -10,10 +10,13 @@ import { Login } from './Login';
 import { ChatTab } from './ChatTab';
 import { AdminTab } from './AdminTab';
 import { DashboardTab } from './Dashboard';
+import { CalendarTab } from './CalendarTab';
+import { ThemePicker } from './theme';
 import dwaiLogo from './brand/dataworkflows-logo.png';
 
 const TABS = [
   { id: 'dashboard', label: 'Dashboard', short: 'Dashboard', Icon: LayoutGrid },
+  { id: 'calendar', label: 'Calendar', short: 'Calendar', Icon: CalendarDays },
   { id: 'overview', label: 'Overview', short: 'Overview', Icon: LayoutDashboard },
   { id: 'map', label: 'Map', short: 'Map', Icon: Map },
   { id: 'compare', label: 'Compare', short: 'Compare', Icon: GitCompare },
@@ -146,6 +149,7 @@ function Workspace({ user, onSignOut }: { user: User; onSignOut: () => void }) {
           ))}
         </nav>
         <div className="flex items-center gap-2 shrink-0 no-print">
+          <ThemePicker compact />
           <span className="text-xs text-slate-300 max-w-[10rem] truncate" title={user.email}>{user.name}</span>
           {user.role !== 'user' && <Pill tone={user.role === 'owner' ? 'amber' : 'cyan'}>{user.role}</Pill>}
           <button onClick={onSignOut} title="Sign out" aria-label="Sign out" className="p-1.5 rounded-md text-slate-400 hover:text-cyan-300 hover:bg-premium-800">
@@ -160,6 +164,7 @@ function Workspace({ user, onSignOut }: { user: User; onSignOut: () => void }) {
         </div>
         {tab === 'dashboard' && <DashboardTab geo={geo} geos={geos} user={user} onAsk={ask}
           onOpen={(t, g) => { if (g) setGeo(g); setTab(t); }} onOpenChat={id => { setOpenChat(id); setTab('ask'); }} />}
+        {tab === 'calendar' && <CalendarTab user={user} />}
         {tab === 'overview' && <OverviewTab geo={geo} geos={geos} onAsk={ask} onPick={setGeo} picker={districtControl} />}
         {tab === 'map' && <MapTab geos={geos} geo={geo} office={office} onPick={setGeo} onOpen={g => { setGeo(g); setTab('overview'); }} />}
         {tab === 'compare' && <CompareTab geos={geos} geo={geo} />}

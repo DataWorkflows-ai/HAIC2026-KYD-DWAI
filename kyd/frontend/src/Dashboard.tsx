@@ -50,7 +50,7 @@ function Frame({ w, edit, canDrag, active, style, onDrag, onResize, onHide, onSe
 
 export function DashboardTab({ geo, geos, user, onAsk, onOpen, onOpenChat }: Props) {
   const role = user.role;
-  const fresh = (id = 'legislator'): Layout => ({ version: 1, updated: 0, widgets: presetWidgets(id, role) });
+  const fresh = (id = 'legislator'): Layout => ({ version: 1, updated: 0, widgets: presetWidgets(id, role), calendar: [] });
   const [layout, setLayout] = useState<Layout>(() => readLocal() ?? fresh());
   const ref = useRef(layout);
   const [loaded, setLoaded] = useState(false);
@@ -76,7 +76,7 @@ export function DashboardTab({ geo, geos, user, onAsk, onOpen, onOpenChat }: Pro
     window.clearTimeout(timer.current); timer.current = window.setTimeout(flush, 800);
   }, [flush]);
   const commit = useCallback((f: (ws: Widget[]) => Widget[]) => {
-    const l: Layout = { version: 1, updated: Date.now(), widgets: f(ref.current.widgets) };
+    const l: Layout = { version: 1, updated: Date.now(), widgets: f(ref.current.widgets), calendar: ref.current.calendar };
     ref.current = l; setLayout(l); writeLocal(l); schedule(l);
   }, [schedule]);
   useEffect(() => flush, [flush]);
@@ -142,11 +142,11 @@ export function DashboardTab({ geo, geos, user, onAsk, onOpen, onOpenChat }: Pro
   const add = (t: WidgetType) => { commit(ws => append(ws, makeWidget(t))); setCatalog(false); };
   const applyPreset = (id: string, title: string) => {
     setPresets(false);
-    if (window.confirm(`Replace your dashboard with the "${title}" preset? Your current widgets, notes and calendar entries will be removed.`)) commit(() => fresh(id).widgets);
+    if (window.confirm(`Replace your dashboard with the "${title}" preset? Your current widgets and notes will be removed; calendar entries are kept.`)) commit(() => fresh(id).widgets);
   };
-  const reset = () => { if (window.confirm('Reset the dashboard to the default layout? Your current widgets, notes and calendar entries will be removed.')) commit(() => fresh().widgets); };
+  const reset = () => { if (window.confirm('Reset the dashboard to the default layout? Your current widgets and notes will be removed; calendar entries are kept.')) commit(() => fresh().widgets); };
 
-  const ctx: Ctx = { geos, user, onAsk, onOpen, onOpenChat };
+  const ctx: Ctx = { geos, user, calendar: layout.calendar, onAsk, onOpen, onOpenChat };
   const first = (user.name || user.email.split('@')[0]).split(/\s+/)[0];
   const geoName = geos.find(g => g.geo_id === geo)?.name ?? geo;
   const editing = settings ? layout.widgets.find(w => w.id === settings) : undefined;
