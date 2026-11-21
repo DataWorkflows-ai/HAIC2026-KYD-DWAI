@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { LayoutDashboard, LayoutGrid, CalendarDays, Map, GitCompare, ListOrdered, HandHeart, MessageSquare, BookOpen, Star, Users, LogOut } from 'lucide-react';
+import { LayoutDashboard, LayoutGrid, CalendarDays, Map, GitCompare, ListOrdered, HandHeart, MessageSquare, BookOpen, Star, Users, LogOut, BarChart3 } from 'lucide-react';
 import { api, hasToken, setToken, SIGNED_OUT, type Geo, type Health, type User } from './api';
 import { GeoPicker, Pill, usePersistentState } from './ui';
 import { CompareTab, OverviewTab, ProgramsTab, SourcesTab } from './tabs';
@@ -13,6 +13,7 @@ import { DashboardTab } from './Dashboard';
 import { CalendarTab } from './CalendarTab';
 import { ThemePicker } from './theme';
 import dwaiLogo from './brand/dataworkflows-logo.png';
+import { ProgramGapsTab } from './ProgramGaps';
 
 const TABS = [
   { id: 'dashboard', label: 'Dashboard', short: 'Dashboard', Icon: LayoutGrid },
@@ -21,6 +22,7 @@ const TABS = [
   { id: 'map', label: 'Map', short: 'Map', Icon: Map },
   { id: 'compare', label: 'Compare', short: 'Compare', Icon: GitCompare },
   { id: 'rankings', label: 'Rankings', short: 'Rankings', Icon: ListOrdered },
+  { id: 'gaps', label: 'Program Gaps', short: 'Gaps', Icon: BarChart3 },
   { id: 'programs', label: 'Programs', short: 'Programs', Icon: HandHeart },
   { id: 'ask', label: 'Chat with the agent', short: 'Chat', Icon: MessageSquare },
   { id: 'sources', label: 'Sources & Methods', short: 'Sources', Icon: BookOpen },
@@ -169,6 +171,7 @@ function Workspace({ user, onSignOut }: { user: User; onSignOut: () => void }) {
         {tab === 'map' && <MapTab geos={geos} geo={geo} office={office} onPick={setGeo} onOpen={g => { setGeo(g); setTab('overview'); }} />}
         {tab === 'compare' && <CompareTab geos={geos} geo={geo} />}
         {tab === 'rankings' && <RankingsTab onOpen={g => { setGeo(g); setTab('overview'); }} />}
+        {tab === 'gaps' && <ProgramGapsTab geo={geo} />}
         {tab === 'programs' && <ProgramsTab geo={geo} />}
         {tab === 'ask' && <ChatTab geo={geo} pending={pending} clearPending={() => setPending(null)}
           openChat={openChat} clearOpenChat={() => setOpenChat(null)} />}

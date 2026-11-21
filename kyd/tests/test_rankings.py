@@ -12,8 +12,8 @@ def test_house_and_senate_rankings():
         j = c.get("/api/rankings", params={"geo_type": t}).json()
         assert len(j["rows"]) == n
         cols = {x["indicator"]: x for x in j["columns"]}
-        assert cols["pct_below_fpl"]["kind"] == "survey" and cols["pct_snap_gap"]["kind"] == "estimate"
-        for ind in ("pct_below_fpl", "pct_snap_gap"):
+        assert cols["pct_below_fpl"]["kind"] == "survey" and cols["snap_strict_gap_households"]["kind"] == "survey"
+        for ind in ("pct_below_fpl", "snap_strict_gap_households"):
             cells = sorted((r["cells"][ind] for r in j["rows"]), key=lambda x: x["rank"])
             assert [x["rank"] for x in cells] == list(range(1, n + 1))
             vals = [x["obs"]["value"] for x in cells]
@@ -24,12 +24,11 @@ def test_house_and_senate_rankings():
 
 def test_snap_gap_shown_as_range():
     j = c.get("/api/rankings").json()
-    col = next(x for x in j["columns"] if x["indicator"] == "pct_snap_gap")
-    assert col["alt_indicator"] == "pct_snap_gap_low"
-    assert j["state_alt"]["pct_snap_gap"]["value"] == 9.8
+    col = next(x for x in j["columns"] if x["indicator"] == "snap_strict_gap_households")
+    assert "alt_indicator" not in col
     for r in j["rows"]:
-        alt = r["cells"]["pct_snap_gap"]["alt"]
-        assert alt["indicator"] == "pct_snap_gap_low" and repo().observation(alt["obs_id"])
+        obs = r["cells"]["snap_strict_gap_households"]["obs"]
+        assert obs["indicator"] == "snap_strict_gap_households" and repo().observation(obs["obs_id"])
 
 
 def test_crime_only_oahu():

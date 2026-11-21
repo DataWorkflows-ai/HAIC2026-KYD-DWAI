@@ -30,6 +30,8 @@ FILES: dict[str, str] = {
     "tract_district_crosswalk.csv": "tract_district_crosswalk.csv",
     "bg_district_crosswalk.csv": "bg_district_crosswalk.csv",
     "hpha_properties.csv": "../../data/raw/research/hpha/hpha_properties.csv",
+    "school_meals_by_school.csv": "../../data/raw/research/team2a_school_meals_fr_by_school_SY2025-26_no_charter.csv",
+    "cep_schools_sy2026_27.csv": "../../data/processed/cep_schools_sy2026_27.csv",
 }
 # Precomputed from scripts/ at load time, so live mode does not parse the raw workbooks on the server.
 COMPUTED = ("program_context_static.json", "tanf_underenrollment.json")

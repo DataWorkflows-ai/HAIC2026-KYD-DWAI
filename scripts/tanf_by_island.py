@@ -1,9 +1,9 @@
 """
-TANF by island — standalone, front-end facing.
+SNAP cases with TANF by island — standalone, front-end facing.
 
-Summarizes BESSD TANF caseload by island, computes per-capita enrollment,
-and compares it to the county poverty rate from Census S1701 (via the
-DHS Databook reprint).
+The BESSD workbook is a SNAP monthly summary. Its ``tanf`` column is SNAP persons/cases
+with a TANF assistance category, not the full TANF caseload. This module keeps the island
+context but labels it as SNAP-category context so it is not mistaken for TANF enrollment.
 
 This is its own capability. Call get_tanf_by_island() and render the result.
 No UI imports. Returns a plain dict.
@@ -83,7 +83,7 @@ def get_tanf_by_island(month: str = "2026-02") -> dict[str, Any]:
 
     return {
         "capability": "tanf_by_island",
-        "title": "TANF caseload by island",
+        "title": "SNAP cases with TANF category by island",
         "month": month,
         "source_caseload": "BESSD SFY 2026 monthly summary",
         "source_poverty": "ACS S1701 county poverty rate, 2024",
@@ -91,9 +91,10 @@ def get_tanf_by_island(month: str = "2026-02") -> dict[str, Any]:
         "highest_tanf_per_capita": by_rate[0]["island"] if by_rate else None,
         "highest_poverty_rate": by_poverty[0]["island"] if by_poverty else None,
         "note": (
-            "Per-capita rate is TANF persons per 1,000 residents. "
+            "Per-capita rate is SNAP persons with TANF category per 1,000 residents. "
             "Poverty rate is the county percent below poverty. "
-            "These are island/county figures, not legislative-district enrollment."
+            "These are island/county SNAP-category figures, not standalone TANF enrollment. "
+            "Use DHS Databook SFY2025 (6,724 TANF/TAONF clients) for TANF caseload."
         ),
         "how_to_display": "Show as its own card or section. Do not nest under SNAP.",
     }

@@ -1,6 +1,6 @@
 # Sources
 
-Every source Know Your District draws on (30 in all). Generated from `kyd/data/sources.csv` by `kyd/etl/make_sources_md.py`; the app's Sources tab shows the same list. Figure-level citations (source, vintage, method, margin of error) travel with every number through the API.
+Every source Know Your District draws on (34 in all). Generated from `kyd/data/sources.csv` by `kyd/etl/make_sources_md.py`; the app's Sources tab shows the same list. Figure-level citations (source, vintage, method, margin of error) travel with every number through the API.
 
 ## Demographics
 
@@ -9,6 +9,16 @@ Every source Know Your District draws on (30 in all). Generated from `kyd/data/s
 | [ACS 5-year Data Profiles DP02–DP05, state legislative districts](https://files.hawaii.gov/dbedt/census/acs/acs2024/5yr/) | U.S. Census Bureau (tabulated by Hawaiʻi State Data Center / DBEDT) | Population, age, income, poverty, housing, health insurance, disability, language, veterans, broadband, with margins of error | 2020–2024 5-year | Overview, Map, Compare, Rankings, Agent | 2026-11 |
 | [ACS S1701 Poverty Status](https://data.census.gov/table/ACSST5Y2024.S1701) | U.S. Census Bureau | Poverty by age, and the 125/138/150/185/200% of poverty ladder used for program eligibility proxies | 2020–2024 5-year | Programs, Cross-program estimates, Rankings | 2026-11 |
 | [ACS S2201 Food Stamps/SNAP](https://data.census.gov/table/ACSST5Y2024.S2201) | U.S. Census Bureau | Households receiving SNAP, and SNAP households with children, someone 60+, or someone with a disability | 2020–2024 5-year | Overview, Programs, SNAP gap | 2026-11 |
+| [ACS B22003 SNAP by Poverty Status](https://data.census.gov/table/ACSST5Y2024.B22003) | U.S. Census Bureau | Poverty households reporting and not reporting SNAP, used for district-native SNAP strict gap with margins of error | 2020–2024 5-year | Program Gaps, Rankings, Map, Agent | 2026-11 |
+| [ACS B17024 Age by Poverty Ratio](https://data.census.gov/table/ACSST5Y2024.B17024) | U.S. Census Bureau | Children below 50% FPL for TANF proxy, under-6 below 185% WIC allocation key, and ages 6-17 at 185-299% for Act 139 upper bound | 2020–2024 5-year | Program Gaps, Map, Agent | 2026-11 |
+
+## Health
+
+| Source | Publisher | What it provides | Vintage | Used in | Accessed |
+|---|---|---|---|---|---|
+| [ACS C27016 Insurance by Age and Poverty](https://data.census.gov/table/ACSST5Y2024.C27016) | U.S. Census Bureau | Uninsured under-65 people below Medicaid/CHIP income bands, used for Med-QUEST/CHIP district gap | 2020–2024 5-year | Program Gaps, Map, Agent | 2026-11 |
+| [ACS C27007 Medicaid/Means-Tested Coverage by Age](https://data.census.gov/table/ACSST5Y2024.C27007) | U.S. Census Bureau | People with Medicaid/means-tested public coverage by age, used as context for Med-QUEST reach proxy | 2020–2024 5-year | Program Gaps, Agent | 2026-11 |
+| [Births and deaths by community of residence (Hawaiʻi-IBIS), allocated to districts (ESTIMATE)](https://hhdw.org/report/) | Hawaiʻi Department of Health, Hawaii Health Data Warehouse | Live births and all-cause deaths 2000–2024, allocated to 2022 districts by 2020 Census block population; 2020–2024 averages and crude rates | 2000–2024 (updated 2026-01-05) | Programs (Births and deaths), Overview (add indicator), Agent | 2026-11-15 |
 
 ## Employment
 
@@ -80,9 +90,3 @@ Every source Know Your District draws on (30 in all). Generated from `kyd/data/s
 | Source | Publisher | What it provides | Vintage | Used in | Accessed |
 |---|---|---|---|---|---|
 | [World Imagery and ArcGIS Maps SDK](https://www.arcgis.com/home/item.html?id=10df2279f9684e4a9f6a7f08febac2a9) | Esri | Satellite basemap tiles and map rendering | current | Map | 2026-11 |
-
-## Health
-
-| Source | Publisher | What it provides | Vintage | Used in | Accessed |
-|---|---|---|---|---|---|
-| [Births and deaths by community of residence (Hawaiʻi-IBIS), allocated to districts (ESTIMATE)](https://hhdw.org/report/) | Hawaiʻi Department of Health, Hawaii Health Data Warehouse | Live births and all-cause deaths 2000–2024, allocated to 2022 districts by 2020 Census block population; 2020–2024 averages and crude rates | 2000–2024 (updated 2026-01-05) | Programs (Births and deaths), Overview (add indicator), Agent | 2026-11-15 |

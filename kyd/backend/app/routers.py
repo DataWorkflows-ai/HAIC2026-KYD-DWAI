@@ -10,7 +10,7 @@ from .models import AgentAnswer, AskRequest
 from .security import LLM_BUDGET
 from .services.graph import graph
 from .services.repo import repo
-from .services import breakdowns, crosswalk, datastore, program_context, rankings, representation as rep, uptake
+from .services import breakdowns, crosswalk, datastore, program_context, program_gaps, rankings, representation as rep, uptake
 from .services.cache import cached
 
 api = APIRouter(prefix="/api", dependencies=[Depends(signed_in)])
@@ -110,6 +110,16 @@ def district_program_context(geo_id: str, who: Principal = Who):
     except KeyError:
         raise HTTPException(404, f"unknown geography {geo_id}")
     audit.record(who.user, who.role, "program_context", geo_ids=[geo_id])
+    return out
+
+
+@api.get("/districts/{geo_id}/program-gaps")
+def district_program_gaps(geo_id: str, who: Principal = Who):
+    try:
+        out = program_gaps.program_gaps(geo_id)
+    except KeyError:
+        raise HTTPException(404, f"unknown geography {geo_id}")
+    audit.record(who.user, who.role, "program_gaps", geo_ids=[geo_id])
     return out
 
 

@@ -93,14 +93,14 @@ def test_programs_template_cites_figures_and_snap_range():
     a = orchestrator.answer_s1(system1.Route("S1", "programs", ["HD-45"]))
     lines = [l for l in a.text.splitlines() if l[:2].rstrip(".").isdigit()]
     assert lines and all("[obs:" in l for l in lines)
-    assert "SNAP: Between" in a.text and "[obs:prog24-HD-45-snap_gap_low_persons]" in a.text
-    assert {"snap_gap_low_persons", "snap_gap_persons"} <= {o.indicator for o in a.observations}
+    assert "SNAP:" in a.text and "[obs:prog24-HD-45-snap_strict_gap_households]" in a.text
+    assert "snap_strict_gap_households" in {o.indicator for o in a.observations}
 
 
 def test_snap_gap_range_tool_returns_both_ends_where_snap_is_not_a_top_program():
     out = system2.call_tool("snap_gap_range", {"geo_id": "HD-22"})["result"]
     inds = {o["indicator"] for o in system2.collect_obs(out)}
-    assert {"snap_gap_low_persons", "snap_gap_persons"} <= inds
+    assert "snap_strict_gap_households" in inds
 
 
 def test_prompt_lists_indicators_but_not_trend_series():

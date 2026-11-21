@@ -11,13 +11,13 @@ from .repo import repo
 
 COLUMNS = [  # indicator, short label, kind (survey = ACS with MOE; estimate = modelled/allocated)
     ("pct_below_fpl", "Poverty rate", "survey"),
-    ("pct_snap_gap", "SNAP gap range (share of <200% FPL)", "estimate"),
+    ("snap_strict_gap_households", "SNAP strict gap (poverty HH)", "survey"),
     ("laus_unemp_rate", "Unemployment 2025", "estimate"),
     ("pct_pop_lidac", "Residents in LIDAC areas", "estimate"),
     ("crime_violent_per_1k_est", "Violent crime per 1,000 (Oʻahu)", "estimate"),
 ]
 # Columns shown as a range: the column's own indicator sets the rank; this is the other estimate.
-RANGE_ALT = {"pct_snap_gap": "pct_snap_gap_low"}
+RANGE_ALT = {}
 
 
 @cached
@@ -52,10 +52,8 @@ def rankings(geo_type: str = "sldl") -> dict:
             "notes": ["Rank 1 = highest value. Click any figure for its source, method and margin of error.",
                       "Poverty is an ACS 2020–2024 survey estimate with a 90% margin of error; districts whose "
                       "margins overlap may not truly differ in rank.",
-                      "SNAP gap is a range of people who look eligible but are not enrolled, from two methods. "
-                      "Benchmark-based: USDA's statewide estimate of eligible non-participants (FY 2022), shared by SNAP "
-                      "population (grade C). Survey-based: people below 200% of poverty not in SNAP households (ACS, "
-                      "grade B). The smaller figure is shown first; ranked by the survey-based figure.",
+                      "SNAP strict gap ranks ACS poverty households not reporting SNAP (B22003_E006), with 90% MOE. "
+                      "USDA's about-31,000 eligible people gap is statewide only and is not allocated for ranking.",
                       "Columns marked ESTIMATE are modelled or allocated (SNAP gap: see above; unemployment: "
                       "DBEDT county LAUS split by ACS shares; LIDAC: 2020 block-group population; crime: HPD beats "
                       "traced from report maps, Oʻahu only)."]}
