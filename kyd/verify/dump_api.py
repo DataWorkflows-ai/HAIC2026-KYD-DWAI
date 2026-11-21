@@ -13,8 +13,9 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "backend"))
-# the dump sends hundreds of requests from one client; the rate limits would turn some into 429s
-os.environ.update(KYD_RATE_API_PER_MINUTE="100000", KYD_RATE_ASK_PER_MINUTE="100000")
+# the dump sends hundreds of requests from one client; the rate limits would turn some into 429s.
+# It calls the app in-process, so there is no one to sign in.
+os.environ.update(KYD_RATE_API_PER_MINUTE="100000", KYD_RATE_ASK_PER_MINUTE="100000", KYD_AUTH_REQUIRED="false")
 
 SKIP = {"/api/health", "/api/me", "/api/audit/verify"}
 

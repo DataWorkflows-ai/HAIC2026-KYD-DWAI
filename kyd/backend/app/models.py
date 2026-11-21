@@ -87,6 +87,12 @@ class DistrictProfile(BaseModel):
 class AskRequest(BaseModel):
     question: str = Field(min_length=1, max_length=2000)
     geo_id: str | None = None          # UI context (selected district)
+    chat_id: str | None = Field(default=None, max_length=40)   # saved chat to add to, or "new"
+
+
+class Document(BaseModel):
+    title: str
+    body: str                          # Markdown
 
 
 class AgentAnswer(BaseModel):
@@ -98,3 +104,5 @@ class AgentAnswer(BaseModel):
     programs: list[ProgramMatch] = Field(default_factory=list)
     escalation_reasons: list[str] = Field(default_factory=list)
     trace: list[dict] = Field(default_factory=list)   # tool calls, for "show the math"
+    document: Document | None = None                  # long-form output, shown in the document panel
+    chat_id: str | None = None                        # the saved chat this answer was added to

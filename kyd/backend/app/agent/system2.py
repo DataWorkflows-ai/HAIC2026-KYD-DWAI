@@ -68,6 +68,13 @@ Guardrails
 
 Style
 - Lead with the answer. Use correct ʻokina and kahakō. Plain language, under 200 words.
+
+Documents
+- When asked for a memo, brief, letter, talking points, report, fact sheet or other long-form writing, reply with
+  one or two sentences, then the document inside <document title="Short title">…</document>, in Markdown
+  (headings, bullet lists, tables). Up to 600 words. Every rule above applies inside the document, including
+  [obs:<obs_id>] after each figure.
+- Earlier turns in the conversation are context only. Fetch any figure again with a tool before using it.
 Geography ids: HI, CNTY-15001/15003/15007/15009, SD-01..SD-25, HD-01..HD-51."""
 
 
@@ -196,25 +203,46 @@ def redact_unsupported(text: str, obs: list[dict], extra: list[float] = ()) -> t
     return text, [s for _, _, s in spans]
 
 
-async def run(question: str, hint: dict, max_steps: int = 6) -> tuple[str, list[dict], list[dict]]:
+DOCUMENT = re.compile(r'<document(?:\s+title="([^"]{0,200})")?\s*>(.*?)(?:</document>|$)', re.S)
+
+
+def split_document(text: str) -> tuple[str, dict | None]:
+    """Pull a <document title="…">markdown</document> block out of the answer text."""
+    m = DOCUMENT.search(text)
+    if not m:
+        return text, None
+    rest = (text[:m.start()] + text[m.end():]).strip()
+    return rest or "The document is in the panel.", {"title": (m.group(1) or "Document").strip(),
+                                                      "body": m.group(2).strip()}
+
+
+def _turns(history: list[tuple[str, str]] | None) -> list[dict]:
+    out = []
+    for q, a in history or []:
+        out += [{"role": "user", "content": q}, {"role": "assistant", "content": a or "(no answer)"}]
+    return out
+
+
+async def run(question: str, hint: dict, max_steps: int = 6,
+              history: list[tuple[str, str]] | None = None) -> tuple[str, list[dict], list[dict]]:
     s = settings()
     if s.llm_provider == "none":
         raise NotConfigured("no LLM configured")
     user = f"{question}\n\n(System 1 hint: {json.dumps(hint)})"
     trace: list[dict] = []
     if s.llm_provider == "anthropic":
-        text = await _anthropic(user, trace, max_steps)
+        text = await _anthropic(user, trace, max_steps, _turns(history))
     else:
-        text = await _openai_compat(user, trace, max_steps)
+        text = await _openai_compat(user, trace, max_steps, _turns(history))
     obs = [o for t in trace for o in collect_obs(t.get("output"))]
     return text, obs, trace
 
 
-async def _openai_compat(user: str, trace: list, max_steps: int) -> str:
+async def _openai_compat(user: str, trace: list, max_steps: int, prior: list[dict] = ()) -> str:
     s = settings()
     base = s.llm_base_url or "https://api.openai.com/v1"
     tools = [{"type": "function", "function": t} for t in TOOL_SPECS]
-    msgs = [{"role": "system", "content": system_prompt()}, {"role": "user", "content": user}]
+    msgs = [{"role": "system", "content": system_prompt()}, *prior, {"role": "user", "content": user}]
     async with httpx.AsyncClient(timeout=120) as c:
         for _ in range(max_steps):
             r = await c.post(f"{base}/chat/completions", headers={"Authorization": f"Bearer {s.llm_api_key}"},
@@ -232,15 +260,15 @@ async def _openai_compat(user: str, trace: list, max_steps: int) -> str:
     return "I couldn't complete this within the tool-call budget."
 
 
-async def _anthropic(user: str, trace: list, max_steps: int) -> str:
+async def _anthropic(user: str, trace: list, max_steps: int, prior: list[dict] = ()) -> str:
     s = settings()
     tools = [{"name": t["name"], "description": t["description"], "input_schema": t["parameters"]} for t in TOOL_SPECS]
-    msgs = [{"role": "user", "content": user}]
+    msgs = [*prior, {"role": "user", "content": user}]
     async with httpx.AsyncClient(timeout=120) as c:
         for _ in range(max_steps):
             r = await c.post("https://api.anthropic.com/v1/messages",
                              headers={"x-api-key": s.llm_api_key, "anthropic-version": "2023-06-01"},
-                             json={"model": s.llm_model, "max_tokens": 1200, "system": system_prompt(),
+                             json={"model": s.llm_model, "max_tokens": 3000, "system": system_prompt(),
                                    "tools": tools, "messages": msgs})
             r.raise_for_status()
             d = r.json()

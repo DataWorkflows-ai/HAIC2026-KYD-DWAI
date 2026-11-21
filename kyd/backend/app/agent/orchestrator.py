@@ -128,7 +128,7 @@ def _fallback(rt: system1.Route, reason: str) -> AgentAnswer:
                        route="S1", intent=rt.intent, escalation_reasons=reasons)
 
 
-async def ask(question: str, context_geo: str | None) -> AgentAnswer:
+async def ask(question: str, context_geo: str | None, history: list[tuple[str, str]] | None = None) -> AgentAnswer:
     rt = system1.route(question, context_geo)
     if rt.decision == "REFUSE":
         return AgentAnswer(text=rt.refusal or "", route="REFUSED", escalation_reasons=rt.reasons)
@@ -145,15 +145,21 @@ async def ask(question: str, context_geo: str | None) -> AgentAnswer:
         return _fallback(rt, "llm_daily_limit")
     try:
         text, obs, trace = await system2.run(question, {"intent": rt.intent, "geo_ids": rt.geo_ids,
-                                                        "reasons": rt.reasons, "places": rt.places})
+                                                        "reasons": rt.reasons, "places": rt.places},
+                                              history=history)
     except system2.NotConfigured:                                 # no LLM configured → degrade gracefully
         return _fallback(rt, "s2_unavailable")
     except Exception:                                             # timeout, 5xx, bad JSON … never a 500
         log.exception("System 2 failed; falling back to System 1")
         return _fallback(rt, "s2_error")
-    text, bad = system2.redact_unsupported(text, obs, [v for t in trace for v in system2.derived_values(t.get("output"))])
+    derived = [v for t in trace for v in system2.derived_values(t.get("output"))]
+    text, doc = system2.split_document(text)
+    text, bad = system2.redact_unsupported(text, obs, derived)
+    if doc:
+        doc["body"], bad_doc = system2.redact_unsupported(doc["body"], obs, derived)
+        bad = bad + bad_doc
     reasons = rt.reasons + (["unsupported_numbers_removed"] if bad else [])
-    return AgentAnswer(text=text, route="S2", intent=rt.intent, geo_ids=rt.geo_ids,
+    return AgentAnswer(text=text, route="S2", intent=rt.intent, geo_ids=rt.geo_ids, document=doc,
                        observations=[Observation(**{k: v for k, v in o.items() if k in Observation.model_fields})
                                      for o in obs],
                        escalation_reasons=reasons, trace=[{"tool": t["tool"], "args": t["args"]} for t in trace])

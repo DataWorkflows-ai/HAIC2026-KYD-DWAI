@@ -21,13 +21,18 @@ class Settings(BaseSettings):
     llm_base_url: str = ""                          # OpenAI-compatible local server (llama.cpp, vLLM)
     llm_api_key: str = ""
 
-    auth_secret: str = ""                           # HMAC key for bearer tokens (app/auth.py); empty = everyone is anonymous
+    auth_secret: str = ""                           # HMAC key for bearer tokens (app/auth.py); empty = random per process
+    auth_required: bool = True                      # every /api call except health and /api/auth/* needs a signed-in account
+    owner_email: str = ""                           # this account is the owner; empty = the first account registered
+    token_days: float = 7
+    app_db: Path = ROOT / "backend" / "var" / "app.sqlite"   # accounts and chats when not serving from Postgres
     trust_proxy_headers: bool = False               # only behind an SSO proxy that strips client x-kyd-* headers
 
     # Abuse limits (app/security.py). Per client; a venue's shared wifi counts as one client.
     rate_api_per_minute: int = 600                  # data endpoints
     rate_ask_per_minute: int = 20                   # chat questions
     rate_ask_per_day: int = 500
+    rate_login_per_minute: int = 10                 # sign-in and registration attempts
     llm_daily_calls: int = 2000                     # all callers; over budget, chat answers fall back to templates
     csp_mode: str = "enforce"                       # enforce | report (Report-Only header) | off
 
