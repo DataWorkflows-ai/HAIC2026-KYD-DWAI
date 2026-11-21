@@ -39,3 +39,16 @@ services:
         sync: false
       - key: KYD_OWNER_EMAIL
         sync: false
+      # Optional: "Continue with Google" and forgot-password codes by email. Each is hidden until set.
+      - key: KYD_GOOGLE_CLIENT_ID
+        sync: false
+      - key: KYD_SMTP_HOST
+        sync: false
+      - key: KYD_SMTP_PORT
+        sync: false
+      - key: KYD_SMTP_USER
+        sync: false
+      - key: KYD_SMTP_PASSWORD
+        sync: false
+      - key: KYD_SMTP_FROM
+        sync: false

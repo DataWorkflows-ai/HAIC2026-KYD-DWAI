@@ -26,6 +26,13 @@ class Settings(BaseSettings):
     owner_email: str = ""                           # this account is the owner; empty = the first account registered
     token_days: float = 7
     app_db: Path = ROOT / "backend" / "var" / "app.sqlite"   # accounts and chats when not serving from Postgres
+    google_client_id: str = ""                      # "Continue with Google" (OAuth web client ID); empty = button hidden
+    smtp_host: str = ""                             # forgot-password codes by email; empty = reset by email is off
+    smtp_port: int = 587                            # 465 = implicit TLS, otherwise STARTTLS
+    smtp_user: str = ""
+    smtp_password: str = ""
+    smtp_from: str = ""                             # e.g. "KYD <admin@dataworkflows.ai>"; empty = smtp_user
+    reset_code_minutes: int = 15
     trust_proxy_headers: bool = False               # only behind an SSO proxy that strips client x-kyd-* headers
 
     # Abuse limits (app/security.py). Per client; a venue's shared wifi counts as one client.
