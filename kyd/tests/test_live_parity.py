@@ -4,6 +4,7 @@ Runs only when KYD_TEST_PG=1 and KYD_DATABASE_URL points at a database loaded by
 """
 import json
 import os
+import sqlite3
 import subprocess
 import sys
 from pathlib import Path
@@ -40,15 +41,37 @@ def test_every_api_response_is_identical(tmp_path):
 
 
 def test_live_mode_reports_postgres_and_falls_back(tmp_path):
+    c = sqlite3.connect(f"file:{KYD / 'data' / 'kyd.sqlite'}?mode=ro", uri=True)
+    expected_observations = c.execute("SELECT count(*) FROM observation").fetchone()[0]
+    c.close()
     code = ("import json,sys; sys.path.insert(0,'.'); from fastapi.testclient import TestClient; from app.main import app; "
             "h=TestClient(app).get('/api/health').json(); print(json.dumps(h))")
     h = json.loads(_run(["-c", code], "live").stdout.strip().splitlines()[-1])
     assert h["data_backend"] == "postgres" and h["files"] == "postgres" and h["fallback"] is None
-    assert h["load_run"]["counts"]["observation"] == 10253 and h["geographies"] == 77 and h["audit"]["store"] == "postgres"
-    # database unreachable: the app still starts, serves the bundled copy, and says so
+    assert h["load_run"]["counts"]["observation"] == expected_observations and h["geographies"] == 77 and h["audit"]["store"] == "postgres"
+    # database unreachable: runtime fails clearly by default; fallback is explicit only.
+    failed = _run(["-c", code], "live", KYD_DATABASE_URL="postgresql://nobody@127.0.0.1:9/none",
+                  KYD_PG_CONNECT_TIMEOUT="3")
+    assert failed.returncode != 0 and "Connection" in (failed.stderr + failed.stdout)
     h = json.loads(_run(["-c", code], "live", KYD_DATABASE_URL="postgresql://nobody@127.0.0.1:9/none",
-                        KYD_PG_CONNECT_TIMEOUT="3").stdout.strip().splitlines()[-1])
+                        KYD_PG_CONNECT_TIMEOUT="3", KYD_LIVE_FALLBACK="true").stdout.strip().splitlines()[-1])
     assert h["data_backend"] == "sqlite" and h["files"] == "files" and h["fallback"] and h["geographies"] == 77
+
+
+def test_live_mode_snap_gap_anchors_match_supabase_data():
+    code = (
+        "import json,sys; sys.path.insert(0,'.'); "
+        "from app.services.program_gaps import program_gaps; "
+        "h24=program_gaps('HD-24'); hi=program_gaps('HI'); "
+        "snap24=next(r for r in h24['rows'] if r['program_id']=='snap'); "
+        "snaphi=next(r for r in hi['rows'] if r['program_id']=='snap'); "
+        "print(json.dumps({'h24_gap': snap24['gap'].value, 'h24_moe': snap24['gap'].moe, "
+        "'hi_eligible': snaphi['eligible'].value, 'hi_enrolled': snaphi['enrolled'].value, "
+        "'hi_gap': snaphi['gap'].value, 'hi_reach': snaphi['reach'].value}))"
+    )
+    got = json.loads(_run(["-c", code], "live").stdout.strip().splitlines()[-1])
+    assert got == {"h24_gap": 1755.0, "h24_moe": 268.0, "hi_eligible": 161104.0,
+                   "hi_enrolled": 130188.0, "hi_gap": 30916.0, "hi_reach": 81.0}
 
 
 def test_audit_chain_in_postgres():

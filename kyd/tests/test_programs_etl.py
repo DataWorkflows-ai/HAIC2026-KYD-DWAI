@@ -90,7 +90,13 @@ def test_snap_gap_range():
             assert rng.low.basis == rng.high.basis == "ACS strict district cell", geo
         assert {o.indicator for o in rng.benchmark} >= {"snap_participation_rate", "snap_participation_rate_us"}
     hd36 = next(m for m in find_programs("HD-36", limit=20) if m.program.program_id == "snap").gap_range
-    assert hd36.low.basis == "ACS strict district cell" and hd36.high.grade == "A"
+    assert hd36.low.basis == "ACS strict district cell" and hd36.high.grade == "B"
+    assert "HD-36" in hd36.note and "House 24" not in hd36.note
+
+
+def test_snap_included_even_when_not_top_ranked():
+    for geo in ("HD-18", "HD-33", "HD-37", "HD-39", "HD-40", "HD-41", "SD-16", "SD-20", "SD-25"):
+        assert any(m.program.program_id == "snap" and m.gap_range for m in find_programs(geo, limit=12)), geo
 
 
 def test_program_indicators_on_map():

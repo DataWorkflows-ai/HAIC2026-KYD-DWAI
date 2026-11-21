@@ -103,6 +103,13 @@ def test_snap_gap_range_tool_returns_both_ends_where_snap_is_not_a_top_program()
     assert "snap_strict_gap_households" in inds
 
 
+def test_rule_based_snap_gap_uses_strict_household_gap():
+    import asyncio
+    a = asyncio.run(orchestrator.ask("What is the SNAP gap in House District 24?", None))
+    assert "1,755" in a.text and "poverty households" in a.text
+    assert any(o.indicator == "snap_strict_gap_households" for o in a.observations)
+
+
 def test_prompt_lists_indicators_but_not_trend_series():
     p = system2.system_prompt()
     assert "- pct_uninsured:" in p and "- snap_gap_low_persons:" in p and "births_est_2010" not in p

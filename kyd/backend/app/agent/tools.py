@@ -109,7 +109,13 @@ def chamber_medians(geo_id: str) -> dict[str, float]:
 
 def find_programs(geo_id: str, limit: int = 6) -> list[ProgramMatch]:
     """Rank programs by relevance × gap. The score is transparent and the rationale is returned (§2.5)."""
-    return list(_rank_programs(geo_id)[:limit])
+    ranked = list(_rank_programs(geo_id))
+    shown = ranked[:limit]
+    if geo_id.startswith(("HD", "SD")) and not any(m.program.program_id == "snap" for m in shown):
+        snap = next((m for m in ranked if m.program.program_id == "snap"), None)
+        if snap:
+            shown = (shown[:-1] if len(shown) >= limit else shown) + [snap]
+    return shown
 
 
 @cached
@@ -183,11 +189,14 @@ def snap_gap_range(geo_id: str) -> GapRange | None:
                         is_not="Not a district ranking and not a Hawaiʻi BBCE eligible count; USDA uses federal rules.")
     if "snap_strict_gap_households" not in o:
         return None
-    end = RangeEnd(persons=o["snap_strict_gap_households"], share=o.get("snap_poverty_hh_reach_rate"), grade="A",
+    end = RangeEnd(persons=o["snap_strict_gap_households"], share=o.get("snap_poverty_hh_reach_rate"), grade="B",
                    basis="ACS strict district cell",
                    method="Poverty households not reporting SNAP (B22003_E006), ACS 2020-2024")
     return GapRange(low=end, high=end, benchmark=r.observations(["HI"], SNAP_BENCHMARKS),
-                    note="District figure is households, not people. House 24 is 1,755 ±268 households.",
+                    note=f"District figure is poverty households, not people. {geo_id} is "
+                         f"{end.persons.value:,.0f}"
+                         + (f" ±{end.persons.moe:,.0f}" if end.persons.moe else "")
+                         + " households.",
                     is_not="Not a count of individuals and not an eligibility decision. ACS under-reports SNAP; agency rules decide eligibility.")
 
 
@@ -321,9 +330,8 @@ TOOL_SPECS = [  # JSON-schema descriptions handed to System 2
      "parameters": {"type": "object", "properties": {"a": {"type": "string"}, "b": {"type": "string"}},
                     "required": ["a"]}},
     {"name": "snap_gap_range",
-     "description": "The SNAP gap for one geography as a range: people who look eligible for SNAP but are not "
-                    "enrolled. `low` and `high` each have persons, share of people below 200% of poverty, grade, "
-                    "basis and method; `benchmark` has USDA's Hawaiʻi participation rate; `is_not` says what it is not.",
+     "description": "The SNAP gap for one geography. Districts return ACS poverty households not reporting SNAP "
+                    "(with reach among poverty households); statewide returns USDA people and range. `is_not` says what it is not.",
      "parameters": {"type": "object", "properties": {"geo_id": {"type": "string"}}, "required": ["geo_id"]}},
     {"name": "program_gaps",
      "description": "Show program gaps for one district or statewide, with eligible/enrolled/gap/reach where public data supports it, "

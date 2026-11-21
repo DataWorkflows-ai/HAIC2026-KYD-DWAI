@@ -27,7 +27,7 @@ export function GapRangeBlock({ r }: { r: GapRange }) {
   return (
     <div className="mt-2 min-w-0">
       <div className="text-xs text-amber-300">SNAP gap evidence</div>
-      <div className="mt-1 grid grid-cols-1 gap-2">{end(r.low)}{end(r.high)}</div>
+      <div className="mt-1 grid grid-cols-1 gap-2">{end(r.low)}{r.high.persons.obs_id !== r.low.persons.obs_id && end(r.high)}</div>
       {hi && <p className="mt-2 text-[11px] text-slate-400">USDA: <Figure o={hi} /> of eligible Hawaiʻi residents took part in FY 2022
         {lo && up && <> (90% interval <Figure o={lo} />–<Figure o={up} />)</>}{us && <>; national <Figure o={us} /></>}.</p>}
       {r.note && <p className="mt-1 text-[11px] text-amber-400">{r.note}</p>}
@@ -357,13 +357,13 @@ export function UptakePeersCard({ geo, onPick }: { geo: string; onPick?: (g: str
   return (
     <Card title={<span className="normal-case">SNAP uptake: similar districts that reach more</span>} right={<Pill tone="amber">ESTIMATE</Pill>} className="col-span-full">
       <p className="text-sm text-slate-300">
-        In {d.name}, <Figure o={d.need} /> of residents are below 200% of poverty, and about <Figure o={d.gap} /> of them are not in SNAP households.
+        In {d.name}, <Figure o={d.need} /> poverty households are in the ACS SNAP universe, and <Figure o={d.gap} /> report SNAP.
       </p>
       {d.peers.length === 0 ? (
         <p className="mt-2 text-sm text-slate-400">No district with similar need reaches noticeably more of it, so this district is already at or near the top of its peer group.</p>
       ) : (
         <table className="mt-3 w-full text-sm">
-          <thead className="text-xs text-slate-500 text-left"><tr><th className="py-1">Peer district</th><th>Below 200% of poverty</th><th>Not in SNAP</th><th>More people reached at the peer's rate</th></tr></thead>
+          <thead className="text-xs text-slate-500 text-left"><tr><th className="py-1">Peer district</th><th>Poverty households</th><th>SNAP reach</th><th>More households reached at peer reach</th></tr></thead>
           <tbody>
             {d.peers.map(p => (
               <tr key={p.geo_id} className="border-t border-premium-800">

@@ -15,7 +15,7 @@ PROGRAM_LINKS = {
     "tanf": "https://humanservices.hawaii.gov/bessd/",
     "school_meals": "https://hcnp.hawaii.gov/",
     "act139": "https://hawaiipublicschools.org/2026-expanded-free-school-meals/",
-    "hheap": "https://humanservices.hawaii.gov/bessd/hheaphawaiis-home-energy-assistance-program/",
+    "hheap": "https://humanservices.hawaii.gov/bessd/energy-assistance-programs/",
     "lifeline": "https://www.lifelinesupport.org/",
 }
 
@@ -44,6 +44,14 @@ def _row(program_id: str, name: str, unit: str, geography: str, source: str, *,
         "caveats": caveats or [],
         "unavailable": unavailable,
     }
+
+
+def _derived_count(geo_id: str, indicator: str, label: str, value: float | None, note: str, source_id: str) -> dict | None:
+    if value is None:
+        return None
+    return {"obs_id": f"derived-{geo_id}-{indicator}", "geo_id": geo_id, "indicator": indicator, "label": label,
+            "unit": "count", "value": float(value), "moe": None, "cv": None, "vintage": "2020-2024",
+            "method": "derived", "method_note": note, "source_id": source_id, "flags": ["estimate"]}
 
 
 def _school_rows(geo_id: str) -> list[dict]:
@@ -75,10 +83,12 @@ def _cep_rows(geo_id: str, statuses: set[str] | None = None) -> list[dict]:
     for r in datastore.csv_rows("cep_schools_sy2026_27.csv"):
         if statuses and r["cep_status"] not in statuses:
             continue
-        if geo_id.startswith("HD") and r["house_2022"] and int(float(r["house_2022"])) != int(geo_id[3:]):
-            continue
-        if geo_id.startswith("SD") and r["senate_2022"] and int(float(r["senate_2022"])) != int(geo_id[3:]):
-            continue
+        if geo_id.startswith("HD"):
+            if not r["house_2022"] or int(float(r["house_2022"])) != int(geo_id[3:]):
+                continue
+        if geo_id.startswith("SD"):
+            if not r["senate_2022"] or int(float(r["senate_2022"])) != int(geo_id[3:]):
+                continue
         out.append({
             "school_name": r["school_name"],
             "house": f"HD-{int(float(r['house_2022'])):02d}" if r["house_2022"] else "",
@@ -138,6 +148,19 @@ def program_gaps(geo_id: str) -> dict:
                     eligible=district.get("snap_poverty_hh_total"), enrolled=district.get("snap_poverty_hh_receiving"),
                     gap=district.get("snap_strict_gap_households"), reach=district.get("snap_poverty_hh_reach_rate"),
                     basis="District-native survey estimate", caveats=["Use this for district rankings; USDA's 30,916 is statewide only."])
+    med_covered = district.get("medquest_covered_acs")
+    med_gap = district.get("medquest_uninsured_eligible")
+    med_eligible = _derived_count(geo_id, "medquest_eligible_proxy", "People covered by Medicaid/means-tested coverage plus uninsured eligible",
+                                  (med_covered.value if med_covered else 0) + (med_gap.value if med_gap else 0)
+                                  if (med_covered and med_gap) else None,
+                                  "C27007 covered plus C27016 uninsured-eligible; mixed-universe proxy for display only.",
+                                  "acs5_2024_c27016_sld")
+    if geo_id == "HI":
+        act139_low, act139_high = state.get("act139_hidoe_expected_children"), district.get("act139_acs_upper_children")
+        act139_geo = "Statewide HIDOE projection / ACS upper bound"
+    else:
+        act139_low, act139_high = None, district.get("act139_acs_upper_children")
+        act139_geo = "District ACS upper bound"
 
     rows = [
         snap,
@@ -149,7 +172,7 @@ def program_gaps(geo_id: str) -> dict:
              caveats=["No public district or clinic caseload; district rate equals the state rate by construction."]),
         _row("medquest", "Med-QUEST / CHIP", "people", "District, ACS 2020-2024",
              "ACS C27016/C27007 by 2022 legislative district",
-             eligible=district.get("medquest_covered_acs"), enrolled=district.get("medquest_covered_acs"),
+             eligible=med_eligible, enrolled=district.get("medquest_covered_acs"),
              gap=district.get("medquest_uninsured_eligible"), reach=district.get("medquest_reach_proxy"),
              basis="District-native uninsured gap", caveats=["Reach proxy mixes covered all ages with uninsured under-65; use the gap count as the solid figure."]),
         _row("tanf", "TANF / TAONF", "children", "State reach; district need proxy",
@@ -162,10 +185,12 @@ def program_gaps(geo_id: str) -> dict:
              eligible=district.get("public_school_enrolled"), enrolled=district.get("free_reduced_students"),
              gap=None, reach=district.get("pct_free_reduced_meals"), basis="Eligibility, not meals served",
              caveats=["Public non-charter schools only in district rollup; charters enroll statewide."]),
-        _row("act139", "Act 139 free-meal expansion", "children", "ACS upper bound / HIDOE state projection",
+        _row("act139", "Act 139 free-meal expansion", "children", act139_geo,
              "ACS B17024 and HIDOE July 2026 release",
-             range_low=state.get("act139_hidoe_expected_children"), range_high=district.get("act139_acs_upper_children"),
-             basis="Range, not a point gap", caveats=["Statewide: HIDOE expects about 12,000 additional students; ACS upper bound is about 36,500 children."]),
+             range_low=act139_low, range_high=act139_high,
+             basis="Range, not a point gap" if geo_id == "HI" else "ACS upper-bound estimate",
+             caveats=["Statewide: HIDOE expects about 12,000 additional students; ACS upper bound is about 36,500 children."
+                      if geo_id == "HI" else "District value is the ACS upper-bound count only; the 12,000 HIDOE projection is statewide and is not shown as a district low end."]),
         _row("hheap", "H-HEAP utilities", "households", "Statewide only",
              "DHS/ACF public program facts", basis="Data unavailable by district",
              unavailable="No public district enrollment or eligible count in the current data package.",

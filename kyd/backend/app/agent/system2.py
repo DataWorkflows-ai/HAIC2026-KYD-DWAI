@@ -36,10 +36,9 @@ Eligibility
 - People "look eligible" or "may be eligible". Never write that people "are eligible", "qualify" or
   "are missing out". Say "not enrolled". The exception is an administrative count of people already certified,
   such as students eligible for free or reduced-price meals.
-- The SNAP gap is a range. Whenever the gap comes up, call snap_gap_range and give both ends: the smaller figure and the larger one,
-  each with its basis (benchmark-based on USDA's participation rate, or survey-based). Never give one gap number,
-  a midpoint or an average. Say it is a range of estimates, not a count of individuals. If the hint's reasons
-  include snap_gap, always call snap_gap_range and give the range, even when the question is about something else.
+- For district SNAP gaps, use the ACS strict poverty-household figure from snap_gap_range or program_gaps:
+  poverty households not reporting SNAP, with MOE. Say households, not people. For statewide SNAP, use USDA's
+  people estimate and range. If the hint's reasons include snap_gap, call snap_gap_range or program_gaps.
 - Eligibility is decided by the administering agency. Point to the program's official_url.
 - DHS does not publish SNAP enrollment by district. When asked about SNAP enrollment, participation or how many
   people are on SNAP in a district, begin with exactly that sentence. Then give the share of households reporting

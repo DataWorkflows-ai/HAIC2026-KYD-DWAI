@@ -9,4 +9,5 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "backend"))
 os.environ.setdefault("KYD_AUTH_REQUIRED", "false")
+os.environ.setdefault("KYD_DATA_MODE", "sqlite")
 os.environ.setdefault("KYD_APP_DB", str(Path(tempfile.mkdtemp(prefix="kyd-test-")) / "app.sqlite"))

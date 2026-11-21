@@ -37,6 +37,20 @@ def test_program_gaps_school_details_totals():
     assert pahoa["house"] == "HD-04" and pahoa["senate"] == "SD-02"
 
 
+def test_program_gaps_do_not_mix_state_and_district_ranges_or_unmatched_cep():
+    c = TestClient(app)
+    h24 = c.get("/api/districts/HD-24/program-gaps").json()
+    act139 = next(r for r in h24["rows"] if r["program_id"] == "act139")
+    assert act139["range_low"] is None and act139["range_high"]["value"] == 221
+    tanf = next(r for r in h24["rows"] if r["program_id"] == "tanf")
+    assert tanf["range_high"]["unit"] == "pct"
+    med = next(r for r in h24["rows"] if r["program_id"] == "medquest")
+    assert med["eligible"]["value"] == med["enrolled"]["value"] + med["gap"]["value"]
+    assert all(r["house"] == "HD-24" for r in h24["cep"]["participating"]["rows"])
+    h19 = c.get("/api/districts/HD-19/program-gaps").json()
+    assert next(r for r in h19["rows"] if r["program_id"] == "snap")["gap"]["value"] == 607
+
+
 def test_context_and_crosswalk_use_meals():
     j = TestClient(app).get("/api/districts/HD-14/program-context").json()
     assert j["school_meals"]["observations"] and "charter" in j["school_meals"]["note"]

@@ -27,8 +27,9 @@ export function ProgramGapsTab({ geo }: { geo: string }) {
   useEffect(() => { let live = true; setErr(''); api.programGaps(geo).then(x => live && setD(x)).catch(e => { if (live) setErr(String(e.message ?? e)); }); return () => { live = false; }; }, [geo]);
   if (err) return <Empty>{err}</Empty>;
   if (!d) return <Empty>Loading program gaps...</Empty>;
-  const ranked = [...d.rows].filter(r => r.gap?.value || r.range_high?.value)
-    .sort((a, b) => ((b.gap?.value ?? b.range_high?.value ?? 0) - (a.gap?.value ?? a.range_high?.value ?? 0))).slice(0, 6);
+  const gapValue = (r: ProgramGaps['rows'][number]) => r.gap?.value ?? (r.range_high?.unit === 'count' ? r.range_high.value : null);
+  const ranked = [...d.rows].filter(r => gapValue(r) !== null)
+    .sort((a, b) => ((gapValue(b) ?? 0) - (gapValue(a) ?? 0))).slice(0, 6);
   return (
     <div className="grid grid-cols-12 gap-4">
       <Card className="col-span-12" title="Program Gaps" right={<Pill tone="amber">informational only</Pill>}>
@@ -67,7 +68,7 @@ export function ProgramGapsTab({ geo }: { geo: string }) {
         <ol className="space-y-2">
           {ranked.map(r => <li key={r.program_id} className="text-sm flex justify-between gap-3">
             <span className="text-slate-200">{r.name}</span>
-            <span className="font-mono text-amber-300">{n(r.gap?.value ?? r.range_high?.value)} {r.unit}</span>
+            <span className="font-mono text-amber-300">{n(gapValue(r))} {r.unit}</span>
           </li>)}
         </ol>
         <p className="mt-3 text-xs text-slate-500">Map-ready gap indicators: {d.map_indicators.join(', ')}. Open the Map tab and choose one of these indicators to shade districts.</p>

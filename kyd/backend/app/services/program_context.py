@@ -66,6 +66,27 @@ def _hpha(geo_id: str) -> dict:
 
 
 def context(geo_id: str) -> dict:
+    if geo_id == "HI":
+        return {
+            "geo_id": "HI", "county": "Statewide", "crime": None,
+            "employment": {"title": "Unemployment", "district": [], "county": [], "state": [], "trend": [],
+                           "source": "Statewide context is shown in the Overview and Compare tabs.", "notes": []},
+            "school_meals": {"title": "Free/reduced-price school meals (SY2025-26)", "observations": [],
+                             "state_pct": None, "source": "Hawaiʻi Child Nutrition Programs, October Data SY2025-26",
+                             "url": "https://hcnp.hawaii.gov/wp-content/uploads/2026/01/October-Data-2026-SY25-26.pdf",
+                             "note": "Use the Program Gaps tab for statewide meals and CEP figures."},
+            "test_scores": {"title": "Test scores", "observations": [], "state": {}, "source": "", "url": "", "note": ""},
+            "vital": {"title": "Births and deaths", "observations": [], "state": {}, "trend": [], "source": "", "url": "", "caveats": []},
+            "hpha": {"properties": [], "units": 0, "state_units": 0, "source": "", "url": "", "caveats": []},
+            "facts": _facts(), "hud": {"title": "HUD-subsidized housing", "as_of": "", "observations": [],
+                                       "state_per_1k_hh": None, "source": "", "caveats": []},
+            "medquest": {"title": "Med-QUEST enrollment", "sfy": 0, "statewide": 0, "islands": [],
+                         "trend": [], "source": "", "caveats": []},
+            "tanf_island": {"title": "SNAP cases with TANF category by island", "month": "", "source": "", "note": ""},
+            "county_snap": {"title": "SNAP participation", "month": "", "rows": [], "source": ""},
+            "tanf_underenrollment": {"title": "TANF reach by race", "available": False, "poverty_population": None,
+                                      "groups": [], "caveats": []},
+        }
     counties = datastore.load_json("district_counties.json")
     county = counties.get(geo_id)
     if not county:

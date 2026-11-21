@@ -6,7 +6,7 @@ from ..models import AgentAnswer, Observation, ProgramMatch
 from ..security import LLM_BUDGET
 from ..services.repo import repo
 from . import system1, system2
-from .tools import compare_district, estimate_cross_program, unemployment_breakdown, find_programs, get_district_profile
+from .tools import compare_district, estimate_cross_program, unemployment_breakdown, find_programs, get_district_profile, program_gaps, uptake_peers
 
 log = logging.getLogger("kyd.agent")
 NO_SNAP_ENROLLMENT = "DHS does not publish SNAP enrollment by district."
@@ -53,6 +53,15 @@ def answer_s1(rt: system1.Route) -> AgentAnswer:
             ends = [snap.gap_range.low.persons, snap.gap_range.high.persons]
             obs.extend(ends)
             lines.append(f"\nSNAP: {snap.gap_note} " + " ".join(f"[obs:{o.obs_id}]" for o in ends))
+        try:
+            up = uptake_peers(g)
+            if up.get("peers"):
+                first = up["peers"][0]
+                lines.append(f"\nSNAP peer lead: {first['name']} has higher poverty-household SNAP reach; "
+                             f"matching it would add about {first['more_reached']['value']:,.0f} households "
+                             f"[obs:{first['more_reached']['obs_id']}].")
+        except Exception:
+            pass
         return AgentAnswer(text=f"Programs most relevant to {name(g)}, ranked by indicated need relative to the state:\n"
                            + "\n".join(lines) + "\n\nEligibility is determined by each administering agency.",
                            route="S1", intent="programs", geo_ids=[g], observations=obs, programs=pm, trace=trace)
@@ -117,6 +126,23 @@ def _fallback(rt: system1.Route, reason: str) -> AgentAnswer:
     if (c := _clarify_place(rt, reasons)) is not None:
         return c
     if rt.geo_ids and len(rt.geo_ids) <= 2:
+        if "snap_gap" in reasons and rt.geo_ids[0].startswith(("HD", "SD", "HI")):
+            g = rt.geo_ids[0]
+            pg = program_gaps(g)
+            snap = next((r for r in pg["rows"] if r["program_id"] == "snap"), None)
+            obs = [o for o in (snap or {}).values() if isinstance(o, Observation)]
+            if snap and snap.get("gap"):
+                gap = snap["gap"]
+                reach = snap.get("reach")
+                geo_name = repo().geography(g).name if repo().geography(g) else g
+                text = (f"SNAP gap in {geo_name}: {gap.value:,.0f}"
+                        + (f" ±{gap.moe:,.0f}" if gap.moe else "")
+                        + f" poverty households do not report SNAP (ACS 2020-2024) [obs:{gap.obs_id}].")
+                if reach:
+                    text += f" SNAP reach among poverty households is {reach.value:g}% [obs:{reach.obs_id}]."
+                text += " Informational only; agencies decide eligibility."
+                return AgentAnswer(text=text, route="S1", intent="programs", geo_ids=[g],
+                                   observations=[x for x in (gap, reach) if x], trace=[{"tool": "program_gaps", "args": {"geo_ids": [g]}}])
         if rt.intent not in ("compare", "programs") or (rt.intent == "compare" and len(rt.geo_ids) < 2):
             rt.intent = "profile"                                 # unclear intent, one district → its profile
         a = answer_s1(rt)

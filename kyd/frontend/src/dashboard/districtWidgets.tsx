@@ -98,7 +98,7 @@ function End({ e, side }: { e: RangeEnd; side: string }) {
       <div className="text-[10px] uppercase tracking-wide text-slate-500">{side} · grade {e.grade}</div>
       <div className="text-[11px] text-slate-400 truncate" title={e.basis}>{e.basis}</div>
       <Figure o={e.persons} />
-      {e.share && <div className="text-[11px] text-slate-500"><Figure o={e.share} /> of people below 200% FPL</div>}
+      {e.share && <div className="text-[11px] text-slate-500">SNAP reach among poverty households: <Figure o={e.share} /></div>}
     </div>
   );
 }
@@ -111,11 +111,11 @@ export function SnapWidget({ geo, ctx }: WidgetProps) {
     const p = peers.data;
     return <>
       {m?.gap_range ? <>
-        <div className="text-xs text-amber-300 mb-1">{m.program.name}: people who look eligible but are not enrolled (a range)</div>
-        <div className="grid grid-cols-2 gap-2"><End e={m.gap_range.low} side="Low end" /><End e={m.gap_range.high} side="High end" /></div>
+        <div className="text-xs text-amber-300 mb-1">{m.program.name}: ACS poverty households not reporting SNAP</div>
+        <div className="grid grid-cols-1 gap-2"><End e={m.gap_range.low} side="Survey estimate" /></div>
         <Note>{m.gap_range.is_not}</Note>
       </> : <Empty>No SNAP gap range for this geography.</Empty>}
-      {p?.gap && p.need && <p className="mt-2 text-xs text-slate-300">Below 200% of poverty: <Figure o={p.need} />; not in SNAP households: <Figure o={p.gap} />.</p>}
+      {p?.gap && p.need && <p className="mt-2 text-xs text-slate-300">Poverty households: <Figure o={p.need} />; SNAP reach: <Figure o={p.gap} />.</p>}
       {p && <p className="mt-1 text-xs text-slate-400">{p.peers.length
         ? <>{p.peers.length} district{p.peers.length > 1 ? 's' : ''} with similar need reach more people with SNAP (estimate).</>
         : 'No similar-need district reaches noticeably more with SNAP.'}</p>}

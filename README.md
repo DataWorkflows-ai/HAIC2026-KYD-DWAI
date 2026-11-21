@@ -29,7 +29,7 @@ Open the [live app](https://know-your-district-zio4.onrender.com) and follow the
 | 5 | **Rankings** | All 51 House or 25 Senate districts on poverty, SNAP gap, unemployment, LIDAC share and violent crime (Oʻahu). Sort a column and the map above recolors. |
 | 6 | **Programs** | SNAP uptake peers (districts with similar need that reach more people), 15 programs scored for fit, cross-program eligibility estimates, and the district's school, housing, health and safety context. |
 | 7 | **Ask** | Click a suggested question or type your own, for example "Which programs fit HD 44?" or "Compare SD 12 with the state". Answers use only figures returned by tools and cite each one. |
-| 8 | **Sources** | The 29-source library (also in [SOURCES.md](SOURCES.md)) and the build-time verification report. |
+| 8 | **Sources** | The 34-source library (also in [SOURCES.md](SOURCES.md)) and the build-time verification report. |
 
 The app works on a phone, a tablet and a computer.
 
@@ -62,8 +62,11 @@ uvicorn app.main:app --port 8060
 
 **4. Open http://localhost:8060**
 
-You should see the Overview tab. To confirm the server is healthy, open http://localhost:8060/api/health; it returns
-`"ok": true`, `"mode": "sqlite"` and `"geographies": 77`. The API reference is at http://localhost:8060/docs.
+For a no-database local demo, start with `KYD_DATA_MODE=sqlite uvicorn app.main:app --port 8060`.
+The judged/runtime path is Supabase Postgres (`KYD_DATA_MODE=live`, `KYD_DATABASE_URL` set).
+To confirm the server is healthy, open http://localhost:8060/api/health; local SQLite mode returns
+`"ok": true`, `"mode": "sqlite"` and `"geographies": 77`, while the runtime path reports `"data_backend": "postgres"`.
+The API reference is at http://localhost:8060/docs.
 
 Out of the box the Ask tab answers with the rule-based tier (`"llm": "none"`). Every other tab is fully functional.
 
@@ -199,14 +202,14 @@ The app runs with none of these except where noted; each is reachable without an
 | Hawaiʻi Statewide GIS Program (`geodata.hawaii.gov`) | The official 2022 boundary lines drawn over the map | The map still shades districts from the bundled boundary files |
 | Neo4j (optional) | Program and district relationships in `live` mode | The in-memory graph gives identical answers (checked in CI) |
 
-**Data.** No dataset is fetched at run time. All 29 sources are loaded ahead of time into `kyd/data/kyd.sqlite` and listed,
+**Data.** No dataset is fetched at request time. All 34 sources are loaded ahead of time into Supabase Postgres for runtime; `kyd/data/kyd.sqlite` is the local/test/ETL staging artifact and is listed,
 with URL, vintage and access date, in [SOURCES.md](SOURCES.md) and on the Sources tab. The Python and JavaScript packages
 are listed in `kyd/backend/requirements.txt` and `kyd/frontend/package.json`.
 
 ## What the data covers
 
 - **Census ACS 2020–2024** district profiles (DP02–DP05, S1701 poverty ladder, S2201 SNAP, unemployment by sex, age, race and education)
-- **SNAP gap**: people below 200% of poverty (Hawaiʻi's SNAP limit) not in SNAP households, by district (estimate)
+- **SNAP gap**: poverty households not reporting SNAP, by district (ACS B22003 survey estimate)
 - **Cross-program eligibility estimates**: free school meals, Lifeline, LIHEAP, WIC and Med-QUEST, each from one published rule
 - **2025 unemployment** (DBEDT/LAUS, tract estimates rolled up to districts; county trend 2014–2025)
 - **Low-income and disadvantaged communities (LIDAC 2026)** share of residents

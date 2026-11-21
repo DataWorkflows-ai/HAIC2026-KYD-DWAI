@@ -12,8 +12,8 @@ def test_cached_results_are_reused_and_cleared():
     cache.clear()
     a = tools._rank_programs("HD-13")
     assert tools._rank_programs("HD-13") is a                          # served from cache
-    assert [m.program.program_id for m in tools.find_programs("HD-13", limit=3)] == \
-           [m.program.program_id for m in a[:3]]
+    shown = [m.program.program_id for m in tools.find_programs("HD-13", limit=3)]
+    assert "snap" in shown and shown[:2] == [m.program.program_id for m in a[:2]]
     assert tools._rank_programs.uncached("HD-13") == a                 # cache does not change the answer
     cache.clear()
     assert tools._rank_programs("HD-13") is not a
