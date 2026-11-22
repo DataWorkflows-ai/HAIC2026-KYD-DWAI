@@ -107,7 +107,22 @@ def test_rule_based_snap_gap_uses_strict_household_gap():
     import asyncio
     a = asyncio.run(orchestrator.ask("What is the SNAP gap in House District 24?", None))
     assert "1,755" in a.text and "poverty households" in a.text
+    assert "eligible people" not in a.text
     assert any(o.indicator == "snap_strict_gap_households" for o in a.observations)
+
+
+def test_rule_based_statewide_snap_gap_uses_usda_people():
+    """The rule-based tier is what runs when no LLM is configured. Statewide must not reuse the
+    district sentence: USDA's 30,916 is eligible people, and 81% is not poverty-household reach (38%)."""
+    import asyncio
+    a = asyncio.run(orchestrator.ask("What is the SNAP gap statewide?", None))
+    assert "30,916" in a.text and "eligible people" in a.text
+    assert "15,000" in a.text and "46,000" in a.text
+    assert "81%" in a.text and "among eligible people" in a.text
+    assert "poverty households" not in a.text
+    assert "ACS 2020-2024" not in a.text
+    inds = {o.indicator for o in a.observations}
+    assert {"snap_gap_low_persons", "snap_gap_usda_low", "snap_gap_usda_high", "snap_participation_rate"} <= inds
 
 
 def test_prompt_lists_indicators_but_not_trend_series():
