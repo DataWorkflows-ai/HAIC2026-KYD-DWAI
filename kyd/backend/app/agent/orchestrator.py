@@ -130,19 +130,37 @@ def _fallback(rt: system1.Route, reason: str) -> AgentAnswer:
             g = rt.geo_ids[0]
             pg = program_gaps(g)
             snap = next((r for r in pg["rows"] if r["program_id"] == "snap"), None)
-            obs = [o for o in (snap or {}).values() if isinstance(o, Observation)]
-            if snap and snap.get("gap"):
-                gap = snap["gap"]
+            gap = (snap or {}).get("gap")
+            # Statewide program_gaps returns USDA's count of eligible people. District rows return ACS
+            # poverty households. The same sentence cannot describe both.
+            if snap and gap is not None and gap.value is not None:
                 reach = snap.get("reach")
                 geo_name = repo().geography(g).name if repo().geography(g) else g
-                text = (f"SNAP gap in {geo_name}: {gap.value:,.0f}"
-                        + (f" ±{gap.moe:,.0f}" if gap.moe else "")
-                        + f" poverty households do not report SNAP (ACS 2020-2024) [obs:{gap.obs_id}].")
-                if reach:
-                    text += f" SNAP reach among poverty households is {reach.value:g}% [obs:{reach.obs_id}]."
+                cited: list[Observation] = [gap]
+                if snap.get("unit") == "people":
+                    text = (f"SNAP gap in {geo_name}: {gap.value:,.0f} eligible people are not participating "
+                            f"(USDA FY2022, federal rules) [obs:{gap.obs_id}].")
+                    lo, hi = snap.get("range_low"), snap.get("range_high")
+                    if (lo is not None and hi is not None and lo.value is not None and hi.value is not None
+                            and lo.obs_id != hi.obs_id):
+                        text += (f" The published range is about {lo.value:,.0f} to {hi.value:,.0f} "
+                                 f"[obs:{lo.obs_id}] [obs:{hi.obs_id}].")
+                        cited.extend((lo, hi))
+                    if reach is not None and reach.value is not None:
+                        text += (f" USDA's participation rate among eligible people is {reach.value:g}% "
+                                 f"[obs:{reach.obs_id}].")
+                        cited.append(reach)
+                    text += " This is a statewide count of people, not poverty households."
+                else:
+                    text = (f"SNAP gap in {geo_name}: {gap.value:,.0f}"
+                            + (f" ±{gap.moe:,.0f}" if gap.moe else "")
+                            + f" poverty households do not report SNAP (ACS 2020-2024) [obs:{gap.obs_id}].")
+                    if reach is not None and reach.value is not None:
+                        text += f" SNAP reach among poverty households is {reach.value:g}% [obs:{reach.obs_id}]."
+                        cited.append(reach)
                 text += " Informational only; agencies decide eligibility."
                 return AgentAnswer(text=text, route="S1", intent="programs", geo_ids=[g],
-                                   observations=[x for x in (gap, reach) if x], trace=[{"tool": "program_gaps", "args": {"geo_ids": [g]}}])
+                                   observations=cited, trace=[{"tool": "program_gaps", "args": {"geo_ids": [g]}}])
         if rt.intent not in ("compare", "programs") or (rt.intent == "compare" and len(rt.geo_ids) < 2):
             rt.intent = "profile"                                 # unclear intent, one district → its profile
         a = answer_s1(rt)

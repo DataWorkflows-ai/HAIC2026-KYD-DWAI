@@ -110,6 +110,21 @@ def test_rule_based_snap_gap_uses_strict_household_gap():
     assert any(o.indicator == "snap_strict_gap_households" for o in a.observations)
 
 
+def test_rule_based_state_snap_gap_counts_people_not_poverty_households():
+    """USDA's 30,916 is eligible people. Poverty-household reach statewide is 38%, not the 81% participation rate."""
+    import asyncio
+    a = asyncio.run(orchestrator.ask("What is the SNAP gap in the state?", None))
+    assert a.geo_ids == ["HI"]
+    assert "30,916" in a.text and "eligible people" in a.text
+    assert "15,000" in a.text and "46,000" in a.text and "81" in a.text
+    assert "poverty households do not report SNAP" not in a.text
+    assert "reach among poverty households" not in a.text
+    assert "38" not in a.text
+    inds = {o.indicator for o in a.observations}
+    assert {"snap_gap_low_persons", "snap_gap_usda_low", "snap_gap_usda_high", "snap_participation_rate"} <= inds
+    assert "snap_poverty_hh_reach_rate" not in inds
+
+
 def test_prompt_lists_indicators_but_not_trend_series():
     p = system2.system_prompt()
     assert "- pct_uninsured:" in p and "- snap_gap_low_persons:" in p and "births_est_2010" not in p
